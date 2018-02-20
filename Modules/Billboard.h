@@ -53,7 +53,7 @@ public:
 	void Init();
 	void Update();
 	void Draw(D3DXMATRIX viewMatrix);
-	void SetVertexBillboardByship(float sizeX, float sizeY, Character* ship, bool isLeft);	// 頂点座標を設定
+	void SetVertexBillboardByship(float sizeX, float sizeY, Character* woman, bool isLeft);	// 頂点座標を設定
 };
 #endif // !_BILLBOARD_H_
 

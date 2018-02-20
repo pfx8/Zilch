@@ -45,9 +45,6 @@ void	Updata(HWND hWnd, int cmd);
 void	Draw(HWND hWnd);
 void	Release(void);
 
-// 臨時
-
-
 //*****************************************************************************
 //
 // メイン関数

@@ -16,6 +16,14 @@ Model::Model()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	// 数値を初期化
+	this->upVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	this->lookVector = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	this->rightVector = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	this->pos = D3DXVECTOR3(0.0f, 0.5f, 0.0f);
+	this->rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	this->scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
 	// ポインタ
 	this->meshPoint = NULL;
 	this->meshTexturePoint = NULL;
@@ -55,7 +63,7 @@ Model::~Model()
 //
 //*****************************************************************************
 void Model::DrawModel(CelShader* celShader, D3DXMATRIX* worldMatrix, D3DXMATRIX* VPMatrix, 
-	D3DXMATRIX* lightMatrix, D3DXMATRIX* normalMatrix, Model_Type modelType)
+	D3DXMATRIX* lightMatrix, D3DXMATRIX* normalMatrix)
 {
 	// テクニックを設定
 	celShader->effectPoint->SetTechnique(celShader->celShaderHandle);

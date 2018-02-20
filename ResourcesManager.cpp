@@ -16,45 +16,10 @@ ResourcesManager::ResourcesManager()
 {
 	// テクスチャ検索マッピングを作る
 	this->textureList["skybox"] = "data/TEXTURE/skybox.jpg";
-
-	this->textureList["cartoon"] = "data/TEXTURE/cartoon.png";
-	this->textureList["edge"] = "data/TEXTURE/edge.png";
-
-	this->textureList["fieldTransparent"] = "data/TEXTURE/field003.png";
-	this->textureList["fieldSea"] = "data/TEXTURE/sea3k.png";
-	this->textureList["fieldSea2"] = "data/TEXTURE/sea4.png";
-
-	this->textureList["title"] = "data/TEXTURE/title3.png";
-	this->textureList["press"] = "data/TEXTURE/press.png";
-	this->textureList["ending"] = "data/TEXTURE/ending.png";
-
-	this->textureList["shipBody"] = "data/TEXTURE/VikingShip/Ship.png";
-	this->textureList["shipCannon"] = "data/TEXTURE/VikingShip/cannon_diffuse.png";
-
-	this->textureList["bullet"] = "data/TEXTURE/bullet.png";
-
-	this->textureList["UIminimap"] = "data/TEXTURE/UI/minimap.png";
-	this->textureList["UIplayer"] = "data/TEXTURE/UI/player.png";
-	this->textureList["UIenemy"] = "data/TEXTURE/UI/enemy.png";
-
-	this->textureList["UIhp"] = "data/TEXTURE/UI/hp.png";
-
-	this->textureList["UIpan"] = "data/TEXTURE/UI/pan.png";
-	this->textureList["UIzen"] = "data/TEXTURE/UI/zen.png";
-	this->textureList["UIstop"] = "data/TEXTURE/UI/stop.png";
-	this->textureList["UIgou"] = "data/TEXTURE/UI/gou.png";
-
-	this->textureList["UIleft"] = "data/TEXTURE/UI/left.png";
-	this->textureList["UIright"] = "data/TEXTURE/UI/right.png";
-
 	this->textureList["NULL"] = "NULL";
 
 	// メッシュ検索マッピングを作る
-	this->meshList["ship"] = "data/MODEL/PirateShip.x";
-	this->meshList["ship2"] = "data/MODEL/ship2.x";
-	this->meshList["shipCannon"] = "data/MODEL/Player_Cannon.x";
-	this->meshList["shipBody"] = "data/MODEL/Player_Ship.x";
-	this->meshList["ball"] = "data/MODEL/ball.x";
+	this->meshList["woman"] = "data/MODEL/woman.x";
 }
 
 //*****************************************************************************

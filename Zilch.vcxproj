@@ -23,7 +23,6 @@
     <ClInclude Include="DebugMessage.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Modules\Billboard.h" />
-    <ClInclude Include="Modules\BoundingBox.h" />
     <ClInclude Include="Modules\Camera.h" />
     <ClInclude Include="Modules\Character.h" />
     <ClInclude Include="Modules\FbxSDK.h" />
@@ -39,18 +38,15 @@
     <ClInclude Include="Modules\SkyBox.h" />
     <ClInclude Include="Modules\Sound.h" />
     <ClInclude Include="ResourcesManager.h" />
-    <ClInclude Include="Scene00.h" />
+    <ClInclude Include="Scene01.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader\CelShader.h" />
-    <ClInclude Include="Shader\RHWShader.h" />
-    <ClInclude Include="Shader\ShadowMapShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="DebugMessage.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\Billboard.cpp" />
-    <ClCompile Include="Modules\BoundingBox.cpp" />
     <ClCompile Include="Modules\Camera.cpp" />
     <ClCompile Include="Modules\Character.cpp" />
     <ClCompile Include="Modules\FbxSDK.cpp" />
@@ -66,21 +62,14 @@
     <ClCompile Include="Modules\SkyBox.cpp" />
     <ClCompile Include="Modules\Sound.cpp" />
     <ClCompile Include="ResourcesManager.cpp" />
-    <ClCompile Include="Scene00.cpp" />
+    <ClCompile Include="Scene01.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader\CelShader.cpp" />
-    <ClCompile Include="Shader\RHWShader.cpp" />
-    <ClCompile Include="Shader\ShadowMapShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\BasicShader.fx" />
-    <FxCompile Include="Shader\BasicShader.hlsl" />
-    <FxCompile Include="Shader\CelShader.fx" />
-    <FxCompile Include="Shader\PixelShader.hlsl" />
-    <FxCompile Include="Shader\RHWShader.fx" />
-    <FxCompile Include="Shader\ShadowMapShader - コピー.fx" />
-    <FxCompile Include="Shader\ShadowMapShader.fx" />
-    <FxCompile Include="Shader\VertexShader.hlsl" />
+    <FxCompile Include="Shader\CelShader.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2AB0424F-91D9-4340-9DA8-563735476DFD}</ProjectGuid>

@@ -206,20 +206,20 @@ HRESULT BillBoard::MakeVertexBillboard()
 // 頂点座標の設定
 //
 //*****************************************************************************
-void BillBoard::SetVertexBillboardByship(float sizeX, float sizeY, Character* ship, bool isLeft)
+void BillBoard::SetVertexBillboardByship(float sizeX, float sizeY, Character* woman, bool isLeft)
 {
 	this->isUse = true;
 
-	this->pos = ship->pos + ship->lookVector * 3.0f;
-	this->moveSpeedVec = -ship->lookVector * sizeX;
+	this->pos = woman->pos + woman->lookVector * 3.0f;
+	this->moveSpeedVec = -woman->lookVector * sizeX;
 
 	if (isLeft == true)
 	{
-		this->accelerarion = -ship->rightVector * 3;
+		this->accelerarion = -woman->rightVector * 3;
 	}
 	else
 	{
-		this->accelerarion = ship->rightVector * 3;
+		this->accelerarion = woman->rightVector * 3;
 	}
 
 	// 座標更新

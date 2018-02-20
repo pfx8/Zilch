@@ -21,10 +21,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Modules\Billboard.h">
-      <Filter>Modules</Filter>
+    <ClInclude Include="Console.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\BoundingBox.h">
+    <ClInclude Include="DebugMessage.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourcesManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\CelShader.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Billboard.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\Camera.h">
@@ -34,9 +49,6 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\FbxSDK.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\input.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Modules\Light.h">
@@ -69,36 +81,33 @@
     <ClInclude Include="Modules\Sound.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Shader\CelShader.h">
-      <Filter>Shader</Filter>
+    <ClInclude Include="Modules\input.h">
+      <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Shader\RHWShader.h">
-      <Filter>Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader\ShadowMapShader.h">
-      <Filter>Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Console.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugMessage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourcesManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene00.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
+    <ClInclude Include="Scene01.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Modules\BoundingBox.cpp">
+    <ClCompile Include="Console.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugMessage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcesManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\CelShader.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\Billboard.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\Camera.cpp">
@@ -108,9 +117,6 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\FbxSDK.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Modules\input.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Modules\Light.cpp">
@@ -143,60 +149,15 @@
     <ClCompile Include="Modules\Sound.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\Billboard.cpp">
+    <ClCompile Include="Modules\input.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Shader\CelShader.cpp">
-      <Filter>Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader\RHWShader.cpp">
-      <Filter>Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader\ShadowMapShader.cpp">
-      <Filter>Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Console.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugMessage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourcesManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene00.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
+    <ClCompile Include="Scene01.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\BasicShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\BasicShader.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="Shader\CelShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\PixelShader.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\RHWShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\ShadowMapShader - コピー.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\ShadowMapShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\VertexShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
