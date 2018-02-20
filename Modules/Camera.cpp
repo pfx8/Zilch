@@ -65,8 +65,8 @@ void Camera::InitCameraByPlayer(Character* player)
 	this->posEye = D3DXVECTOR3(0.0f, 10.0f, -35.0f);
 	this->posAt = D3DXVECTOR3(0.0f, 7.5f, 0.0f);
 
-	this->offSetFromPlayer = player->pos - this->posEye;
-	this->offSetFromPlayerBack = player->pos - this->posEye; // プレーヤー後ろになる座標を保存
+	this->offSetFromPlayer = player->model->pos - this->posEye;
+	this->offSetFromPlayerBack = player->model->pos - this->posEye; // プレーヤー後ろになる座標を保存
 
 	SetViewport();		// ビューポートを設定
 }
@@ -88,35 +88,35 @@ void Camera::Update(Character* player)
 	switch (whereIsCamera)
 	{
 	case WIC_freedom:
-		this->posEye = player->pos - this->offSetFromPlayer;
-		this->posAt = player->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+		this->posEye = player->model->pos - this->offSetFromPlayer;
+		this->posAt = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 		
 		// 注視方向ベクトル
-		temp = player->pos - this->posEye;
+		temp = player->model->pos - this->posEye;
 
 		break;
 	case WIC_left:
-		this->posAt = player->pos - player->rightVector * 20.0f;
-		this->posEye = player->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) - player->rightVector * 1.5f;
+		this->posAt = player->model->pos - player->model->rightVector * 20.0f;
+		this->posEye = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) - player->model->rightVector * 1.5f;
 
 		// 注視方向ベクトル
-		temp = -player->rightVector;
+		temp = -player->model->rightVector;
 
 		break;
 	case WIC_right:
-		this->posAt = player->pos + player->rightVector * 20.0f;
-		this->posEye = player->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) + player->rightVector * 1.5f;
+		this->posAt = player->model->pos + player->model->rightVector * 20.0f;
+		this->posEye = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) + player->model->rightVector * 1.5f;
 
 		// 注視方向ベクトル
-		temp = player->rightVector;
+		temp = player->model->rightVector;
 
 		break;
 	case WIC_playerBack:
-		this->posEye = player->pos - this->offSetFromPlayerBack;
-		this->posAt = player->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+		this->posEye = player->model->pos - this->offSetFromPlayerBack;
+		this->posAt = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 
 		// 注視方向ベクトル
-		temp = player->pos - this->posEye;
+		temp = player->model->pos - this->posEye;
 
 		// フリーカメラに戻る
 		this->whereIsCamera = WIC_freedom;
@@ -127,7 +127,7 @@ void Camera::Update(Character* player)
 
 	// カメラベクトルを更新
 	D3DXVec3Normalize(&this->lookVector, &temp);
-	D3DXVec3Cross(&this->rightVector, &this->lookVector, &player->upVector);
+	D3DXVec3Cross(&this->rightVector, &this->lookVector, &player->model->upVector);
 	D3DXVec3Normalize(&this->rightVector, &this->rightVector);
 	D3DXVec3Cross(&this->upVector, &this->rightVector, &this->lookVector);
 	D3DXVec3Normalize(&this->upVector, &this->upVector);
@@ -218,10 +218,10 @@ void Camera::CameraContrlUpdate(Character* player)
 
 		// もしプレーヤーが回転されたら
 		// 水平(playerBcak)
-		float angle = this->beforeAngle + player->rot.y;
+		float angle = this->beforeAngle + player->model->rot.y;
 
 		D3DXMATRIX HorizonalMatrixBack;
-		D3DXMatrixRotationAxis(&HorizonalMatrixBack, &player->upVector, angle);									// 回転行列を作る
+		D3DXMatrixRotationAxis(&HorizonalMatrixBack, &player->model->upVector, angle);							// 回転行列を作る
 		D3DXVec3TransformCoord(&this->offSetFromPlayerBack, &this->offSetFromPlayerBack, &HorizonalMatrixBack);	// カメラの新しい座標を計算する
 
 		this->beforeAngle -= angle;
@@ -237,16 +237,16 @@ void Camera::Rotation(Character* player, float radiansHorizonal, float radiansVe
 {
 	// 水平
 	D3DXMATRIX HorizonalMatrix;
-	D3DXMatrixRotationAxis(&HorizonalMatrix, &player->upVector, radiansHorizonal);			// 回転行列を作る
+	D3DXMatrixRotationAxis(&HorizonalMatrix, &player->model->upVector, radiansHorizonal);			// 回転行列を作る
 	D3DXVec3TransformCoord(&this->offSetFromPlayer, &this->offSetFromPlayer, &HorizonalMatrix);	// カメラの新しい座標を計算する
 
 	// 垂直
 	D3DXMATRIX VerticalMatrix;
-	D3DXMatrixRotationAxis(&VerticalMatrix, &player->rightVector, radiansVertical);			// 回転行列を作る
+	D3DXMatrixRotationAxis(&VerticalMatrix, &player->model->rightVector, radiansVertical);			// 回転行列を作る
 	D3DXVECTOR3 tempOffset = D3DXVECTOR3(1.0f, 1.0f, 1.0f);				
 	D3DXVec3TransformCoord(&tempOffset, &tempOffset, &VerticalMatrix);	// 移動後の座標を計算
 	D3DXVec3Normalize(&tempOffset, &tempOffset);						// 法線を正規化
-	float radianToPlayerUp = D3DXVec3Dot(&tempOffset, &player->upVector);	// カメラの移動範囲を制限するため、プレーヤーの垂直ベクトルと内積を計算する
+	float radianToPlayerUp = D3DXVec3Dot(&tempOffset, &player->model->upVector);	// カメラの移動範囲を制限するため、プレーヤーの垂直ベクトルと内積を計算する
 	if (radianToPlayerUp < this->verticalRadiansMax && radianToPlayerUp > this->verticalRadiansMin)
 	{
 		this->offSetFromPlayer = tempOffset;

@@ -36,12 +36,6 @@
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Shader\CelShader.h">
-      <Filter>Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\Billboard.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\Camera.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -101,12 +95,6 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Shader\CelShader.cpp">
-      <Filter>Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Modules\Billboard.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Modules\Camera.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -152,6 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\CelShader.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\test.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

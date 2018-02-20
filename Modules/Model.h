@@ -21,18 +21,19 @@
 class Model
 {
 private:
-	D3DXVECTOR3		pos;			// 位置
-	D3DXVECTOR3		rot;			// 回転
-	D3DXVECTOR3		scl;			// 拡大縮小
-	D3DXVECTOR3		upVector;		// カメラの上方向ベクトル
-	D3DXVECTOR3		lookVector;		// カメラの注視方向ベクトル
-	D3DXVECTOR3		rightVector;	// カメラの右方向ベクトル
 	D3DXMATRIX		worldMatrix;	// ワールド変換マトリックス
 
 	void SetWorldMatrix();						// ワールド変換
 	void RotationVecUp(float angle);			// 上方向のベクトルにして回転
 
 public:
+	D3DXVECTOR3		pos;			// 位置
+	D3DXVECTOR3		rot;			// 回転
+	D3DXVECTOR3		scl;			// 拡大縮小
+	D3DXVECTOR3		upVector;		// カメラの上方向ベクトル
+	D3DXVECTOR3		lookVector;		// カメラの注視方向ベクトル
+	D3DXVECTOR3		rightVector;	// カメラの右方向ベクトル
+
 	LPD3DXMESH						meshPoint;			// メッシュ情報へのポインタ
 	LPDIRECT3DTEXTURE9				meshTexturePoint;	// テクスチャマネジメント
 	Material*						material;			// マテリアル情報へのポインタ

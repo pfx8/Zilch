@@ -8,14 +8,12 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
+#include <map>
+
 #include "../Engine.h"
 #include "../ResourcesManager.h"
 #include "../DebugMessage.h" 
 #include "../Modules/Sound.h"
-
-#include <map>
-
-#include "Character.h"
 #include "Camera.h"
 #include "Light.h"
 #include "Plane.h"

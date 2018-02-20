@@ -23,7 +23,6 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="DebugMessage.h" />
     <ClInclude Include="Engine.h" />
-    <ClInclude Include="Modules\Billboard.h" />
     <ClInclude Include="Modules\Camera.h" />
     <ClInclude Include="Modules\FbxSDK.h" />
     <ClInclude Include="Modules\input.h" />
@@ -39,14 +38,12 @@
     <ClInclude Include="ResourcesManager.h" />
     <ClInclude Include="Scene01.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Shader\CelShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="DebugMessage.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Modules\Billboard.cpp" />
     <ClCompile Include="Modules\Camera.cpp" />
     <ClCompile Include="Modules\FbxSDK.cpp" />
     <ClCompile Include="Modules\input.cpp" />
@@ -62,10 +59,12 @@
     <ClCompile Include="ResourcesManager.cpp" />
     <ClCompile Include="Scene01.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Shader\CelShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\CelShader.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\test.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>

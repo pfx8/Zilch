@@ -19,7 +19,7 @@ Plane::Plane()
 	this->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	this->vertexBuffer = NULL;
 	this->indexBuffer = NULL;
-	this->titleTexture = NULL;
+	this->tex = NULL;
 }
 
 //*****************************************************************************
@@ -31,7 +31,7 @@ Plane::~Plane()
 {
 	// ƒ|ƒCƒ“ƒ^
 	RELEASE_POINT(this->vertexBuffer);
-	RELEASE_POINT(this->titleTexture);
+	RELEASE_POINT(this->tex);
 	RELEASE_POINT(this->indexBuffer);
 }
 

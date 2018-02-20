@@ -9,7 +9,7 @@
 #ifndef _CAMERA_CLASS_H_
 #define _CAMERA_CLASS_H_
 
-#include "Character.h"
+#include "../Character.h"
 #include "../Engine.h"
 #include "../DebugMessage.h"
 
@@ -38,7 +38,7 @@ private:
 	DebugMessage*	message;
 	D3DXVECTOR3		offSetFromPlayer;				// プレーヤーとカメラの偏り(半径)
 	D3DXVECTOR3		offSetFromPlayerBack;			// ずっとプレーヤーの後ろとの偏り(半径)
-	float			beforeAngle;				// プレーヤー前回の回転角度を記録
+	float			beforeAngle;					// プレーヤー前回の回転角度を記録
 
 	float offsetFromTargetMin;						// プレーヤーとカメラの偏りの最小値
 	float offsetFromTargetMax;						// プレーヤーとカメラの偏りの最大値

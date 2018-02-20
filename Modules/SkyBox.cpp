@@ -19,7 +19,7 @@ SkyBox::SkyBox()
 	this->indexBuffer = NULL;
 	this->vertexDecl = NULL;
 
-	this->titleTexture = NULL;
+	this->tex = NULL;
 
 	this->length = 0.0f;
 	this->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -36,7 +36,7 @@ SkyBox::~SkyBox()
 	RELEASE_POINT(this->indexBuffer);
 	RELEASE_POINT(this->vertexDecl);
 
-	RELEASE_POINT(this->titleTexture);
+	RELEASE_POINT(this->tex);
 }
 
 //*****************************************************************************
@@ -183,33 +183,33 @@ void SkyBox::Draw(Shader* shader, D3DXMATRIX* VPMatrix)
 	//pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 
 	// テクニックを設定
-	shader->shaderHandle = shader->effectPoint->GetTechniqueByName("RenderWithTextrue");
-	shader->effectPoint->SetTechnique(shader->shaderHandle);
+	shader->shaderHandle = shader->effect->GetTechniqueByName("RenderWithTextrue");
+	shader->effect->SetTechnique(shader->shaderHandle);
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
 	SetWorldMatrix();
-	shader->effectPoint->SetMatrix(shader->WMatrixHandle, &this->worldMatrix);
-	shader->effectPoint->SetMatrix(shader->VPMatrixHandle, VPMatrix);
+	shader->effect->SetMatrix(shader->WMatrixHandle, &this->worldMatrix);
+	shader->effect->SetMatrix(shader->VPMatrixHandle, VPMatrix);
 
 	// テクスチャの設定
-	shader->effectPoint->SetTexture(shader->textureHandle, this->titleTexture);
+	shader->effect->SetTexture(shader->textureHandle, this->tex);
 
 	// 描画
 	UINT passNum = 0;
-	shader->effectPoint->Begin(&passNum, 0);
+	shader->effect->Begin(&passNum, 0);
 	// 各パスを実行する
 	for (int count = 0; count < passNum; count++)
 	{
-		shader->effectPoint->BeginPass(0);
+		shader->effect->BeginPass(0);
 
 		pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
 		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(SKYBOXVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
 		pDevice->SetIndices(this->indexBuffer);										// 頂点イデックスの設定
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 17, 0, 16);			// バウンディングボックスの描画
 
-		shader->effectPoint->EndPass();
+		shader->effect->EndPass();
 	}
-	shader->effectPoint->End();
+	shader->effect->End();
 
 
 }

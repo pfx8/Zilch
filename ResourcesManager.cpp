@@ -98,9 +98,9 @@ HRESULT ResourcesManager::LoadMesh(std::string name, Model* model)
 			D3DXMESH_SYSTEMMEM,					// メッシュのメモリ確保オプション
 			pDevice,							// デバイスへのポインタ
 			NULL,								// 隣接性データを含むバッファへのポインタ
-			&model->material->materialBuffer,// マテリアルデータを含むバッファへのポインタ
+			&model->material->materialBuffer,	// マテリアルデータを含むバッファへのポインタ
 			NULL,								// エフェクトインスタンスを含むバッファへのポインタ
-			&model->material->materialNum,	// マテリアル構造体の数
+			&model->material->materialNum,		// マテリアル構造体の数
 			&model->meshPoint)))				// メッシュへのポインタ
 		{
 			std::cout << "[Error] Loading Model<" << name << "> Failed!" << std::endl;

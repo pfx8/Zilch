@@ -135,20 +135,20 @@ void Model::Update()
 void Model::Draw(CelShader* celShader, D3DXMATRIX* VPMatrix)
 {
 	// テクニックを設定
-	celShader->effectPoint->SetTechnique(celShader->celShaderHandle);
+	celShader->effect->SetTechnique(celShader->celShaderHandle);
 
 	// 変更行列を渡す
-	celShader->effectPoint->SetMatrix(celShader->WMatrixHandle, &this->worldMatrix);
-	celShader->effectPoint->SetMatrix(celShader->VPMatrixHandle, VPMatrix);
+	celShader->effect->SetMatrix(celShader->WMatrixHandle, &this->worldMatrix);
+	celShader->effect->SetMatrix(celShader->VPMatrixHandle, VPMatrix);
 
 	// テクスチャを渡す
-	celShader->effectPoint->SetTexture("tex", this->meshTexturePoint);
+	celShader->effect->SetTexture("tex", this->meshTexturePoint);
 
 	UINT passNum = 0;
-	celShader->effectPoint->Begin(&passNum, 0);
+	celShader->effect->Begin(&passNum, 0);
 	for (int count = 0; count < passNum; count++)
 	{
-		celShader->effectPoint->BeginPass(count);
+		celShader->effect->BeginPass(count);
 
 		LPDIRECT3DDEVICE9 pDevice = GetDevice();
 		DWORD materialNum = this->material->materialNum;				// マテリアル数を取得
@@ -193,7 +193,7 @@ void Model::Draw(CelShader* celShader, D3DXMATRIX* VPMatrix)
 
 		delete[] attributes;
 
-		celShader->effectPoint->EndPass();
+		celShader->effect->EndPass();
 	}
-	celShader->effectPoint->End();
+	celShader->effect->End();
 }

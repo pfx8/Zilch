@@ -7,13 +7,13 @@
 //*****************************************************************************
 #include "Engine.h"
 
-#include "Modules/Character.h"
 #include "Modules/Camera.h"
 #include "Modules/Light.h"
 #include "Modules/Plane.h"
 #include "Modules/Sound.h"
 #include "Console.h"
 #include "SceneManager.h"
+#include "Character.h"
 
 using namespace std;
 
