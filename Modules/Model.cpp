@@ -59,24 +59,87 @@ Model::~Model()
 
 //*****************************************************************************
 //
+// 上方向のベクトルにして回転
+//
+//*****************************************************************************
+void Model::RotationVecUp(float angle)
+{
+	// 角度を記録する
+	this->rot.y += angle;
+
+	if (this->rot.y >= D3DXToRadian(360.0f))
+	{
+		this->rot.y = 0.0f;
+	}
+	if (this->rot.y <= D3DXToRadian(-360.0f))
+	{
+		this->rot.y = 0.0f;
+	}
+
+	D3DXMATRIX rotMatrix;
+	D3DXMatrixRotationAxis(&rotMatrix, &this->upVector, angle);					// 回転行列を作る
+	D3DXVec3TransformCoord(&this->lookVector, &this->lookVector, &rotMatrix);	// カメラの新しい座標を計算する
+
+	D3DXVec3Normalize(&this->lookVector, &this->lookVector);
+	D3DXVec3Cross(&this->rightVector, &this->lookVector, &this->upVector);
+	D3DXVec3Normalize(&this->rightVector, &this->rightVector);
+	D3DXVec3Cross(&this->upVector, &this->rightVector, &this->lookVector);
+	D3DXVec3Normalize(&this->upVector, &this->upVector);
+
+	// OGL -> DX
+	this->rightVector = -this->rightVector;
+}
+
+//*****************************************************************************
+//
+// ワールド変換を設定
+//
+//*****************************************************************************
+void Model::SetWorldMatrix()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
+
+	// ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&this->worldMatrix);
+
+	// スケールを反映
+	D3DXMatrixScaling(&mtxScl, this->scl.x, this->scl.y, this->scl.z);
+	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxScl);
+
+	// 回転を反映
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, this->rot.y, this->rot.x, this->rot.z);
+	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxRot);
+
+	// 移動を反映
+	D3DXMatrixTranslation(&mtxTranslate, this->pos.x, this->pos.y, this->pos.z);
+	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxTranslate);
+}
+
+//*****************************************************************************
+//
+// 状態更新
+//
+//*****************************************************************************
+void Model::Update()
+{
+
+}
+
+//*****************************************************************************
+//
 // モデルを描画する(CelShader)
 //
 //*****************************************************************************
-void Model::DrawModel(CelShader* celShader, D3DXMATRIX* worldMatrix, D3DXMATRIX* VPMatrix, 
-	D3DXMATRIX* lightMatrix, D3DXMATRIX* normalMatrix)
+void Model::Draw(CelShader* celShader, D3DXMATRIX* VPMatrix)
 {
 	// テクニックを設定
 	celShader->effectPoint->SetTechnique(celShader->celShaderHandle);
 
 	// 変更行列を渡す
-	celShader->effectPoint->SetMatrix(celShader->WMatrixHandle, worldMatrix);
+	celShader->effectPoint->SetMatrix(celShader->WMatrixHandle, &this->worldMatrix);
 	celShader->effectPoint->SetMatrix(celShader->VPMatrixHandle, VPMatrix);
-
-	celShader->effectPoint->SetValue("lightMatrix", lightMatrix, sizeof(D3DXMATRIX));
-	//celShader->effectPoint->SetValue("normalMatrix", normalMatrix, sizeof(D3DXMATRIX*));
-
-	// Obj種類番号を渡す
-	celShader->effectPoint->SetInt(celShader->typeHandle, modelType);
 
 	// テクスチャを渡す
 	celShader->effectPoint->SetTexture("tex", this->meshTexturePoint);

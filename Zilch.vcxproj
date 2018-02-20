@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Character.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="DebugMessage.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Modules\Billboard.h" />
     <ClInclude Include="Modules\Camera.h" />
-    <ClInclude Include="Modules\Character.h" />
     <ClInclude Include="Modules\FbxSDK.h" />
     <ClInclude Include="Modules\input.h" />
     <ClInclude Include="Modules\Light.h" />
@@ -33,7 +33,6 @@
     <ClInclude Include="Modules\Model.h" />
     <ClInclude Include="Modules\Plane.h" />
     <ClInclude Include="Modules\Scene.h" />
-    <ClInclude Include="Modules\ScreenPolygon.h" />
     <ClInclude Include="Modules\Shader.h" />
     <ClInclude Include="Modules\SkyBox.h" />
     <ClInclude Include="Modules\Sound.h" />
@@ -43,12 +42,12 @@
     <ClInclude Include="Shader\CelShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="DebugMessage.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\Billboard.cpp" />
     <ClCompile Include="Modules\Camera.cpp" />
-    <ClCompile Include="Modules\Character.cpp" />
     <ClCompile Include="Modules\FbxSDK.cpp" />
     <ClCompile Include="Modules\input.cpp" />
     <ClCompile Include="Modules\Light.cpp" />
@@ -57,7 +56,6 @@
     <ClCompile Include="Modules\Model.cpp" />
     <ClCompile Include="Modules\Plane.cpp" />
     <ClCompile Include="Modules\Scene.cpp" />
-    <ClCompile Include="Modules\ScreenPolygon.cpp" />
     <ClCompile Include="Modules\Shader.cpp" />
     <ClCompile Include="Modules\SkyBox.cpp" />
     <ClCompile Include="Modules\Sound.cpp" />

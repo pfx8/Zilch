@@ -29,6 +29,9 @@ private:
 	D3DXVECTOR3		rightVector;	// カメラの右方向ベクトル
 	D3DXMATRIX		worldMatrix;	// ワールド変換マトリックス
 
+	void SetWorldMatrix();						// ワールド変換
+	void RotationVecUp(float angle);			// 上方向のベクトルにして回転
+
 public:
 	LPD3DXMESH						meshPoint;			// メッシュ情報へのポインタ
 	LPDIRECT3DTEXTURE9				meshTexturePoint;	// テクスチャマネジメント
@@ -38,8 +41,8 @@ public:
 	Model();
 	~Model();
 
-	void DrawModel(CelShader* celShader, D3DXMATRIX* worldMatrix, D3DXMATRIX* VPMatrix,
-		D3DXMATRIX* lightMatrix, D3DXMATRIX* normalMatrix);	// モデルを描画する
+	void Update();	// 更新
+	void Draw(CelShader* celShader, D3DXMATRIX* VPMatrix);	// モデルを描画する
 };
 
 #endif // !_MODEL_H_

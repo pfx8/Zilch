@@ -45,9 +45,6 @@
     <ClInclude Include="Modules\Camera.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\Character.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\FbxSDK.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -69,9 +66,6 @@
     <ClInclude Include="Modules\Scene.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ScreenPolygon.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\Shader.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -85,6 +79,9 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Scene01.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,9 +110,6 @@
     <ClCompile Include="Modules\Camera.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\Character.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Modules\FbxSDK.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -137,9 +131,6 @@
     <ClCompile Include="Modules\Scene.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ScreenPolygon.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Modules\Shader.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -153,6 +144,9 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Scene01.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

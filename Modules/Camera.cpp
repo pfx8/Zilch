@@ -294,7 +294,7 @@ void Camera::SetViewport()
 // 座標をメッセージに渡して、画面に描画する
 //
 //*****************************************************************************
-void Camera::PosToMessageAndMessageDraw(int row)
+void Camera::OutputMessage(int row)
 {
 	message->DrawPosMessage("at  ", this->posAt, D3DXVECTOR2(0, float((row + 0) * 18)));
 	message->DrawPosMessage("pos  ", this->posEye, D3DXVECTOR2(0, float((row + 1) * 18)));

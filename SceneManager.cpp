@@ -37,7 +37,7 @@ SceneManager::~SceneManager()
 //*****************************************************************************
 void SceneManager::ChooseScene()
 {
-	m_scene = new Scene00; // 初期化する
+	m_scene = new Scene01; // 初期化する
 	m_scene->SetRenderState();	// レンダリング状態を設定
 }
 

@@ -77,6 +77,6 @@ public:
 	void Rotation(Character* player, float radiansHorizonal, float radiansVertical);	// 回転操作
 	void Zoom(float distance);															// ズーム操作
 	void SetViewport();																	// ビューポートを設定
-	void PosToMessageAndMessageDraw(int row);											// 座標をメッセージに渡して、画面に描画する
+	void OutputMessage(int row);											// 座標をメッセージに渡して、画面に描画する
 };
 #endif // !_CAMERA_H_

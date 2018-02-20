@@ -15,14 +15,8 @@
 //*****************************************************************************
 Plane::Plane()
 {
-	this->scala = 2;
-	this->waveAngle = 0.0f;
 
 	this->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//this->rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//this->scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
-	// ポインタ
 	this->vertexBuffer = NULL;
 	this->indexBuffer = NULL;
 	this->titleTexture = NULL;
@@ -83,13 +77,13 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 
 	// 頂点バッファ作成
 	{
-		if (FAILED(pDevice->CreateVertexBuffer(this->vertexNum * sizeof(VERTEX_3D), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->vertexBuffer, NULL)))
+		if (FAILED(pDevice->CreateVertexBuffer(this->vertexNum * sizeof(PLANEVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->vertexBuffer, NULL)))
 		{
 			std::cout << "[Error] 頂点バッファが生成できない!" << std::endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
-		VERTEX_3D* VertexBuffer;
+		PLANEVERTEX* VertexBuffer;
 
 		// 頂点データの範囲をロックし、頂点バッファ メモリへのポインタを取得する
 		this->vertexBuffer->Lock(0, 0, (void**)&VertexBuffer, 0);
@@ -113,8 +107,8 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 				// 反射光の設定
 				//VertexBuffer[numY * (int(planeNum.x) + 1) + numX].diffuse = D3DXCOLOR(0.5f, 1.0f, 1.0f, 1.0f);
 				// テクスチャ1座標の設定
-				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texturePosition.x = numX * 1.0f;
-				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texturePosition.y = numY * 1.0f;
+				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texture.x = numX * 1.0f;
+				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texture.y = numY * 1.0f;
 			}
 		}
 
@@ -194,7 +188,7 @@ void Plane::Draw()
 	SetWorldMatrix();
 
 	pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
-	pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(VERTEX_3D));		// 頂点バッファをデバイスのデータストリームにバイナリ
+	pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
 	pDevice->SetIndices(this->indexBuffer);										// 頂点インデックスバッファを設定
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ポリゴンの描画
 }
@@ -206,68 +200,5 @@ void Plane::Draw()
 //*****************************************************************************
 void Plane::Update()
 {
-	PDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	this->waveAngle += (rand()%5 + 10) / 5.0f / 180.0f * D3DX_PI;
-
-	if (this->waveAngle > D3DX_PI * 2.0f)
-		this->waveAngle = 0.0f;
-
-	VERTEX_3D* VertexBuffer;
-
-	// 頂点データの範囲をロックし、頂点バッファ メモリへのポインタを取得する
-	this->vertexBuffer->Lock(0, 0, (void**)&VertexBuffer, 0);
-
-	// 頂点バッファの中身を埋める
-	// 頂点座標(ローカル座標 = 形を形成してる)
-	// もの自身の座標、世界での座標には関係ない
-	// this->posFiledは世界での位置で
-
-	for (int numY = 0; numY < (this->planeNum.y + 1); numY++)
-	{
-		for (int numX = 0; numX < (this->planeNum.x + 1); numX++)
-		{
-			// システム時間を取得
-			float time = timeGetTime();
-			time = time / 10000000000.0f;
-
-			VertexBuffer[numY * (int(this->planeNum.x) + 1) + numX].position.y = 1.8f * (sinf(numY + numX + this->waveAngle) + sinf(numY + this->waveAngle) + sinf(numX + this->waveAngle)) / 3.0f;
-
-			int signX;	// X符号位
-			int signZ;	// Z符号位
-
-			float sinX;	// 
-			float sinZ;	// 
-
-			switch (rand()%4)
-			{
-			case 0:
-				signX = -1;
-				signZ = -1;
-				sinX = this->waveAngle - time;
-				sinZ = this->waveAngle - time;
-				break;
-			case 1:
-				signX = 1;
-				signZ = -1;
-				sinX = this->waveAngle + time;
-				sinZ = this->waveAngle - time;
-				break;
-			case 2:
-				signX = -1;
-				signZ = 1;
-				sinX = this->waveAngle - time;
-				sinZ = this->waveAngle + time;
-				break;
-			case 3:
-				signX = 1;
-				signZ = 1;
-				sinX = this->waveAngle + time;
-				sinZ = this->waveAngle + time;
-				break;
-			}
-			//VertexBuffer[numY * (int(this->planeNum.x) + 1) + numX].position.x += signX * 0.8f * sinf(sinX);
-			//VertexBuffer[numY * (int(this->planeNum.x) + 1) + numX].position.z += signZ * 0.8f * sinf(sinZ);
-		}
-	}
+	
 }

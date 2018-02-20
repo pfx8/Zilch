@@ -10,8 +10,12 @@
 
 #include "../Engine.h"
 
-#define WAVE_SCALE		0.5f // 波の高さ
-#define WAVE_STRENGTH	0.5f // 波の強さ
+struct PLANEVERTEX
+{
+	D3DXVECTOR4 position;		// 頂点座標
+	D3DXVECTOR2 texture;		// テクスチャ座標
+};
+
 //*****************************************************************************
 //
 // クラス宣言
@@ -20,14 +24,15 @@
 class Plane
 {
 private:
-	int				scala;
+	void SetWorldMatrix();	// ワールド変換
+	virtual HRESULT MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum);	// 頂点宣言
 
 public:
-	float			waveAngle;
 	D3DXMATRIX		worldMatrix;	// ワールド変換マトリックス
 	D3DXVECTOR3		pos;			// 位置
 	D3DXVECTOR2		planeSize;
 	D3DXVECTOR2		planeNum;
+
 	int				vertexNum;		// 頂点数
 	int				polygonNum;		// ポリゴン数
 	int				indexNum;		// インデックス数
@@ -40,11 +45,9 @@ public:
 	Plane();
 	~Plane();
 
-	virtual HRESULT MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum);	// 頂点宣言
 	virtual HRESULT InitPlane(D3DXVECTOR3 pos, D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum);	// 座標を設定
-
 	virtual void Draw();				// テクスチャを描画する(PixelShader)
-	void SetWorldMatrix();	// 臨時ーーワールド変換
+
 	void Update();
 };
 #endif // !_PLANE_H_
