@@ -8,9 +8,10 @@
 #ifndef _RESOURCES_MANAGER_H_
 #define _RESOURCES_MANAGER_H_
 
-#include <map>
-
 #include "Engine.h"
+
+#include <map>
+#include "Modules/Model.h"
 
 //*****************************************************************************
 //
@@ -21,17 +22,18 @@ class ResourcesManager
 {
 private:
 	// テクスチャ
-	std::map < std::string, std::string> m_textureList;	// テクスチャリスト
+	std::map < std::string, std::string> textureList;	// テクスチャリスト
 	std::string GetTextureStruct(std::string name);		// テクスチャパスを取得
 
-	// Fbxファイル
-	std::map < std::string, std::string> m_fbxList;	// Fbxリスト
+	// メッシュ
+	std::map < std::string, std::string> meshList;	// メッシュリスト
+	std::string GetMeshPath(std::string name);		// メッシュパスを取得
 public:
 	ResourcesManager();
 	~ResourcesManager();
 
 	HRESULT LoadTexture(std::string name, LPDIRECT3DTEXTURE9* texturePoint);	// テクスチャを読み込み
-	std::string GetFbxPath(std::string name);		// Fbxパスを取得
+	HRESULT LoadMesh(std::string name, Model* model);	// メッシュを読み込み
 };
 
 #endif // !_RESOURCES_MANAGER_H_

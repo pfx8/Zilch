@@ -20,14 +20,15 @@
 class DebugMessage
 {
 private:
-	LPD3DXFONT			m_Font;	// フォントのポインタ
-	RECT					m_rectCoor; // デバッグメッセージの位置
+	LPD3DXFONT			font;	// フォントのポインタ
+	RECT				rectCoor; // デバッグメッセージの位置
 
 public:
 	DebugMessage();
 	~DebugMessage();
 
-	void DrawPosMessage(const char name[], D3DXVECTOR3 OutputPos, D3DXVECTOR2 MessagePos);
+	void DrawPosMessage(const char name[], D3DXVECTOR3 OutputPos, D3DXVECTOR2 MessagePos); // 座標を描画する
+	void DrawMatrixMessage(D3DXMATRIX* matrix, D3DXVECTOR2 MessagePos); // 行列を描画
 	void DrawMessage(const char message[]);	// デバッグメッセージ
 };
 

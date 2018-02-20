@@ -20,8 +20,8 @@ class Console
 private:
 
 public:
-	bool m_isConsoleRun;	// コンソール実行するかどうかを判断
-	bool m_isConsoleFront; // コンソールとゲームウィンドウの前後判断
+	bool isConsoleRun;	// コンソール実行するかどうかを判断
+	bool isConsoleFront; // コンソールとゲームウィンドウの前後判断
 
 	Console();
 	~Console();

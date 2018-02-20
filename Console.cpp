@@ -14,12 +14,12 @@
 //*****************************************************************************
 Console::Console()
 {
-	m_isConsoleRun = AllocConsole();	// コンソールを初期化
+	this->isConsoleRun = AllocConsole();	// コンソールを初期化
 	SetConsoleTitle(_T("Debug Output"));	// コンソールのタイトルを設定する
 	freopen("CONIN$", "r", stdin);	// コンソールにinput,outputを指定
 	freopen("CONOUT$", "w", stdout);
 	freopen("CONOUT$", "w", stderr);
-	m_isConsoleFront = false;
+	this->isConsoleFront = false;
 }
 
 //*****************************************************************************
@@ -29,7 +29,7 @@ Console::Console()
 //*****************************************************************************
 Console::~Console()
 {
-	m_isConsoleRun = FreeConsole() & 1;
+	this->isConsoleRun = FreeConsole() & 1;
 }
 
 //*****************************************************************************
@@ -39,7 +39,6 @@ Console::~Console()
 //*****************************************************************************
 HRESULT Console::SetConsoleBack(HWND hwnd, int cmd)
 {
-
 		//ヴインドウを中心に移動
 		RECT rect;
 		SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
@@ -54,7 +53,7 @@ HRESULT Console::SetConsoleBack(HWND hwnd, int cmd)
 		ShowWindow(hwnd, cmd);
 		UpdateWindow(hwnd);
 
-		m_isConsoleFront = false;
+		this->isConsoleFront = false;
 
 		return S_OK;
 }
@@ -83,7 +82,7 @@ HRESULT Console::SetConsoleFront(HWND hwnd)
 		ShowWindow(consoleWindowHandle, SW_NORMAL);
 		UpdateWindow(consoleWindowHandle);
 
-		m_isConsoleFront = true;
+		this->isConsoleFront = true;
 
 		return S_OK;
 	}

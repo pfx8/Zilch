@@ -1,25 +1,24 @@
 //*****************************************************************************
 //
-// Shader処理 [Shader.cpp]
+// トゥ―ンシェーダー処理 [CelShader.cpp]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Shader.h"
+#include "CelShader.h"
 
 //*****************************************************************************
 //
 // コンストラクタ
 //
 //*****************************************************************************
-Shader::Shader()
+CelShader::CelShader()
 {
 	this->effectPoint = NULL;
-	
+	this->celShaderHandle = NULL;
 	this->WMatrixHandle = NULL;
 	this->VPMatrixHandle = NULL;
-	this->shaderHandle = NULL;
-	this->textureHandle = NULL;
+	this->lightingHandle = NULL;
 }
 
 //*****************************************************************************
@@ -27,7 +26,7 @@ Shader::Shader()
 // デストラクタ
 //
 //*****************************************************************************
-Shader::~Shader()
+CelShader::~CelShader()
 {
 	RELEASE_POINT(this->effectPoint);
 }
@@ -37,7 +36,7 @@ Shader::~Shader()
 // シェーダーを初期化
 //
 //*****************************************************************************
-void Shader::InitShader()
+void CelShader::InitShader()
 {
 	LoadEffectFile();
 	GetShaderParameter();
@@ -48,7 +47,7 @@ void Shader::InitShader()
 // 頂点シェーダーファイルを読み込む
 //
 //*****************************************************************************
-HRESULT Shader::LoadEffectFile()
+HRESULT CelShader::LoadEffectFile()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -61,7 +60,7 @@ HRESULT Shader::LoadEffectFile()
 
 	ID3DXBuffer* errorBuffer = NULL;		// エラーバッファ
 	D3DXCreateEffectFromFile(pDevice,
-						"Shader/BasicShader.fx",	// エフェクトファイルの名前
+						"Shader/CelShader.fx",	// エフェクトファイルの名前
 						0,
 						0,
 						D3DXSHADER_DEBUG,
@@ -72,26 +71,28 @@ HRESULT Shader::LoadEffectFile()
 
 	if (errorBuffer)	// エラーをチェック
 	{
-		std::cout << "[Error] Shader/BasicShader.fx が読み込めない" << std::endl;	// エラーメッセージ
+		std::cout << "[Error] Shader/CelShader.fx が読み込めない" << std::endl;	// エラーメッセージ
 		std::cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << std::endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
-	std::cout << "[Information] Loading Shader<BasicShader> Success!" << std::endl;
-
+	std::cout << "[Information] Loading Shader<CelShader> Success!" << std::endl;
 	return S_OK;
 }
 
 //*****************************************************************************
 //
-// シェーダー中の変数を取得
+// シェーダーを使うために、各設定をする
 //
 //*****************************************************************************
-void Shader::GetShaderParameter()
+void CelShader::GetShaderParameter()
 {
-	this->WMatrixHandle  = this->effectPoint->GetParameterByName(0, "WMatrix");
+	// レンダリングのテクニックを取得
+	this->celShaderHandle = this->effectPoint->GetTechniqueByName("CelShader");
+
+	// シェーダー中のグローバル変数を取得
+	this->WMatrixHandle = this->effectPoint->GetParameterByName(0, "WMatrix");
 	this->VPMatrixHandle = this->effectPoint->GetParameterByName(0, "VPMatrix");
-	this->textureHandle  = this->effectPoint->GetParameterByName(0, "tex");
-	this->alphaHandle    = this->effectPoint->GetParameterByName(0, "alpha");
+	this->typeHandle = this->effectPoint->GetParameterByName(0, "ObjType");
 }

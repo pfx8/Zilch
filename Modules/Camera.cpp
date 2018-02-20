@@ -14,17 +14,38 @@
 //*****************************************************************************
 Camera::Camera()
 {
-	m_posEye			= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_posAt			= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_rot			= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_upVector		= D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	m_lookVector		= D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-	m_rightVector	= D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	this->field = D3DXToRadian(45);
+	this->ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
+	this->rangeStart = 0.1;
+	this->rangeEnd = 2500;
 
-	D3DXMatrixIdentity(&m_viewMatrix);
-	D3DXMatrixIdentity(&m_projectionMatrix);
+	this->posEye	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	this->posAt		= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	m_message = new DebugMessage();
+	/*this->posEye = D3DXVECTOR3(-4.0f, -4.0f, 6.0f);
+	this->posAt = D3DXVECTOR3(0.0f, 10.0f, 0.0f);*/
+
+	this->beforeAngle = 0.0f;
+
+	this->upVector		= D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	this->lookVector	= D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	this->rightVector	= D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
+
+	this->offsetFromTargetMin = 15.0f;
+	this->offsetFromTargetMax = 75.0f;
+	this->verticalRadiansMin = cosf(D3DXToRadian(15.0f));
+	this->verticalRadiansMax = cosf(D3DXToRadian(75.0f));
+
+	this->rotateSpeedHorizonal = 2.0f;
+	this->rotateSpeedVertical = 1.0f;
+	this->zoomSpeed = 2.0f;
+
+	this->whereIsCamera = WIC_freedom;
+
+	D3DXMatrixIdentity(&viewMatrix);
+	D3DXMatrixIdentity(&projectionMatrix);
+
+	this->message = new DebugMessage();
 }
 
 //*****************************************************************************
@@ -34,70 +55,223 @@ Camera::Camera()
 //*****************************************************************************
 Camera::~Camera()
 {
-	RELEASE_CLASS_POINT(m_message);
+	RELEASE_CLASS_POINT(this->message);
 }
-
-//*****************************************************************************
-//
-// カメラを初期化する(By Player)
-//
-//*****************************************************************************
-/*void Camera::InitCameraByPlayer(Character* player)
-{
-	m_posEye = player->m_lookVector + D3DXVECTOR3(0.0f, 6.0f, 11.0f);
-	m_posAt = player->m_pos + D3DXVECTOR3(0.0f, 6.0f, 0.0f);
-	m_rot = player->m_rot;
-	m_lookVector = player->m_lookVector;
-	m_rightVector = player->m_rightVector;
-
-	SetViewMatrix();	// ビューイング変換
-	SetProjMatrix();	// プロジェクション変換
-	SetViewport();	// ビューポートを設定
-}*/
 
 //*****************************************************************************
 //
 // カメラを初期化する
 //
 //*****************************************************************************
-void Camera::InitCamera()
-{
-	m_posEye = D3DXVECTOR3(0.0f, 3.0f, -20.0f);
-	m_posAt = D3DXVECTOR3(0.0f, 6.0f, 0.0f);
-	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_lookVector = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-	m_rightVector = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-
-	SetViewMatrix();	// ビューイング変換
-	SetProjMatrix();	// プロジェクション変換
-	SetViewport();	// ビューポートを設定
-}
-
-//*****************************************************************************
-//
-// ビューイング変換
-//
-//*****************************************************************************
-void Camera::SetViewMatrix()
+void Camera::InitCameraByPlayer(Character* player)
 {	
-	D3DXMatrixLookAtLH(&m_viewMatrix, &m_posEye, &m_posAt, &m_upVector);	// ビューマトリックスの作成
-	GetDevice()->SetTransform(D3DTS_VIEW, &m_viewMatrix);				// ビューマトリックスの設定
+	this->posEye = D3DXVECTOR3(0.0f, 10.0f, -35.0f);
+	this->posAt = D3DXVECTOR3(0.0f, 7.5f, 0.0f);
+
+	this->offSetFromPlayer = player->pos - this->posEye;
+	this->offSetFromPlayerBack = player->pos - this->posEye; // プレーヤー後ろになる座標を保存
+
+	SetViewport();		// ビューポートを設定
+}
+
+
+//*****************************************************************************
+//
+// カメラ更新
+//
+//*****************************************************************************
+void Camera::Update(Character* player)
+{
+	// カメラ操作更新
+	CameraContrlUpdate(player);
+
+	D3DXVECTOR3 temp = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	// カメラ位置を更新
+	switch (whereIsCamera)
+	{
+	case WIC_freedom:
+		this->posEye = player->pos - this->offSetFromPlayer;
+		this->posAt = player->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+		
+		// 注視方向ベクトル
+		temp = player->pos - this->posEye;
+
+		break;
+	case WIC_left:
+		this->posAt = player->pos - player->rightVector * 20.0f;
+		this->posEye = player->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) - player->rightVector * 1.5f;
+
+		// 注視方向ベクトル
+		temp = -player->rightVector;
+
+		break;
+	case WIC_right:
+		this->posAt = player->pos + player->rightVector * 20.0f;
+		this->posEye = player->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) + player->rightVector * 1.5f;
+
+		// 注視方向ベクトル
+		temp = player->rightVector;
+
+		break;
+	case WIC_playerBack:
+		this->posEye = player->pos - this->offSetFromPlayerBack;
+		this->posAt = player->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+
+		// 注視方向ベクトル
+		temp = player->pos - this->posEye;
+
+		// フリーカメラに戻る
+		this->whereIsCamera = WIC_freedom;
+		this->offSetFromPlayer = this->offSetFromPlayerBack;
+
+		break;
+	}
+
+	// カメラベクトルを更新
+	D3DXVec3Normalize(&this->lookVector, &temp);
+	D3DXVec3Cross(&this->rightVector, &this->lookVector, &player->upVector);
+	D3DXVec3Normalize(&this->rightVector, &this->rightVector);
+	D3DXVec3Cross(&this->upVector, &this->rightVector, &this->lookVector);
+	D3DXVec3Normalize(&this->upVector, &this->upVector);
+
+	// ビューマトリックスの作成
+	D3DXMatrixLookAtLH(&this->viewMatrix, &this->posEye, &this->posAt, &this->upVector);
+
+	// プロジェクションマトリックスの作成
+	D3DXMatrixPerspectiveFovLH(&this->projectionMatrix,
+								this->field,   		// ビュー平面の視野角
+								this->ratio,		// ビュー平面のアスペクト比
+								this->rangeStart,	// ヒュー平面のNearZ値
+								this->rangeEnd);	// ビュー平面のFarZ値
 }
 
 //*****************************************************************************
 //
-// プロジェクション変換(投影変換)
+// カメラ操作更新
 //
 //*****************************************************************************
-void Camera::SetProjMatrix()
+void Camera::CameraContrlUpdate(Character* player)
 {
-	D3DXMatrixPerspectiveFovLH(&m_projectionMatrix, // プロジェクションマトリックスの作成
-		D3DXToRadian(45.0f),						// ビュー平面の視野角
-		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,	// ビュー平面のアスペクト比
-		10.0f,										// ヒュー平面のNearZ値
-		1000.0f);									// ビュー平面のFarZ値
+	// 射撃モードに変更
+	bool isButton = false;
 
-	GetDevice()->SetTransform(D3DTS_PROJECTION, &m_projectionMatrix);	// プロジェクションマトリックスの設定
+	isButton = (GetKeyboardTrigger(DIK_R) || IsButtonTriggered(0, BUTTON_L1));
+	if (isButton)
+	{
+		if (this->whereIsCamera == WIC_left)
+		{
+			this->whereIsCamera = WIC_freedom;
+		}
+		else
+		{
+			this->whereIsCamera = WIC_left;
+		}
+
+	}
+	isButton = (GetKeyboardTrigger(DIK_T) || IsButtonTriggered(0, BUTTON_R1));
+	if (isButton)
+	{
+		if (this->whereIsCamera == WIC_right)
+		{
+			this->whereIsCamera = WIC_freedom;
+		}
+		else
+		{
+			this->whereIsCamera = WIC_right;
+		}
+
+	}
+
+	//if (GetKeyboardPress(DIK_I))	// カメラを上に移動
+	//{
+	//	Rotation(player, 0, D3DXToRadian(1.0f));
+	//}
+	//else if (GetKeyboardPress(DIK_K))	// カメラを下に移動
+	//{
+	//	Rotation(player, 0, D3DXToRadian(-1.0f));
+	//}
+
+	isButton = (GetKeyboardPress(DIK_J) || IsButtonPressed(0, RIGHT_STICK_LEFT));
+	if (isButton && this->whereIsCamera == WIC_freedom)	// 左回転
+	{
+		Rotation(player, D3DXToRadian(1.0f), 0);
+	}
+	isButton = (GetKeyboardPress(DIK_L) || IsButtonPressed(0, RIGHT_STICK_RIGHT));
+	if (isButton && this->whereIsCamera == WIC_freedom)	// 右回転
+	{
+		Rotation(player, D3DXToRadian(-1.0f), 0);
+	}
+
+	isButton = (GetKeyboardPress(DIK_Q) || IsButtonPressed(0, BUTTON_TRIANGLE));
+	if (isButton && this->whereIsCamera == WIC_freedom)	// ゾーンを拡大
+	{
+		Zoom(zoomSpeed);
+	}
+	isButton = (GetKeyboardPress(DIK_E) || IsButtonPressed(0, BUTTON_CROSS));
+	if (isButton && this->whereIsCamera == WIC_freedom)	// ゾーンを縮小
+	{
+		Zoom(-zoomSpeed);
+	}
+
+	// プレーヤーの後ろに戻る
+	if (GetKeyboardTrigger(DIK_Z) || IsButtonTriggered(0, BUTTON_CIRCLE))
+	{
+		this->whereIsCamera = WIC_playerBack;
+
+		// もしプレーヤーが回転されたら
+		// 水平(playerBcak)
+		float angle = this->beforeAngle + player->rot.y;
+
+		D3DXMATRIX HorizonalMatrixBack;
+		D3DXMatrixRotationAxis(&HorizonalMatrixBack, &player->upVector, angle);									// 回転行列を作る
+		D3DXVec3TransformCoord(&this->offSetFromPlayerBack, &this->offSetFromPlayerBack, &HorizonalMatrixBack);	// カメラの新しい座標を計算する
+
+		this->beforeAngle -= angle;
+	}
+}
+
+//*****************************************************************************
+//
+// 回転操作
+//
+//*****************************************************************************
+void Camera::Rotation(Character* player, float radiansHorizonal, float radiansVertical)
+{
+	// 水平
+	D3DXMATRIX HorizonalMatrix;
+	D3DXMatrixRotationAxis(&HorizonalMatrix, &player->upVector, radiansHorizonal);			// 回転行列を作る
+	D3DXVec3TransformCoord(&this->offSetFromPlayer, &this->offSetFromPlayer, &HorizonalMatrix);	// カメラの新しい座標を計算する
+
+	// 垂直
+	D3DXMATRIX VerticalMatrix;
+	D3DXMatrixRotationAxis(&VerticalMatrix, &player->rightVector, radiansVertical);			// 回転行列を作る
+	D3DXVECTOR3 tempOffset = D3DXVECTOR3(1.0f, 1.0f, 1.0f);				
+	D3DXVec3TransformCoord(&tempOffset, &tempOffset, &VerticalMatrix);	// 移動後の座標を計算
+	D3DXVec3Normalize(&tempOffset, &tempOffset);						// 法線を正規化
+	float radianToPlayerUp = D3DXVec3Dot(&tempOffset, &player->upVector);	// カメラの移動範囲を制限するため、プレーヤーの垂直ベクトルと内積を計算する
+	if (radianToPlayerUp < this->verticalRadiansMax && radianToPlayerUp > this->verticalRadiansMin)
+	{
+		this->offSetFromPlayer = tempOffset;
+	}
+}
+
+//*****************************************************************************
+//
+// ズーム操作
+//
+//*****************************************************************************
+void Camera::Zoom(float distance)
+{
+	D3DXVECTOR3 zoomDistance = this->lookVector * distance;			// 変更量を計算
+	D3DXVECTOR3	tempOffset = this->offSetFromPlayer + zoomDistance;	// 新しい偏り量を計算
+
+	float radians = D3DXVec3Length(&tempOffset);	// 半径を計算
+	if (radians < this->offsetFromTargetMax && radians > this->offsetFromTargetMin)
+	{
+		// 半径は範囲内ならば、偏り量を更新
+		this->offSetFromPlayer = tempOffset;
+	}
 }
 
 //*****************************************************************************
@@ -120,124 +294,13 @@ void Camera::SetViewport()
 
 //*****************************************************************************
 //
-// キャラクターによってカメラを更新
-//
-//*****************************************************************************
-/*void Camera::UpdateByPlayer(Character* player)
-{
-	m_posEye.x = player->m_pos.x + cosf(m_rot.y + D3DX_PI / 2) * 11.0f;
-	m_posEye.y = player->m_pos.y + 6.0f;
-	m_posEye.z = player->m_pos.z + sinf(m_rot.y + D3DX_PI / 2) * 11.0f;
-
-	m_posAt = player->m_pos + D3DXVECTOR3(0.0f, 6.0f, 0.0f);
-	m_rot = player->m_rot;
-	m_lookVector = player->m_lookVector;
-	m_rightVector = player->m_rightVector;
-
-	SetViewMatrix();	// ビューイング変換
-}*/
-
-//*****************************************************************************
-//
-// 上方向のベクトルにして回転
-//
-//*****************************************************************************
-void Camera::RotationVecUp(float angle)
-{
-	if (m_rot.y > D3DX_PI * 2.0f || m_rot.y < -D3DX_PI * 2.0f)
-	{
-		m_rot.y = 0;
-	}
-
-	// 角度を記録する
-	m_rot.y -= angle;
-
-	// 新しい右方向ベクトルを計算する
-	m_rightVector.x = cosf(m_rot.y);
-	m_rightVector.z = sinf(m_rot.y);
-
-	// 新しい注視方向ベクトルを計算する
-	m_lookVector.x = cosf(m_rot.y + D3DX_PI / 2);
-	m_lookVector.z = sinf(m_rot.y + D3DX_PI / 2);
-
-	D3DXMATRIX rotMatrix;
-	D3DXMatrixRotationAxis(&rotMatrix, &m_upVector, angle);		// 回転行列を作る
-	D3DXVec3TransformCoord(&m_posEye, &m_posEye, &rotMatrix);	// 回転行列で新しい座標を計算する
-}
-
-//*****************************************************************************
-//
-// 右方向のベクトルにして回転
-//
-//*****************************************************************************
-void Camera::RotationVecRight(float angle)
-{
-	// 角度の移動範囲は -55 + 45(初期) ~ 45(初期) + 20
-	if (m_rot.x >= 20.0f / 180.0f * D3DX_PI && angle < 0)
-	{
-		m_rot.x = 20.0f / 180.0f * D3DX_PI;
-	}
-	else if(m_rot.x <= -55.0f / 180.0f * D3DX_PI && angle > 0)
-	{ 
-		m_rot.x = -55.0f / 180.0f * D3DX_PI;
-	}
-	else
-	{
-		// 角度を記録する
-		m_rot.x -= angle;
-
-		// 注視ベクトルを更新する
-		m_lookVector.z = cosf(m_rot.x);
-		m_lookVector.y = sinf(m_rot.x);
-
-		// 上方向ベクトルを更新する
-		m_upVector.z = cosf(m_rot.x + D3DX_PI / 2);
-		m_upVector.y = sinf(m_rot.x + D3DX_PI / 2);
-
-		// カメラ位置を更新する
-		m_posEye.z = m_posEye.z * cosf(angle) - m_posEye.y * sinf(angle);
-		m_posEye.y = m_posEye.z * sinf(angle) + m_posEye.y * cosf(angle);
-	}
-}
-
-//*****************************************************************************
-//
-// 右方向に沿って移動
-//
-//*****************************************************************************
-void Camera::MoveAlongVecRight(float unit)
-{
-	m_posEye += m_rightVector * unit;
-	m_posAt += m_rightVector * unit;
-}
-
-//*****************************************************************************
-//
-// 注視方向に沿って移動
-//
-//*****************************************************************************
-void Camera::MoveAlongVecLook(float unit)
-{
-	m_posEye += m_lookVector * unit;
-}
-
-//*****************************************************************************
-//
 // 座標をメッセージに渡して、画面に描画する
 //
 //*****************************************************************************
 void Camera::PosToMessageAndMessageDraw(int row)
 {
-	m_message->DrawPosMessage("C-look", m_lookVector, D3DXVECTOR2(0, float(row * 18)));
-	m_message->DrawPosMessage("CameraPos", m_posEye, D3DXVECTOR2(0, float((row + 1) * 18)));
-}
-
-//*****************************************************************************
-//
-// プレーヤーとカメラの半径を変わる
-//
-//*****************************************************************************
-void Camera::isAtToEyeVectorMoreLong(bool isMoreLong)
-{
-	
+	message->DrawPosMessage("at  ", this->posAt, D3DXVECTOR2(0, float((row + 0) * 18)));
+	message->DrawPosMessage("pos  ", this->posEye, D3DXVECTOR2(0, float((row + 1) * 18)));
+	message->DrawPosMessage("look  ", this->lookVector, D3DXVECTOR2(0, float((row + 2) * 18)));
+	message->DrawPosMessage("offset", this->offSetFromPlayer, D3DXVECTOR2(0, float((row + 3) * 18)));
 }

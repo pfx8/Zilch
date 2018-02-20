@@ -19,61 +19,68 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="DebugMessage.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Modules\Camera.cpp" />
-    <ClCompile Include="Modules\FbxSDK.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Modules\input.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Modules\Mesh.cpp" />
-    <ClCompile Include="Modules\Scene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Modules\Shader.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="ResourcesManager.cpp" />
-    <ClCompile Include="Scene00.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Console.h" />
     <ClInclude Include="DebugMessage.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Modules\Billboard.h" />
+    <ClInclude Include="Modules\BoundingBox.h" />
     <ClInclude Include="Modules\Camera.h" />
-    <ClInclude Include="Modules\FbxSDK.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Modules\input.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="Modules\Character.h" />
+    <ClInclude Include="Modules\FbxSDK.h" />
+    <ClInclude Include="Modules\input.h" />
+    <ClInclude Include="Modules\Light.h" />
+    <ClInclude Include="Modules\Material.h" />
     <ClInclude Include="Modules\Mesh.h" />
-    <ClInclude Include="Modules\Scene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Modules\Shader.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="Modules\Model.h" />
+    <ClInclude Include="Modules\Plane.h" />
+    <ClInclude Include="Modules\Scene.h" />
+    <ClInclude Include="Modules\ScreenPolygon.h" />
+    <ClInclude Include="Modules\Shader.h" />
+    <ClInclude Include="Modules\SkyBox.h" />
+    <ClInclude Include="Modules\Sound.h" />
     <ClInclude Include="ResourcesManager.h" />
     <ClInclude Include="Scene00.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Shader\CelShader.h" />
+    <ClInclude Include="Shader\RHWShader.h" />
+    <ClInclude Include="Shader\ShadowMapShader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\BasicShader.fx">
-      <FileType>Document</FileType>
-    </None>
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="DebugMessage.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Modules\Billboard.cpp" />
+    <ClCompile Include="Modules\BoundingBox.cpp" />
+    <ClCompile Include="Modules\Camera.cpp" />
+    <ClCompile Include="Modules\Character.cpp" />
+    <ClCompile Include="Modules\FbxSDK.cpp" />
+    <ClCompile Include="Modules\input.cpp" />
+    <ClCompile Include="Modules\Light.cpp" />
+    <ClCompile Include="Modules\Material.cpp" />
+    <ClCompile Include="Modules\Mesh.cpp" />
+    <ClCompile Include="Modules\Model.cpp" />
+    <ClCompile Include="Modules\Plane.cpp" />
+    <ClCompile Include="Modules\Scene.cpp" />
+    <ClCompile Include="Modules\ScreenPolygon.cpp" />
+    <ClCompile Include="Modules\Shader.cpp" />
+    <ClCompile Include="Modules\SkyBox.cpp" />
+    <ClCompile Include="Modules\Sound.cpp" />
+    <ClCompile Include="ResourcesManager.cpp" />
+    <ClCompile Include="Scene00.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Shader\CelShader.cpp" />
+    <ClCompile Include="Shader\RHWShader.cpp" />
+    <ClCompile Include="Shader\ShadowMapShader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\BasicShader.fx" />
+    <FxCompile Include="Shader\BasicShader.hlsl" />
+    <FxCompile Include="Shader\CelShader.fx" />
+    <FxCompile Include="Shader\PixelShader.hlsl" />
+    <FxCompile Include="Shader\RHWShader.fx" />
+    <FxCompile Include="Shader\ShadowMapShader - コピー.fx" />
+    <FxCompile Include="Shader\ShadowMapShader.fx" />
+    <FxCompile Include="Shader\VertexShader.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2AB0424F-91D9-4340-9DA8-563735476DFD}</ProjectGuid>

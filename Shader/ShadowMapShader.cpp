@@ -1,25 +1,22 @@
 //*****************************************************************************
 //
-// Shader処理 [Shader.cpp]
+// シャドーシェーダー[ShadowMapShader.h]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Shader.h"
+#include "ShadowMapShader.h"
 
 //*****************************************************************************
 //
 // コンストラクタ
 //
 //*****************************************************************************
-Shader::Shader()
+ShadowMapShader::ShadowMapShader()
 {
 	this->effectPoint = NULL;
-	
-	this->WMatrixHandle = NULL;
-	this->VPMatrixHandle = NULL;
-	this->shaderHandle = NULL;
-	this->textureHandle = NULL;
+	this->shadowMapTex = NULL;
+	this->shadeowMapShaderHandle = NULL;
 }
 
 //*****************************************************************************
@@ -27,7 +24,7 @@ Shader::Shader()
 // デストラクタ
 //
 //*****************************************************************************
-Shader::~Shader()
+ShadowMapShader::~ShadowMapShader()
 {
 	RELEASE_POINT(this->effectPoint);
 }
@@ -37,10 +34,22 @@ Shader::~Shader()
 // シェーダーを初期化
 //
 //*****************************************************************************
-void Shader::InitShader()
+HRESULT ShadowMapShader::InitShader()
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
 	LoadEffectFile();
-	GetShaderParameter();
+
+	if (FAILED(pDevice->CreateTexture(512, 512,
+		1, D3DUSAGE_RENDERTARGET,
+		D3DFMT_R32F,
+		D3DPOOL_DEFAULT,
+		&this->shadowMapTex,
+		NULL)))
+	{
+		std::cout << "[Error]Not Support PixelShader Failed!" << std::endl;
+		return E_FAIL;
+	}
 }
 
 //*****************************************************************************
@@ -48,7 +57,7 @@ void Shader::InitShader()
 // 頂点シェーダーファイルを読み込む
 //
 //*****************************************************************************
-HRESULT Shader::LoadEffectFile()
+HRESULT ShadowMapShader::LoadEffectFile()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -61,7 +70,7 @@ HRESULT Shader::LoadEffectFile()
 
 	ID3DXBuffer* errorBuffer = NULL;		// エラーバッファ
 	D3DXCreateEffectFromFile(pDevice,
-						"Shader/BasicShader.fx",	// エフェクトファイルの名前
+						"Shader/ShadowMapShader.fx",	// エフェクトファイルの名前
 						0,
 						0,
 						D3DXSHADER_DEBUG,
@@ -72,26 +81,13 @@ HRESULT Shader::LoadEffectFile()
 
 	if (errorBuffer)	// エラーをチェック
 	{
-		std::cout << "[Error] Shader/BasicShader.fx が読み込めない" << std::endl;	// エラーメッセージ
+		std::cout << "[Error] Shader/ShadowMapShader.fx が読み込めない" << std::endl;	// エラーメッセージ
 		std::cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << std::endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
-	std::cout << "[Information] Loading Shader<BasicShader> Success!" << std::endl;
+	std::cout << "[Information] Loading Shader<ShadowMapShader> Success!" << std::endl;
 
 	return S_OK;
-}
-
-//*****************************************************************************
-//
-// シェーダー中の変数を取得
-//
-//*****************************************************************************
-void Shader::GetShaderParameter()
-{
-	this->WMatrixHandle  = this->effectPoint->GetParameterByName(0, "WMatrix");
-	this->VPMatrixHandle = this->effectPoint->GetParameterByName(0, "VPMatrix");
-	this->textureHandle  = this->effectPoint->GetParameterByName(0, "tex");
-	this->alphaHandle    = this->effectPoint->GetParameterByName(0, "alpha");
 }

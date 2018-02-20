@@ -7,6 +7,8 @@
 //*****************************************************************************
 #include "Scene.h"
 
+#include "fstream"
+
 using namespace std;
 
 //*****************************************************************************
@@ -16,12 +18,11 @@ using namespace std;
 //*****************************************************************************
 Scene::Scene()
 {	
-	m_resourcesManager = new ResourcesManager;	// リソース
-	m_message = new DebugMessage;
+	this->resourcesManager = new ResourcesManager;	// リソース
+	this->message = new DebugMessage;
 
-	// FbxSDk初期化
-	m_fbxSdk = new FBX_SDK();
-	m_fbxSdk->InitFbxSDK();
+	// テクスチャを読み込み
+	// this->resourcesManager->InitTexture();
 }
 
 //*****************************************************************************
@@ -33,17 +34,35 @@ Scene::~Scene()
 {
 	// クラスポインタ
 	// リソース
-	RELEASE_CLASS_POINT(m_resourcesManager);
-	RELEASE_CLASS_POINT(m_message);
-	RELEASE_CLASS_POINT(m_fbxSdk);
+	RELEASE_CLASS_POINT(this->resourcesManager);
+	RELEASE_CLASS_POINT(this->message);
 }
 
 //*****************************************************************************
 //
-// fbxSDkによって読み込んだデータを自分のSceneクラスに入れる
+// ワールド変換
 //
 //*****************************************************************************
-bool Scene::FromFbxSceneToScene()
+void Scene::SetWorldMatrix(D3DXMATRIX* worldMatrix, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scl)
 {
-	return true;
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	// 計算用マトリックス
+	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
+
+	// ワールドマトリックスを初期化する
+	D3DXMatrixIdentity(worldMatrix);
+
+	// スケールを反映
+	D3DXMatrixScaling(&mtxScl, scl.x, scl.y, scl.z);
+	D3DXMatrixMultiply(worldMatrix, worldMatrix, &mtxScl);
+
+	// 回転を反映
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
+	D3DXMatrixMultiply(worldMatrix, worldMatrix, &mtxRot);
+
+	// 平行移動を反映
+	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
+	D3DXMatrixMultiply(worldMatrix, worldMatrix, &mtxTranslate);
 }
+

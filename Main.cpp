@@ -7,6 +7,11 @@
 //*****************************************************************************
 #include "Engine.h"
 
+#include "Modules/Character.h"
+#include "Modules/Camera.h"
+#include "Modules/Light.h"
+#include "Modules/Plane.h"
+#include "Modules/Sound.h"
 #include "Console.h"
 #include "SceneManager.h"
 
@@ -17,13 +22,16 @@ using namespace std;
 // グローバル変数
 //
 //*****************************************************************************
-int					g_countFPS;						// FPSカウンタ
+int					g_nCountFPS;						// FPSカウンタ
 LPDIRECT3D9			g_pD3D = NULL;					// Direct3Dオブジェクト
-LPDIRECT3DDEVICE9		g_pD3DDevice = NULL;				// Deviceオブジェクト(描画に必要)
+LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;				// Deviceオブジェクト(描画に必要)
 
 //////////////////////////////////////////////////////////////////////////////////
-Console*				g_console;				// コンソール
-SceneManager*		g_sceneManager;			// シンー管理
+Console*			g_Console;				// コンソール
+SceneManager*		g_SceneManager;			// シンー管理？？？
+// 臨時
+
+//////////////////////////////////////////////////////////////////////////////////
 
 //*****************************************************************************
 //
@@ -33,9 +41,9 @@ SceneManager*		g_sceneManager;			// シンー管理
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
 
-void Updata(HWND hWnd, int cmd);
-void	 Draw(HWND hWnd);
-void	 Release(void);
+void	Updata(HWND hWnd, int cmd);
+void	Draw(HWND hWnd);
+void	Release(void);
 
 // 臨時
 
@@ -93,6 +101,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	if (!RegisterClassEx(&wcex))
 		return -1;
 
+
+
 	// ウィンドウの作成
 	hWnd = CreateWindow(CLASS_NAME,
 		WINDOW_NAME,
@@ -118,17 +128,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 	// メッセージを出る為のコンソールを初期化
-	g_console = new Console();
-	if (g_console->m_isConsoleRun == false)
+	g_Console = new Console();
+	if (g_Console->isConsoleRun == false)
 	{
 		std::cout << "[Error] コンソールが初期化失敗!" << std::endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
-	// シンーマネジメント
-	g_sceneManager = new SceneManager();
+	// 音楽
+	InitSound(hWnd);
 
-	////////////////////////////////////////////////////////////////////////////////
+	// シンーマネジメント
+	g_SceneManager = new SceneManager();
 
 	//ヴインドウを中心に移動
 	RECT rect;
@@ -167,7 +178,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwFPSLastTime) >= 500)	//0.5秒ごとに実行
 			{
-				g_countFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);	//FPSを計測
+				g_nCountFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);	//FPSを計測
 
 				dwFPSLastTime = dwCurrentTime;	//FPS計測時刻を保存
 
@@ -176,6 +187,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))	//1/60秒ごとに実行
 			{
+				/*char str[256] = {};
+				sprintf(str, _T("Under the sky ... %d"), g_nCountFPS);
+				SetWindowText(hWnd, str);*/
 				dwExecLastTime = dwCurrentTime;	//処理した時刻を保存
 				Updata(hWnd, nCmdShow);						// 更新処理
 				Draw(hWnd);					// 描画処理
@@ -189,8 +203,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// ウィンドウクラスの登録を解除
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
-	std::cout << "Exit()" << std::endl;
-
 	Release();
 
 	return (int)msg.wParam;
@@ -203,6 +215,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 //*****************************************************************************
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	static float fog_start = 50;
+	static float fog_end = 300;
+	static float fog_density = 0.01f;
+
 	switch( message )
 	{
 	case WM_DESTROY:
@@ -307,7 +323,6 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	else
 		vp = D3DCREATE_SOFTWARE_VERTEXPROCESSING;	// ソフトウェアで頂点を処理する
 
-
 	// デバイスの生成
 	// ディスプレイアダプタを表すためのデバイスを作成
 	// 描画と頂点処理をハードウェアで行なう
@@ -331,7 +346,6 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//*****************************************************************************
 	InitInput(hInstance, hWnd);
 
-
 	return S_OK;
 }
 
@@ -343,19 +357,19 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 void Updata(HWND hWnd, int cmd)
 {
 	// ウィンドウからコンソールに変更
-	if (GetKeyboardRelease(DIK_CIRCUMFLEX) && g_console->m_isConsoleFront == false)
+	if (GetKeyboardRelease(DIK_8) && g_Console->isConsoleFront == false)
 	{
 		//g_Console->SetConsoleFront(hWnd);
 	}
-	if (GetKeyboardRelease(DIK_CIRCUMFLEX) && g_console->m_isConsoleFront == true)
+	if (GetKeyboardRelease(DIK_8) && g_Console->isConsoleFront == true)
 	{
 		//g_Console->SetConsoleBack(hWnd, cmd);
 	}
 
-	if (g_console->m_isConsoleFront == false)
+	if (g_Console->isConsoleFront == false)
 	{
 		UpdateInput();			// 入力更新
-		g_sceneManager->Update();	// シンーを更新する
+		g_SceneManager->Update();	// シンーを更新する
 	}
 }
 
@@ -366,9 +380,9 @@ void Updata(HWND hWnd, int cmd)
 //*****************************************************************************
 void Draw(HWND hWnd)
 {
-	if (g_console->m_isConsoleFront == false)
+	if (g_Console->isConsoleFront == false)
 	{
-		g_sceneManager->Draw();	// シンーをドロー
+		g_SceneManager->Draw();	// シンーをドロー
 	}
 }
 
@@ -387,8 +401,8 @@ void Release(void)
 	UninitInput();
 
 	// コンソールの終了処理
-	RELEASE_CLASS_POINT(g_console);
-	RELEASE_CLASS_POINT(g_sceneManager);
+	RELEASE_CLASS_POINT(g_Console);
+	RELEASE_CLASS_POINT(g_SceneManager);
 }
 
 //*****************************************************************************

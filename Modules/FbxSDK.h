@@ -5,32 +5,26 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
+
 #ifndef _FBX_SDK_H_
 #define _FBX_SDK_H_
 
 #include <fbxsdk.h>
 
-#include "Mesh.h"
-#include "..\Engine.h"
+#include "../Engine.h"
 
-class FBX_SDK
+class FbxSDK
 {
 private:
-	FbxManager*	m_manager;	// SDKマネジメント
-	FbxImporter*	m_importer;	// FBX読み込みインポート
-	FbxNode*		m_rootnode;	// ルートノード
+	FbxManager*  m_manager;	// SDKマネジメント
+	FbxImporter* m_importer;	// FBX読み込みインポート
 	FbxScene*	m_scene;		// シーン
-	FbxMesh*		m_mesh;		// メッシュ
 
-	void ProbeNode(FbxNode* node);	// シーンの下にあるFBXノードを探査
-	bool LoadMaterial(FbxMesh* mesh);	// マテリアルを読み込み
 public:
-	FBX_SDK();
-	~FBX_SDK();
+	FbxSDK();
+	~FbxSDK();
 
-	HRESULT InitFbxSDK();	// FbxSDKを初期化
-	HRESULT LoadFbxScene(std::string fbxPath = " ");	// Fbxを読み込み
-	HRESULT FbxMeshToDirectXMesh(DX_MESH* dxMesh);		// FbxデータをDXへ転送する
+	HRESULT InitFbxSDK();	// SDKマネジメントを初期化
 };
 
 #endif // !_FBX_SDK_H_
