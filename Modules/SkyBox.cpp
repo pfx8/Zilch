@@ -174,36 +174,36 @@ void SkyBox::SetWorldMatrix()
 // スカイボックスを描画
 //
 //*****************************************************************************
-void SkyBox::Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
+void SkyBox::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// テクニックを設定
-	shader->technique = shader->effect->GetTechniqueByName("defaultRender");
-	shader->effect->SetTechnique(shader->technique);
+	shader2D->technique = shader2D->effect->GetTechniqueByName("defaultRender");
+	shader2D->effect->SetTechnique(shader2D->technique);
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
-	shader->effect->SetValue("wMat", &this->worldMatrix, sizeof(D3DXMATRIX));
-	shader->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
-	shader->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
+	shader2D->effect->SetValue("wMat", &this->worldMatrix, sizeof(D3DXMATRIX));
+	shader2D->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
+	shader2D->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
 
 	// テクスチャの設定
-	shader->effect->SetValue("tex", &this->tex, sizeof(LPDIRECT3DTEXTURE9));
+	shader2D->effect->SetValue("tex", &this->tex, sizeof(LPDIRECT3DTEXTURE9));
 
 	// 描画
 	UINT passNum = 0;
-	shader->effect->Begin(&passNum, 0);
+	shader2D->effect->Begin(&passNum, 0);
 	// 各パスを実行する
 	for (int count = 0; count < passNum; count++)
 	{
-		shader->effect->BeginPass(0);
+		shader2D->effect->BeginPass(0);
 
 		pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
 		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(SKYBOXVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
 		pDevice->SetIndices(this->indexBuffer);										// 頂点イデックスの設定
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 17, 0, 16);			// バウンディングボックスの描画
 
-		shader->effect->EndPass();
+		shader2D->effect->EndPass();
 	}
-	shader->effect->End();
+	shader2D->effect->End();
 }

@@ -132,25 +132,25 @@ void Model::Update()
 // モデルを描画する(CelShader)
 //
 //*****************************************************************************
-void Model::Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
+void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	// テクニックを設定
-	shader->technique = shader->effect->GetTechniqueByName("defaultRender");
-	shader->effect->SetTechnique(shader->technique);
+	shader2D->technique = shader2D->effect->GetTechniqueByName("defaultRender");
+	shader2D->effect->SetTechnique(shader2D->technique);
 
 	// 変更行列を渡す
-	shader->effect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));
-	shader->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
-	shader->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
+	shader2D->effect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));
+	shader2D->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
+	shader2D->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
 
 	// テクスチャを渡す
-	shader->effect->SetTexture("tex", this->meshTexturePoint);
+	shader2D->effect->SetTexture("tex", this->meshTexturePoint);
 
 	UINT passNum = 0;
-	shader->effect->Begin(&passNum, 0);
+	shader2D->effect->Begin(&passNum, 0);
 	for (int count = 0; count < passNum; count++)
 	{
-		shader->effect->BeginPass(count);
+		shader2D->effect->BeginPass(count);
 
 		LPDIRECT3DDEVICE9 pDevice = GetDevice();
 		DWORD materialNum = this->material->materialNum;				// マテリアル数を取得
@@ -195,7 +195,7 @@ void Model::Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 
 		delete[] attributes;
 
-		shader->effect->EndPass();
+		shader2D->effect->EndPass();
 	}
-	shader->effect->End();
+	shader2D->effect->End();
 }

@@ -89,5 +89,19 @@ void SceneManager::ChangeRenderState()
 //*****************************************************************************
 void SceneManager::Draw()
 {
-	m_scene->Draw();	// シンー01描画
+	PDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	// バックバッファ＆Ｚバッファのクリア
+	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(122, 122, 122, 255), 1.0f, 0);
+
+	// Direct3Dによる描画の開始
+	if (SUCCEEDED(GetDevice()->BeginScene()))
+	{
+		m_scene->Draw();	// シンー01描画
+
+		GetDevice()->EndScene();
+	}
+
+	// バックバッファとフロントバッファの入れ替え
+	GetDevice()->Present(NULL, NULL, NULL, NULL);
 }

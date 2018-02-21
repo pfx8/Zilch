@@ -54,7 +54,6 @@ HRESULT Shader::LoadEffectFile(std::string effectFileName)
 						&this->effect,		// エフェクトポインタ
 						&errorBuffer);		// エラー情報
 
-
 	if (errorBuffer)	// エラーをチェック
 	{
 		std::cout << "[Error] " << effectFileName << std::endl;	// エラーメッセージ

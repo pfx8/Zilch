@@ -68,8 +68,8 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 	{
 		D3DVERTEXELEMENT9 planeDecl[] =		// 頂点データのレイアウトを定義
 		{
-			{ 0,  0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-			{ 0, 16, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+			{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+			{ 0, 12, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
 			D3DDECL_END()
 		};
 		pDevice->CreateVertexDeclaration(planeDecl, &this->vertexDecl);
@@ -101,11 +101,6 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.x = -(planeNum.x / 2.0f) * planeSize.x + numX * planeSize.x;
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.y = 0;
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.z = (planeNum.y / 2.0f) * planeSize.y - numY * planeSize.y;
-				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.w = 1.0f;
-				// 法線ベクトルの設定
-				//VertexBuffer[numY * (int(planeNum.x) + 1) + numX].normalVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-				// 反射光の設定
-				//VertexBuffer[numY * (int(planeNum.x) + 1) + numX].diffuse = D3DXCOLOR(0.5f, 1.0f, 1.0f, 1.0f);
 				// テクスチャ1座標の設定
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texture.x = numX * 1.0f;
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texture.y = numY * 1.0f;
@@ -192,36 +187,36 @@ void Plane::SetWorldMatrix()
 // テクスチャを描画する
 //
 //*****************************************************************************
-void Plane::Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
+void Plane::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// テクニックを設定
-	shader->technique = shader->effect->GetTechniqueByName("defaultRender");
-	shader->effect->SetTechnique(shader->technique);
+	shader2D->technique = shader2D->effect->GetTechniqueByName("default2DRender");
+	shader2D->effect->SetTechnique(shader2D->technique);
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
-	shader->effect->SetValue("wMat", &this->worldMatrix, sizeof(D3DXMATRIX));
-	shader->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
-	shader->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
+	shader2D->effect->SetMatrix("wMat", &this->worldMatrix);
+	shader2D->effect->SetMatrix("vMat", vMatrix);
+	shader2D->effect->SetMatrix("pMat", pMatrix);
 
 	// テクスチャの設定
-	shader->effect->SetValue("tex", &this->tex, sizeof(LPDIRECT3DTEXTURE9));
+	shader2D->effect->SetTexture("tex", this->tex);
 
 	// 描画
 	UINT passNum = 0;
-	shader->effect->Begin(&passNum, 0);
+	shader2D->effect->Begin(&passNum, 0);
 	// 各パスを実行する
 	for (int count = 0; count < passNum; count++)
 	{
-		shader->effect->BeginPass(count);
+		shader2D->effect->BeginPass(count);
 		
 		pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
 		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
 		pDevice->SetIndices(this->indexBuffer);										// 頂点インデックスバッファを設定
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ポリゴンの描画
 
-		shader->effect->EndPass();
+		shader2D->effect->EndPass();
 	}
-	shader->effect->End();
+	shader2D->effect->End();
 }

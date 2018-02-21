@@ -48,7 +48,7 @@
 //
 //*****************************************************************************
 #define CLASS_NAME		_T("D3d9Class")		// ウインドウのクラス名
-#define WINDOW_NAME		_T("Project:Zilch")		// ウインドウのキャプション名
+#define WINDOW_NAME		_T("Project : Zilch")		// ウインドウのキャプション名
 #define SCREEN_WIDTH		(960)				// ウインドウの幅
 #define SCREEN_HEIGHT		(540)				// ウインドウの高さ
 

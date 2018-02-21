@@ -43,7 +43,7 @@ public:
 	~Model();
 
 	void Update();	// 更新
-	void Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// モデルを描画する
+	void Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// モデルを描画する
 };
 
 #endif // !_MODEL_H_

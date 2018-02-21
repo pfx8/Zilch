@@ -16,6 +16,8 @@ ResourcesManager::ResourcesManager()
 {
 	// テクスチャ検索マッピングを作る
 	this->textureList["skybox"] = "data/TEXTURE/skybox.jpg";
+	this->textureList["field"] = "data/TEXTURE/field.jpg";
+	this->textureList["fieldNor"] = "data/TEXTURE/field-nor.jpg";
 	this->textureList["NULL"] = "NULL";
 
 	// メッシュ検索マッピングを作る

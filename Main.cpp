@@ -184,9 +184,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))	//1/60秒ごとに実行
 			{
-				/*char str[256] = {};
-				sprintf(str, _T("Under the sky ... %d"), g_nCountFPS);
-				SetWindowText(hWnd, str);*/
+				char str[256] = {};
+				sprintf(str, _T("Project : Zilch ... %d"), g_nCountFPS);
+				SetWindowText(hWnd, str);
+
 				dwExecLastTime = dwCurrentTime;	//処理した時刻を保存
 				Updata(hWnd, nCmdShow);						// 更新処理
 				Draw(hWnd);					// 描画処理
