@@ -2,7 +2,7 @@
 //
 // スカイボックス処理 [SkyBox.cpp]
 //
-// Author : LIAO HANCHEN
+// Author : リョウ　カンシン
 //
 //*****************************************************************************
 #include "SkyBox.h"
@@ -150,7 +150,6 @@ HRESULT SkyBox::InitSkyBox(float length)
 	return S_OK;
 }
 
-
 //*****************************************************************************
 //
 // ワールド変換
@@ -175,24 +174,21 @@ void SkyBox::SetWorldMatrix()
 // スカイボックスを描画
 //
 //*****************************************************************************
-void SkyBox::Draw(Shader* shader, D3DXMATRIX* VPMatrix)
+void SkyBox::Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	//pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-	//pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-
 	// テクニックを設定
-	shader->shaderHandle = shader->effect->GetTechniqueByName("RenderWithTextrue");
-	shader->effect->SetTechnique(shader->shaderHandle);
+	shader->technique = shader->effect->GetTechniqueByName("defaultRender");
+	shader->effect->SetTechnique(shader->technique);
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
-	SetWorldMatrix();
-	shader->effect->SetMatrix(shader->WMatrixHandle, &this->worldMatrix);
-	shader->effect->SetMatrix(shader->VPMatrixHandle, VPMatrix);
+	shader->effect->SetValue("wMat", &this->worldMatrix, sizeof(D3DXMATRIX));
+	shader->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
+	shader->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
 
 	// テクスチャの設定
-	shader->effect->SetTexture(shader->textureHandle, this->tex);
+	shader->effect->SetValue("tex", &this->tex, sizeof(LPDIRECT3DTEXTURE9));
 
 	// 描画
 	UINT passNum = 0;
@@ -210,6 +206,4 @@ void SkyBox::Draw(Shader* shader, D3DXMATRIX* VPMatrix)
 		shader->effect->EndPass();
 	}
 	shader->effect->End();
-
-
 }

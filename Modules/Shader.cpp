@@ -33,7 +33,7 @@ Shader::~Shader()
 // 頂点シェーダーファイルを読み込む
 //
 //*****************************************************************************
-HRESULT Shader::LoadEffectFile(std::string shaderName)
+HRESULT Shader::LoadEffectFile(std::string effectFileName)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -46,7 +46,7 @@ HRESULT Shader::LoadEffectFile(std::string shaderName)
 
 	ID3DXBuffer* errorBuffer = NULL;		// エラーバッファ
 	D3DXCreateEffectFromFile(pDevice,
-						shaderName.c_str(),	// エフェクトファイルの名前
+						effectFileName.c_str(),	// エフェクトファイルの名前
 						0,
 						0,
 						D3DXSHADER_DEBUG,
@@ -57,13 +57,13 @@ HRESULT Shader::LoadEffectFile(std::string shaderName)
 
 	if (errorBuffer)	// エラーをチェック
 	{
-		std::cout << "[Error] Shader/BasicShader.fx が読み込めない" << std::endl;	// エラーメッセージ
+		std::cout << "[Error] " << effectFileName << std::endl;	// エラーメッセージ
 		std::cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << std::endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
-	std::cout << "[Information] Loading Shader<BasicShader> Success!" << std::endl;
+	std::cout << "[Information] Loading " << effectFileName << " Success!" << std::endl;
 
 	return S_OK;
 }

@@ -224,6 +224,4 @@ void Plane::Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 		shader->effect->EndPass();
 	}
 	shader->effect->End();
-
-
 }

@@ -14,7 +14,6 @@
 #include "DebugMessage.h"
 #include "Modules\Model.h"
 #include "Modules\Sound.h"
-#include "Shader\CelShader.h"
 
 //*****************************************************************************
 //

@@ -74,7 +74,7 @@ typedef struct VERTEX_3D_NT
 	D3DCOLOR diffuse;			// ”½ŽËŒõ
 }VERTEX_3D_NT;
 
-#define RELEASE_POINT(ptr)				{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
+#define RELEASE_POINT(ptr)					{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
 #define RELEASE_CLASS_POINT(ptr)			{ if(ptr) { delete ptr; } }
 #define RELEASE_CLASS_ARRY_POINT(ptr)		{ if(ptr) { delete [] ptr;} }
 

@@ -8,6 +8,7 @@
 #ifndef _PLANE_H_
 #define _PLANE_H_
 
+#include "Shader.h"
 #include "../Engine.h"
 
 struct PLANEVERTEX

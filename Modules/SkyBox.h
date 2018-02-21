@@ -2,7 +2,7 @@
 //
 // スカイボックス処理 [SkyBox.h]
 //
-// Author : LIAO HANCHEN
+// Author : リョウ　カンシン
 //
 //*****************************************************************************
 #ifndef _SKY_BOX_H_
@@ -39,8 +39,8 @@ public:
 	~SkyBox();
 
 	HRESULT InitSkyBox(float length);		// スカイボックスを初期化
-	void SetWorldMatrix();					// 臨時ーーワールド変換
-	void Draw(Shader* shader, D3DXMATRIX* VPMatrix);							// スカイボックスを描画
+	void SetWorldMatrix();					// ワールド変換
+	void Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// スカイボックスを描画
 };
 
 #endif // !_SKY_BOX_H_
