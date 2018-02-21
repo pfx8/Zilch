@@ -139,10 +139,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\CelShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\test.fx">
+    <FxCompile Include="Shader\defaultRender.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

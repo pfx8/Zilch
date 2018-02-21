@@ -10,7 +10,7 @@
 
 #include "Material.h"
 #include "..\Engine.h"
-#include "..\Shader\CelShader.h"
+#include "Shader.h"
 
 
 //*****************************************************************************
@@ -21,7 +21,7 @@
 class Model
 {
 private:
-	D3DXMATRIX		worldMatrix;	// ワールド変換マトリックス
+	D3DXMATRIX		wMatrix;	// ワールド変換マトリックス
 
 	void SetWorldMatrix();						// ワールド変換
 	void RotationVecUp(float angle);			// 上方向のベクトルにして回転
@@ -43,7 +43,7 @@ public:
 	~Model();
 
 	void Update();	// 更新
-	void Draw(CelShader* celShader, D3DXMATRIX* VPMatrix);	// モデルを描画する
+	void Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// モデルを描画する
 };
 
 #endif // !_MODEL_H_

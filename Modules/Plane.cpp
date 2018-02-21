@@ -160,6 +160,17 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 
 //*****************************************************************************
 //
+// 更新
+//
+//*****************************************************************************
+void Plane::Update()
+{
+	// 行列更新
+	SetWorldMatrix();
+}
+
+//*****************************************************************************
+//
 // ワールド変換
 //
 //*****************************************************************************
@@ -181,24 +192,38 @@ void Plane::SetWorldMatrix()
 // テクスチャを描画する
 //
 //*****************************************************************************
-void Plane::Draw()
+void Plane::Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	SetWorldMatrix();
+	// テクニックを設定
+	shader->technique = shader->effect->GetTechniqueByName("defaultRender");
+	shader->effect->SetTechnique(shader->technique);
 
-	pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
-	pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
-	pDevice->SetIndices(this->indexBuffer);										// 頂点インデックスバッファを設定
-	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ポリゴンの描画
-}
+	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
+	shader->effect->SetValue("wMat", &this->worldMatrix, sizeof(D3DXMATRIX));
+	shader->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
+	shader->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
 
-//*****************************************************************************
-//
-// 更新
-//
-//*****************************************************************************
-void Plane::Update()
-{
-	
+	// テクスチャの設定
+	shader->effect->SetValue("tex", &this->tex, sizeof(LPDIRECT3DTEXTURE9));
+
+	// 描画
+	UINT passNum = 0;
+	shader->effect->Begin(&passNum, 0);
+	// 各パスを実行する
+	for (int count = 0; count < passNum; count++)
+	{
+		shader->effect->BeginPass(count);
+		
+		pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
+		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
+		pDevice->SetIndices(this->indexBuffer);										// 頂点インデックスバッファを設定
+		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ポリゴンの描画
+
+		shader->effect->EndPass();
+	}
+	shader->effect->End();
+
+
 }

@@ -39,8 +39,8 @@ Camera::Camera()
 
 	this->whereIsCamera = WIC_freedom;
 
-	D3DXMatrixIdentity(&viewMatrix);
-	D3DXMatrixIdentity(&projectionMatrix);
+	D3DXMatrixIdentity(&vMatrix);
+	D3DXMatrixIdentity(&pMatrix);
 
 	this->message = new DebugMessage();
 }
@@ -133,10 +133,10 @@ void Camera::Update(Character* player)
 	D3DXVec3Normalize(&this->upVector, &this->upVector);
 
 	// ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&this->viewMatrix, &this->posEye, &this->posAt, &this->upVector);
+	D3DXMatrixLookAtLH(&this->vMatrix, &this->posEye, &this->posAt, &this->upVector);
 
 	// プロジェクションマトリックスの作成
-	D3DXMatrixPerspectiveFovLH(&this->projectionMatrix,
+	D3DXMatrixPerspectiveFovLH(&this->pMatrix,
 								this->field,   		// ビュー平面の視野角
 								this->ratio,		// ビュー平面のアスペクト比
 								this->rangeStart,	// ヒュー平面のNearZ値

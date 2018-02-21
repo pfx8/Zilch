@@ -102,19 +102,19 @@ void Model::SetWorldMatrix()
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
 
 	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&this->worldMatrix);
+	D3DXMatrixIdentity(&this->wMatrix);
 
 	// スケールを反映
 	D3DXMatrixScaling(&mtxScl, this->scl.x, this->scl.y, this->scl.z);
-	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxScl);
+	D3DXMatrixMultiply(&this->wMatrix, &this->wMatrix, &mtxScl);
 
 	// 回転を反映
 	D3DXMatrixRotationYawPitchRoll(&mtxRot, this->rot.y, this->rot.x, this->rot.z);
-	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxRot);
+	D3DXMatrixMultiply(&this->wMatrix, &this->wMatrix, &mtxRot);
 
 	// 移動を反映
 	D3DXMatrixTranslation(&mtxTranslate, this->pos.x, this->pos.y, this->pos.z);
-	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxTranslate);
+	D3DXMatrixMultiply(&this->wMatrix, &this->wMatrix, &mtxTranslate);
 }
 
 //*****************************************************************************
@@ -132,23 +132,25 @@ void Model::Update()
 // モデルを描画する(CelShader)
 //
 //*****************************************************************************
-void Model::Draw(CelShader* celShader, D3DXMATRIX* VPMatrix)
+void Model::Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	// テクニックを設定
-	celShader->effect->SetTechnique(celShader->celShaderHandle);
+	shader->technique = shader->effect->GetTechniqueByName("defaultRender");
+	shader->effect->SetTechnique(shader->technique);
 
 	// 変更行列を渡す
-	celShader->effect->SetMatrix(celShader->WMatrixHandle, &this->worldMatrix);
-	celShader->effect->SetMatrix(celShader->VPMatrixHandle, VPMatrix);
+	shader->effect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));
+	shader->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
+	shader->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
 
 	// テクスチャを渡す
-	celShader->effect->SetTexture("tex", this->meshTexturePoint);
+	shader->effect->SetTexture("tex", this->meshTexturePoint);
 
 	UINT passNum = 0;
-	celShader->effect->Begin(&passNum, 0);
+	shader->effect->Begin(&passNum, 0);
 	for (int count = 0; count < passNum; count++)
 	{
-		celShader->effect->BeginPass(count);
+		shader->effect->BeginPass(count);
 
 		LPDIRECT3DDEVICE9 pDevice = GetDevice();
 		DWORD materialNum = this->material->materialNum;				// マテリアル数を取得
@@ -174,7 +176,7 @@ void Model::Draw(CelShader* celShader, D3DXMATRIX* VPMatrix)
 			if (attributes[count].FaceCount)
 			{
 				//DWORD matNum = attributes[count].AttribId;			// マテリアル数を取得
-				//celShader->this->effectPoint->SetTexture(celShader->this->texture1Handle, this->meshTexturePoint[matNum]);	// テクスチャを設定
+				//shader->this->effectPoint->SetTexture(shader->this->texture1Handle, this->meshTexturePoint[matNum]);	// テクスチャを設定
 				//pDevice->SetTexture(0, this->meshTexturePoint[matNum]);	// テクスチャを設定
 
 				// モデルを描画する
@@ -193,7 +195,7 @@ void Model::Draw(CelShader* celShader, D3DXMATRIX* VPMatrix)
 
 		delete[] attributes;
 
-		celShader->effect->EndPass();
+		shader->effect->EndPass();
 	}
-	celShader->effect->End();
+	shader->effect->End();
 }

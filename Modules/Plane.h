@@ -46,7 +46,7 @@ public:
 	~Plane();
 
 	virtual HRESULT InitPlane(D3DXVECTOR3 pos, D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum);	// 座標を設定
-	virtual void Draw();				// テクスチャを描画する(PixelShader)
+	virtual void Draw(Shader* shader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);				// テクスチャを描画する(PixelShader)
 
 	void Update();
 };

@@ -61,11 +61,11 @@ public:
 	D3DXVECTOR3		lookVector;		// カメラの注視方向ベクトル
 	D3DXVECTOR3		rightVector;	// カメラの右方向ベクトル
 
-	D3DXVECTOR3		posEye;	// カメラの位置
-	D3DXVECTOR3		posAt;	// カメラの注視点
+	D3DXVECTOR3		posEye;			// カメラの位置
+	D3DXVECTOR3		posAt;			// カメラの注視点
 
-	D3DXMATRIX		viewMatrix;			// ビューイング変換行列
-	D3DXMATRIX		projectionMatrix;	// プロジェクション変換行列
+	D3DXMATRIX		vMatrix;		// ビューイング変換行列
+	D3DXMATRIX		pMatrix;		// プロジェクション変換行列
 
 	WhereIsCamera	whereIsCamera;
 
