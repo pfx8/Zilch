@@ -26,7 +26,7 @@ struct CelVertexOUT
 };
 
 // 行列
-matrix WMatrix;         // ワールド変換行列
+matrix Wmat;         // ワールド変換行列
 matrix VPMatrix;        // ビューイング変換とプロジェクション変換行列
 matrix lightMatrix;     // 回転マトリックス
 
