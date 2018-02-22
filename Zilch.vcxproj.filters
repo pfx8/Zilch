@@ -16,7 +16,10 @@
     <Filter Include="Modules">
       <UniqueIdentifier>{febfe44d-5152-4b42-b144-cd7d6c655d93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shader">
+    <Filter Include="data">
+      <UniqueIdentifier>{1801e3d8-39db-4c1e-b112-ce30496520a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\shader">
       <UniqueIdentifier>{3884213c-f8db-4045-9fbc-3cf67229fbb0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -140,7 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\SHADER\render2D_phong.fx">
-      <Filter>shader</Filter>
+      <Filter>data\shader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

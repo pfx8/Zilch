@@ -15,13 +15,13 @@
 ResourcesManager::ResourcesManager()
 {
 	// テクスチャ検索マッピングを作る
-	this->textureList["skybox"] = "data/TEXTURE/skybox.jpg";
-	this->textureList["field"] = "data/TEXTURE/field.jpg";
-	this->textureList["fieldNor"] = "data/TEXTURE/field-nor.jpg";
+	this->textureList["skybox"] = "Data/Texture/skybox.jpg";
+	this->textureList["field"] = "Data/Texture/field.jpg";
+	this->textureList["fieldNor"] = "Data/Texture/field-nor.jpg";
 	this->textureList["NULL"] = "NULL";
 
 	// メッシュ検索マッピングを作る
-	this->meshList["woman"] = "data/MODEL/woman.x";
+	this->meshList["woman"] = "Data/Model/woman.x";
 }
 
 //*****************************************************************************

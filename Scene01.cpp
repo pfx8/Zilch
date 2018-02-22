@@ -48,8 +48,8 @@ void Scene01::Initialization()
 	std::cout << "[Information] Scene01<Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << std::endl;
 
 	// Shader
-	this->shader2D->LoadEffectFile("data/Shader/render2D_phong.fx");
-	//this->shader3D->LoadEffectFile("data/Shader/default3DRender.fx");
+	this->shader2D->LoadEffectFile("Data/Shader/render2D_phong.fx");
+	//this->shader3D->LoadEffectFile("Data/Shader/default3DRender.fx");
 
 	// ライト、光方向はデフォルトで
 	//this->shader->effect->SetValue("lightDir", &this->directionLight->light.Direction, sizeof(D3DXVECTOR3));
