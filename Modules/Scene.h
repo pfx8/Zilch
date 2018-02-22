@@ -41,7 +41,7 @@ public:
 	virtual void SetRenderState() {};	// レンダリング状態を設定
 
 	// ワールド変換
-	void SetWorldMatrix(D3DXMATRIX* worldMatrix, D3DXVECTOR3 pos=D3DXVECTOR3(0.0f, 0.0f, 0.0f), 
+	void SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos=D3DXVECTOR3(0.0f, 0.0f, 0.0f), 
 		D3DXVECTOR3 rot=D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3 scl=D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	// ファイル(blender)からシンーの資源を読み込み

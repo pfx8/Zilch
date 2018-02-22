@@ -41,7 +41,7 @@ HRESULT Shader::LoadEffectFile(std::string effectFileName)
 	pDevice->GetDeviceCaps(&caps);
 	if (caps.PixelShaderVersion < D3DPS_VERSION(1, 1))	// ピクセル機能チェック
 	{
-		std::cout << "[Error]Not Support PixelShader Failed!" << std::endl;
+		std::cout << "[Error]Not Support PixelShader!" << std::endl;
 	}
 
 	ID3DXBuffer* errorBuffer = NULL;		// エラーバッファ
@@ -56,13 +56,13 @@ HRESULT Shader::LoadEffectFile(std::string effectFileName)
 
 	if (errorBuffer)	// エラーをチェック
 	{
-		std::cout << "[Error] " << effectFileName << std::endl;	// エラーメッセージ
+		std::cout << "[Error] Loading" << effectFileName  << " ... Failed!" << std::endl;	// エラーメッセージ
 		std::cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << std::endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
-	std::cout << "[Information] Loading " << effectFileName << " Success!" << std::endl;
+	std::cout << "[Information] Loading " << effectFileName << " ... Success!" << std::endl;
 
 	return S_OK;
 }

@@ -48,7 +48,7 @@ void Scene01::Initialization()
 	std::cout << "[Information] Scene01<Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << std::endl;
 
 	// Shader
-	this->shader2D->LoadEffectFile("data/Shader/default2DRender.fx");
+	this->shader2D->LoadEffectFile("data/Shader/render2D_phong.fx");
 	//this->shader3D->LoadEffectFile("data/Shader/default3DRender.fx");
 
 	// ライト、光方向はデフォルトで
@@ -133,7 +133,7 @@ void Scene01::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	this->field->Draw(this->shader2D, &this->camera->vMatrix, &this->camera->pMatrix);
+	this->field->Draw(this->shader2D, this->camera);
 	//this->skyBox->Draw(this->shader, &VPmatrix);
 	//this->woman->model->Draw(this->shader3D, &this->camera->vMatrix, &this->camera->pMatrix);
 		

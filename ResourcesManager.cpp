@@ -53,12 +53,12 @@ HRESULT ResourcesManager::LoadTexture(std::string name, LPDIRECT3DTEXTURE9* text
 				GetTextureStruct(name).c_str(),
 				texturePoint)))
 			{
-				std::cout << "[Error] Loading Texture<" << name << "> Failed!" << std::endl;	// コンソールにメッセージを出す
+				std::cout << "[Error] Loading Texture<" << name << "> ... Failed!" << std::endl;	// コンソールにメッセージを出す
 				return E_FAIL;
 			}
 			else
 			{
-				std::cout << "[Information] Loading Texture<" << name << "> Success!" << std::endl;	// コンソールにメッセージを出す
+				std::cout << "[Information] Loading Texture<" << name << "> ... Success!" << std::endl;	// コンソールにメッセージを出す
 				return S_OK;
 			}
 		}
@@ -105,12 +105,12 @@ HRESULT ResourcesManager::LoadMesh(std::string name, Model* model)
 			&model->material->materialNum,		// マテリアル構造体の数
 			&model->meshPoint)))				// メッシュへのポインタ
 		{
-			std::cout << "[Error] Loading Model<" << name << "> Failed!" << std::endl;
+			std::cout << "[Error] Loading Model<" << name << "> ... Failed!" << std::endl;
 			return E_FAIL;
 		}
 		else
 		{
-			std::cout << "[Information] Loading Model<" << name << "> Success!" << std::endl;
+			std::cout << "[Information] Loading Model<" << name << "> ... Success!" << std::endl;
 		}
 	}
 

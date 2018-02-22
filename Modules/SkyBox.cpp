@@ -162,11 +162,11 @@ void SkyBox::SetWorldMatrix()
 	D3DXMATRIX mtxTranslate;
 
 	// ワールドマトリックスを初期化する
-	D3DXMatrixIdentity(&this->worldMatrix);
+	D3DXMatrixIdentity(&this->wMatrix);
 
 	// 平行移動を反映
 	D3DXMatrixTranslation(&mtxTranslate, this->pos.x, this->pos.y, this->pos.z);
-	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxTranslate);
+	D3DXMatrixMultiply(&this->wMatrix, &this->wMatrix, &mtxTranslate);
 }
 
 //*****************************************************************************
@@ -183,7 +183,7 @@ void SkyBox::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 	shader2D->effect->SetTechnique(shader2D->technique);
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
-	shader2D->effect->SetValue("wMat", &this->worldMatrix, sizeof(D3DXMATRIX));
+	shader2D->effect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));
 	shader2D->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
 	shader2D->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
 

@@ -189,7 +189,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				SetWindowText(hWnd, str);
 
 				dwExecLastTime = dwCurrentTime;	//処理した時刻を保存
-				Updata(hWnd, nCmdShow);						// 更新処理
+				Updata(hWnd, nCmdShow);		// 更新処理
 				Draw(hWnd);					// 描画処理
 				dwFrameCount++;				//処理回数のカウントを加算
 				if (dwFrameCount == 60)		// 60フレームを確定

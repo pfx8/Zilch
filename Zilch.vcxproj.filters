@@ -16,11 +16,8 @@
     <Filter Include="Modules">
       <UniqueIdentifier>{febfe44d-5152-4b42-b144-cd7d6c655d93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data">
-      <UniqueIdentifier>{5fb3ae6d-69ea-435e-8b52-e9e8ba9d947a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data\SHADER">
-      <UniqueIdentifier>{417154be-e32a-4680-99e0-2b63c008bf18}</UniqueIdentifier>
+    <Filter Include="shader">
+      <UniqueIdentifier>{3884213c-f8db-4045-9fbc-3cf67229fbb0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -142,11 +139,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\SHADER\default2DRender.fx">
-      <Filter>data\SHADER</Filter>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\default3DRender.fx">
-      <Filter>data\SHADER</Filter>
+    <FxCompile Include="data\SHADER\render2D_phong.fx">
+      <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

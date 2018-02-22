@@ -43,7 +43,7 @@ Scene::~Scene()
 // ワールド変換
 //
 //*****************************************************************************
-void Scene::SetWorldMatrix(D3DXMATRIX* worldMatrix, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scl)
+void Scene::SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scl)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -51,18 +51,18 @@ void Scene::SetWorldMatrix(D3DXMATRIX* worldMatrix, D3DXVECTOR3 pos, D3DXVECTOR3
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
 
 	// ワールドマトリックスを初期化する
-	D3DXMatrixIdentity(worldMatrix);
+	D3DXMatrixIdentity(wMatrix);
 
 	// スケールを反映
 	D3DXMatrixScaling(&mtxScl, scl.x, scl.y, scl.z);
-	D3DXMatrixMultiply(worldMatrix, worldMatrix, &mtxScl);
+	D3DXMatrixMultiply(wMatrix, wMatrix, &mtxScl);
 
 	// 回転を反映
 	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
-	D3DXMatrixMultiply(worldMatrix, worldMatrix, &mtxRot);
+	D3DXMatrixMultiply(wMatrix, wMatrix, &mtxRot);
 
 	// 平行移動を反映
 	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
-	D3DXMatrixMultiply(worldMatrix, worldMatrix, &mtxTranslate);
+	D3DXMatrixMultiply(wMatrix, wMatrix, &mtxTranslate);
 }
 

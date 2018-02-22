@@ -9,11 +9,13 @@
 #define _PLANE_H_
 
 #include "Shader.h"
+#include "Camera.h"
 #include "../Engine.h"
 
 struct PLANEVERTEX
 {
 	D3DXVECTOR3 position;		// 頂点座標
+	D3DXVECTOR3 normal;			// 法線
 	D3DXVECTOR2 texture;		// テクスチャ座標
 };
 
@@ -29,7 +31,7 @@ private:
 	virtual HRESULT MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum);	// 頂点宣言
 
 public:
-	D3DXMATRIX		worldMatrix;	// ワールド変換マトリックス
+	D3DXMATRIX		wMatrix;		// ワールド変換マトリックス
 	D3DXVECTOR3		pos;			// 位置
 	D3DXVECTOR2		planeSize;
 	D3DXVECTOR2		planeNum;
@@ -47,7 +49,7 @@ public:
 	~Plane();
 
 	virtual HRESULT InitPlane(D3DXVECTOR3 pos, D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum);	// 座標を設定
-	virtual void Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);				// テクスチャを描画する(PixelShader)
+	virtual void Draw(Shader* shader2D, Camera* camera);				// テクスチャを描画する(PixelShader)
 
 	void Update();
 };

@@ -118,11 +118,11 @@ HRESULT DX_MESH::MakeBuffer()
 //*****************************************************************************
 void DX_MESH::DrawDXMesh()
 {
-	D3DXMATRIX worldMatrix;
+	D3DXMATRIX wMatrix;
 	// ワールドマトリックスを初期化する
-	D3DXMatrixIdentity(&worldMatrix);
+	D3DXMatrixIdentity(&wMatrix);
 	// ワールドマトリクスの初期化
-	m_D3DDevice->SetTransform(D3DTS_WORLD, &worldMatrix);
+	m_D3DDevice->SetTransform(D3DTS_WORLD, &wMatrix);
 
 	// 頂点バッファをストリームに入れる
 	m_D3DDevice->SetStreamSource(0, m_vertexBuffer, 0, sizeof(DX_VERTEX_3D));

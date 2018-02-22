@@ -32,7 +32,7 @@ private:
 	float							length;		// ボックスの長さ
 
 public:
-	D3DXMATRIX						worldMatrix;	// ワールド変換マトリックス
+	D3DXMATRIX						wMatrix;	// ワールド変換マトリックス
 	LPDIRECT3DTEXTURE9				tex;		// テクスチャ配列
 	
 	SkyBox();
