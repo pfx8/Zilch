@@ -135,8 +135,7 @@ void Model::Update()
 void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	// テクニックを設定
-	shader2D->technique = shader2D->effect->GetTechniqueByName("defaultRender");
-	shader2D->effect->SetTechnique(shader2D->technique);
+	shader2D->effect->SetTechnique("defaultRender");
 
 	// 変更行列を渡す
 	shader2D->effect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));

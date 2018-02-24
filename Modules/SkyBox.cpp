@@ -179,8 +179,7 @@ void SkyBox::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// テクニックを設定
-	shader2D->technique = shader2D->effect->GetTechniqueByName("defaultRender");
-	shader2D->effect->SetTechnique(shader2D->technique);
+	shader2D->effect->SetTechnique("render_no_light");
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
 	shader2D->effect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));
