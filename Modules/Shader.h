@@ -16,7 +16,6 @@ private:
 
 public:
 	ID3DXEffect*	effect;		// エフェクト
-	D3DXHANDLE		technique;	// テクニック
 
 	Shader();
 	~Shader();

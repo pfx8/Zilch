@@ -60,11 +60,6 @@
     <ClCompile Include="Scene01.cpp" />
     <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="data\SHADER\render2D_phong.fx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </FxCompile>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2AB0424F-91D9-4340-9DA8-563735476DFD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
