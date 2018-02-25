@@ -52,31 +52,21 @@
 #define SCREEN_WIDTH		(960)				// ウインドウの幅
 #define SCREEN_HEIGHT		(540)				// ウインドウの高さ
 
-//#define	FVF_DX_VERTEX_3D		(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1)
+#define RELEASE_POINT(ptr)					{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
+#define RELEASE_CLASS_POINT(ptr)			{ if(ptr) { delete ptr; } }
+#define RELEASE_CLASS_ARRY_POINT(ptr)		{ if(ptr) { delete [] ptr;} }
+
 #define	FVF_DX_VERTEX_3D		(D3DFVF_XYZ | D3DFVF_DIFFUSE)
 // 頂点フォーマット
 typedef struct DX_VERTEX_3D
 {
 	// 頂点楮体変数の順番は頂点フォーマットのと同じ
 	D3DXVECTOR4 position;			// 頂点座標
-	//D3DXVECTOR4 normal;			// 法線ベクトル
-	//D3DXVECTOR4 diffuse;			// ディフューズ
+									//D3DXVECTOR4 normal;			// 法線ベクトル
+									//D3DXVECTOR4 diffuse;			// ディフューズ
 	D3DCOLOR diffuse;			// 反射光
-	//D3DXVECTOR2 UVposition;		// テクスチャ座標
+								//D3DXVECTOR2 UVposition;		// テクスチャ座標
 }DX_VERTEX_3D;
-
-#define	FVF_VERTEX_3D_NT		(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE)
-typedef struct VERTEX_3D_NT
-{
-	// 頂点楮体変数の順番は頂点フォーマットのと同じ
-	D3DXVECTOR3 position;			// 頂点座標
-	D3DXVECTOR3 normalVector;		// 法線ベクトル
-	D3DCOLOR diffuse;			// 反射光
-}VERTEX_3D_NT;
-
-#define RELEASE_POINT(ptr)					{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
-#define RELEASE_CLASS_POINT(ptr)			{ if(ptr) { delete ptr; } }
-#define RELEASE_CLASS_ARRY_POINT(ptr)		{ if(ptr) { delete [] ptr;} }
 
 //*****************************************************************************
 //
@@ -96,12 +86,12 @@ typedef struct TextureStruct
 // 列挙体定義
 //
 //*****************************************************************************
-typedef enum LightType
+enum RenderStatus
 {
-	LT_PointLight,
-	LT_DirectionalLight,
-	LT_SpotLight,
-}LightType;
+	RS_withoutLight,
+	RS_withLight,
+	RS_withNormalMap,
+};
 
 //*****************************************************************************
 //

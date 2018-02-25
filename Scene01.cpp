@@ -19,7 +19,7 @@ Scene01::Scene01()
 	//this->shader3D = new Shader;
 
 	// ライト、光方向はデフォルトで
-	this->directionLight = new Light;
+	this->light = new Light;
 
 	//// スカイボックス
 	//this->skyBox = new SkyBox;
@@ -51,10 +51,9 @@ void Scene01::Initialization()
 	this->shader2D->LoadEffectFile("Data/Shader/render2D_phong.fx");
 	//this->shader3D->LoadEffectFile("Data/Shader/default3DRender.fx");
 
-	// ライト、光方向はデフォルトで
-	//this->shader->effect->SetValue("lightDir", &this->directionLight->light.Direction, sizeof(D3DXVECTOR3));
-	//this->shader->effect->SetValue("lightDiffuse", &this->directionLight->light.Diffuse, sizeof(D3DXCOLOR));
-	//this->shader->effect->SetValue("lightSpecular", &this->directionLight->light.Specular, sizeof(D3DXCOLOR));
+	// シェーダーにライトを設定
+	this->shader2D->effect->SetValue("lightPos", &this->light->pos, sizeof(D3DXVECTOR3));
+	this->shader2D->effect->SetFloat("lightAttenuation", this->light->attenuation);
 
 	//// スカイボックス
 	//this->skyBox->InitSkyBox(2500.0f);
@@ -85,7 +84,7 @@ Scene01::~Scene01()
 	// クラスポインタ
 	RELEASE_CLASS_POINT(this->woman);				// プレーヤー
 	RELEASE_CLASS_POINT(this->camera);				// カメラ
-	RELEASE_CLASS_POINT(this->directionLight);		// ライト
+	RELEASE_CLASS_POINT(this->light);		// ライト
 	RELEASE_CLASS_POINT(this->shader2D);			// 2Dシェーダー
 	//RELEASE_CLASS_POINT(this->shader3D);			// 3Dシェーダー
 	RELEASE_CLASS_POINT(this->field);				// フィールド

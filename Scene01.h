@@ -30,7 +30,7 @@ private:
 	Shader*				shader2D;			// シェーダー
 	//Shader*				shader3D;			// シェーダー
 	Camera*				camera;				// カメラ
-	Light*				directionLight;		// ライト
+	Light*				light;				// ライト
 	Plane*				field;				// フィールド
 	//SkyBox*				skyBox;				// スカイボックス
 

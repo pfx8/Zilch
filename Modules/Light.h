@@ -21,8 +21,12 @@ class Light
 private:
 
 public:
-	D3DLIGHT9			light;  // ここでは平行光源
-	D3DXVECTOR3			pos;
+	float				attenuation;	// ライトの減衰値
+	D3DXVECTOR3			pos;			// ライトの位置
+	D3DXVECTOR4			ambient;		// 環境値
+	D3DXVECTOR4			diffuse;		// 拡散反射値
+	D3DXVECTOR4			specular;		// 鏡面反射値
+	
 
 	Light();	
 	~Light();

@@ -165,6 +165,15 @@ void Plane::Update()
 {
 	// 行列更新
 	SetWorldMatrix();
+
+	if (GetKeyboardTrigger(DIK_F1))
+	{
+		renderStatus = RS_withoutLight;
+	}
+	if (GetKeyboardTrigger(DIK_F2))
+	{
+		renderStatus = RS_withLight;
+	}
 }
 
 //*****************************************************************************
@@ -195,7 +204,20 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// テクニックを設定
-	shader2D->effect->SetTechnique("render_no_light");
+	switch (renderStatus)
+	{
+	case RS_withoutLight:
+		shader2D->effect->SetTechnique("render_without_light");
+		break;
+	case RS_withLight:
+		shader2D->effect->SetTechnique("render_with_light");
+
+		// カメラ位置の設定
+		shader2D->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
+		break;
+	case RS_withNormalMap:
+		break;
+	}
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
 	shader2D->effect->SetMatrix("wMat", &this->wMatrix);

@@ -20,10 +20,10 @@ private:
 
 public:
 	int							m_polygonNum;	// ポリゴン数
-	int							m_vertexNum;		// 頂点数
+	int							m_vertexNum;	// 頂点数
 	DX_VERTEX_3D*				m_vertex;		// 頂点配列
-	int							m_IndexNum;	// 頂点インデックス数
-	int*							m_Index;	// 頂点インデック配列,[0,1,2][0,2,3]...
+	int							m_IndexNum;		// 頂点インデックス数
+	int*						m_Index;		// 頂点インデック配列,[0,1,2][0,2,3]...
 
 	DX_MESH();
 	~DX_MESH();

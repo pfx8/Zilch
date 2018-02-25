@@ -27,6 +27,8 @@ struct PLANEVERTEX
 class Plane
 {
 private:
+	RenderStatus	renderStatus = RS_withoutLight;	// レンダリング状態
+
 	void SetWorldMatrix();	// ワールド変換
 	virtual HRESULT MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum);	// 頂点宣言
 

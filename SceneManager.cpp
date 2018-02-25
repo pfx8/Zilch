@@ -70,16 +70,6 @@ void SceneManager::ChangeRenderState()
 		// 面を塗りつぶす
 		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
-	if (GetKeyboardPress(DIK_3))			// key 3
-	{
-		// バウンディングボックスを表示
-
-	}
-	if (GetKeyboardPress(DIK_4))			// key 4
-	{
-		// バウンディングボックスを消す
-
-	}
 }
 
 //*****************************************************************************
@@ -92,7 +82,7 @@ void SceneManager::Draw()
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// バックバッファ＆Ｚバッファのクリア
-	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(122, 122, 122, 255), 1.0f, 0);
+	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(GetDevice()->BeginScene()))
