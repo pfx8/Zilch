@@ -27,7 +27,7 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager()
 {
 	// クラスポインタ
-	RELEASE_CLASS_POINT(m_scene);
+	RELEASE_CLASS_POINT(scene);
 }
 
 //*****************************************************************************
@@ -37,8 +37,8 @@ SceneManager::~SceneManager()
 //*****************************************************************************
 void SceneManager::ChooseScene()
 {
-	m_scene = new Scene01; // 初期化する
-	m_scene->SetRenderState();	// レンダリング状態を設定
+	scene = new Scene01; // 初期化する
+	scene->SetRenderState();	// レンダリング状態を設定
 }
 
 //*****************************************************************************
@@ -48,7 +48,7 @@ void SceneManager::ChooseScene()
 //*****************************************************************************
 void SceneManager::Update()
 {
-	m_scene->Update();		// シンー01更新
+	scene->Update();		// シンー01更新
 	ChangeRenderState();	// レンダリング状態更新
 }
 
@@ -87,7 +87,7 @@ void SceneManager::Draw()
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(GetDevice()->BeginScene()))
 	{
-		m_scene->Draw();	// シンー01描画
+		scene->Draw();	// シンー01描画
 
 		GetDevice()->EndScene();
 	}

@@ -14,7 +14,7 @@
 //*****************************************************************************
 Light::Light()
 {
-	this->attenuation = 0.01;
+	this->attenuation = 0.1f;
 	this->pos = D3DXVECTOR3(0.0f, 25.0f, 0.0f);
 	this->ambient = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	this->diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);

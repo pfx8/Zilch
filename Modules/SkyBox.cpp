@@ -60,7 +60,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 		// オブジェクトの頂点バッファを生成
 		if (FAILED(pDevice->CreateVertexBuffer(16 * sizeof(SKYBOXVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &this->vertexBuffer, NULL)))
 		{
-			std::cout << "[Error] 頂点バッファが生成できない!" << std::endl;	// エラーメッセージ
+			std::cout << "[Error] Make [Skybox] vertex buffer ... Fail!" << std::endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
@@ -105,7 +105,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 		// 頂点データの範囲をロックして頂点バッファメモリへのポインタを取得する
 		if (FAILED(this->vertexBuffer->Lock(0, 0, (void**)&vertexBuffer, 0)))
 		{
-			std::cout << "[Error] 頂点バッファがロックできない!" << std::endl;	// エラーメッセージ
+			std::cout << "[Error] [Skybox] vertex buffer can't lock ... Fail!" << std::endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 		memcpy(vertexBuffer, vertex, sizeof(vertex));	// 作成された頂点を臨時ポインタの中に入れる
@@ -116,7 +116,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 		//オブジェクトの頂点インデックスバッファを生成
 		if (FAILED(pDevice->CreateIndexBuffer(24 * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
 		{
-			std::cout << "[Error] 頂点インデクスが生成できない!" << std::endl;	// エラーメッセージ
+			std::cout << "[Error] Make [Skybox] vertex index buffer ... Fail!" << std::endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 

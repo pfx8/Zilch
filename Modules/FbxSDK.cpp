@@ -14,9 +14,9 @@
 //*****************************************************************************
 FbxSDK::FbxSDK()
 {
-	m_manager = NULL;
-	m_importer = NULL;
-	m_scene = NULL;
+	manager = NULL;
+	importer = NULL;
+	scene = NULL;
 }
 
 //*****************************************************************************
@@ -27,7 +27,7 @@ FbxSDK::FbxSDK()
 FbxSDK::~FbxSDK()
 {
 	// SDKマネジメントを終了処理
-	m_manager->fbxsdk::FbxManager::Destroy();
+	manager->fbxsdk::FbxManager::Destroy();
 }
 
 //*****************************************************************************
@@ -38,27 +38,39 @@ FbxSDK::~FbxSDK()
 HRESULT FbxSDK::InitFbxSDK()
 {
 	// SDKマネージャ生成
-	m_manager = fbxsdk::FbxManager::Create();
-	if (m_manager == NULL)
+	manager = fbxsdk::FbxManager::Create();
+	if (manager == NULL)
 	{
-		std::cout << "[Error]SDK Manager -- Failed!" << std::endl;
+		std::cout << "[Error] SDK Manager ... Fail!" << std::endl;
 		return E_FAIL;
 	}
 
 	// FBXインポートを生成
-	m_importer = fbxsdk::FbxImporter::Create(m_manager, "");
-	if (m_manager == NULL)
+	importer = fbxsdk::FbxImporter::Create(manager, "");
+	if (manager == NULL)
 	{
-		std::cout << "[Error]SDK Manager -- Failed!" << std::endl;
-		return E_FAIL;
-	}
-	const char* filePath = "data/MODEL/lowP.fbx";
-	if (!m_importer->Initialize(filePath)) 
-	{
-		std::cout << "[Error]Importer Initialize -- Failed!" << std::endl;
+		std::cout << "[Error] SDK Manager ... Fail!" << std::endl;
 		return E_FAIL;
 	}
 	
 	// シーンを生成
-	m_scene = fbxsdk::FbxScene::Create(m_manager, "");
+	scene = fbxsdk::FbxScene::Create(manager, "");
+
+	return S_OK;
+}
+
+//*****************************************************************************
+//
+// FBXモデルを読み込み
+//
+//*****************************************************************************
+HRESULT FbxSDK::LoadFbx(std::string fbxPath)
+{
+	if (!importer->Initialize(fbxPath.c_str()))
+	{
+		std::cout << "[Error] Importer Initialize ... Fail!" << std::endl;
+		return E_FAIL;
+	}
+
+	return S_OK;
 }

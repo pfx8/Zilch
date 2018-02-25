@@ -128,7 +128,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	g_Console = new Console();
 	if (g_Console->isConsoleRun == false)
 	{
-		std::cout << "[Error] コンソールが初期化失敗!" << std::endl;	// エラーメッセージ
+		std::cout << "[Error] Make console ... Fail!" << std::endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
@@ -258,14 +258,14 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	if (g_pD3D == NULL)
 	{
-		std::cout << "[Error] DirectXオブジェクトが生成できない!" << std::endl;	// エラーメッセージ
+		std::cout << "[Error] DirectX initialization ... Fail!" << std::endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
 	// 現在のディスプレイモードを取得
 	if (FAILED(g_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
-		std::cout << "[Error] ディスプレイモードを取得できない!" << std::endl;	// エラーメッセージ
+		std::cout << "[Error] Get displayer mode ... Fail!" << std::endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
@@ -313,7 +313,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	int vp = 0;
 	if (FAILED(g_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
-		std::cout << "[Error] DirectXオハードウェアの能力表が取得できない!" << std::endl;	// エラーメッセージ
+		std::cout << "[Error] Get directX device ... Fail!" << std::endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 	if (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
@@ -331,7 +331,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		&d3dpp,										// デバイスのプレゼンテーションパラメータ
 		&g_pD3DDevice)))							// デバイスインターフェースへのポインタ
 	{
-		std::cout << "[Error] DirectXデバイスが生成できない!" << std::endl;	// エラーメッセージ
+		std::cout << "[Error] DirectX device initialization ... Fail!" << std::endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 

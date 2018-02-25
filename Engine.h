@@ -61,11 +61,8 @@
 typedef struct DX_VERTEX_3D
 {
 	// 頂点楮体変数の順番は頂点フォーマットのと同じ
-	D3DXVECTOR4 position;			// 頂点座標
-									//D3DXVECTOR4 normal;			// 法線ベクトル
-									//D3DXVECTOR4 diffuse;			// ディフューズ
+	D3DXVECTOR4 position;		// 頂点座標
 	D3DCOLOR diffuse;			// 反射光
-								//D3DXVECTOR2 UVposition;		// テクスチャ座標
 }DX_VERTEX_3D;
 
 //*****************************************************************************

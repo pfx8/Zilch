@@ -21,7 +21,7 @@
 class SceneManager
 {
 private:
-	Scene*  m_scene;			// シーン
+	Scene*  scene;			// シーン
 
 	void ChangeRenderState();	// レンダリング状態更新
 	void ChooseScene();		// シーンを選択する

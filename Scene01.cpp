@@ -45,7 +45,7 @@ Scene01::Scene01()
 void Scene01::Initialization()
 {
 	// シーン01
-	std::cout << "[Information] Scene01<Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << std::endl;
+	std::cout << "[Information] Scene01 <Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << std::endl;
 
 	// Shader
 	this->shader2D->LoadEffectFile("Data/Shader/render2D_phong.fx");
