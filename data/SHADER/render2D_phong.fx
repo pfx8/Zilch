@@ -56,6 +56,7 @@ VSout vsMain(float3 pos : POSITION0,
     vout.worldPos = mul(float4(pos, 1.0), wMat);
     // 法線を世界まで変更、また正規化
     vout.nor = normalize(mul(float4(nor, 1.0), wMat));
+    //vout.nor = nor;
     // UV座標変更
     vout.coord = coord;
 
@@ -78,8 +79,8 @@ float4 psMain(VSout vout, uniform bool isLighting) : COLOR
     }
     else
     {
-        // ambient
-        color = texColor * 0.2f; // 本来のカラー
+        // ambient = lightColor * ambientStrength
+        float ambient = lightDiffuse * 0.6;
 
         // diffuse
         float3 L = lightPos - vout.worldPos;            // ライトから頂点までのベクトル
@@ -87,14 +88,15 @@ float4 psMain(VSout vout, uniform bool isLighting) : COLOR
         L /= d;                                         // ベクトルを正規化
         float attenuation = 1 / (lightAttenuation * d); // 光の減衰値
         float diffuse = saturate(dot(vout.nor, L));     // 計算した内積を0~1の範囲にクランプする
-        color += texColor * diffuse * attenuation;      // カラーを足す
 
         // specular
-        float3 V = normalize(vout.worldPos - cameraPos);                      // 頂点からカメラまでのベクトル
-        float3 R = reflect(L, vout.nor);                                      // 入射光、サーフェイス法線を使用して屈折ベクトルを返します。
-        float shininess = 64;                                                 // 大きくほどテカリが強いし、反射度が高いし、ハイライトが小さくなる
-        float specular = pow(saturate(dot(R, V)), shininess) * diffuse * attenuation; // 視点と表面屈折ベクトルを内積して、また反射値を計算する
-        color += float4(specular, specular, specular, 0);                     // カラーを足す
+        float3 V = normalize(vout.worldPos - cameraPos);      // 頂点からカメラまでのベクトル
+        float3 R = reflect(L, vout.nor);                      // 入射光の向きとサーフェイス法線を使用して反射ベクトルを返します。
+        int shininess = 8;                                    // 大きくほどテカリが強いし、反射度が高いし、ハイライトが小さくなる
+        float specular = pow(saturate(dot(R, V)), shininess); // 視点と表面屈折ベクトルを内積して、また反射値を計算する
+        
+        // 最終カラー
+        color = (ambient + diffuse + specular) * texColor * attenuation;
     }
 
     return color;

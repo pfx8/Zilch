@@ -8,10 +8,11 @@
 #ifndef _RESOURCES_MANAGER_H_
 #define _RESOURCES_MANAGER_H_
 
-#include "Engine.h"
-
 #include <map>
-#include "Modules/Model.h"
+
+#include "Engine.h"
+#include "Modules\Model.h"
+#include "Modules\FbxSDK.h"
 
 //*****************************************************************************
 //
@@ -28,6 +29,10 @@ private:
 	// メッシュ
 	std::map < std::string, std::string> meshList;	// メッシュリスト
 	std::string GetMeshPath(std::string name);		// メッシュパスを取得
+
+	// FBX SDK
+	FBX*		fbx;		
+
 public:
 	ResourcesManager();
 	~ResourcesManager();

@@ -207,15 +207,19 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 	switch (renderStatus)
 	{
 	case RS_withoutLight:
+		renderStatus = RS_withoutLight;
 		shader2D->effect->SetTechnique("render_without_light");
+
 		break;
 	case RS_withLight:
+		renderStatus = RS_withLight;
 		shader2D->effect->SetTechnique("render_with_light");
 
 		// ƒJƒƒ‰ˆÊ’u‚ÌÝ’è
 		shader2D->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
 		break;
 	case RS_withNormalMap:
+		renderStatus = RS_withNormalMap;
 		break;
 	}
 

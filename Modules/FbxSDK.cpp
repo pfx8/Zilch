@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-FbxSDK::FbxSDK()
+FBX::FBX()
 {
 	manager = NULL;
 	importer = NULL;
@@ -24,7 +24,7 @@ FbxSDK::FbxSDK()
 // デストラクタ
 //
 //*****************************************************************************
-FbxSDK::~FbxSDK()
+FBX::~FBX()
 {
 	// SDKマネジメントを終了処理
 	manager->fbxsdk::FbxManager::Destroy();
@@ -35,7 +35,7 @@ FbxSDK::~FbxSDK()
 // SDKマネジメントを初期化
 //
 //*****************************************************************************
-HRESULT FbxSDK::InitFbxSDK()
+HRESULT FBX::InitFbxSDK()
 {
 	// SDKマネージャ生成
 	manager = fbxsdk::FbxManager::Create();
@@ -64,7 +64,7 @@ HRESULT FbxSDK::InitFbxSDK()
 // FBXモデルを読み込み
 //
 //*****************************************************************************
-HRESULT FbxSDK::LoadFbx(std::string fbxPath)
+HRESULT FBX::LoadFbx(std::string fbxPath)
 {
 	if (!importer->Initialize(fbxPath.c_str()))
 	{

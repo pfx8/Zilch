@@ -12,7 +12,7 @@
 #include <fbxsdk.h>
 #include "../Engine.h"
 
-class FbxSDK
+class FBX
 {
 private:
 	FbxManager*		manager;	// SDKマネジメント
@@ -20,8 +20,8 @@ private:
 	FbxScene*		scene;		// シーン
 
 public:
-	FbxSDK();
-	~FbxSDK();
+	FBX();
+	~FBX();
 
 	HRESULT InitFbxSDK();					// SDKマネジメントを初期化
 	HRESULT LoadFbx(std::string fbxPath);	// FBXモデルを読み込み

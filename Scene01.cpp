@@ -53,6 +53,7 @@ void Scene01::Initialization()
 
 	// シェーダーにライトを設定
 	this->shader2D->effect->SetValue("lightPos", &this->light->pos, sizeof(D3DXVECTOR3));
+	this->shader2D->effect->SetValue("lightDiffuse", &this->light->diffuse, sizeof(D3DXVECTOR3));
 	this->shader2D->effect->SetFloat("lightAttenuation", this->light->attenuation);
 
 	//// スカイボックス
@@ -138,5 +139,5 @@ void Scene01::Draw()
 		
 	// デッバグメッセージ
 	//this->woman->OutputMessage(0);
-	this->camera->OutputMessage(0);
+	//this->camera->OutputMessage(0);
 }

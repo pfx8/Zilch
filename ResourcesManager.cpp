@@ -14,6 +14,9 @@
 //*****************************************************************************
 ResourcesManager::ResourcesManager()
 {
+	// fbx sdkを初期化
+	fbx = new FBX;
+
 	// テクスチャ検索マッピングを作る
 	this->textureList["skybox"] = "Data/Texture/skybox.jpg";
 	this->textureList["field"] = "Data/Texture/field.jpg";
@@ -31,7 +34,7 @@ ResourcesManager::ResourcesManager()
 //*****************************************************************************
 ResourcesManager::~ResourcesManager()
 {
-
+	RELEASE_CLASS_POINT(fbx);
 }
 
 //*****************************************************************************
