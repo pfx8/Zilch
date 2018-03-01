@@ -19,7 +19,7 @@ float4 lightSpecular;       // 光の鏡面反射値
 
 float3 cameraPos;           // カメラの位置
 
-texture tex; // テクスチャ
+texture tex;     // テクスチャ
 sampler texSam = // サンプラー
 sampler_state
 {
@@ -31,6 +31,23 @@ sampler_state
     AddressV = WRAP;
 };
 
+texture normalMap;
+sampler normalMapSam = // サンプラー
+sampler_state
+{
+    Texture = <tex>;
+    MipFilter = LINEAR;
+    MinFilter = LINEAR;
+    MagFilter = LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
+};
+
+//*****************************************************************************
+//
+// プロトタイプ宣言
+//
+//*****************************************************************************
 struct VSout
 {
     float4 pos : POSITION0;
@@ -68,38 +85,65 @@ VSout vsMain(float3 pos : POSITION0,
 // ピクセルシェーダー
 //
 //*****************************************************************************
-float4 psMain(VSout vout, uniform bool isLighting) : COLOR
+float4 psMain(VSout vout, uniform int rendertype) : COLOR
 {
     float4 color = float4(0.0, 0.0, 0.0, 0.0);
     float4 texColor = tex2D(texSam, vout.coord);
 
-    if (isLighting == false)
+    if(rendertype == 0)
     {
         color = texColor;
     }
-    else
+    else if(rendertype == 1)
     {
-        // ambient = lightColor * ambientStrength
-        float4 ambient = lightDiffuse;
+        // ambient = lightColor * lightStrength * ambientStrength
+        float4 ambient = lightDiffuse * 1.5 * 0.6;
         color += ambient;
 
         // diffuse
-        float3 L = lightPos - vout.worldPos;            // ライトから頂点までのベクトル
-        float d = length(L);                            // ベクトルの長さを計算
-        L /= d;                                         // ベクトルを正規化
+        float3 L = lightPos - vout.worldPos; // ライトから頂点までのベクトル
+        float d = length(L); // ベクトルの長さを計算
+        L /= d; // ベクトルを正規化
         float attenuation = 1 / (lightAttenuation * d); // 光の減衰値
-        float diffuse = saturate(dot(vout.nor, L));     // 計算した内積を0~1の範囲にクランプする
+        float diffuse = saturate(dot(vout.nor, L)); // 計算した内積を0~1の範囲にクランプする
 
         // specular
-        float3 V = normalize(vout.worldPos - cameraPos);      // 頂点からカメラまでのベクトル
-        float3 R = reflect(L, vout.nor);                      // 入射光の向きとサーフェイス法線を使用して反射ベクトルを返します。
-        int shininess = 8;                                    // 大きくほどテカリが強いし、反射度が高いし、ハイライトが小さくなる
+        float3 V = normalize(vout.worldPos - cameraPos); // 頂点からカメラまでのベクトル
+        float3 R = reflect(L, vout.nor); // 入射光の向きとサーフェイス法線を使用して反射ベクトルを返します。
+        int shininess = 8; // 大きくほどテカリが強いし、反射度が高いし、ハイライトが小さくなる
         float specular = pow(saturate(dot(R, V)), shininess); // 視点と表面屈折ベクトルを内積して、また反射値を計算する
         
         // 最終カラー
         color = (diffuse + specular) * texColor * attenuation;
         color.w = 1.0;
+    }
+    else if(rendertype == 2)
+    {
+        // 法線を読み込み
+        float3 normal = tex2D(normalMapSam, vout.coord).rgb;
+        normal = normalize(normal * 2.0 - 1.0);
+        normal.z = -1 * normal.z;
 
+       // ambient = lightColor * lightStrength * ambientStrength
+        float4 ambient = lightDiffuse * 1.5 * 0.6;
+        color += ambient;
+
+        // diffuse
+        float3 L = lightPos - vout.worldPos; // ライトから頂点までのベクトル
+        float d = length(L); // ベクトルの長さを計算
+        L /= d; // ベクトルを正規化
+        float attenuation = 1 / (lightAttenuation * d); // 光の減衰値
+        float diffuse = saturate(dot(normal, L)); // 計算した内積を0~1の範囲にクランプする
+
+        // specular
+        float3 V = normalize(vout.worldPos - cameraPos); // 頂点からカメラまでのベクトル
+        float3 R = reflect(L, normal); // 入射光の向きとサーフェイス法線を使用して反射ベクトルを返します。
+        int shininess = 8; // 大きくほどテカリが強いし、反射度が高いし、ハイライトが小さくなる
+        float specular = pow(saturate(dot(R, V)), shininess); // 視点と表面屈折ベクトルを内積して、また反射値を計算する
+        
+        // 最終カラー
+        color = (diffuse + specular) * texColor * attenuation;
+        color.w = 1.0;
     }
 
     return color;
@@ -115,7 +159,7 @@ technique render_without_light
     pass P0
     {
         VertexShader = compile vs_3_0 vsMain();
-        PixelShader = compile ps_3_0 psMain(false);
+        PixelShader = compile ps_3_0 psMain(0);
     }
 }
 
@@ -124,15 +168,15 @@ technique render_with_light
     pass P0
     {
         VertexShader = compile vs_3_0 vsMain();
-        PixelShader = compile ps_3_0 psMain(true);
+        PixelShader = compile ps_3_0 psMain(1);
     }
 }
 
-technique render_with_light
+technique render_with_normalMap
 {
     pass P0
     {
         VertexShader = compile vs_3_0 vsMain();
-        PixelShader = compile ps_3_0 psMain(true);
+        PixelShader = compile ps_3_0 psMain(2);
     }
 }

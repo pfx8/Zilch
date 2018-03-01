@@ -20,6 +20,7 @@ Plane::Plane()
 	this->vertexBuffer = NULL;
 	this->indexBuffer = NULL;
 	this->tex = NULL;
+	this->normalMap = NULL;
 }
 
 //*****************************************************************************
@@ -33,6 +34,7 @@ Plane::~Plane()
 	RELEASE_POINT(this->vertexBuffer);
 	RELEASE_POINT(this->indexBuffer);
 	RELEASE_POINT(this->tex);
+	RELEASE_POINT(this->normalMap);
 }
 
 //*****************************************************************************
@@ -174,6 +176,10 @@ void Plane::Update()
 	{
 		renderStatus = RS_withLight;
 	}
+	if (GetKeyboardTrigger(DIK_F3))
+	{
+		renderStatus = RS_withNormalMap;
+	}
 }
 
 //*****************************************************************************
@@ -209,8 +215,8 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 	case RS_withoutLight:
 		renderStatus = RS_withoutLight;
 		shader2D->effect->SetTechnique("render_without_light");
-
 		break;
+
 	case RS_withLight:
 		renderStatus = RS_withLight;
 		shader2D->effect->SetTechnique("render_with_light");
@@ -218,8 +224,15 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 		// カメラ位置の設定
 		shader2D->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
 		break;
+
 	case RS_withNormalMap:
 		renderStatus = RS_withNormalMap;
+		shader2D->effect->SetTechnique("render_with_normalMap");
+
+		// カメラ位置の設定
+		shader2D->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
+		// ノーマルマップを設定
+		shader2D->effect->SetTexture("normalMap", this->normalMap);
 		break;
 	}
 

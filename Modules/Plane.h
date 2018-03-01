@@ -46,6 +46,7 @@ public:
 	LPDIRECT3DVERTEXBUFFER9			vertexBuffer;	// 頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9			indexBuffer;	// 頂点インデックスバッファ
 	LPDIRECT3DTEXTURE9				tex;			// フィールドテクスチャ
+	LPDIRECT3DTEXTURE9				normalMap;		// フィールドテクスチャ
 
 	Plane();
 	~Plane();

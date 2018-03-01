@@ -20,7 +20,7 @@ ResourcesManager::ResourcesManager()
 	// テクスチャ検索マッピングを作る
 	this->textureList["skybox"] = "Data/Texture/skybox.jpg";
 	this->textureList["field"] = "Data/Texture/field.jpg";
-	this->textureList["fieldNor"] = "Data/Texture/field-nor.jpg";
+	this->textureList["fieldNor"] = "Data/Texture/fieldNor.jpg";
 	this->textureList["NULL"] = "NULL";
 
 	// メッシュ検索マッピングを作る

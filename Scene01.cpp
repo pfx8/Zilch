@@ -61,8 +61,9 @@ void Scene01::Initialization()
 	//this->resourcesManager->LoadTexture("skybox", &this->skyBox->titleTexture);
 
 	// フィールド
-	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(3, 3));
+	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 50.0f), D3DXVECTOR2(2, 2));
 	this->resourcesManager->LoadTexture("field", &this->field->tex);
+	this->resourcesManager->LoadTexture("fieldNor", &this->field->normalMap);
 
 	// 主人公
 	this->woman->InitCharacter();
