@@ -13,9 +13,9 @@ matrix pMat; // プロジェクション変換行列
 
 float lightAttenuation;     // 光の減衰値
 float3 lightPos;            // 光の位置
-float3 lightAmbient;        // 光の環境値
-float3 lightDiffuse;        // 光の拡散反射値
-float3 lightSpecular;       // 光の鏡面反射値
+float4 lightAmbient;        // 光の環境値
+float4 lightDiffuse;        // 光の拡散反射値
+float4 lightSpecular;       // 光の鏡面反射値
 
 float3 cameraPos;           // カメラの位置
 
@@ -80,7 +80,8 @@ float4 psMain(VSout vout, uniform bool isLighting) : COLOR
     else
     {
         // ambient = lightColor * ambientStrength
-        float ambient = lightDiffuse * 0.6;
+        float4 ambient = lightDiffuse;
+        color += ambient;
 
         // diffuse
         float3 L = lightPos - vout.worldPos;            // ライトから頂点までのベクトル
@@ -96,7 +97,9 @@ float4 psMain(VSout vout, uniform bool isLighting) : COLOR
         float specular = pow(saturate(dot(R, V)), shininess); // 視点と表面屈折ベクトルを内積して、また反射値を計算する
         
         // 最終カラー
-        color = (ambient + diffuse + specular) * texColor * attenuation;
+        color = (diffuse + specular) * texColor * attenuation;
+        color.w = 1.0;
+
     }
 
     return color;
@@ -113,6 +116,15 @@ technique render_without_light
     {
         VertexShader = compile vs_3_0 vsMain();
         PixelShader = compile ps_3_0 psMain(false);
+    }
+}
+
+technique render_with_light
+{
+    pass P0
+    {
+        VertexShader = compile vs_3_0 vsMain();
+        PixelShader = compile ps_3_0 psMain(true);
     }
 }
 
