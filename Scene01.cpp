@@ -61,7 +61,7 @@ void Scene01::Initialization()
 	//this->resourcesManager->LoadTexture("skybox", &this->skyBox->titleTexture);
 
 	// フィールド
-	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 50.0f), D3DXVECTOR2(2, 2));
+	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 50.0f), D3DXVECTOR2(1, 1));
 	this->resourcesManager->LoadTexture("field", &this->field->tex);
 	this->resourcesManager->LoadTexture("fieldNor", &this->field->normalMap);
 
