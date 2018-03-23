@@ -1,6 +1,6 @@
-//*****************************************************************************
+ï»¿//*****************************************************************************
 //
-// •½–Êˆ—[Plane.cpp]
+// å¹³é¢å‡¦ç†[Plane.cpp]
 //
 // Author : LIAO HANCHEN
 //
@@ -10,7 +10,7 @@
 #include "../ResourcesManager.h"
 //*****************************************************************************
 //
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //
 //*****************************************************************************
 Plane::Plane()
@@ -25,12 +25,12 @@ Plane::Plane()
 
 //*****************************************************************************
 //
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //
 //*****************************************************************************
 Plane::~Plane()
 {
-	// ƒ|ƒCƒ“ƒ^
+	// ãƒã‚¤ãƒ³ã‚¿
 	RELEASE_POINT(this->vertexBuffer);
 	RELEASE_POINT(this->indexBuffer);
 	RELEASE_POINT(this->tex);
@@ -39,100 +39,114 @@ Plane::~Plane()
 
 //*****************************************************************************
 //
-// À•W‚ğİ’è
+// åº§æ¨™ã‚’è¨­å®š
 //
 //*****************************************************************************
 HRESULT Plane::InitPlane(D3DXVECTOR3 pos, D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 {
-	this->pos = pos;	// ˆÊ’u
+	this->pos = pos;	// ä½ç½®
 	this->planeNum = planeNum;
 	this->planeSize = planeSize;
 
-	MakeVertexDecl(this->planeSize, this->planeNum);	// ’¸“_éŒ¾(shader)
+	MakeVertexDecl(this->planeSize, this->planeNum);	// é ‚ç‚¹å®£è¨€(shader)
 
 	return S_OK;
 }
 
 //*****************************************************************************
 //
-// ’¸“_éŒ¾(Shader)
+// é ‚ç‚¹å®£è¨€(Shader)
 //
 //*****************************************************************************
 HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	this->vertexNum = (planeNum.x + 1) * (planeNum.y + 1);	// ‘’¸“_”
-	this->polygonNum = planeNum.x * planeNum.y * 2 + (planeNum.y - 1) * 4;		// ƒ|ƒŠƒSƒ“”
-	this->indexNum = (planeNum.x + 1) * 2 * planeNum.y + (planeNum.y - 1) * 2;	// ƒCƒ“ƒfƒbƒNƒX”
+	this->vertexNum = (planeNum.x + 1) * (planeNum.y + 1);	// ç·é ‚ç‚¹æ•°
+	this->polygonNum = planeNum.x * planeNum.y * 2 + (planeNum.y - 1) * 4;		// ãƒãƒªã‚´ãƒ³æ•°
+	this->indexNum = (planeNum.x + 1) * 2 * planeNum.y + (planeNum.y - 1) * 2;	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æ•°
 
-	// ’¸“_ƒVƒF[ƒ_[éŒ¾
+	// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼å®£è¨€
 	{
-		D3DVERTEXELEMENT9 planeDecl[] =		// ’¸“_ƒf[ƒ^‚ÌƒŒƒCƒAƒEƒg‚ğ’è‹`
+		D3DVERTEXELEMENT9 planeDecl[] =		// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’å®šç¾©
 		{
 			{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-			{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0 },
+			{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
 			{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+			{ 0, 32, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,  0 },
 			D3DDECL_END()
 		};
 		pDevice->CreateVertexDeclaration(planeDecl, &this->vertexDecl);
 	}
 
-	// ’¸“_ƒoƒbƒtƒ@ì¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ä½œæˆ
 	{
 		if (FAILED(pDevice->CreateVertexBuffer(this->vertexNum * sizeof(PLANEVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->vertexBuffer, NULL)))
 		{
-			std::cout << "[Error] Make <Plane> vertex buffer ... Fail!" << std::endl;	// ƒGƒ‰[ƒƒbƒZ[ƒW
+			std::cout << "[Error] Make <Plane> vertex buffer ... Fail!" << std::endl;	// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 			return E_FAIL;
 		}
 
 		PLANEVERTEX* VertexBuffer;
 
-		// ’¸“_ƒf[ƒ^‚Ì”ÍˆÍ‚ğƒƒbƒN‚µA’¸“_ƒoƒbƒtƒ@ ƒƒ‚ƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é
+		// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®ç¯„å›²ã‚’ãƒ­ãƒƒã‚¯ã—ã€é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ ãƒ¡ãƒ¢ãƒªã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—ã™ã‚‹
 		this->vertexBuffer->Lock(0, 0, (void**)&VertexBuffer, 0);
 
-		// ’¸“_ƒoƒbƒtƒ@‚Ì’†g‚ğ–„‚ß‚é
-		// ’¸“_À•W(ƒ[ƒJƒ‹À•W = Œ`‚ğŒ`¬‚µ‚Ä‚é)
-		// ‚à‚Ì©g‚ÌÀ•WA¢ŠE‚Å‚ÌÀ•W‚É‚ÍŠÖŒW‚È‚¢
-		// this->posFiled‚Í¢ŠE‚Å‚ÌˆÊ’u‚Å
-
+		// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä¸­èº«ã‚’åŸ‹ã‚ã‚‹
 		for (int numY = 0; numY < (planeNum.y + 1); numY++)
 		{
 			for (int numX = 0; numX < (planeNum.x + 1); numX++)
 			{
-				// ’¸“_À•W‚Ìİ’è
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.x = -(planeNum.x / 2.0f) * planeSize.x + numX * planeSize.x;
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.y = 0;
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.z = (planeNum.y / 2.0f) * planeSize.y - numY * planeSize.y;
-				//–@ü‚Ìİ’è
+
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-				// ƒeƒNƒXƒ`ƒƒÀ•W‚Ìİ’è
+
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texture.x = numX * 1.0f;
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texture.y = numY * 1.0f;
+
+				if (VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.x = 0)
+				{
+					// YZå¹³é¢
+					VertexBuffer[numY * (int(planeNum.x) + 1) + numX].tangent = D3DXVECTOR3(0, 0, 1);
+				}
+				else if (VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.y = 0)
+				{
+					// ZXå¹³é¢
+					VertexBuffer[numY * (int(planeNum.x) + 1) + numX].tangent = D3DXVECTOR3(1, 0, 0);
+
+				}
+				else if (VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.z = 0)
+				{
+					// XYå¹³é¢
+					VertexBuffer[numY * (int(planeNum.x) + 1) + numX].tangent = D3DXVECTOR3(0, 1, 0);
+				}
+				
 			}
 		}
 
-		// ’¸“_ƒf[ƒ^‚ğƒAƒ“ƒƒbƒN‚·‚é
+		// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ã‚¢ãƒ³ãƒ­ãƒƒã‚¯ã™ã‚‹
 		this->vertexBuffer->Unlock();
 	}
 
-	// ’¸“_ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ì¬
+	// é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ä½œæˆ
 	{
 		if (FAILED(pDevice->CreateIndexBuffer(this->indexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
 		{
-			std::cout << "[Error] Make <Plane> vertex index buffer ... Fail!" << std::endl;	// ƒGƒ‰[ƒƒbƒZ[ƒW
+			std::cout << "[Error] Make <Plane> vertex index buffer ... Fail!" << std::endl;	// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 			return E_FAIL;
 		}
 
-		WORD* vertexIndex = NULL;		// ƒCƒfƒbƒNƒX‚Ì’†g‚ğ–„‚ß‚é
+		WORD* vertexIndex = NULL;		// ã‚¤ãƒ‡ãƒƒã‚¯ã‚¹ã®ä¸­èº«ã‚’åŸ‹ã‚ã‚‹
 
-		this->indexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);	// ƒCƒ“ƒfƒbƒNƒX ƒf[ƒ^‚Ì‚ ‚éˆê’è”ÍˆÍ‚ğƒƒbƒN‚µA‚»‚ÌƒCƒ“ƒfƒbƒNƒX ƒoƒbƒtƒ@[ ƒƒ‚ƒŠ[‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚é
+		this->indexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ ãƒ‡ãƒ¼ã‚¿ã®ã‚ã‚‹ä¸€å®šç¯„å›²ã‚’ãƒ­ãƒƒã‚¯ã—ã€ãã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ ãƒãƒƒãƒ•ã‚¡ãƒ¼ ãƒ¡ãƒ¢ãƒªãƒ¼ã¸ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’å–å¾—ã™ã‚‹
 
 		int index = 0;
 		for (int numY = 0; numY < planeNum.y; numY++)
 		{
 			if (numY > 0)
-			{// k‘Şƒ|ƒŠƒSƒ“‚Ì‚½‚ß‚Ìƒ_ƒu‚è‚Ìİ’è
+			{// ç¸®é€€ãƒãƒªã‚´ãƒ³ã®ãŸã‚ã®ãƒ€ãƒ–ã‚Šã®è¨­å®š
 				vertexIndex[index] = (numY + 1) * (planeNum.x + 1);
 				index++;
 			}
@@ -146,13 +160,13 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 			}
 
 			if (numY < (planeNum.y - 1))
-			{// k‘Şƒ|ƒŠƒSƒ“‚Ì‚½‚ß‚Ìƒ_ƒu‚è‚Ìİ’è
+			{// ç¸®é€€ãƒãƒªã‚´ãƒ³ã®ãŸã‚ã®ãƒ€ãƒ–ã‚Šã®è¨­å®š
 				vertexIndex[index] = numY * (planeNum.x + 1) + planeNum.x;
 				index++;
 			}
 		}
 
-		this->indexBuffer->Unlock();	// ƒCƒ“ƒfƒbƒNƒX ƒf[ƒ^‚ÌƒƒbƒN‚ğ‰ğœ‚·‚é
+		this->indexBuffer->Unlock();	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ ãƒ‡ãƒ¼ã‚¿ã®ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹
 	}
 
 	return S_OK;
@@ -160,12 +174,12 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 
 //*****************************************************************************
 //
-// XV
+// æ›´æ–°
 //
 //*****************************************************************************
 void Plane::Update()
 {
-	// s—ñXV
+	// è¡Œåˆ—æ›´æ–°
 	SetWorldMatrix();
 
 	if (GetKeyboardTrigger(DIK_F1))
@@ -184,7 +198,7 @@ void Plane::Update()
 
 //*****************************************************************************
 //
-// ƒ[ƒ‹ƒh•ÏŠ·
+// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›
 //
 //*****************************************************************************
 void Plane::SetWorldMatrix()
@@ -192,24 +206,24 @@ void Plane::SetWorldMatrix()
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
 
-	// ƒ[ƒ‹ƒhƒ}ƒgƒŠƒbƒNƒX‚ğ‰Šú‰»‚·‚é
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªãƒƒã‚¯ã‚¹ã‚’åˆæœŸåŒ–ã™ã‚‹
 	D3DXMatrixIdentity(&this->wMatrix);
 
-	// •½sˆÚ“®‚ğ”½‰f
+	// å¹³è¡Œç§»å‹•ã‚’åæ˜ 
 	D3DXMatrixTranslation(&mtxTranslate, this->pos.x, this->pos.y, this->pos.z);
 	D3DXMatrixMultiply(&this->wMatrix, &this->wMatrix, &mtxTranslate);
 }
 
 //*****************************************************************************
 //
-// ƒeƒNƒXƒ`ƒƒ‚ğ•`‰æ‚·‚é
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’æç”»ã™ã‚‹
 //
 //*****************************************************************************
 void Plane::Draw(Shader* shader2D, Camera* camera)
 {
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	// ƒeƒNƒjƒbƒN‚ğİ’è
+	// ãƒ†ã‚¯ãƒ‹ãƒƒã‚¯ã‚’è¨­å®š
 	switch (renderStatus)
 	{
 	case RS_withoutLight:
@@ -221,7 +235,7 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 		renderStatus = RS_withLight;
 		shader2D->effect->SetTechnique("render_with_light");
 
-		// ƒJƒƒ‰ˆÊ’u‚Ìİ’è
+		// ã‚«ãƒ¡ãƒ©ä½ç½®ã®è¨­å®š
 		shader2D->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
 		break;
 
@@ -229,33 +243,33 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 		renderStatus = RS_withNormalMap;
 		shader2D->effect->SetTechnique("render_with_normalMap");
 
-		// ƒJƒƒ‰ˆÊ’u‚Ìİ’è
+		// ã‚«ãƒ¡ãƒ©ä½ç½®ã®è¨­å®š
 		shader2D->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
-		// ƒm[ƒ}ƒ‹ƒ}ƒbƒv‚ğİ’è
+		// ãƒãƒ¼ãƒãƒ«ãƒãƒƒãƒ—ã‚’è¨­å®š
 		shader2D->effect->SetTexture("normalMap", this->normalMap);
 		break;
 	}
 
-	// ƒ[ƒ‹ƒh•ÏŠ·Aƒrƒ…[ƒCƒ“ƒO•ÏŠ·AƒvƒƒWƒFƒNƒVƒ‡ƒ“•ÏŠ·ƒ}ƒgƒŠƒbƒNƒX
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã€ãƒ“ãƒ¥ãƒ¼ã‚¤ãƒ³ã‚°å¤‰æ›ã€ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³å¤‰æ›ãƒãƒˆãƒªãƒƒã‚¯ã‚¹
 	shader2D->effect->SetMatrix("wMat", &this->wMatrix);
 	shader2D->effect->SetMatrix("vMat", &camera->vMatrix);
 	shader2D->effect->SetMatrix("pMat", &camera->pMatrix);
 
-	// ƒeƒNƒXƒ`ƒƒ‚Ìİ’è
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è¨­å®š
 	shader2D->effect->SetTexture("tex", this->tex);
 
-	// •`‰æ
+	// æç”»
 	UINT passNum = 0;
 	shader2D->effect->Begin(&passNum, 0);
-	// ŠeƒpƒX‚ğÀs‚·‚é
+	// å„ãƒ‘ã‚¹ã‚’å®Ÿè¡Œã™ã‚‹
 	for (int count = 0; count < passNum; count++)
 	{
 		shader2D->effect->BeginPass(count);
 		
-		pDevice->SetVertexDeclaration(this->vertexDecl);							// ’¸“_éŒ¾‚ğİ’è
-		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// ’¸“_ƒoƒbƒtƒ@‚ğƒfƒoƒCƒX‚Ìƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÉƒoƒCƒiƒŠ
-		pDevice->SetIndices(this->indexBuffer);										// ’¸“_ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ğİ’è
-		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ƒ|ƒŠƒSƒ“‚Ì•`‰æ
+		pDevice->SetVertexDeclaration(this->vertexDecl);							// é ‚ç‚¹å®£è¨€ã‚’è¨­å®š
+		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ãƒ‡ãƒã‚¤ã‚¹ã®ãƒ‡ãƒ¼ã‚¿ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«ãƒã‚¤ãƒŠãƒª
+		pDevice->SetIndices(this->indexBuffer);										// é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚’è¨­å®š
+		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ãƒãƒªã‚´ãƒ³ã®æç”»
 
 		shader2D->effect->EndPass();
 	}

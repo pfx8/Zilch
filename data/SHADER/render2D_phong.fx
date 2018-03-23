@@ -61,9 +61,10 @@ struct VSout
 // 頂点シェーダー
 //
 //*****************************************************************************
-VSout vsMain(float3 pos : POSITION0,
-             float3 nor : NORMAL0,
-             float2 coord : TEXCOORD0)
+VSout vsMain(float3 pos     : POSITION0,
+             float3 nor     : NORMAL0,
+             float2 coord   : TEXCOORD0,
+             float3 tangent : TANGENT)
 {
     // 戻り値を初期化
     VSout vout = (VSout) 0;
