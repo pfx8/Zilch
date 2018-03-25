@@ -8,11 +8,6 @@
 #ifndef _SCENE_MANAGER_H_
 #define _SCENE_MANAGER_H_
 
-#include <map>
-
-#include "Engine.h"
-#include "Scene01.h"
-
 //*****************************************************************************
 //
 // ÉNÉâÉXêÈåæ

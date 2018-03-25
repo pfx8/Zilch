@@ -19,46 +19,53 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="DebugMessage.h" />
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Modules\Camera.h" />
-    <ClInclude Include="Modules\FbxSDK.h" />
-    <ClInclude Include="Modules\input.h" />
-    <ClInclude Include="Modules\Light.h" />
-    <ClInclude Include="Modules\Material.h" />
-    <ClInclude Include="Modules\Mesh.h" />
-    <ClInclude Include="Modules\Model.h" />
-    <ClInclude Include="Modules\Plane.h" />
-    <ClInclude Include="Modules\Scene.h" />
-    <ClInclude Include="Modules\Shader.h" />
-    <ClInclude Include="Modules\SkyBox.h" />
-    <ClInclude Include="Modules\Sound.h" />
-    <ClInclude Include="ResourcesManager.h" />
-    <ClInclude Include="Scene01.h" />
-    <ClInclude Include="SceneManager.h" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Component\Component.cpp" />
+    <ClCompile Include="Conmponent\Conmponent.cpp" />
+    <ClCompile Include="Engine\Camera.cpp" />
+    <ClCompile Include="Engine\Console.cpp" />
+    <ClCompile Include="Engine\DebugMessage.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\FbxSDK.cpp" />
+    <ClCompile Include="Engine\input.cpp" />
+    <ClCompile Include="Engine\Light.cpp" />
+    <ClCompile Include="Engine\Material.cpp" />
+    <ClCompile Include="Engine\Plane.cpp" />
+    <ClCompile Include="Engine\ResourcesManager.cpp" />
+    <ClCompile Include="Engine\SceneManager.cpp" />
+    <ClCompile Include="Engine\Shader.cpp" />
+    <ClCompile Include="Engine\SkyBox.cpp" />
+    <ClCompile Include="Engine\Sound.cpp" />
+    <ClCompile Include="Engine\StateMachine.cpp" />
+    <ClCompile Include="Engine\StateMachineManager.cpp" />
+    <ClCompile Include="GameObject\GameObject.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Model\Mesh.cpp" />
+    <ClCompile Include="Model\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="DebugMessage.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Modules\Camera.cpp" />
-    <ClCompile Include="Modules\FbxSDK.cpp" />
-    <ClCompile Include="Modules\input.cpp" />
-    <ClCompile Include="Modules\Light.cpp" />
-    <ClCompile Include="Modules\Material.cpp" />
-    <ClCompile Include="Modules\Mesh.cpp" />
-    <ClCompile Include="Modules\Model.cpp" />
-    <ClCompile Include="Modules\Plane.cpp" />
-    <ClCompile Include="Modules\Scene.cpp" />
-    <ClCompile Include="Modules\Shader.cpp" />
-    <ClCompile Include="Modules\SkyBox.cpp" />
-    <ClCompile Include="Modules\Sound.cpp" />
-    <ClCompile Include="ResourcesManager.cpp" />
-    <ClCompile Include="Scene01.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Component\Component.h" />
+    <ClInclude Include="Conmponent\Conmponent.h" />
+    <ClInclude Include="Engine\Camera.h" />
+    <ClInclude Include="Engine\Console.h" />
+    <ClInclude Include="Engine\DebugMessage.h" />
+    <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\FbxSDK.h" />
+    <ClInclude Include="Engine\input.h" />
+    <ClInclude Include="Engine\Light.h" />
+    <ClInclude Include="Engine\Material.h" />
+    <ClInclude Include="Engine\Plane.h" />
+    <ClInclude Include="Engine\ResourcesManager.h" />
+    <ClInclude Include="Engine\SceneManager.h" />
+    <ClInclude Include="Engine\Shader.h" />
+    <ClInclude Include="Engine\SkyBox.h" />
+    <ClInclude Include="Engine\Sound.h" />
+    <ClInclude Include="Engine\StateMachine.h" />
+    <ClInclude Include="Engine\StateMachineManager.h" />
+    <ClInclude Include="GameObject\GameObject.h" />
+    <ClInclude Include="Model\Mesh.h" />
+    <ClInclude Include="Model\Model.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2AB0424F-91D9-4340-9DA8-563735476DFD}</ProjectGuid>
@@ -113,8 +120,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\lib\vs2015\x86\debug;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -138,7 +145,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>wininet.lib;libfbxsdk-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>

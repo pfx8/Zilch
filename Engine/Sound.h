@@ -8,13 +8,6 @@
 #ifndef ___SOUND_H___
 #define ___SOUND_H___
 
-#include "../Engine.h"
-
-#include <windows.h>
-#include <tchar.h>
-#include <dsound.h>
-#include <mmsystem.h>
-
 // マクロ定義
 enum
 {	// サウンド通しナンバー

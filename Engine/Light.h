@@ -8,9 +8,6 @@
 #ifndef _LIGHT_H_
 #define _LIGHT_H_
 
-#include "..\Engine.h"
-#include "..\DebugMessage.h"
-
 //*****************************************************************************
 //
 // ƒNƒ‰ƒXéŒ¾

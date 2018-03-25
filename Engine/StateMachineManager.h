@@ -8,9 +8,6 @@
 #ifndef _STATE_MACHINE_MANAGER_H_
 #define _STATE_MACHINE_MANAGER_H_
 
-#include <iostream>
-
-#include "StateMachine.h"
 //*****************************************************************************
 //
 // クラス宣言

@@ -8,10 +8,6 @@
 #ifndef _DEBUG_MESSAGE_H_
 #define _DEBUG_MESSAGE_H_
 
-#include "Engine.h"
-
-#include <iostream>
-
 //*****************************************************************************
 //
 // ÉNÉâÉXêÈåæ

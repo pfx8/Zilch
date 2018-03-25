@@ -1,26 +1,26 @@
 //*****************************************************************************
 //
-// GameObject [GameObject.h]
+// Component [Component.h]
 //
 // Author : リョウ　カンシン
 //
 //*****************************************************************************
-#ifndef _GAME_OBJECT_H_
-#define _GAME_OBJECT_H_
+#ifndef _COMPONENT_H_
+#define _COMPONENT_H_
 
-class GameObject
+class Component
 {
 private:
-	void start();
-	void update();
+	virtual void start();
+	virtual void update();
 
 public:
 	bool active = true;
 	float lastActiveTime = 0;
 
-	GameObject();
-	virtual ~GameObject();
+	Component();
+	virtual ~Component();
 
 };
 
-#endif // !_GAME_OBJECT_H_
+#endif // !_COMPONENT_H_

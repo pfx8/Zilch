@@ -9,10 +9,6 @@
 #ifndef _CAMERA_CLASS_H_
 #define _CAMERA_CLASS_H_
 
-#include "../Character.h"
-#include "../Engine.h"
-#include "../DebugMessage.h"
-
 enum cameraState	// カメラ逆かどうかの状態
 {
 	inReversal = -1,

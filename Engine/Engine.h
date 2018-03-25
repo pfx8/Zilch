@@ -1,6 +1,6 @@
 //*****************************************************************************
 //
-// 通用データ＆ヘッドファイル[Engine.h]
+// エンジンコアファイル [Engine.h]
 //
 // Author : LIAO HANCHEN
 //
@@ -15,19 +15,37 @@
 // ヘッドファイル
 //
 //*****************************************************************************
-// Dx9
+// DirectX9.0 and Windows
 #include <windows.h>
 #include <d3dx9.h>
 #include <tchar.h>
 #include <time.h>
 #include <dinput.h>
+
 // c++
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 // 自作ヘッドファイル
-#include "Modules/input.h"
+#include "Camera.h"
+#include "Console.h"
+#include "DebugMessage.h"
+#include "input.h"
+#include "Light.h"
+#include "Material.h"
+#include "Plane.h"
+#include "ResourcesManager.h"
+#include "SceneManager.h"
+#include "Shader.h"
+#include "SkyBox.h"
+#include "Sound.h"
+#include "StateMachine.h"
+#include "StateMachineManager.h"
+
+#include "..\GameObject\GameObject.h"
+#include "..\Component\Component.h"
 
 //*****************************************************************************
 //
@@ -39,7 +57,9 @@
 #pragma comment (lib, "d3dx9.lib")
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
+#pragma comment (lib, "dsound.lib" )
 #pragma comment (lib, "winmm.lib")
+
 #endif
 
 //*****************************************************************************

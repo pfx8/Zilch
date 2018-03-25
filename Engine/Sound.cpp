@@ -5,12 +5,7 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Sound.h"
-
-// Ç®Ç‹Ç∂Ç»Ç¢
-#pragma comment ( lib, "dxguid.lib" )
-#pragma comment ( lib, "dsound.lib" )
-#pragma comment ( lib, "winmm.lib" )
+#include "Engine.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
