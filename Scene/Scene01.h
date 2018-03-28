@@ -8,16 +8,12 @@
 #ifndef _SCENE01_H_
 #define _SCENE01_H_
 
-#include <map>
-
-#include "ResourcesManager.h"
-#include "Engine.h"
-#include "Character.h"
-#include "Modules\Scene.h"
-#include "Modules\Camera.h"
-#include "Modules\Light.h"
-#include "Modules\SkyBox.h"
-#include "Modules\Shader.h"
+#include "..\Engine\Engine.h"
+#include "..\Engine\Shader.h"
+#include "..\Engine\Camera.h"
+#include "..\Engine\Light.h"
+#include "..\Engine\Plane.h"
+#include "Scene.h"
 
 //*****************************************************************************
 //
@@ -33,8 +29,6 @@ private:
 	Light*				light;				// ライト
 	Plane*				field;				// フィールド
 	//SkyBox*				skyBox;				// スカイボックス
-
-	LPDIRECTSOUNDBUFFER8 seHit;
 
 public:
 	Character*			woman;			// プレーヤー

@@ -5,9 +5,13 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-
 #ifndef _CAMERA_CLASS_H_
 #define _CAMERA_CLASS_H_
+
+#include "Engine.h"
+#include "DebugMessage.h"
+#include "input.h"
+#include "../Character.h"
 
 enum cameraState	// カメラ逆かどうかの状態
 {

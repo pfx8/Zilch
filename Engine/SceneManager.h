@@ -8,6 +8,11 @@
 #ifndef _SCENE_MANAGER_H_
 #define _SCENE_MANAGER_H_
 
+#include "Engine.h"
+#include "input.h"
+#include "..\Scene\Scene.h"
+#include "..\Scene\Scene01.h"
+
 //*****************************************************************************
 //
 // ƒNƒ‰ƒXéŒ¾

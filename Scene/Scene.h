@@ -8,16 +8,9 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
-#include <map>
-
-#include "../Engine.h"
-#include "../ResourcesManager.h"
-#include "../DebugMessage.h" 
-#include "../Modules/Sound.h"
-#include "Camera.h"
-#include "Light.h"
-#include "Plane.h"
-
+#include "..\Engine\Engine.h"
+#include "..\Engine\ResourcesManager.h"
+#include "..\Engine\DebugMessage.h"
 
 //*****************************************************************************
 //
@@ -43,9 +36,6 @@ public:
 	// ワールド変換
 	void SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos=D3DXVECTOR3(0.0f, 0.0f, 0.0f), 
 		D3DXVECTOR3 rot=D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3 scl=D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-
-	// ファイル(blender)からシンーの資源を読み込み
-	//HRESULT LoadSceneFile(std::string name);		// 未完成
 };
 
 #endif // !_SCENE_H_

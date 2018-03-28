@@ -8,7 +8,7 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
-#include "..\Engine.h"
+#include "..\Engine\Engine.h"
 
 class DX_MESH
 {

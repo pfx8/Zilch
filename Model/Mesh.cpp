@@ -58,7 +58,7 @@ HRESULT DX_MESH::MakeBuffer()
 	{
 		if (FAILED(m_D3DDevice->CreateVertexBuffer(m_vertexNum * sizeof(DX_VERTEX_3D), D3DUSAGE_WRITEONLY, FVF_DX_VERTEX_3D, D3DPOOL_MANAGED, &m_vertexBuffer, NULL)))
 		{
-			std::cout << "[Error] Make <Mesh> vertex buffer ... Fail!" << std::endl;	// エラーメッセージ
+			cout << "[Error] Make <Mesh> vertex buffer ... Fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
@@ -71,11 +71,11 @@ HRESULT DX_MESH::MakeBuffer()
 			vertices[count].position.z = m_vertex[count].position.z;
 			vertices[count].position.w = m_vertex[count].position.w;
 
-			/*std::cout << "(" << vertices[count].position.x
+			/*cout << "(" << vertices[count].position.x
 				<< vertices[count].position.y
 				<< vertices[count].position.z
 				<< vertices[count].position.w
-				<< ")" << std::endl;*/
+				<< ")" << endl;*/
 
 			vertices[count].diffuse = D3DCOLOR_RGBA(0, 0, 0, 255);
 		}
@@ -86,7 +86,7 @@ HRESULT DX_MESH::MakeBuffer()
 	{
 		if (FAILED(m_D3DDevice->CreateIndexBuffer(m_IndexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &m_indexBuffer, NULL)))
 		{
-			std::cout << "[Error] Make <Mesh> vertex index buffer ... Fail!" << std::endl;	// エラーメッセージ
+			cout << "[Error] Make <Mesh> vertex index buffer ... Fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
@@ -96,13 +96,13 @@ HRESULT DX_MESH::MakeBuffer()
 		for (int count = 0; count < m_IndexNum; count++)
 		{
 			vertexIndex[count] = m_Index[count];
-			//std::cout << vertexIndex[count] << ",";
-			std::cout << m_Index[count] << ",";
+			//cout << vertexIndex[count] << ",";
+			cout << m_Index[count] << ",";
 			i++;
 			if (i == 3)
 			{
 				i = 0;
-				std::cout << std::endl;
+				cout << endl;
 			}
 		}
 		m_indexBuffer->Unlock();	// インデックス データのロックを解除する

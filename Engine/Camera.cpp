@@ -5,7 +5,7 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Engine.h"
+#include "Camera.h"
 
 //*****************************************************************************
 //
@@ -16,7 +16,7 @@ Camera::Camera()
 {
 	this->field = D3DXToRadian(45);
 	this->ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
-	this->rangeStart = 0.1;
+	this->rangeStart = 0.1f;
 	this->rangeEnd = 2500;
 
 	this->posEye	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);

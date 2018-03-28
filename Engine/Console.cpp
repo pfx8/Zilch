@@ -5,7 +5,7 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Engine.h"
+#include "Console.h"
 
 //*****************************************************************************
 //
@@ -69,7 +69,7 @@ HRESULT Console::SetConsoleFront(HWND hwnd)
 
 	if (consoleWindowHandle)
 	{
-		std::cout << "[State] Console is Top:" << std::endl;
+		cout << "[State] Console is Top:" << endl;
 		RECT rect;	//ヴインドウを中心に移動
 		SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
 		SetWindowPos(consoleWindowHandle,

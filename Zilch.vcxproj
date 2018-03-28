@@ -35,13 +35,12 @@
     <ClCompile Include="Engine\SceneManager.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\SkyBox.cpp" />
-    <ClCompile Include="Engine\Sound.cpp" />
-    <ClCompile Include="Engine\StateMachine.cpp" />
-    <ClCompile Include="Engine\StateMachineManager.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model\Mesh.cpp" />
     <ClCompile Include="Model\Model.cpp" />
+    <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Scene\Scene01.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -60,12 +59,14 @@
     <ClInclude Include="Engine\SceneManager.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\SkyBox.h" />
-    <ClInclude Include="Engine\Sound.h" />
-    <ClInclude Include="Engine\StateMachine.h" />
-    <ClInclude Include="Engine\StateMachineManager.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="Model\Mesh.h" />
     <ClInclude Include="Model\Model.h" />
+    <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\Scene01.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2AB0424F-91D9-4340-9DA8-563735476DFD}</ProjectGuid>
@@ -201,5 +202,14 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets" Condition="Exists('packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets')" />
+    <Import Project="packages\Assimp.3.0.0\build\native\Assimp.targets" Condition="Exists('packages\Assimp.3.0.0\build\native\Assimp.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets'))" />
+    <Error Condition="!Exists('packages\Assimp.3.0.0\build\native\Assimp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Assimp.3.0.0\build\native\Assimp.targets'))" />
+  </Target>
 </Project>

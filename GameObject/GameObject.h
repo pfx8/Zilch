@@ -8,6 +8,8 @@
 #ifndef _GAME_OBJECT_H_
 #define _GAME_OBJECT_H_
 
+#include "..\Engine\Engine.h"
+
 class GameObject
 {
 private:

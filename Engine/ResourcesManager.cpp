@@ -5,7 +5,7 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Engine.h"
+#include "ResourcesManager.h"
 
 //*****************************************************************************
 //
@@ -14,9 +14,6 @@
 //*****************************************************************************
 ResourcesManager::ResourcesManager()
 {
-	// fbx sdkを初期化
-	fbx = new FBX;
-
 	// テクスチャ検索マッピングを作る
 	this->textureList["skybox"] = "Data/Texture/skybox.jpg";
 	this->textureList["field"] = "Data/Texture/field.jpg";
@@ -34,7 +31,7 @@ ResourcesManager::ResourcesManager()
 //*****************************************************************************
 ResourcesManager::~ResourcesManager()
 {
-	RELEASE_CLASS_POINT(fbx);
+
 }
 
 //*****************************************************************************
@@ -42,7 +39,7 @@ ResourcesManager::~ResourcesManager()
 // テクスチャを読み込み
 //
 //*****************************************************************************
-HRESULT ResourcesManager::LoadTexture(std::string name, LPDIRECT3DTEXTURE9* texturePoint)
+HRESULT ResourcesManager::LoadTexture(string name, LPDIRECT3DTEXTURE9* texturePoint)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -56,12 +53,12 @@ HRESULT ResourcesManager::LoadTexture(std::string name, LPDIRECT3DTEXTURE9* text
 				GetTextureStruct(name).c_str(),
 				texturePoint)))
 			{
-				std::cout << "[Error] Loading <Texture> " << name << " ... Fail!" << std::endl;	// コンソールにメッセージを出す
+				cout << "[Error] Loading <Texture> " << name << " ... Fail!" << endl;	// コンソールにメッセージを出す
 				return E_FAIL;
 			}
 			else
 			{
-				std::cout << "[Information] Loading <Texture> " << name << " ... Success!" << std::endl;	// コンソールにメッセージを出す
+				cout << "[Information] Loading <Texture> " << name << " ... Success!" << endl;	// コンソールにメッセージを出す
 				return S_OK;
 			}
 		}
@@ -79,7 +76,7 @@ HRESULT ResourcesManager::LoadTexture(std::string name, LPDIRECT3DTEXTURE9* text
 // テクスチャ構造体を取得
 //
 //*****************************************************************************
-std::string ResourcesManager::GetTextureStruct(std::string name)
+string ResourcesManager::GetTextureStruct(string name)
 {
 	if(this->textureList.find(name) != this->textureList.end())
 	{
@@ -92,7 +89,7 @@ std::string ResourcesManager::GetTextureStruct(std::string name)
 // メッシュを読み込み
 //
 //*****************************************************************************
-HRESULT ResourcesManager::LoadMesh(std::string name, Model* model)
+HRESULT ResourcesManager::LoadMesh(string name, Model* model)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -108,12 +105,12 @@ HRESULT ResourcesManager::LoadMesh(std::string name, Model* model)
 			&model->material->materialNum,		// マテリアル構造体の数
 			&model->meshPoint)))				// メッシュへのポインタ
 		{
-			std::cout << "[Error] Loading <Model> " << name << " ... Fail!" << std::endl;
+			cout << "[Error] Loading <Model> " << name << " ... Fail!" << endl;
 			return E_FAIL;
 		}
 		else
 		{
-			std::cout << "[Information] Loading <Model> " << name << " ... Success!" << std::endl;
+			cout << "[Information] Loading <Model> " << name << " ... Success!" << endl;
 		}
 	}
 
@@ -141,15 +138,15 @@ HRESULT ResourcesManager::LoadMesh(std::string name, Model* model)
 			// テクスチャは一枚なので、ここではよみこまない。モデル初期化する時一回で読み込み
 
 			// テクスチャパスの前に"data/TEXTURE/"を添付
-			//std::string texPath = "data/TEXTURE/";
-			//std::string texName = materials[count].pTextureFilename;
+			//string texPath = "data/TEXTURE/";
+			//string texName = materials[count].pTextureFilename;
 			//texPath += texName;
 
 			// 初期化＆テクスチャを取得 & one textrue
 			//model->this->meshTexturePoint[0] = NULL;
 			//if (FAILED(D3DXCreateTextureFromFile(pDevice, texPath.c_str(), &model->this->meshTexturePoint[count])))
 			//{
-			//	std::cout << "[Error] Material's texture load Fail!" << std::endl;
+			//	cout << "[Error] Material's texture load Fail!" << endl;
 			//	return E_FAIL;
 			//}
 
@@ -168,7 +165,7 @@ HRESULT ResourcesManager::LoadMesh(std::string name, Model* model)
 // メッシュパスを取得
 //
 //*****************************************************************************
-std::string ResourcesManager::GetMeshPath(std::string name)
+string ResourcesManager::GetMeshPath(string name)
 {
 	if (this->meshList.find(name) != this->meshList.end())
 	{

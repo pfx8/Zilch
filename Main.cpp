@@ -5,15 +5,10 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Engine.h"
-
-#include "Modules/Camera.h"
-#include "Modules/Light.h"
-#include "Modules/Plane.h"
-#include "Modules/Sound.h"
-#include "Console.h"
-#include "SceneManager.h"
-#include "Character.h"
+#include "Engine\Engine.h"
+#include "Engine\Console.h"
+#include "Engine\SceneManager.h"
+#include "Engine\input.h"
 
 using namespace std;
 
@@ -128,12 +123,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	g_Console = new Console();
 	if (g_Console->isConsoleRun == false)
 	{
-		std::cout << "[Error] Make console ... Fail!" << std::endl;	// エラーメッセージ
+		cout << "[Error] Make console ... Fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
 	// 音楽
-	InitSound(hWnd);
+	
 
 	// シンーマネジメント
 	g_SceneManager = new SceneManager();
@@ -258,14 +253,14 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	if (g_pD3D == NULL)
 	{
-		std::cout << "[Error] DirectX initialization ... Fail!" << std::endl;	// エラーメッセージ
+		cout << "[Error] DirectX initialization ... Fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
 	// 現在のディスプレイモードを取得
 	if (FAILED(g_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
-		std::cout << "[Error] Get displayer mode ... Fail!" << std::endl;	// エラーメッセージ
+		cout << "[Error] Get displayer mode ... Fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
@@ -313,7 +308,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	int vp = 0;
 	if (FAILED(g_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
-		std::cout << "[Error] Get directX device ... Fail!" << std::endl;	// エラーメッセージ
+		cout << "[Error] Get directX device ... Fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 	if (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
@@ -331,7 +326,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		&d3dpp,										// デバイスのプレゼンテーションパラメータ
 		&g_pD3DDevice)))							// デバイスインターフェースへのポインタ
 	{
-		std::cout << "[Error] DirectX device initialization ... Fail!" << std::endl;	// エラーメッセージ
+		cout << "[Error] DirectX device initialization ... Fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 

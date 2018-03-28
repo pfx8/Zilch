@@ -145,9 +145,9 @@ void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 	// テクスチャを渡す
 	shader2D->effect->SetTexture("tex", this->meshTexturePoint);
 
-	UINT passNum = 0;
+	unsigned int passNum = 0;
 	shader2D->effect->Begin(&passNum, 0);
-	for (int count = 0; count < passNum; count++)
+	for (unsigned count = 0; count < passNum; count++)
 	{
 		shader2D->effect->BeginPass(count);
 

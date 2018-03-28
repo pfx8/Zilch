@@ -5,7 +5,7 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Engine.h"
+#include "Plane.h"
 
 //*****************************************************************************
 //
@@ -82,7 +82,7 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 	{
 		if (FAILED(pDevice->CreateVertexBuffer(this->vertexNum * sizeof(PLANEVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->vertexBuffer, NULL)))
 		{
-			std::cout << "[Error] Make <Plane> vertex buffer ... Fail!" << std::endl;	// エラーメッセージ
+			cout << "[Error] Make <Plane> vertex buffer ... Fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
@@ -133,7 +133,7 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 	{
 		if (FAILED(pDevice->CreateIndexBuffer(this->indexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
 		{
-			std::cout << "[Error] Make <Plane> vertex index buffer ... Fail!" << std::endl;	// エラーメッセージ
+			cout << "[Error] Make <Plane> vertex index buffer ... Fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
@@ -258,10 +258,10 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 	shader2D->effect->SetTexture("tex", this->tex);
 
 	// 描画
-	UINT passNum = 0;
+	unsigned int passNum = 0;
 	shader2D->effect->Begin(&passNum, 0);
 	// 各パスを実行する
-	for (int count = 0; count < passNum; count++)
+	for (unsigned int count = 0; count < passNum; count++)
 	{
 		shader2D->effect->BeginPass(count);
 		

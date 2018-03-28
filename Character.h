@@ -8,12 +8,9 @@
 #ifndef _CHARACTER_H_
 #define _CHARACTER_H_
 
-#include <map>
-
-#include "Engine.h"
-#include "DebugMessage.h"
-#include "Modules\Model.h"
-#include "Modules\Sound.h"
+#include "Engine\Engine.h"
+#include "Engine\DebugMessage.h"
+#include "Model\Model.h"
 
 //*****************************************************************************
 //

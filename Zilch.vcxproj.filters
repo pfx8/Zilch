@@ -14,9 +14,6 @@
     <ClCompile Include="Engine\SceneManager.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\SkyBox.cpp" />
-    <ClCompile Include="Engine\Sound.cpp" />
-    <ClCompile Include="Engine\StateMachine.cpp" />
-    <ClCompile Include="Engine\StateMachineManager.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Model\Mesh.cpp" />
     <ClCompile Include="Model\Model.cpp" />
@@ -24,6 +21,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Conmponent\Conmponent.cpp" />
     <ClCompile Include="Component\Component.cpp" />
+    <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Scene\Scene01.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
@@ -39,14 +38,16 @@
     <ClInclude Include="Engine\SceneManager.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\SkyBox.h" />
-    <ClInclude Include="Engine\Sound.h" />
-    <ClInclude Include="Engine\StateMachine.h" />
-    <ClInclude Include="Engine\StateMachineManager.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="Model\Mesh.h" />
     <ClInclude Include="Model\Model.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Conmponent\Conmponent.h" />
     <ClInclude Include="Component\Component.h" />
+    <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\Scene01.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

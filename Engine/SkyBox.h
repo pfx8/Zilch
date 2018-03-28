@@ -8,6 +8,9 @@
 #ifndef _SKY_BOX_H_
 #define _SKY_BOX_H_
 
+#include "Engine.h"
+#include "Shader.h"
+
 typedef struct SKYBOXVERTEX
 {
 	D3DXVECTOR3 pos;	// ˆÊ’u

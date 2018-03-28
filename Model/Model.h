@@ -8,10 +8,9 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
-#include "Material.h"
-#include "..\Engine.h"
-#include "Shader.h"
-
+#include "..\Engine\Engine.h"
+#include "..\Engine\Material.h"
+#include "..\Engine\Shader.h"
 
 //*****************************************************************************
 //

@@ -45,7 +45,7 @@ Scene01::Scene01()
 void Scene01::Initialization()
 {
 	// シーン01
-	std::cout << "[Information] Scene01 <Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << std::endl;
+	cout << "[Information] Scene01 <Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
 
 	// Shader
 	this->shader2D->LoadEffectFile("Data/Shader/render2D_phong.fx");
@@ -72,7 +72,7 @@ void Scene01::Initialization()
 	this->camera->InitCameraByPlayer(this->woman);
 
 	// 効果音
-	this->seHit = LoadSound(SE_HIT);
+	
 }
 
 //*****************************************************************************
@@ -85,13 +85,12 @@ Scene01::~Scene01()
 	// クラスポインタ
 	RELEASE_CLASS_POINT(this->woman);				// プレーヤー
 	RELEASE_CLASS_POINT(this->camera);				// カメラ
-	RELEASE_CLASS_POINT(this->light);		// ライト
+	RELEASE_CLASS_POINT(this->light);				// ライト
 	RELEASE_CLASS_POINT(this->shader2D);			// 2Dシェーダー
 	//RELEASE_CLASS_POINT(this->shader3D);			// 3Dシェーダー
 	RELEASE_CLASS_POINT(this->field);				// フィールド
-	//RELEASE_CLASS_POINT(this->skyBox);				// トゥ―ンシェーダー
+	//RELEASE_CLASS_POINT(this->skyBox);			// トゥ―ンシェーダー
 
-	RELEASE_CLASS_POINT(this->seHit);				// サウンド
 }
 
 //*****************************************************************************

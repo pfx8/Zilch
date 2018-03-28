@@ -8,6 +8,8 @@
 #ifndef _CONSOLE_H_
 #define _CONSOLE_H_
 
+#include "Engine.h"
+
 //*****************************************************************************
 //
 // クラス宣言
@@ -18,7 +20,7 @@ class Console
 private:
 
 public:
-	bool isConsoleRun;	// コンソール実行するかどうかを判断
+	BOOL isConsoleRun;	// コンソール実行するかどうかを判断
 	bool isConsoleFront; // コンソールとゲームウィンドウの前後判断
 
 	Console();

@@ -8,6 +8,10 @@
 #ifndef _PLANE_H_
 #define _PLANE_H_
 
+#include "Engine.h"
+#include "Shader.h"
+#include "Camera.h"
+
 struct PLANEVERTEX
 {
 	D3DXVECTOR3 position;		// í∏ì_ç¿ïW

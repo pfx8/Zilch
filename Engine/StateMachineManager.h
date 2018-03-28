@@ -8,6 +8,8 @@
 #ifndef _STATE_MACHINE_MANAGER_H_
 #define _STATE_MACHINE_MANAGER_H_
 
+#include "Engine.h"
+
 //*****************************************************************************
 //
 // クラス宣言

@@ -5,7 +5,7 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Engine.h"
+#include "Shader.h"
 
 //*****************************************************************************
 //
@@ -32,7 +32,7 @@ Shader::~Shader()
 // 頂点シェーダーファイルを読み込む
 //
 //*****************************************************************************
-HRESULT Shader::LoadEffectFile(std::string effectFileName)
+HRESULT Shader::LoadEffectFile(string effectFileName)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -40,7 +40,7 @@ HRESULT Shader::LoadEffectFile(std::string effectFileName)
 	pDevice->GetDeviceCaps(&caps);
 	if (caps.PixelShaderVersion < D3DPS_VERSION(1, 1))	// ピクセル機能チェック
 	{
-		std::cout << "[Error] Don't support pixel shader!" << std::endl;
+		cout << "[Error] Don't support pixel shader!" << endl;
 	}
 
 	ID3DXBuffer* errorBuffer = NULL;		// エラーバッファ
@@ -55,13 +55,13 @@ HRESULT Shader::LoadEffectFile(std::string effectFileName)
 
 	if (errorBuffer)	// エラーをチェック
 	{
-		std::cout << "[Error] Loading <Shader> " << effectFileName  << " ... Fail!" << std::endl;	// エラーメッセージ
-		std::cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << std::endl;	// エラーメッセージ
+		cout << "[Error] Loading <Shader> " << effectFileName  << " ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
-	std::cout << "[Information] Loading <Shader> " << effectFileName << " ... Success!" << std::endl;
+	cout << "[Information] Loading <Shader> " << effectFileName << " ... Success!" << endl;
 
 	return S_OK;
 }

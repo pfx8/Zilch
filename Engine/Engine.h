@@ -28,24 +28,7 @@
 #include <vector>
 #include <map>
 
-// 自作ヘッドファイル
-#include "Camera.h"
-#include "Console.h"
-#include "DebugMessage.h"
-#include "input.h"
-#include "Light.h"
-#include "Material.h"
-#include "Plane.h"
-#include "ResourcesManager.h"
-#include "SceneManager.h"
-#include "Shader.h"
-#include "SkyBox.h"
-#include "Sound.h"
-#include "StateMachine.h"
-#include "StateMachineManager.h"
-
-#include "..\GameObject\GameObject.h"
-#include "..\Component\Component.h"
+using namespace std;
 
 //*****************************************************************************
 //
@@ -57,9 +40,8 @@
 #pragma comment (lib, "d3dx9.lib")
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
-#pragma comment (lib, "dsound.lib" )
+//#pragma comment (lib, "dsound.lib" )
 #pragma comment (lib, "winmm.lib")
-
 #endif
 
 //*****************************************************************************

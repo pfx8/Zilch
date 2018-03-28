@@ -5,8 +5,10 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#ifndef ___SOUND_H___
-#define ___SOUND_H___
+#ifndef _SOUND_H_
+#define _SOUND_H_
+
+#include "Engine.h"
 
 // É}ÉNÉçíËã`
 enum
