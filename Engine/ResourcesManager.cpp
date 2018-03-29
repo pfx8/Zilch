@@ -15,13 +15,13 @@
 ResourcesManager::ResourcesManager()
 {
 	// テクスチャ検索マッピングを作る
-	this->textureList["skybox"] = "Data/Texture/skybox.jpg";
-	this->textureList["field"] = "Data/Texture/field.jpg";
-	this->textureList["fieldNor"] = "Data/Texture/fieldNor.jpg";
-	this->textureList["NULL"] = "NULL";
+	this->textures["skybox"] = "Resources/Texture/skybox.jpg";
+	this->textures["field"] = "Resources/Texture/field.jpg";
+	this->textures["fieldNor"] = "Resources/Texture/fieldNor.jpg";
+	this->textures["NULL"] = "NULL";
 
 	// メッシュ検索マッピングを作る
-	this->meshList["woman"] = "Data/Model/woman.x";
+	this->meshes["woman"] = "Resources/Model/woman.x";
 }
 
 //*****************************************************************************
@@ -78,9 +78,9 @@ HRESULT ResourcesManager::LoadTexture(string name, LPDIRECT3DTEXTURE9* texturePo
 //*****************************************************************************
 string ResourcesManager::GetTextureStruct(string name)
 {
-	if(this->textureList.find(name) != this->textureList.end())
+	if(this->textures.find(name) != this->textures.end())
 	{
-		return this->textureList[name];
+		return this->textures[name];
 	}
 }
 
@@ -89,7 +89,7 @@ string ResourcesManager::GetTextureStruct(string name)
 // メッシュを読み込み
 //
 //*****************************************************************************
-HRESULT ResourcesManager::LoadMesh(string name, Model* model)
+HRESULT ResourcesManager::LoadModel(string name, Model* model)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -135,21 +135,6 @@ HRESULT ResourcesManager::LoadMesh(string name, Model* model)
 		// Xファイルの情報によってすべてのテクスチャを読み込み
 		if (materials[count].pTextureFilename != NULL)
 		{
-			// テクスチャは一枚なので、ここではよみこまない。モデル初期化する時一回で読み込み
-
-			// テクスチャパスの前に"data/TEXTURE/"を添付
-			//string texPath = "data/TEXTURE/";
-			//string texName = materials[count].pTextureFilename;
-			//texPath += texName;
-
-			// 初期化＆テクスチャを取得 & one textrue
-			//model->this->meshTexturePoint[0] = NULL;
-			//if (FAILED(D3DXCreateTextureFromFile(pDevice, texPath.c_str(), &model->this->meshTexturePoint[count])))
-			//{
-			//	cout << "[Error] Material's texture load Fail!" << endl;
-			//	return E_FAIL;
-			//}
-
 
 		}
 	}
@@ -162,14 +147,39 @@ HRESULT ResourcesManager::LoadMesh(string name, Model* model)
 
 //*****************************************************************************
 //
+// Assimpでモデルを読み込み
+//
+//*****************************************************************************
+void ResourcesManager::LoadModel(string name, const char *path)
+{
+	this->models.insert({name, new Model(path) }); // モデルを名前とデータをペアにする
+}
+
+//*****************************************************************************
+//
+// モデルを名前によってゲット
+//
+//*****************************************************************************
+Model* ResourcesManager::GetModel(string name)
+{
+	if(this->models.find(name) != this->models.end())
+	{
+		return this->models[name];
+	}
+
+	return nullptr;
+}
+
+//*****************************************************************************
+//
 // メッシュパスを取得
 //
 //*****************************************************************************
 string ResourcesManager::GetMeshPath(string name)
 {
-	if (this->meshList.find(name) != this->meshList.end())
+	if (this->meshes.find(name) != this->meshes.end())
 	{
-		return this->meshList[name];
+		return this->meshes[name];
 	}
 
 	return NULL;

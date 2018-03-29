@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-DX_MESH::DX_MESH()
+Mesh::Mesh()
 {
 	m_vertex = NULL;
 	m_vertexBuffer = NULL;
@@ -26,7 +26,7 @@ DX_MESH::DX_MESH()
 // デストラクタ
 //
 //*****************************************************************************
-DX_MESH::~DX_MESH()
+Mesh::~Mesh()
 {
 	RELEASE_POINT(m_vertexBuffer);
 	RELEASE_POINT(m_indexBuffer);
@@ -39,7 +39,7 @@ DX_MESH::~DX_MESH()
 // 描画用各バッファを作る
 //
 //*****************************************************************************
-HRESULT DX_MESH::MakeBuffer()
+HRESULT Mesh::MakeBuffer()
 {
 	// 頂点シェーダー宣言
 	{
@@ -116,7 +116,7 @@ HRESULT DX_MESH::MakeBuffer()
 // メッシュを描画
 //
 //*****************************************************************************
-void DX_MESH::DrawDXMesh()
+void Mesh::DrawDXMesh()
 {
 	D3DXMATRIX wMatrix;
 	// ワールドマトリックスを初期化する

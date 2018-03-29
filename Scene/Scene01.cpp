@@ -48,8 +48,8 @@ void Scene01::Initialization()
 	cout << "[Information] Scene01 <Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
 
 	// Shader
-	this->shader2D->LoadEffectFile("Data/Shader/render2D_phong.fx");
-	//this->shader3D->LoadEffectFile("Data/Shader/default3DRender.fx");
+	this->shader2D->LoadEffectFile("Resources/Shader/render2D_phong.fx");
+	//this->shader3D->LoadEffectFile("Resources/Shader/default3DRender.fx");
 
 	// シェーダーにライトを設定
 	this->shader2D->effect->SetValue("lightPos", &this->light->pos, sizeof(D3DXVECTOR3));
@@ -61,12 +61,9 @@ void Scene01::Initialization()
 	//this->resourcesManager->LoadTexture("skybox", &this->skyBox->titleTexture);
 
 	// フィールド
-	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(3, 3));
+	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
 	this->resourcesManager->LoadTexture("field", &this->field->tex);
-
-	// 主人公
-	this->woman->InitCharacter();
-	this->resourcesManager->LoadMesh("woman", this->woman->model);
+	this->resourcesManager->LoadTexture("fieldNor", &this->field->normalMap);
 
 	// カメラ
 	this->camera->InitCameraByPlayer(this->woman);

@@ -258,7 +258,7 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 	shader2D->effect->SetTexture("tex", this->tex);
 
 	// 描画
-	unsigned int passNum = 0;
+	UINT passNum = 0;
 	shader2D->effect->Begin(&passNum, 0);
 	// 各パスを実行する
 	for (unsigned int count = 0; count < passNum; count++)

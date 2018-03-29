@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Character" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAIKCA=</HashCode>
+      <FileName>Character.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Component" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAEBAIAAEAAA=</HashCode>
+      <FileName>Component\Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IETCCAIAAASAAIAAUAACAAwAAAgAAhAMBAAgAADAASA=</HashCode>
+      <FileName>Engine\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Console" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAQIAAAAAAEAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Console.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DebugMessage" Collapsed="true">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIIAABAAAAAgAAAAAAAgAAAAAAIAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Engine\DebugMessage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Light" Collapsed="true">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAACAAAAAAoIAAAAAAAABAAAAAABAAAA=</HashCode>
+      <FileName>Engine\Light.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Material" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Engine\Material.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Plane" Collapsed="true">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAFBAAAEBggCAoAAAIAAABAJAAIBAAIAAAQAAAA=</HashCode>
+      <FileName>Engine\Plane.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourcesManager" Collapsed="true">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAEAAAIAAAAAAAQABAAACAAAAAAAgAAAAAAAACAAAA=</HashCode>
+      <FileName>Engine\ResourcesManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneManager" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAkAAAAAAAIAAAAAAEAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Engine\SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shader" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAACAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAEAAAA=</HashCode>
+      <FileName>Engine\Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkyBox" Collapsed="true">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQACEBAACAAgAAAMAAAIAAABAAAAIABAAAAAAAAAA=</HashCode>
+      <FileName>Engine\SkyBox.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAEAAIAIEAAA=</HashCode>
+      <FileName>GameObject\GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DX_MESH" Collapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ghAAAQAQcAAYAABAAAAAAAAAAAAAAAAAAAAAAAAAFAA=</HashCode>
+      <FileName>Model\Mesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model" Collapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IRQAAAEBAAAAAgAAAAAAAIACAAAAAAIABCgAAABAAIA=</HashCode>
+      <FileName>Model\Model.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAFAAAAAgAAgAAAAAAAQBAAAAAAAAAIAAAAACA=</HashCode>
+      <FileName>Scene\Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene01" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAAAAgAAAgAAAAAAAQAAABIAAAAAAAAAAKCAABA=</HashCode>
+      <FileName>Scene\Scene01.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="DX_VERTEX_3D" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Engine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TextureStruct" Collapsed="true">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAIAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Engine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PLANEVERTEX" Collapsed="true">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAgAAAAAAgAAAAAAAgAAAAA=</HashCode>
+      <FileName>Engine\Plane.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SKYBOXVERTEX" Collapsed="true">
+    <Position X="6.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Engine\SkyBox.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="cameraState" Collapsed="true">
+    <Position X="3" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Engine\Camera.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WhereIsCamera" Collapsed="true">
+    <Position X="6.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAGAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Camera.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="RenderStatus" Collapsed="true">
+    <Position X="4.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAQAg=</HashCode>
+      <FileName>Engine\Engine.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Yu Gothic UI" Size="9" />
+</ClassDiagram>

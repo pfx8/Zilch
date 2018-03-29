@@ -8,9 +8,15 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
+#include "Mesh.h"
 #include "..\Engine\Engine.h"
 #include "..\Engine\Material.h"
 #include "..\Engine\Shader.h"
+
+//--------------Assimp--------------//
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 //*****************************************************************************
 //
@@ -25,6 +31,8 @@ private:
 	void SetWorldMatrix();						// ワールド変換
 	void RotationVecUp(float angle);			// 上方向のベクトルにして回転
 
+	void Load(const char* path);				// モデルをロードする
+
 public:
 	D3DXVECTOR3		pos;			// 位置
 	D3DXVECTOR3		rot;			// 回転
@@ -38,7 +46,12 @@ public:
 	Material*						material;			// マテリアル情報へのポインタ
 	IDirect3DVertexDeclaration9*	vertexDecl;			// 頂点宣言
 
-	Model();
+	vector<Mesh> mMeshes;			// メッシュデータ
+
+	Model(const char *path)
+	{
+		Load(path);
+	};
 	~Model();
 
 	void Update();	// 更新

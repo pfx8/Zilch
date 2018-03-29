@@ -198,3 +198,14 @@ void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 	}
 	shader2D->effect->End();
 }
+
+//*****************************************************************************
+//
+// モデルをロードする
+//
+//*****************************************************************************
+
+void Model::Load(const char* path)
+{
+
+}

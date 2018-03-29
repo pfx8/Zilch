@@ -10,7 +10,20 @@
 
 #include "..\Engine\Engine.h"
 
-class DX_MESH
+struct Vertex 
+{
+	D3DXVECTOR3 pos;
+	D3DXVECTOR3 nor;
+	D3DXVECTOR2 tes;
+};
+
+struct Texture
+{
+	unsigned int id;
+	string tyoe;
+};
+
+class Mesh
 {
 private:
 	LPDIRECT3DVERTEXBUFFER9		m_vertexBuffer;	// 頂点バッファへのポインタ
@@ -25,8 +38,10 @@ public:
 	int							m_IndexNum;		// 頂点インデックス数
 	int*						m_Index;		// 頂点インデック配列,[0,1,2][0,2,3]...
 
-	DX_MESH();
-	~DX_MESH();
+	Vertex*						vertices;
+
+	Mesh();
+	~Mesh();
 
 	void DrawDXMesh();		// メッシュを描画
 	HRESULT MakeBuffer();		// 描画用各バッファを作る

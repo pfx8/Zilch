@@ -91,11 +91,11 @@ float4 psMain(VSout vout, uniform int rendertype) : COLOR
     float4 color = float4(0.0, 0.0, 0.0, 0.0);
     float4 texColor = tex2D(texSam, vout.coord);
 
-    if(rendertype == 0)
+    if(rendertype == 0 /*with diffuse*/)
     {
         color = texColor;
     }
-    else if(rendertype == 1)
+    else if (rendertype == 1 /*with light*/)
     {
         // ambient = lightColor * lightStrength * ambientStrength
         float4 ambient = lightDiffuse * 1.5 * 0.6;
@@ -118,7 +118,7 @@ float4 psMain(VSout vout, uniform int rendertype) : COLOR
         color = (diffuse + specular) * texColor * attenuation;
         color.w = 1.0;
     }
-    else if(rendertype == 2)
+    else if (rendertype == 2 /*with light & normal map*/)
     {
         // ñ@ê¸Çì«Ç›çûÇ›
         float3 normal = tex2D(normalMapSam, vout.coord).rgb;

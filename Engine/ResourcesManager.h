@@ -21,19 +21,23 @@ class ResourcesManager
 {
 private:
 	// テクスチャ
-	map < string, string> textureList;	// テクスチャリスト
+	map < string, string> textures;
 	string GetTextureStruct(string name);		// テクスチャパスを取得
 
 	// メッシュ
-	map < string, string> meshList;	// メッシュリスト
+	map < string, string> meshes;
 	string GetMeshPath(string name);		// メッシュパスを取得	
+
+	// モデル
+	map<string, Model*> models;
 
 public:
 	ResourcesManager();
 	~ResourcesManager();
 
 	HRESULT LoadTexture(string name, LPDIRECT3DTEXTURE9* texturePoint);	// テクスチャを読み込み
-	HRESULT LoadMesh(string name, Model* model);	// メッシュを読み込み
+	HRESULT LoadModel(string name, Model* model);						// モデルを読み込み
+	void LoadModel(string name, const char *path);						// Assimpでモデルを読み込み
 };
 
 #endif // !_RESOURCES_MANAGER_H_
