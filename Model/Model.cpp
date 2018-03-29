@@ -204,7 +204,7 @@ void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 // モデルをロードする
 //
 //*****************************************************************************
-HRESULT Model::Load(const char* path)
+HRESULT Model::loadModel(string const &path)
 {
 	Assimp::Importer import;																// Assimpのインポートを作る
 	const aiScene *scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality);	// ポリゴンを強制に三角形にする
@@ -215,7 +215,11 @@ HRESULT Model::Load(const char* path)
 		return E_FAIL;
 	}
 
-	processNode(scene->mRootNode, scene);	// ルートノードから処理を始める
+	// モデルの目録を保存
+	this->mModelDirectory = path.substr(0, path.find_last_of('/'));
+
+	// ルートノードから処理を始める
+	processNode(scene->mRootNode, scene);
 }
 
 //*****************************************************************************
@@ -247,27 +251,90 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 //*****************************************************************************
 Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 {
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
-	vector<Texture> textures;
+	vector<Vertex> vertices;				// 頂点
+	vector<unsigned int> indices;			// 頂点インデックス
+	vector<Texture> textures;				// 全部のテクスチャ
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
 	{
 		Vertex vertex;
 
-		// 頂点をデータを読み込み
+		// 位置
+		vertex.pos.x = mesh->mVertices[count].x;
+		vertex.pos.y = mesh->mVertices[count].y;
+		vertex.pos.z = mesh->mVertices[count].z;
 
+		// 法線
+		vertex.nor.x = mesh->mNormals[count].x;
+		vertex.nor.y = mesh->mNormals[count].y;
+		vertex.nor.z = mesh->mNormals[count].z;
 
+		// UV座標
+		if (mesh->mTextureCoords[0])	// テクスチャ0から(Maxは8で)
+		{
+			vertex.tex.x = mesh->mTextureCoords[0][count].x;
+			vertex.tex.y = mesh->mTextureCoords[0][count].y;
+		}
+		else
+		{
+			vertex.tex = D3DXVECTOR2(0.0f, 0.0f);
+		}
+
+		// 接線(Tangents)
+		if (mesh->mTangents)
+		{
+			vertex.tangent.x = mesh->mTangents[count].x;
+			vertex.tangent.y = mesh->mTangents[count].y;
+			vertex.tangent.z = mesh->mTangents[count].z;
+		}
+		else
+		{
+			vertex.tangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		}
+
+		// 従接線(Bitangents)
+		if (mesh->mBitangents)
+		{
+			vertex.bitangent.x = mesh->mBitangents[count].x;
+			vertex.bitangent.y = mesh->mBitangents[count].y;
+			vertex.bitangent.z = mesh->mBitangents[count].z;
+		}
+		else
+		{
+			vertex.bitangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		}
+
+		// 取得した頂点を頂点コンテナの末尾に追加
 		vertices.push_back(vertex);
 	}
 
 	// インデックス処理
+	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
+	{
+		aiFace face = mesh->mFaces[count];
+
+		for (unsigned int count = 0; count < face.mNumIndices; count++)
+		{
+			// フェースによって各頂点のインデックスを取得
+			indices.push_back(face.mIndices[count]);
+		}
+	}
 	
 	// マテリアル処理
 	if (mesh->mMaterialIndex >= 0)
 	{
+		// フェースのマテリアルを取得
+		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
+		vector<Texture> diffuseMaps = loadMaterialTexture(material, aiTextureType_DIFFUSE, "diffuseTexture");
+		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());		// 取得したdiffuseMapsをallTextureの後ろに追加
+		vector<Texture> specularMaps = loadMaterialTexture(material, aiTextureType_SPECULAR, "specularTexture");
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());	// 取得したspecularMapsをallTextureの後ろに追加
+		vector<Texture> normalMaps = loadMaterialTexture(material, aiTextureType_HEIGHT, "normalTexture");
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());		// 取得したnormalMapsをallTextureの後ろに追加
+		vector<Texture> heightMaps = loadMaterialTexture(material, aiTextureType_AMBIENT, "heightTexture");
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());		// 取得したnormalMapsをallTextureの後ろに追加
 	}
 	else
 	{
@@ -275,4 +342,74 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 	}
 
 	return Mesh(vertices, indices, textures);
+}
+
+//*****************************************************************************
+//
+// マテリアルからテクスチャを読み込み
+//
+//*****************************************************************************
+vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType type, string typeName)
+{
+	vector<Texture> textures;	// 読み込んだテクスチャ
+
+	for (unsigned int count = 0; count < mat->GetTextureCount(type); count++)
+	{
+		aiString str;
+		mat->GetTexture(type, count, &str);			// テクスチャパスを読み込み
+
+		bool skip = false;
+		for (unsigned int i = 0; i < this->mTexturesLoaded.size(); i++)
+		{
+			if (strcmp(this->mTexturesLoaded[i].path.data(), str.C_Str()) == 0)
+			{
+				// テクスチャが読み込まれたかどうかをチェック
+				textures.push_back(this->mTexturesLoaded[i]);
+				skip = true;
+				break;
+			}
+		}
+
+		if (!skip)
+		{
+			// テクスチャまだ読み込まなっかたら読み込む
+			Texture mTextures;
+			TextureFromFile(str.C_Str(), this->mModelDirectory, mTextures.point);
+			mTextures.type = typeName;
+			mTextures.path = str.C_Str();
+			textures.push_back(mTextures);
+
+			// 読み込んだテクスチャ集合に追加
+			this->mTexturesLoaded.push_back(mTextures);
+		}
+	}
+
+	return textures;
+}
+
+//*****************************************************************************
+//
+// テクスチャを読み込み
+//
+//*****************************************************************************
+HRESULT Model::TextureFromFile(const char *path, string const &directory, LPDIRECT3DTEXTURE9 &point)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	string fileName = string(path);
+	fileName = directory + '/' + fileName;
+
+	point = nullptr;
+
+	// テクスチャを読み込み
+	if (FAILED(D3DXCreateTextureFromFile(
+		pDevice,
+		fileName.c_str(),
+		&point)))
+	{
+		cout << "[Error] Loading <Texture> " << fileName << " ... Fail!" << endl;	// コンソールにメッセージを出す
+		return E_FAIL;
+	}
+	cout << "[Information] Loading <Texture> " << fileName << " ... Success!" << endl;	// コンソールにメッセージを出す
+	return S_OK;
 }

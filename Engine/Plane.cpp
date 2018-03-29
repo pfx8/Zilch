@@ -102,8 +102,8 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 
 				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texture.x = numX * 1.0f;
-				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].texture.y = numY * 1.0f;
+				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].mTextures.x = numX * 1.0f;
+				VertexBuffer[numY * (int(planeNum.x) + 1) + numX].mTextures.y = numY * 1.0f;
 
 				if (VertexBuffer[numY * (int(planeNum.x) + 1) + numX].position.x = 0)
 				{

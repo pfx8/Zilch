@@ -83,12 +83,6 @@ HRESULT Mesh::MakeBuffer()
 			vertices[count].position.z = m_vertex[count].position.z;
 			vertices[count].position.w = m_vertex[count].position.w;
 
-			/*cout << "(" << vertices[count].position.x
-				<< vertices[count].position.y
-				<< vertices[count].position.z
-				<< vertices[count].position.w
-				<< ")" << endl;*/
-
 			vertices[count].diffuse = D3DCOLOR_RGBA(0, 0, 0, 255);
 		}
 		m_vertexBuffer->Unlock();
@@ -144,4 +138,24 @@ void Mesh::DrawDXMesh()
 	m_D3DDevice->SetIndices(m_indexBuffer);
 	// 描画
 	m_D3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_vertexNum, 0, m_IndexNum);
+}
+
+//*****************************************************************************
+//
+// メッシュを設定
+//
+//*****************************************************************************
+void Mesh::SetupMesh()
+{
+
+}
+
+//*****************************************************************************
+//
+// メッシュをドロー
+//
+//*****************************************************************************
+void Mesh::Draw(Shader *shader)
+{
+
 }

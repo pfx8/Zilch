@@ -89,7 +89,7 @@ string ResourcesManager::GetTextureStruct(string name)
 // メッシュを読み込み
 //
 //*****************************************************************************
-HRESULT ResourcesManager::LoadModel(string name, Model* model)
+HRESULT ResourcesManager::loadModel(string name, Model* model)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -147,31 +147,6 @@ HRESULT ResourcesManager::LoadModel(string name, Model* model)
 
 //*****************************************************************************
 //
-// Assimpでモデルを読み込み
-//
-//*****************************************************************************
-void ResourcesManager::LoadModel(string name, const char *path)
-{
-	this->models.insert({name, new Model(path) }); // モデルを名前とデータをペアにする
-}
-
-//*****************************************************************************
-//
-// モデルを名前によってゲット
-//
-//*****************************************************************************
-Model* ResourcesManager::GetModel(string name)
-{
-	if(this->models.find(name) != this->models.end())
-	{
-		return this->models[name];
-	}
-
-	return nullptr;
-}
-
-//*****************************************************************************
-//
 // メッシュパスを取得
 //
 //*****************************************************************************
@@ -183,4 +158,52 @@ string ResourcesManager::GetMeshPath(string name)
 	}
 
 	return NULL;
+}
+
+//*****************************************************************************
+//
+// Assimpでモデルを読み込み
+//
+//*****************************************************************************
+void ResourcesManager::loadModel(string name, const char *path)
+{
+	this->mModels.insert({ name, new Model(path) }); // モデルを名前とデータをペアにする
+}
+
+//*****************************************************************************
+//
+// モデルを名前によってゲット
+//
+//*****************************************************************************
+Model* ResourcesManager::GetModel(string name)
+{
+	if (this->mModels.find(name) != this->mModels.end())
+	{
+		return this->mModels[name];
+	}
+	else
+	{
+		cout << "[Error] " << name << " failed!" << endl;
+		return nullptr;
+	}
+}
+
+//*****************************************************************************
+//
+// Assimpでテクスチャを読み込み
+//
+//*****************************************************************************
+void ResourcesManager::LoadTexture(string name, const char *path)
+{
+	
+}
+
+//*****************************************************************************
+//
+// テクスチャを名前によって取得
+//
+//*****************************************************************************
+Texture* ResourcesManager::GetTexture(string name)
+{
+
 }

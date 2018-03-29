@@ -16,7 +16,7 @@ struct PLANEVERTEX
 {
 	D3DXVECTOR3 position;		// 頂点座標
 	D3DXVECTOR3 normal;			// 法線
-	D3DXVECTOR2 texture;		// テクスチャ座標
+	D3DXVECTOR2 mTextures;		// テクスチャ座標
 	D3DXVECTOR3 tangent;		// 接ベクトル
 };
 
