@@ -37,7 +37,9 @@ public:
 
 	HRESULT LoadTexture(string name, LPDIRECT3DTEXTURE9* texturePoint);	// テクスチャを読み込み
 	HRESULT LoadModel(string name, Model* model);						// モデルを読み込み
+	
 	void LoadModel(string name, const char *path);						// Assimpでモデルを読み込み
+	Model *GetModel(string name);										// モデルを名前によってゲット
 };
 
 #endif // !_RESOURCES_MANAGER_H_

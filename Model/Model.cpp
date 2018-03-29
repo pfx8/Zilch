@@ -204,8 +204,75 @@ void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 // モデルをロードする
 //
 //*****************************************************************************
-
-void Model::Load(const char* path)
+HRESULT Model::Load(const char* path)
 {
+	Assimp::Importer import;																// Assimpのインポートを作る
+	const aiScene *scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality);	// ポリゴンを強制に三角形にする
 
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	{
+		cout << "[Error] Assimp::" << import.GetErrorString() << endl;
+		return E_FAIL;
+	}
+
+	processNode(scene->mRootNode, scene);	// ルートノードから処理を始める
+}
+
+//*****************************************************************************
+//
+// ノード処理
+//
+//*****************************************************************************
+void Model::processNode(aiNode *node, const aiScene *scene)
+{
+	// もし今のノードにメッシュがあれば処理する
+	for (unsigned int count = 0; count < node->mNumMeshes; count++)
+	{
+		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
+		aiMesh *mesh = scene->mMeshes[node->mMeshes[count]];
+		this->mMeshes.push_back(processMesh(mesh, scene));
+	}
+
+	// 子供ノードを同じように処理する
+	for (unsigned int count = 0; count < node->mNumChildren; count++)
+	{
+		processNode(node->mChildren[count], scene);
+	}
+}
+
+//*****************************************************************************
+//
+// メッシュ処理
+//
+//*****************************************************************************
+Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
+{
+	vector<Vertex> vertices;
+	vector<unsigned int> indices;
+	vector<Texture> textures;
+
+	// 頂点処理
+	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
+	{
+		Vertex vertex;
+
+		// 頂点をデータを読み込み
+
+
+		vertices.push_back(vertex);
+	}
+
+	// インデックス処理
+	
+	// マテリアル処理
+	if (mesh->mMaterialIndex >= 0)
+	{
+
+	}
+	else
+	{
+		cout << "[Warning] No Material" << endl;
+	}
+
+	return Mesh(vertices, indices, textures);
 }

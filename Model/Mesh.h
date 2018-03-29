@@ -38,8 +38,12 @@ public:
 	int							m_IndexNum;		// 頂点インデックス数
 	int*						m_Index;		// 頂点インデック配列,[0,1,2][0,2,3]...
 
-	Vertex*						vertices;
-
+	// メッシュデータ
+	vector<Vertex>				mVertices;
+	vector<unsigned int>		mIndices;
+	vector<Texture>				mTextures;
+	
+	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture>  textures);
 	Mesh();
 	~Mesh();
 

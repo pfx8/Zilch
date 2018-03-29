@@ -31,7 +31,9 @@ private:
 	void SetWorldMatrix();						// ワールド変換
 	void RotationVecUp(float angle);			// 上方向のベクトルにして回転
 
-	void Load(const char* path);				// モデルをロードする
+	HRESULT Load(const char *path);				// モデルをロードする
+	void processNode(aiNode *node, const aiScene *scene);
+	Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 
 public:
 	D3DXVECTOR3		pos;			// 位置
@@ -48,6 +50,7 @@ public:
 
 	vector<Mesh> mMeshes;			// メッシュデータ
 
+	Model();
 	Model(const char *path)
 	{
 		Load(path);
