@@ -41,6 +41,7 @@ using namespace std;
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
 #pragma comment (lib, "winmm.lib")
+#pragma comment (lib, "fmod_vc.lib")	// fmod
 #endif
 
 //*****************************************************************************

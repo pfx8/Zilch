@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Component\Component.cpp" />
+    <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\Console.cpp" />
     <ClCompile Include="Engine\DebugMessage.cpp" />
@@ -43,6 +44,7 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="Component\Component.h" />
+    <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Console.h" />
     <ClInclude Include="Engine\DebugMessage.h" />
@@ -118,8 +120,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\WorkSpace\Zilch\packages\Assimp.3.0.0\build\native\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\WorkSpace\Zilch\packages\Assimp.3.0.0\build\native\lib\Win32;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\WorkSpace\Zilch\packages\FMOD\include;C:\WorkSpace\Zilch\packages\Assimp.3.0.0\build\native\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\WorkSpace\Zilch\packages\FMOD\lib;C:\WorkSpace\Zilch\packages\Assimp.3.0.0\build\native\lib\Win32;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

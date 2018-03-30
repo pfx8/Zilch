@@ -259,27 +259,27 @@ bool GetKeyboardRelease(int key)
 // マウスの初期化
 HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 {
-	HRESULT result;
+	HRESULT mResult;
 	// デバイス作成
-	result = g_pDInput->CreateDevice(GUID_SysMouse,&pMouse,NULL);
-	if(FAILED(result) || pMouse==NULL)
+	mResult = g_pDInput->CreateDevice(GUID_SysMouse,&pMouse,NULL);
+	if(FAILED(mResult) || pMouse==NULL)
 	{
 		MessageBox(hWindow,"No mouse","Warning",MB_OK | MB_ICONWARNING);
-		return result;
+		return mResult;
 	}
 	// データフォーマット設定
-	result = pMouse->SetDataFormat(&c_dfDIMouse2);
-	if(FAILED(result))
+	mResult = pMouse->SetDataFormat(&c_dfDIMouse2);
+	if(FAILED(mResult))
 	{
 		MessageBox(hWindow,"Can't setup mouse","Warning",MB_OK | MB_ICONWARNING);
-		return result;
+		return mResult;
 	}
 	// 他のアプリと協調モードに設定
-	result = pMouse->SetCooperativeLevel(hWindow, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
-	if(FAILED(result))
+	mResult = pMouse->SetCooperativeLevel(hWindow, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
+	if(FAILED(mResult))
 	{
 		MessageBox(hWindow,"Mouse mode error","Warning",MB_OK | MB_ICONWARNING);
-		return result;
+		return mResult;
 	}
 	
 	// デバイスの設定
@@ -291,16 +291,16 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	prop.diph.dwHow = DIPH_DEVICE;
 	prop.dwData = DIPROPAXISMODE_REL;		// マウスの移動値　相対値
 
-	result = pMouse->SetProperty(DIPROP_AXISMODE,&prop.diph);
-	if(FAILED(result))
+	mResult = pMouse->SetProperty(DIPROP_AXISMODE,&prop.diph);
+	if(FAILED(mResult))
 	{
 		MessageBox(hWindow,"Mouse property error","Warning",MB_OK | MB_ICONWARNING);
-		return result;	
+		return mResult;	
 	}
 	
 	// アクセス権を得る
 	pMouse->Acquire();
-	return result;
+	return mResult;
 }
 //---------------------------------------------------------
 void UninitMouse()
@@ -316,12 +316,12 @@ void UninitMouse()
 //-----------------------------------------------------------
 HRESULT UpdateMouse()
 {
-	HRESULT result;
+	HRESULT mResult;
 	// 前回の値保存
 	DIMOUSESTATE2 lastMouseState = mouseState;
 	// データ取得
-	result = pMouse->GetDeviceState(sizeof(mouseState),&mouseState);
-	if(SUCCEEDED(result))
+	mResult = pMouse->GetDeviceState(sizeof(mouseState),&mouseState);
+	if(SUCCEEDED(mResult))
 	{
 		mouseTrigger.lX = mouseState.lX;
 		mouseTrigger.lY = mouseState.lY;
@@ -336,9 +336,9 @@ HRESULT UpdateMouse()
 	else	// 取得失敗
 	{
 		// アクセス権を得てみる
-		result = pMouse->Acquire();
+		mResult = pMouse->Acquire();
 	}
-	return result;
+	return mResult;
 	
 }
 
@@ -386,16 +386,16 @@ long GetMouseZ(void)
 //---------------------------------------- コールバック関数
 BOOL CALLBACK SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID )
 {
-	HRESULT result;
+	HRESULT mResult;
 
-	result = g_pDInput->CreateDevice(lpddi->guidInstance, &pGamePad[padCount++], NULL);
+	mResult = g_pDInput->CreateDevice(lpddi->guidInstance, &pGamePad[padCount++], NULL);
 	return DIENUM_CONTINUE;	// 次のデバイスを列挙
 
 }
 //---------------------------------------- 初期化
 HRESULT InitializePad(void)			// パッド初期化
 {
-	HRESULT		result;
+	HRESULT		mResult;
 	int			i;
 
 	padCount = 0;
@@ -405,8 +405,8 @@ HRESULT InitializePad(void)			// パッド初期化
 
 	for ( i=0 ; i<padCount ; i++ ) {
 		// ジョイスティック用のデータ・フォーマットを設定
-		result = pGamePad[i]->SetDataFormat(&c_dfDIJoystick);
-		if ( FAILED(result) )
+		mResult = pGamePad[i]->SetDataFormat(&c_dfDIJoystick);
+		if ( FAILED(mResult) )
 			return false; // データフォーマットの設定に失敗
 
 		// モードを設定（フォアグラウンド＆非排他モード）
@@ -476,7 +476,7 @@ void UninitPad(void)
 //------------------------------------------ 更新
 void UpdatePad(void)
 {
-	HRESULT			result;
+	HRESULT			mResult;
 	DIJOYSTATE2		dijs;
 	int				i;
 
@@ -486,18 +486,18 @@ void UpdatePad(void)
 		lastPadState = padState[i];
 		padState[i] = 0x00000000l;	// 初期化
 
-		result = pGamePad[i]->Poll();	// ジョイスティックにポールをかける
-		if ( FAILED(result) ) {
-			result = pGamePad[i]->Acquire();
-			while ( result == DIERR_INPUTLOST )
-				result = pGamePad[i]->Acquire();
+		mResult = pGamePad[i]->Poll();	// ジョイスティックにポールをかける
+		if ( FAILED(mResult) ) {
+			mResult = pGamePad[i]->Acquire();
+			while ( mResult == DIERR_INPUTLOST )
+				mResult = pGamePad[i]->Acquire();
 		}
 
-		result = pGamePad[i]->GetDeviceState(sizeof(DIJOYSTATE), &dijs);	// デバイス状態を読み取る
-		if ( result == DIERR_INPUTLOST || result == DIERR_NOTACQUIRED ) {
-			result = pGamePad[i]->Acquire();
-			while ( result == DIERR_INPUTLOST )
-				result = pGamePad[i]->Acquire();
+		mResult = pGamePad[i]->GetDeviceState(sizeof(DIJOYSTATE), &dijs);	// デバイス状態を読み取る
+		if ( mResult == DIERR_INPUTLOST || mResult == DIERR_NOTACQUIRED ) {
+			mResult = pGamePad[i]->Acquire();
+			while ( mResult == DIERR_INPUTLOST )
+				mResult = pGamePad[i]->Acquire();
 		}
 
 		// LONG lX;		X軸の位置		左アナログスティックの左右
