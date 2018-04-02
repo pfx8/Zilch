@@ -44,6 +44,43 @@ Model::Model()
 
 //*****************************************************************************
 //
+// コンストラクタ
+//
+//*****************************************************************************
+Model::Model(string const &path)
+{
+	loadModel(path);
+
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	// 数値を初期化
+	this->upVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	this->lookVector = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	this->rightVector = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	this->pos = D3DXVECTOR3(0.0f, 0.5f, 0.0f);
+	this->rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	this->scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
+	// ポインタ
+	this->meshPoint = NULL;
+	this->meshTexturePoint = NULL;
+
+	// クラスポインタ
+	this->material = new Material();
+
+	// 頂点宣言
+	D3DVERTEXELEMENT9 planeDecl[] =		// 頂点データのレイアウトを定義
+	{
+		{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0 },
+		{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+		D3DDECL_END()
+	};
+	pDevice->CreateVertexDeclaration(planeDecl, &this->vertexDecl);
+}
+
+//*****************************************************************************
+//
 // デストラクタ
 //
 //*****************************************************************************
@@ -132,24 +169,24 @@ void Model::Update()
 // モデルを描画する(CelShader)
 //
 //*****************************************************************************
-void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
+void Model::Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	// テクニックを設定
-	shader2D->effect->SetTechnique("defaultRender");
+	mShader->effect->SetTechnique("defaultRender");
 
 	// 変更行列を渡す
-	shader2D->effect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));
-	shader2D->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
-	shader2D->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
+	mShader->effect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));
+	mShader->effect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
+	mShader->effect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
 
 	// テクスチャを渡す
-	shader2D->effect->SetTexture("tex", this->meshTexturePoint);
+	mShader->effect->SetTexture("tex", this->meshTexturePoint);
 
 	unsigned int passNum = 0;
-	shader2D->effect->Begin(&passNum, 0);
+	mShader->effect->Begin(&passNum, 0);
 	for (unsigned count = 0; count < passNum; count++)
 	{
-		shader2D->effect->BeginPass(count);
+		mShader->effect->BeginPass(count);
 
 		LPDIRECT3DDEVICE9 pDevice = GetDevice();
 		DWORD materialNum = this->material->materialNum;				// マテリアル数を取得
@@ -194,9 +231,9 @@ void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 
 		delete[] attributes;
 
-		shader2D->effect->EndPass();
+		mShader->effect->EndPass();
 	}
-	shader2D->effect->End();
+	mShader->effect->End();
 }
 
 //*****************************************************************************
@@ -207,13 +244,29 @@ void Model::Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 HRESULT Model::loadModel(string const &path)
 {
 	Assimp::Importer import;																// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality);	// ポリゴンを強制に三角形にする
+	const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate/*aiProcessPreset_TargetRealtime_Quality*/);	// ポリゴンを強制に三角形にする
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		cout << "[Error] Assimp::" << import.GetErrorString() << endl;
 		return E_FAIL;
 	}
+
+	/*if (!scene )
+	{
+		cout << "[Error] 1 Assimp::" << import.GetErrorString() << endl;
+		return E_FAIL;
+	}*/
+	/*if (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
+	{
+		cout << "[Error] 2 Assimp::" << import.GetErrorString() << endl;
+		return E_FAIL;
+	}*/
+	/*if (!scene->mRootNode)
+	{
+		cout << "[Error] 3 Assimp::" << import.GetErrorString() << endl;
+		return E_FAIL;
+	}*/
 
 	// モデルの目録を保存
 	this->mModelDirectory = path.substr(0, path.find_last_of('/'));

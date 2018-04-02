@@ -28,7 +28,8 @@ Character::Character()
 void Character::InitCharacter()
 {
 	// ƒ‚ƒfƒ‹
-	this->model = new Model;
+	this->model = new Model("Resources/Model/Hixo/FBX/Hixo.fbx");
+	//this->model = new Model("Resources/Model/nanosuit/nanosuit.obj"); 
 }
 
 //*****************************************************************************

@@ -28,17 +28,15 @@ public:
 	Scene();
 	~Scene();
 
-	virtual void Update() {};			// 仮想関数
-	virtual void Draw() {};				// 仮想関数
+	virtual void Update() {};			// シーンの更新
+	virtual void Draw() {};				// シーンの描画
+	virtual void oneFrame() {};			// 1フレームの描画内容
 	virtual void Control() {};			// プレーヤー操作関数
 	virtual void SetRenderState() {};	// レンダリング状態を設定
 
 	// ワールド変換
 	void SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos=D3DXVECTOR3(0.0f, 0.0f, 0.0f), 
 		D3DXVECTOR3 rot=D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3 scl=D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-
-	virtual void Draw() {};				// シーンの描画
-	virtual void oneFrame() {}:			// 1フレームの描画内容
 };
 
 #endif // !_SCENE_H_

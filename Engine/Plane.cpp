@@ -218,7 +218,7 @@ void Plane::SetWorldMatrix()
 // テクスチャを描画する
 //
 //*****************************************************************************
-void Plane::Draw(Shader* shader2D, Camera* camera)
+void Plane::Draw(Shader* mShader, Camera* camera)
 {
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -227,50 +227,50 @@ void Plane::Draw(Shader* shader2D, Camera* camera)
 	{
 	case RS_withoutLight:
 		renderStatus = RS_withoutLight;
-		shader2D->effect->SetTechnique("render_without_light");
+		mShader->effect->SetTechnique("render_without_light");
 		break;
 
 	case RS_withLight:
 		renderStatus = RS_withLight;
-		shader2D->effect->SetTechnique("render_with_light");
+		mShader->effect->SetTechnique("render_with_light");
 
 		// カメラ位置の設定
-		shader2D->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
+		mShader->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
 		break;
 
 	case RS_withNormalMap:
 		renderStatus = RS_withNormalMap;
-		shader2D->effect->SetTechnique("render_with_normalMap");
+		mShader->effect->SetTechnique("render_with_normalMap");
 
 		// カメラ位置の設定
-		shader2D->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
+		mShader->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
 		// ノーマルマップを設定
-		shader2D->effect->SetTexture("normalMap", this->normalMap);
+		mShader->effect->SetTexture("normalMap", this->normalMap);
 		break;
 	}
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
-	shader2D->effect->SetMatrix("wMat", &this->wMatrix);
-	shader2D->effect->SetMatrix("vMat", &camera->vMatrix);
-	shader2D->effect->SetMatrix("pMat", &camera->pMatrix);
+	mShader->effect->SetMatrix("wMat", &this->wMatrix);
+	mShader->effect->SetMatrix("vMat", &camera->vMatrix);
+	mShader->effect->SetMatrix("pMat", &camera->pMatrix);
 
 	// テクスチャの設定
-	shader2D->effect->SetTexture("tex", this->tex);
+	mShader->effect->SetTexture("tex", this->tex);
 
 	// 描画
 	UINT passNum = 0;
-	shader2D->effect->Begin(&passNum, 0);
+	mShader->effect->Begin(&passNum, 0);
 	// 各パスを実行する
 	for (unsigned int count = 0; count < passNum; count++)
 	{
-		shader2D->effect->BeginPass(count);
+		mShader->effect->BeginPass(count);
 		
 		pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
 		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
 		pDevice->SetIndices(this->indexBuffer);										// 頂点インデックスバッファを設定
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ポリゴンの描画
 
-		shader2D->effect->EndPass();
+		mShader->effect->EndPass();
 	}
-	shader2D->effect->End();
+	mShader->effect->End();
 }

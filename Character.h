@@ -23,13 +23,13 @@ private:
 	DebugMessage*	message;		// Debugメッセージ
 
 public:
-	Model*			model;			// モデル
+	Model*			model = nullptr;			// モデル
 
 	Character();
 	~Character();
 
-	void InitCharacter();					//　初期化
-	void OutputMessage(int row);			// 座標をメッセージに渡して、画面に描画する
+	void InitCharacter();				// 初期化
+	void OutputMessage(int row);		// 座標をメッセージに渡して、画面に描画する
 	virtual void Update();				// キャラクター更新
 };
 #endif // !_CHARACTER_H_

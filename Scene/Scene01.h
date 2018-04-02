@@ -24,7 +24,7 @@ class Scene01 : public Scene
 {
 private:
 	string				mSceneName;
-	Shader*				shader2D;			// シェーダー
+	Shader*				mShader;			// シェーダー
 	//Shader*				shader3D;			// シェーダー
 	Camera*				camera;				// カメラ
 	Light*				light;				// ライト

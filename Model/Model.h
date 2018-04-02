@@ -9,9 +9,9 @@
 #define _MODEL_H_
 
 #include "Mesh.h"
-#include "..\Engine\Engine.h"
-#include "..\Engine\Material.h"
-#include "..\Engine\Shader.h"
+#include "../Engine/Engine.h"
+#include "../Engine/Material.h"
+#include "../Engine/Shader.h"
 
 //--------------Assimp--------------//
 #include <assimp/Importer.hpp>
@@ -55,14 +55,11 @@ public:
 	string			mModelDirectory;	// モデルファイルの目録
 
 	Model();
-	Model(string const &path)
-	{
-		loadModel(path);
-	};
+	Model(string const &path);
 	~Model();
 
 	void Update();	// 更新
-	void Draw(Shader* shader2D, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// モデルを描画する
+	void Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// モデルを描画する
 };
 
 #endif // !_MODEL_H_

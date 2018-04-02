@@ -68,4 +68,6 @@ HRESULT Audio::createStream(const string name, const string path, FMOD_MODE mode
 		cout << "[Error] FMOD system create stream ... " << FMOD_ErrorString(this->mResult);
 		return E_FAIL;
 	}*/
+
+	return S_OK;
 }

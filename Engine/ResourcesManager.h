@@ -46,8 +46,8 @@ public:
 	//----------------Assimp----------------//
 	void loadModel(string name, const char *path);						// Assimpでモデルを読み込み
 	Model *GetModel(string name);										// モデルを名前によって取得
-	void LoadTexture(string name, const char *path);					// Assimpでテクスチャを読み込み
-	Texture *GetTexture(string name);									// テクスチャを名前によって取得
+	//void LoadTexture(string name, const char *path);					// Assimpでテクスチャを読み込み
+	//Texture *GetTexture(string name);									// テクスチャを名前によって取得
 };
 
 #endif // !_RESOURCES_MANAGER_H_

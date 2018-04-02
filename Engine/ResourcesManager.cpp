@@ -18,10 +18,11 @@ ResourcesManager::ResourcesManager()
 	this->textures["skybox"] = "Resources/Texture/skybox.jpg";
 	this->textures["field"] = "Resources/Texture/field.jpg";
 	this->textures["fieldNor"] = "Resources/Texture/fieldNor.jpg";
+	this->textures["gird"] = "Resources/Texture/grid.png";
 	this->textures["NULL"] = "NULL";
 
 	// メッシュ検索マッピングを作る
-	this->meshes["woman"] = "Resources/Model/woman.x";
+	this->meshes["Hixo"] = "Resources/Model/Hiox/FBX/Hixo.fbx";
 }
 
 //*****************************************************************************
@@ -193,17 +194,17 @@ Model* ResourcesManager::GetModel(string name)
 // Assimpでテクスチャを読み込み
 //
 //*****************************************************************************
-void ResourcesManager::LoadTexture(string name, const char *path)
-{
-	
-}
+//void ResourcesManager::LoadTexture(string name, const char *path)
+//{
+//	
+//}
 
 //*****************************************************************************
 //
 // テクスチャを名前によって取得
 //
 //*****************************************************************************
-Texture* ResourcesManager::GetTexture(string name)
-{
-
-}
+//Texture* ResourcesManager::GetTexture(string name)
+//{
+//
+//}

@@ -15,10 +15,10 @@
 Mesh::Mesh()
 {
 	m_vertex = NULL;
-	m_vertexBuffer = NULL;
-	m_indexBuffer = NULL;
+	mVertexBuffer = NULL;
+	mIndexBuffer = NULL;
 
-	m_D3DDevice = GetDevice();
+	mD3DDevice = GetDevice();
 }
 
 //*****************************************************************************
@@ -40,10 +40,10 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
 //*****************************************************************************
 Mesh::~Mesh()
 {
-	RELEASE_POINT(m_vertexBuffer);
-	RELEASE_POINT(m_indexBuffer);
+	RELEASE_POINT(mVertexBuffer);
+	RELEASE_POINT(mIndexBuffer);
 	RELEASE_CLASS_ARRY_POINT(m_vertex);
-	RELEASE_POINT(m_D3DDevice);
+	RELEASE_POINT(mD3DDevice);
 }
 
 //*****************************************************************************
@@ -63,19 +63,19 @@ HRESULT Mesh::MakeBuffer()
 			{ 0, 48, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
 			D3DDECL_END()
 		};
-		m_D3DDevice->CreateVertexDeclaration(Decl, &m_vertexDecl);
+		mD3DDevice->CreateVertexDeclaration(Decl, &mVertexDecl);
 	}
 
 	// 頂点バッファ作成
 	{
-		if (FAILED(m_D3DDevice->CreateVertexBuffer(m_vertexNum * sizeof(DX_VERTEX_3D), D3DUSAGE_WRITEONLY, FVF_DX_VERTEX_3D, D3DPOOL_MANAGED, &m_vertexBuffer, NULL)))
+		if (FAILED(mD3DDevice->CreateVertexBuffer(m_vertexNum * sizeof(DX_VERTEX_3D), D3DUSAGE_WRITEONLY, FVF_DX_VERTEX_3D, D3DPOOL_MANAGED, &mVertexBuffer, NULL)))
 		{
 			cout << "[Error] Make <Mesh> vertex buffer ... Fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
 		DX_VERTEX_3D* vertices = NULL;
-		m_vertexBuffer->Lock(0, 0, (void**)&vertices, 0);
+		mVertexBuffer->Lock(0, 0, (void**)&vertices, 0);
 		for (int count = 0; count < m_vertexNum; count++)
 		{
 			vertices[count].position.x = m_vertex[count].position.x;
@@ -85,19 +85,19 @@ HRESULT Mesh::MakeBuffer()
 
 			vertices[count].diffuse = D3DCOLOR_RGBA(0, 0, 0, 255);
 		}
-		m_vertexBuffer->Unlock();
+		mVertexBuffer->Unlock();
 	}
 
 	// 頂点インデックスバッファ作成
 	{
-		if (FAILED(m_D3DDevice->CreateIndexBuffer(m_IndexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &m_indexBuffer, NULL)))
+		if (FAILED(mD3DDevice->CreateIndexBuffer(m_IndexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer, NULL)))
 		{
 			cout << "[Error] Make <Mesh> vertex index buffer ... Fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
 		int* vertexIndex = NULL;		// イデックスの中身を埋める
-		m_indexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);	// インデックス データのある一定範囲をロックし、そのインデックス バッファー メモリーへのポインターを取得する
+		mIndexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);	// インデックス データのある一定範囲をロックし、そのインデックス バッファー メモリーへのポインターを取得する
 		int i = 0;
 		for (int count = 0; count < m_IndexNum; count++)
 		{
@@ -111,7 +111,7 @@ HRESULT Mesh::MakeBuffer()
 				cout << endl;
 			}
 		}
-		m_indexBuffer->Unlock();	// インデックス データのロックを解除する
+		mIndexBuffer->Unlock();	// インデックス データのロックを解除する
 	}
 
 	return S_OK;
@@ -128,16 +128,16 @@ void Mesh::DrawDXMesh()
 	// ワールドマトリックスを初期化する
 	D3DXMatrixIdentity(&wMatrix);
 	// ワールドマトリクスの初期化
-	m_D3DDevice->SetTransform(D3DTS_WORLD, &wMatrix);
+	mD3DDevice->SetTransform(D3DTS_WORLD, &wMatrix);
 
 	// 頂点バッファをストリームに入れる
-	m_D3DDevice->SetStreamSource(0, m_vertexBuffer, 0, sizeof(DX_VERTEX_3D));
+	mD3DDevice->SetStreamSource(0, mVertexBuffer, 0, sizeof(DX_VERTEX_3D));
 	// 頂点フォーマットを設定
-	m_D3DDevice->SetFVF(FVF_DX_VERTEX_3D);
+	mD3DDevice->SetFVF(FVF_DX_VERTEX_3D);
 	// 頂点インデックスを設定
-	m_D3DDevice->SetIndices(m_indexBuffer);
+	mD3DDevice->SetIndices(mIndexBuffer);
 	// 描画
-	m_D3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_vertexNum, 0, m_IndexNum);
+	mD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_vertexNum, 0, m_IndexNum);
 }
 
 //*****************************************************************************

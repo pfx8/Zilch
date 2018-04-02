@@ -15,7 +15,7 @@
 Scene02::Scene02()
 {
 	// Shader
-	this->shader2D = new Shader;
+	this->mShader = new Shader;
 	//this->shader3D = new Shader;
 
 	// ライト、光方向はデフォルトで
@@ -28,7 +28,7 @@ Scene02::Scene02()
 	this->field = new Plane;
 	
 	// 主人公
-	this->woman = new Character;
+	this->mHixo = new Character;
 
 	// カメラ
 	this->camera = new Camera;
@@ -48,13 +48,13 @@ void Scene02::Initialization()
 	cout << "[Information] Scene02 <アニメーション> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
 
 	// Shader
-	this->shader2D->LoadEffectFile("Resources/Shader/render3D_phong.fx");
+	this->mShader->LoadEffectFile("Resources/Shader/render3D_phong.fx");
 	//this->shader3D->LoadEffectFile("Resources/Shader/default3DRender.fx");
 
 	// シェーダーにライトを設定
-	this->shader2D->effect->SetValue("lightPos", &this->light->pos, sizeof(D3DXVECTOR3));
-	this->shader2D->effect->SetValue("lightDiffuse", &this->light->diffuse, sizeof(D3DXVECTOR3));
-	this->shader2D->effect->SetFloat("lightAttenuation", this->light->attenuation);
+	this->mShader->effect->SetValue("lightPos", &this->light->pos, sizeof(D3DXVECTOR3));
+	this->mShader->effect->SetValue("lightDiffuse", &this->light->diffuse, sizeof(D3DXVECTOR3));
+	this->mShader->effect->SetFloat("lightAttenuation", this->light->attenuation);
 
 	//// スカイボックス
 	//this->skyBox->InitSkyBox(2500.0f);
@@ -62,11 +62,13 @@ void Scene02::Initialization()
 
 	// フィールド
 	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
-	this->resourcesManager->LoadTexture("field", &this->field->tex);
-	this->resourcesManager->LoadTexture("fieldNor", &this->field->normalMap);
+	this->resourcesManager->LoadTexture("grid", &this->field->tex);
 
 	// カメラ
-	this->camera->InitCameraByPlayer(this->woman);
+	this->camera->InitCameraByPlayer(this->mHixo);
+
+	// player
+	//this->mHixo->model->
 
 	// 効果音
 	
@@ -80,11 +82,10 @@ void Scene02::Initialization()
 Scene02::~Scene02()
 {
 	// クラスポインタ
-	RELEASE_CLASS_POINT(this->woman);				// プレーヤー
+	RELEASE_CLASS_POINT(this->mHixo);				// プレーヤー
 	RELEASE_CLASS_POINT(this->camera);				// カメラ
 	RELEASE_CLASS_POINT(this->light);				// ライト
-	RELEASE_CLASS_POINT(this->shader2D);			// 2Dシェーダー
-	//RELEASE_CLASS_POINT(this->shader3D);			// 3Dシェーダー
+	RELEASE_CLASS_POINT(this->mShader);				// シェーダー
 	RELEASE_CLASS_POINT(this->field);				// フィールド
 	//RELEASE_CLASS_POINT(this->skyBox);			// トゥ―ンシェーダー
 
@@ -117,7 +118,7 @@ void Scene02::Update()
 	this->field->Update();
 
 	// カメラ更新
-	this->camera->Update(this->woman);
+	this->camera->Update(this->mHixo);
 }
 
 //*****************************************************************************
@@ -151,11 +152,9 @@ void Scene02::Draw()
 //*****************************************************************************
 void Scene02::oneFrame()
 {
-	this->field->Draw(this->shader2D, this->camera);
+	this->field->Draw(this->mShader, this->camera);
 	//this->skyBox->Draw(this->shader, &VPmatrix);
-	//this->woman->model->Draw(this->shader3D, &this->camera->vMatrix, &this->camera->pMatrix);
 
 	// デッバグメッセージ
-	//this->woman->OutputMessage(0);
 	//this->camera->OutputMessage(0);
 }

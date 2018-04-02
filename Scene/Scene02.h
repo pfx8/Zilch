@@ -8,12 +8,14 @@
 #ifndef _SCENE02_H_
 #define _SCENE02_H_
 
+#include "Scene.h"
 #include "..\Engine\Engine.h"
 #include "..\Engine\Shader.h"
 #include "..\Engine\Camera.h"
 #include "..\Engine\Light.h"
 #include "..\Engine\Plane.h"
-#include "Scene.h"
+
+#include "..\Model\Model.h"
 
 //*****************************************************************************
 //
@@ -24,15 +26,14 @@ class Scene02 : public Scene
 {
 private:
 	string				mSceneName;
-	Shader*				shader2D;			// シェーダー
-	//Shader*				shader3D;			// シェーダー
+	Shader*				mShader;			// シェーダー
 	Camera*				camera;				// カメラ
 	Light*				light;				// ライト
 	Plane*				field;				// フィールド
 	//SkyBox*				skyBox;				// スカイボックス
 
 public:
-	Character*			woman;			// プレーヤー
+	Character*			mHixo;			// プレーヤー
 
 	Scene02();
 	~Scene02();

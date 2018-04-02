@@ -32,10 +32,10 @@ struct Texture
 class Mesh
 {
 private:
-	LPDIRECT3DVERTEXBUFFER9			m_vertexBuffer;	// 頂点バッファへのポインタ
-	LPDIRECT3DINDEXBUFFER9			m_indexBuffer;	// 頂点インデックスバッファ
-	IDirect3DVertexDeclaration9*	m_vertexDecl;	// 頂点シェーダー宣言
-	LPDIRECT3DDEVICE9				m_D3DDevice;	// D3Dデバイス
+	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;	// 頂点バッファへのポインタ
+	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;	// 頂点インデックスバッファ
+	IDirect3DVertexDeclaration9*	mVertexDecl;	// 頂点シェーダー宣言
+	LPDIRECT3DDEVICE9				mD3DDevice;	// D3Dデバイス
 
 	//-----------Assimp-----------//
 	void SetupMesh();

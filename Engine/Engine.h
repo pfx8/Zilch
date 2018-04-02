@@ -42,6 +42,7 @@ using namespace std;
 #pragma comment (lib, "dxguid.lib")
 #pragma comment (lib, "winmm.lib")
 #pragma comment (lib, "fmod_vc.lib")	// fmod
+#pragma comment (lib, "assimp-vc140-mt.lib")		// assimp
 #endif
 
 //*****************************************************************************
