@@ -36,6 +36,9 @@ public:
 	// ワールド変換
 	void SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos=D3DXVECTOR3(0.0f, 0.0f, 0.0f), 
 		D3DXVECTOR3 rot=D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3 scl=D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+
+	virtual void Draw() {};				// シーンの描画
+	virtual void oneFrame() {}:			// 1フレームの描画内容
 };
 
 #endif // !_SCENE_H_

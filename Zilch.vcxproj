@@ -41,6 +41,7 @@
     <ClCompile Include="Model\Model.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\Scene01.cpp" />
+    <ClCompile Include="Scene\Scene02.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -64,6 +65,7 @@
     <ClInclude Include="Model\Model.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Scene01.h" />
+    <ClInclude Include="Scene\Scene02.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

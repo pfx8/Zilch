@@ -1,12 +1,12 @@
 //*****************************************************************************
 //
-// ノーマルマップ処理 [Scene01.h]
+// アニメーション処理 [Scene02.h]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#ifndef _SCENE01_H_
-#define _SCENE01_H_
+#ifndef _SCENE02_H_
+#define _SCENE02_H_
 
 #include "..\Engine\Engine.h"
 #include "..\Engine\Shader.h"
@@ -20,7 +20,7 @@
 // クラス宣言
 //
 //*****************************************************************************
-class Scene01 : public Scene
+class Scene02 : public Scene
 {
 private:
 	string				mSceneName;
@@ -34,8 +34,8 @@ private:
 public:
 	Character*			woman;			// プレーヤー
 
-	Scene01();
-	~Scene01();
+	Scene02();
+	~Scene02();
 
 	void Initialization();	// 初期化
 	void Update();			// 更新
@@ -43,5 +43,5 @@ public:
 	void oneFrame();		// 1フレームの描画内容
 	void SetRenderState();	// レンダリングを設定
 };
-#endif // !_SCENE00_H_
+#endif // !_SCENE02_H_
 

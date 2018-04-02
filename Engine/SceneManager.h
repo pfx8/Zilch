@@ -12,6 +12,7 @@
 #include "input.h"
 #include "..\Scene\Scene.h"
 #include "..\Scene\Scene01.h"
+#include "..\Scene\Scene02.h"
 
 //*****************************************************************************
 //
@@ -22,6 +23,7 @@ class SceneManager
 {
 private:
 	Scene*  scene;			// シーン
+	map<string, Scene*> mScenes;
 
 	void ChangeRenderState();	// レンダリング状態更新
 	void ChooseScene();		// シーンを選択する

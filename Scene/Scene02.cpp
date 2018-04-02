@@ -1,18 +1,18 @@
 ﻿//*****************************************************************************
 //
-// D3DTutorial処理 [Scene01.cpp]
+// アニメーション処理 [Scene02.cpp]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Scene01.h"
+#include "Scene02.h"
 
 //*****************************************************************************
 //
 // コンストラクタ
 //
 //*****************************************************************************
-Scene01::Scene01()
+Scene02::Scene02()
 {
 	// Shader
 	this->shader2D = new Shader;
@@ -42,13 +42,13 @@ Scene01::Scene01()
 // 初期化
 //
 //*****************************************************************************
-void Scene01::Initialization()
+void Scene02::Initialization()
 {
 	// シーン01
-	cout << "[Information] Scene01 <ノーマルマップ> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
+	cout << "[Information] Scene02 <アニメーション> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
 
 	// Shader
-	this->shader2D->LoadEffectFile("Resources/Shader/render2D_phong.fx");
+	this->shader2D->LoadEffectFile("Resources/Shader/render3D_phong.fx");
 	//this->shader3D->LoadEffectFile("Resources/Shader/default3DRender.fx");
 
 	// シェーダーにライトを設定
@@ -77,7 +77,7 @@ void Scene01::Initialization()
 // デストラクタ
 //
 //*****************************************************************************
-Scene01::~Scene01()
+Scene02::~Scene02()
 {
 	// クラスポインタ
 	RELEASE_CLASS_POINT(this->woman);				// プレーヤー
@@ -95,7 +95,7 @@ Scene01::~Scene01()
 // レンダリング状態を設定
 //
 //*****************************************************************************
-void Scene01::SetRenderState()
+void Scene02::SetRenderState()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -111,7 +111,7 @@ void Scene01::SetRenderState()
 // シンーの更新
 //
 //*****************************************************************************
-void Scene01::Update()
+void Scene02::Update()
 {
 	// フィールド更新
 	this->field->Update();
@@ -125,7 +125,7 @@ void Scene01::Update()
 // シンーの描画
 //
 //*****************************************************************************
-void Scene01::Draw()
+void Scene02::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -149,7 +149,7 @@ void Scene01::Draw()
 // 1フレームの描画内容
 //
 //*****************************************************************************
-void Scene01::oneFrame()
+void Scene02::oneFrame()
 {
 	this->field->Draw(this->shader2D, this->camera);
 	//this->skyBox->Draw(this->shader, &VPmatrix);

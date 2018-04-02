@@ -37,7 +37,7 @@ SceneManager::~SceneManager()
 //*****************************************************************************
 void SceneManager::ChooseScene()
 {
-	scene = new Scene01; // 初期化する
+	scene = new Scene02; // 初期化する
 	scene->SetRenderState();	// レンダリング状態を設定
 }
 
@@ -74,24 +74,10 @@ void SceneManager::ChangeRenderState()
 
 //*****************************************************************************
 //
-// シンーの描画
+// シーンの描画
 //
 //*****************************************************************************
 void SceneManager::Draw()
 {
-	PDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	// バックバッファ＆Ｚバッファのクリア
-	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
-
-	// Direct3Dによる描画の開始
-	if (SUCCEEDED(GetDevice()->BeginScene()))
-	{
-		scene->Draw();	// シンー01描画
-
-		GetDevice()->EndScene();
-	}
-
-	// バックバッファとフロントバッファの入れ替え
-	GetDevice()->Present(NULL, NULL, NULL, NULL);
+	scene->Draw();	// シーんを描画
 }

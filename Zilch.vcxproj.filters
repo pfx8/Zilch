@@ -23,6 +23,7 @@
     <ClCompile Include="Component\Component.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
+    <ClCompile Include="Scene\Scene02.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="Component\Component.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Component\Transform.h" />
+    <ClInclude Include="Scene\Scene02.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
