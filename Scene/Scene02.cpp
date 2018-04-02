@@ -15,26 +15,25 @@
 Scene02::Scene02()
 {
 	// Shader
-	this->mShader = new Shader;
-	//this->shader3D = new Shader;
+	mShader = new Shader;
 
 	// ライト、光方向はデフォルトで
-	this->light = new Light;
+	light = new Light;
 
 	//// スカイボックス
-	//this->skyBox = new SkyBox;
+	//skyBox = new SkyBox;
 
 	// フィールド
-	this->field = new Plane;
+	field = new Plane;
 	
 	// 主人公
-	this->mHixo = new Character;
+	mHixo = new Character;
 
 	// カメラ
-	this->camera = new Camera;
+	camera = new Camera;
 
 	// 初期化
-	Initialization();
+	start();
 }
 
 //*****************************************************************************
@@ -42,36 +41,64 @@ Scene02::Scene02()
 // 初期化
 //
 //*****************************************************************************
-void Scene02::Initialization()
+void Scene02::start()
 {
+	// loading
+	this->loading();
+
 	// シーン01
 	cout << "[Information] Scene02 <アニメーション> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
 
 	// Shader
-	this->mShader->LoadEffectFile("Resources/Shader/render3D_phong.fx");
-	//this->shader3D->LoadEffectFile("Resources/Shader/default3DRender.fx");
+	mShader->LoadEffectFile("Resources/Shader/render3D_phong.fx");
+	//shader3D->LoadEffectFile("Resources/Shader/default3DRender.fx");
 
 	// シェーダーにライトを設定
-	this->mShader->effect->SetValue("lightPos", &this->light->pos, sizeof(D3DXVECTOR3));
-	this->mShader->effect->SetValue("lightDiffuse", &this->light->diffuse, sizeof(D3DXVECTOR3));
-	this->mShader->effect->SetFloat("lightAttenuation", this->light->attenuation);
+	mShader->effect->SetValue("lightPos", &light->pos, sizeof(D3DXVECTOR3));
+	mShader->effect->SetValue("lightDiffuse", &light->diffuse, sizeof(D3DXVECTOR3));
+	mShader->effect->SetFloat("lightAttenuation", light->attenuation);
 
 	//// スカイボックス
-	//this->skyBox->InitSkyBox(2500.0f);
-	//this->resourcesManager->LoadTexture("skybox", &this->skyBox->titleTexture);
+	//skyBox->InitSkyBox(2500.0f);
+	//resourcesManager->LoadTexture("skybox", &skyBox->titleTexture);
 
 	// フィールド
-	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
-	this->resourcesManager->LoadTexture("grid", &this->field->tex);
+	field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
+	mResourcesManager->LoadTexture("grid", &field->tex);
 
 	// カメラ
-	this->camera->InitCameraByPlayer(this->mHixo);
+	camera->InitCameraByPlayer(mHixo);
 
 	// player
-	//this->mHixo->model->
+	//mHixo->model->
 
 	// 効果音
 	
+}
+
+//*****************************************************************************
+//
+// 資源を読み込み
+//
+//*****************************************************************************
+void Scene02::loading()
+{
+	// skybox
+	mResourcesManager->LoadTexture("skybox", "Resources/Texture/skybox.jpg");
+
+	// 床
+	mResourcesManager->LoadTexture("gird", "Resources/Texture/grid.png");
+
+	// Hixo
+	mResourcesManager->LoadTexture("HixoClothes", "Resources/Texture/grid.png");
+	mResourcesManager->LoadTexture("HixoEye", "Resources/Texture/grid.png");
+	mResourcesManager->LoadTexture("HixoFace", "Resources/Texture/grid.png");
+	mResourcesManager->LoadTexture("HixoFacial", "Resources/Texture/grid.png");
+	mResourcesManager->LoadTexture("HixoHair1", "Resources/Texture/grid.png");
+	mResourcesManager->LoadTexture("HixoHair2", "Resources/Texture/grid.png");
+	mResourcesManager->LoadTexture("HixoPanties", "Resources/Texture/grid.png");
+	mResourcesManager->LoadTexture("HixoSkin", "Resources/Texture/grid.png");
+	mResourcesManager->loadModel("HixoModel", "Resources/Model/Hiox/FBX/Hixo.fbx");
 }
 
 //*****************************************************************************
@@ -82,12 +109,12 @@ void Scene02::Initialization()
 Scene02::~Scene02()
 {
 	// クラスポインタ
-	RELEASE_CLASS_POINT(this->mHixo);				// プレーヤー
-	RELEASE_CLASS_POINT(this->camera);				// カメラ
-	RELEASE_CLASS_POINT(this->light);				// ライト
-	RELEASE_CLASS_POINT(this->mShader);				// シェーダー
-	RELEASE_CLASS_POINT(this->field);				// フィールド
-	//RELEASE_CLASS_POINT(this->skyBox);			// トゥ―ンシェーダー
+	RELEASE_CLASS_POINT(mHixo);				// プレーヤー
+	RELEASE_CLASS_POINT(camera);				// カメラ
+	RELEASE_CLASS_POINT(light);				// ライト
+	RELEASE_CLASS_POINT(mShader);				// シェーダー
+	RELEASE_CLASS_POINT(field);				// フィールド
+	//RELEASE_CLASS_POINT(skyBox);			// トゥ―ンシェーダー
 
 }
 
@@ -115,10 +142,10 @@ void Scene02::SetRenderState()
 void Scene02::Update()
 {
 	// フィールド更新
-	this->field->Update();
+	field->Update();
 
 	// カメラ更新
-	this->camera->Update(this->mHixo);
+	camera->Update(mHixo);
 }
 
 //*****************************************************************************
@@ -152,9 +179,9 @@ void Scene02::Draw()
 //*****************************************************************************
 void Scene02::oneFrame()
 {
-	this->field->Draw(this->mShader, this->camera);
-	//this->skyBox->Draw(this->shader, &VPmatrix);
+	field->Draw(mShader, camera);
+	//skyBox->Draw(shader, &VPmatrix);
 
 	// デッバグメッセージ
-	//this->camera->OutputMessage(0);
+	//camera->OutputMessage(0);
 }

@@ -37,7 +37,7 @@ public:
 	Scene01();
 	~Scene01();
 
-	void Initialization();	// 初期化
+	void start();	// 初期化
 	void Update();			// 更新
 	void Draw();			// 描画
 	void oneFrame();		// 1フレームの描画内容

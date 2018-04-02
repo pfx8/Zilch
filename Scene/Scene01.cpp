@@ -34,7 +34,7 @@ Scene01::Scene01()
 	this->camera = new Camera;
 
 	// 初期化
-	Initialization();
+	start();
 }
 
 //*****************************************************************************
@@ -42,7 +42,7 @@ Scene01::Scene01()
 // 初期化
 //
 //*****************************************************************************
-void Scene01::Initialization()
+void Scene01::start()
 {
 	// シーン01
 	cout << "[Information] Scene01 <ノーマルマップ> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
@@ -62,8 +62,8 @@ void Scene01::Initialization()
 
 	// フィールド
 	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
-	this->resourcesManager->LoadTexture("field", &this->field->tex);
-	this->resourcesManager->LoadTexture("fieldNor", &this->field->normalMap);
+	this->mResourcesManager->LoadTexture("field", &this->field->tex);
+	this->mResourcesManager->LoadTexture("fieldNor", &this->field->normalMap);
 
 	// カメラ
 	this->camera->InitCameraByPlayer(this->woman);

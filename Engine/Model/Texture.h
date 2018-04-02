@@ -35,7 +35,7 @@ private:
 	void processNode(aiNode *node, const aiScene *scene);	// ノード処理
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);	// メッシュ処理
 	vector<Texture> loadMaterialTexture(aiMaterial *mat, aiTextureType type, string typeName);		// マテリアルからテクスチャを読み込み
-	HRESULT TextureFromFile(const char *path, string const &directory, LPDIRECT3DTEXTURE9 &point);	// テクスチャを読み込み
+	HRESULT TextureFromFile(const char *path, LPDIRECT3DTEXTURE9 &point);	// テクスチャを読み込み
 
 public:
 	D3DXVECTOR3		pos;			// 位置
@@ -50,9 +50,10 @@ public:
 	Material*						material;			// マテリアル情報へのポインタ
 	IDirect3DVertexDeclaration9*	vertexDecl;			// 頂点宣言
 
-	vector<Mesh>	mMeshes;			// メッシュデータ
-	vector<Texture> mTexturesLoaded;	// テクスチャデータ
-	string			mModelDirectory;	// モデルファイルの目録
+
+	LPDIRECT3DDEVICE9				mD3DDevice;			// D3Dデバイス
+	vector<Mesh>					mMeshes;			// メッシュデータ
+	vector<Texture>					mTexturesLoaded;	// テクスチャデータ
 
 	Model();
 	Model(string const &path);

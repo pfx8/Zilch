@@ -38,7 +38,8 @@ public:
 	Scene02();
 	~Scene02();
 
-	void Initialization();	// 初期化
+	void start();			// 初期化
+	void loading();			// 資源を読み込み
 	void Update();			// 更新
 	void Draw();			// 描画
 	void oneFrame();		// 1フレームの描画内容

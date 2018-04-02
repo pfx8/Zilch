@@ -22,7 +22,7 @@ class Scene
 private:
 
 public:
-	ResourcesManager*	resourcesManager;	// リソースマネジメント
+	ResourcesManager*	mResourcesManager;	// リソースマネジメント
 	DebugMessage*		message;			// メッセージ
 	
 	Scene();
