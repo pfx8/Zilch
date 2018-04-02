@@ -24,6 +24,9 @@
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
     <ClCompile Include="Scene\Scene02.cpp" />
+    <ClCompile Include="Engine\Model\Mesh.cpp" />
+    <ClCompile Include="Engine\Model\Model.cpp" />
+    <ClCompile Include="Engine\Model\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
@@ -48,6 +51,9 @@
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Component\Transform.h" />
     <ClInclude Include="Scene\Scene02.h" />
+    <ClInclude Include="Engine\Model\Texture.h" />
+    <ClInclude Include="Engine\Model\Mesh.h" />
+    <ClInclude Include="Engine\Model\Model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

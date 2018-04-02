@@ -8,6 +8,7 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
+#include "Texture.h"
 #include "..\Engine.h"
 #include "..\Shader.h"
 
@@ -20,13 +21,6 @@ struct Vertex
 	// プラスインフォメーション
 	D3DXVECTOR3 tangent;
 	D3DXVECTOR3 bitangent;
-};
-
-struct Texture
-{
-	LPDIRECT3DTEXTURE9 point;
-	string type;
-	string path;
 };
 
 class Mesh

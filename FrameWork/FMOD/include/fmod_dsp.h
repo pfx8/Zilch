@@ -139,9 +139,9 @@ typedef FMOD_RESULT (F_CALL *FMOD_DSP_SYSTEM_MIX_CALLBACK)                (FMOD_
 /*
     FMOD_DSP_STATE functions
 */
-typedef void *      (F_CALL *FMOD_DSP_ALLOC_FUNC)                         (unsigned int size, FMOD_MEMORY_TYPE type, const char *sourcestr);
-typedef void *      (F_CALL *FMOD_DSP_REALLOC_FUNC)                       (void *ptr, unsigned int size, FMOD_MEMORY_TYPE type, const char *sourcestr);
-typedef void        (F_CALL *FMOD_DSP_FREE_FUNC)                          (void *ptr, FMOD_MEMORY_TYPE type, const char *sourcestr);
+typedef void *      (F_CALL *FMOD_DSP_ALLOC_FUNC)                         (unsigned int size, FMOD_MEMORY_TYPE mType, const char *sourcestr);
+typedef void *      (F_CALL *FMOD_DSP_REALLOC_FUNC)                       (void *ptr, unsigned int size, FMOD_MEMORY_TYPE mType, const char *sourcestr);
+typedef void        (F_CALL *FMOD_DSP_FREE_FUNC)                          (void *ptr, FMOD_MEMORY_TYPE mType, const char *sourcestr);
 typedef void        (F_CALL *FMOD_DSP_LOG_FUNC)                           (FMOD_DEBUG_FLAGS level, const char *file, int line, const char *function, const char *string, ...);
 typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETSAMPLERATE_FUNC)                 (FMOD_DSP_STATE *dsp_state, int *rate);
 typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETBLOCKSIZE_FUNC)                  (FMOD_DSP_STATE *dsp_state, unsigned int *blocksize);
@@ -270,7 +270,7 @@ typedef struct FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR
 */
 typedef struct FMOD_DSP_PARAMETER_FLOAT_MAPPING
 {
-    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE type;
+    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE mType;
     FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR piecewiselinearmapping; /* [w] Only required for FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR type mapping. */
 } FMOD_DSP_PARAMETER_FLOAT_MAPPING;
 
@@ -406,7 +406,7 @@ typedef struct FMOD_DSP_PARAMETER_DESC_DATA
 */
 typedef struct FMOD_DSP_PARAMETER_DESC
 {
-    FMOD_DSP_PARAMETER_TYPE   type;                 /* [w] Type of this parameter. */
+    FMOD_DSP_PARAMETER_TYPE   mType;                 /* [w] Type of this parameter. */
     char                      name[16];             /* [w] Name of the parameter to be displayed (ie "Cutoff frequency"). */
     char                      label[16];            /* [w] Short string to be put next to value to denote the unit type (ie "hz"). */
     const char               *description;          /* [w] Description of the parameter to be displayed as a help item / tooltip for this parameter. */
@@ -597,32 +597,32 @@ typedef struct FMOD_DSP_PARAMETER_FFT
 */
 #define FMOD_DSP_INIT_PARAMDESC_FLOAT(_paramstruct, _name, _label, _description, _min, _max, _defaultval) \
     memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
-    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_FLOAT; \
+    (_paramstruct).mType         = FMOD_DSP_PARAMETER_TYPE_FLOAT; \
     strncpy((_paramstruct).name,  _name,  15); \
     strncpy((_paramstruct).label, _label, 15); \
     (_paramstruct).description  = _description; \
     (_paramstruct).floatdesc.min          = _min; \
     (_paramstruct).floatdesc.max          = _max; \
     (_paramstruct).floatdesc.defaultval   = _defaultval; \
-    (_paramstruct).floatdesc.mapping.type = FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_AUTO;
+    (_paramstruct).floatdesc.mapping.mType = FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_AUTO;
 
 #define FMOD_DSP_INIT_PARAMDESC_FLOAT_WITH_MAPPING(_paramstruct, _name, _label, _description, _defaultval, _values, _positions); \
     memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
-    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_FLOAT; \
+    (_paramstruct).mType         = FMOD_DSP_PARAMETER_TYPE_FLOAT; \
     strncpy((_paramstruct).name,  _name , 15); \
     strncpy((_paramstruct).label, _label, 15); \
     (_paramstruct).description  = _description; \
     (_paramstruct).floatdesc.min          = _values[0]; \
     (_paramstruct).floatdesc.max          = _values[sizeof(_values) / sizeof(float) - 1]; \
     (_paramstruct).floatdesc.defaultval   = _defaultval; \
-    (_paramstruct).floatdesc.mapping.type = FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR; \
+    (_paramstruct).floatdesc.mapping.mType = FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR; \
     (_paramstruct).floatdesc.mapping.piecewiselinearmapping.numpoints = sizeof(_values) / sizeof(float); \
     (_paramstruct).floatdesc.mapping.piecewiselinearmapping.pointparamvalues = _values; \
     (_paramstruct).floatdesc.mapping.piecewiselinearmapping.pointpositions = _positions;
 
 #define FMOD_DSP_INIT_PARAMDESC_INT(_paramstruct, _name, _label, _description, _min, _max, _defaultval, _goestoinf, _valuenames) \
     memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
-    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_INT; \
+    (_paramstruct).mType         = FMOD_DSP_PARAMETER_TYPE_INT; \
     strncpy((_paramstruct).name,  _name , 15); \
     strncpy((_paramstruct).label, _label, 15); \
     (_paramstruct).description  = _description; \
@@ -634,7 +634,7 @@ typedef struct FMOD_DSP_PARAMETER_FFT
 
 #define FMOD_DSP_INIT_PARAMDESC_INT_ENUMERATED(_paramstruct, _name, _label, _description, _defaultval, _valuenames) \
     memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
-    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_INT; \
+    (_paramstruct).mType         = FMOD_DSP_PARAMETER_TYPE_INT; \
     strncpy((_paramstruct).name,  _name , 15); \
     strncpy((_paramstruct).label, _label, 15); \
     (_paramstruct).description  = _description; \
@@ -646,7 +646,7 @@ typedef struct FMOD_DSP_PARAMETER_FFT
 
 #define FMOD_DSP_INIT_PARAMDESC_BOOL(_paramstruct, _name, _label, _description, _defaultval, _valuenames) \
     memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
-    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_BOOL; \
+    (_paramstruct).mType         = FMOD_DSP_PARAMETER_TYPE_BOOL; \
     strncpy((_paramstruct).name,  _name , 15); \
     strncpy((_paramstruct).label, _label, 15); \
     (_paramstruct).description  = _description; \
@@ -655,7 +655,7 @@ typedef struct FMOD_DSP_PARAMETER_FFT
 
 #define FMOD_DSP_INIT_PARAMDESC_DATA(_paramstruct, _name, _label, _description, _datatype) \
     memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
-    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_DATA; \
+    (_paramstruct).mType         = FMOD_DSP_PARAMETER_TYPE_DATA; \
     strncpy((_paramstruct).name,  _name , 15); \
     strncpy((_paramstruct).label, _label, 15); \
     (_paramstruct).description  = _description; \

@@ -1,67 +1,40 @@
 //*****************************************************************************
 //
-// モデル処理 [Model.h]
+// テクスチャ処理 [Texture.h]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#ifndef _MODEL_H_
-#define _MODEL_H_
+#ifndef _TEXTURE_H_
+#define _TEXTURE_H_
 
-#include "Mesh.h"
-#include "../Engine/Engine.h"
-#include "../Engine/Material.h"
-#include "../Engine/Shader.h"
+#include "../Engine.h"
 
-//--------------Assimp--------------//
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+enum TextureType
+{
+	TT_diffuse,
+	TT_effect,
+};
 
 //*****************************************************************************
 //
 // クラス宣言
 //
 //*****************************************************************************
-class Model
+class Texture
 {
 private:
-	D3DXMATRIX		wMatrix;	// ワールド変換マトリックス
-
-	void SetWorldMatrix();						// ワールド変換
-	void RotationVecUp(float angle);			// 上方向のベクトルにして回転
-
-	HRESULT loadModel(string const &path);					// モデルを読み込み
-	void processNode(aiNode *node, const aiScene *scene);	// ノード処理
-	Mesh processMesh(aiMesh *mesh, const aiScene *scene);	// メッシュ処理
-	vector<Texture> loadMaterialTexture(aiMaterial *mat, aiTextureType type, string typeName);		// マテリアルからテクスチャを読み込み
-	HRESULT TextureFromFile(const char *path, LPDIRECT3DTEXTURE9 &point);	// テクスチャを読み込み
+	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
+	TextureType					mType;		// テクスチャタイプ
+	string						mPath;		// テクスチャパス
+	LPDIRECT3DDEVICE9			mD3DDevice;		// D3Dデバイス
 
 public:
-	D3DXVECTOR3		pos;			// 位置
-	D3DXVECTOR3		rot;			// 回転
-	D3DXVECTOR3		scl;			// 拡大縮小
-	D3DXVECTOR3		upVector;		// カメラの上方向ベクトル
-	D3DXVECTOR3		lookVector;		// カメラの注視方向ベクトル
-	D3DXVECTOR3		rightVector;	// カメラの右方向ベクトル
+	Texture(string path, TextureType type);
+	~Texture();
 
-	LPD3DXMESH						meshPoint;			// メッシュ情報へのポインタ
-	LPDIRECT3DTEXTURE9				meshTexturePoint;	// テクスチャマネジメント
-	Material*						material;			// マテリアル情報へのポインタ
-	IDirect3DVertexDeclaration9*	vertexDecl;			// 頂点宣言
-
-
-	LPDIRECT3DDEVICE9				mD3DDevice;			// D3Dデバイス
-	vector<Mesh>					mMeshes;			// メッシュデータ
-	vector<Texture>					mTexturesLoaded;	// テクスチャデータ
-
-	Model();
-	Model(string const &path);
-	~Model();
-
-	void Update();	// 更新
-	void Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// モデルを描画する
+	HRESULT loadingTexture();		// テクスチャを読み込み
 };
 
-#endif // !_MODEL_H_
+#endif // !_TEXTURE_H_
 

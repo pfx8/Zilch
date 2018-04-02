@@ -50,11 +50,9 @@ Model* ResourcesManager::GetModel(string name)
 	{
 		return mModels[name];
 	}
-	else
-	{
-		cout << "[Error] " << name << " failed!" << endl;
-		return nullptr;
-	}
+
+	cout << "[Error] " << name << " failed!" << endl;
+	return nullptr;
 }
 
 //*****************************************************************************
@@ -62,26 +60,9 @@ Model* ResourcesManager::GetModel(string name)
 // Assimpでテクスチャを読み込み
 //
 //*****************************************************************************
-void ResourcesManager::LoadTexture(string name, string path)
+void ResourcesManager::LoadTexture(string name, string path, TextureType type)
 {
-	Texture texture;
-	texture.path = path;
-	texture.type = " ";
-	texture.point = nullptr;
-
-	// テクスチャを読み込み
-	if (FAILED(D3DXCreateTextureFromFile(
-		mD3DDevice,
-		path.c_str(),
-		&texture.point)))
-	{
-		cout << "[Error] Loading <Texture> " << name << " ... Fail!" << endl;	// コンソールにメッセージを出す
-	}
-	else
-	{
-		cout << "[Information] Loading <Texture> " << name << " ... Success!" << endl;	// コンソールにメッセージを出す
-	}
-		
+	mTextures.insert({ name, new Texture(path, type) });	
 }
 
 //*****************************************************************************
@@ -91,5 +72,11 @@ void ResourcesManager::LoadTexture(string name, string path)
 //*****************************************************************************
 Texture* ResourcesManager::GetTexture(string name)
 {
-
+	if (mTextures.find(name) != mTextures.end())
+	{
+		return mTextures[name];
+	}
+	
+	cout << "[Error] " << name << " failed!" << endl;
+	return nullptr;
 }

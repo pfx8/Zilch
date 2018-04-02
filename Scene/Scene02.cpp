@@ -64,7 +64,6 @@ void Scene02::start()
 
 	// フィールド
 	field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
-	mResourcesManager->LoadTexture("grid", &field->tex);
 
 	// カメラ
 	camera->InitCameraByPlayer(mHixo);

@@ -266,7 +266,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * This can be adjusted for specific use cases
  * It's NOT a total limit, just a limit for individual allocations
  */
-#define AI_MAX_ALLOC(type) ((256U * 1024 * 1024) / sizeof(type))
+#define AI_MAX_ALLOC(mType) ((256U * 1024 * 1024) / sizeof(mType))
 
 
 #endif // !! INCLUDED_AI_DEFINES_H

@@ -31,11 +31,11 @@ private:
 	void SetWorldMatrix();						// ワールド変換
 	void RotationVecUp(float angle);			// 上方向のベクトルにして回転
 
-	HRESULT loadModel(string const &path);					// モデルを読み込み
+	HRESULT loadModel(string const &mPath);					// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);	// ノード処理
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);	// メッシュ処理
-	vector<Texture> loadMaterialTexture(aiMaterial *mat, aiTextureType type, string typeName);		// マテリアルからテクスチャを読み込み
-	HRESULT TextureFromFile(const char *path, LPDIRECT3DTEXTURE9 &point);	// テクスチャを読み込み
+	vector<Texture> loadMaterialTexture(aiMaterial *mat, aiTextureType mType, string typeName);		// マテリアルからテクスチャを読み込み
+	HRESULT TextureFromFile(const char *mPath, LPDIRECT3DTEXTURE9 &mTex);	// テクスチャを読み込み
 
 public:
 	D3DXVECTOR3		pos;			// 位置
@@ -56,7 +56,7 @@ public:
 	vector<Texture>					mTexturesLoaded;	// テクスチャデータ
 
 	Model();
-	Model(string const &path);
+	Model(string const &mPath);
 	~Model();
 
 	void Update();	// 更新

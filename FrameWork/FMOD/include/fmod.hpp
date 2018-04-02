@@ -80,7 +80,7 @@ namespace FMOD
         FMOD_RESULT F_API setCallback             (FMOD_SYSTEM_CALLBACK callback, FMOD_SYSTEM_CALLBACK_TYPE callbackmask = FMOD_SYSTEM_CALLBACK_ALL);
 
         // Plug-in support.
-        FMOD_RESULT F_API setPluginPath           (const char *path);
+        FMOD_RESULT F_API setPluginPath           (const char *mPath);
         FMOD_RESULT F_API loadPlugin              (const char *filename, unsigned int *handle, unsigned int priority = 0);
         FMOD_RESULT F_API unloadPlugin            (unsigned int handle);
         FMOD_RESULT F_API getNumNestedPlugins     (unsigned int handle, int *count);
@@ -131,7 +131,7 @@ namespace FMOD
         FMOD_RESULT F_API createSound             (const char *name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, Sound **sound);
         FMOD_RESULT F_API createStream            (const char *name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, Sound **sound);
         FMOD_RESULT F_API createDSP               (const FMOD_DSP_DESCRIPTION *description, DSP **dsp);
-        FMOD_RESULT F_API createDSPByType         (FMOD_DSP_TYPE type, DSP **dsp);
+        FMOD_RESULT F_API createDSPByType         (FMOD_DSP_TYPE mType, DSP **dsp);
         FMOD_RESULT F_API createChannelGroup      (const char *name, ChannelGroup **channelgroup);
         FMOD_RESULT F_API createSoundGroup        (const char *name, SoundGroup **soundgroup);
         FMOD_RESULT F_API createReverb3D          (Reverb3D **reverb);
@@ -211,7 +211,7 @@ namespace FMOD
         FMOD_RESULT F_API getSubSoundParent      (Sound **parentsound);
         FMOD_RESULT F_API getName                (char *name, int namelen);
         FMOD_RESULT F_API getLength              (unsigned int *length, FMOD_TIMEUNIT lengthtype);
-        FMOD_RESULT F_API getFormat              (FMOD_SOUND_TYPE *type, FMOD_SOUND_FORMAT *format, int *channels, int *bits);
+        FMOD_RESULT F_API getFormat              (FMOD_SOUND_TYPE *mType, FMOD_SOUND_FORMAT *format, int *channels, int *bits);
         FMOD_RESULT F_API getNumSubSounds        (int *numsubsounds);
         FMOD_RESULT F_API getNumTags             (int *numtags, int *numtagsupdated);
         FMOD_RESULT F_API getTag                 (const char *name, int index, FMOD_TAG *tag);
@@ -224,10 +224,10 @@ namespace FMOD
 
         // Synchronization point API.  These points can come from markers embedded in wav files, and can also generate channel callbacks.
         FMOD_RESULT F_API getNumSyncPoints       (int *numsyncpoints);
-        FMOD_RESULT F_API getSyncPoint           (int index, FMOD_SYNCPOINT **point);
-        FMOD_RESULT F_API getSyncPointInfo       (FMOD_SYNCPOINT *point, char *name, int namelen, unsigned int *offset, FMOD_TIMEUNIT offsettype);
-        FMOD_RESULT F_API addSyncPoint           (unsigned int offset, FMOD_TIMEUNIT offsettype, const char *name, FMOD_SYNCPOINT **point);
-        FMOD_RESULT F_API deleteSyncPoint        (FMOD_SYNCPOINT *point);
+        FMOD_RESULT F_API getSyncPoint           (int index, FMOD_SYNCPOINT **mTex);
+        FMOD_RESULT F_API getSyncPointInfo       (FMOD_SYNCPOINT *mTex, char *name, int namelen, unsigned int *offset, FMOD_TIMEUNIT offsettype);
+        FMOD_RESULT F_API addSyncPoint           (unsigned int offset, FMOD_TIMEUNIT offsettype, const char *name, FMOD_SYNCPOINT **mTex);
+        FMOD_RESULT F_API deleteSyncPoint        (FMOD_SYNCPOINT *mTex);
 
         // Functions also in Channel class but here they are the 'default' to save having to change it in Channel all the time.
         FMOD_RESULT F_API setMode                (FMOD_MODE mode);
@@ -454,7 +454,7 @@ namespace FMOD
         FMOD_RESULT F_API getSystemObject        (System **system);
 
         // Connection / disconnection / input and output enumeration.
-        FMOD_RESULT F_API addInput               (DSP *input, DSPConnection **connection = 0, FMOD_DSPCONNECTION_TYPE type = FMOD_DSPCONNECTION_TYPE_STANDARD);
+        FMOD_RESULT F_API addInput               (DSP *input, DSPConnection **connection = 0, FMOD_DSPCONNECTION_TYPE mType = FMOD_DSPCONNECTION_TYPE_STANDARD);
         FMOD_RESULT F_API disconnectFrom         (DSP *target, DSPConnection *connection = 0);
         FMOD_RESULT F_API disconnectAll          (bool inputs, bool outputs);
         FMOD_RESULT F_API getNumInputs           (int *numinputs);
@@ -490,7 +490,7 @@ namespace FMOD
 
         // DSP attributes.
         FMOD_RESULT F_API getInfo                (char *name, unsigned int *version, int *channels, int *configwidth, int *configheight);
-        FMOD_RESULT F_API getType                (FMOD_DSP_TYPE *type);
+        FMOD_RESULT F_API getType                (FMOD_DSP_TYPE *mType);
         FMOD_RESULT F_API getIdle                (bool *idle);
 
         // Userdata set/get.
@@ -523,7 +523,7 @@ namespace FMOD
         FMOD_RESULT F_API getMix                (float *volume);
         FMOD_RESULT F_API setMixMatrix          (float *matrix, int outchannels, int inchannels, int inchannel_hop = 0);
         FMOD_RESULT F_API getMixMatrix          (float *matrix, int *outchannels, int *inchannels, int inchannel_hop = 0);
-        FMOD_RESULT F_API getType               (FMOD_DSPCONNECTION_TYPE *type);
+        FMOD_RESULT F_API getType               (FMOD_DSPCONNECTION_TYPE *mType);
 
         // Userdata set/get.
         FMOD_RESULT F_API setUserData           (void *userdata);

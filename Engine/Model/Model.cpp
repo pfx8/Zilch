@@ -49,12 +49,12 @@ Model::Model()
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(string const &path)
+Model::Model(string const &mPath)
 {
 	// D3Dデバイスポインタを取得
 	mD3DDevice = GetDevice();
 
-	loadModel(path);
+	loadModel(mPath);
 
 	// 数値を初期化
 	upVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -243,10 +243,10 @@ void Model::Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 // モデルをロードする
 //
 //*****************************************************************************
-HRESULT Model::loadModel(string const &path)
+HRESULT Model::loadModel(string const &mPath)
 {
 	Assimp::Importer import;																// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate/*aiProcessPreset_TargetRealtime_Quality*/);	// ポリゴンを強制に三角形にする
+	const aiScene *scene = import.ReadFile(mPath, aiProcess_Triangulate/*aiProcessPreset_TargetRealtime_Quality*/);	// ポリゴンを強制に三角形にする
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -385,20 +385,20 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 // マテリアルからテクスチャを読み込み
 //
 //*****************************************************************************
-vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType type, string typeName)
+vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType, string typeName)
 {
 	vector<Texture> textures;	// 読み込んだテクスチャ
 
-	for (unsigned int count = 0; count < mat->GetTextureCount(type); count++)
+	for (unsigned int count = 0; count < mat->GetTextureCount(mType); count++)
 	{
 		aiString str;
-		mat->GetTexture(type, count, &str);			// テクスチャパスを読み込み
+		mat->GetTexture(mType, count, &str);			// テクスチャパスを読み込み
 
 		bool skip = false;
 
 		for (unsigned int i = 0; i < this->mTexturesLoaded.size(); i++)
 		{
-			if (strcmp(this->mTexturesLoaded[i].path.data(), str.C_Str()) == 0)
+			if (strcmp(this->mTexturesLoaded[i].mPath.data(), str.C_Str()) == 0)
 			{
 				// テクスチャが読み込まれたかどうかをチェック
 				textures.push_back(this->mTexturesLoaded[i]);
@@ -411,9 +411,9 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType type, 
 		{
 			// テクスチャまだ読み込まなっかたら読み込む
 			Texture texture;
-			TextureFromFile(str.C_Str(), texture.point);
-			texture.type = typeName;
-			texture.path = str.C_Str();
+			TextureFromFile(str.C_Str(), texture.mTex);
+			texture.mType = typeName;
+			texture.mPath = str.C_Str();
 
 			// 読み込んだテクスチャを保存
 			textures.push_back(texture);
@@ -428,9 +428,9 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType type, 
 // テクスチャを読み込み
 //
 //*****************************************************************************
-HRESULT Model::TextureFromFile(const char *path, LPDIRECT3DTEXTURE9 &point)
+HRESULT Model::TextureFromFile(const char *mPath, LPDIRECT3DTEXTURE9 &mTex)
 {
-	string fileName = string(path);
+	string fileName = string(mPath);
 	//fileName = "Resources/Texture/Hixo/" + fileName;
 	fileName = "Resources/Texture/Hixo/eye.png";
 	cout << fileName << endl;
@@ -439,7 +439,7 @@ HRESULT Model::TextureFromFile(const char *path, LPDIRECT3DTEXTURE9 &point)
 	if (FAILED(D3DXCreateTextureFromFile(
 		this->mD3DDevice,
 		fileName.c_str(),
-		&point)))
+		&mTex)))
 	{
 		cout << "[Error] Loading <Texture> " << fileName << " ... Fail!" << endl;	// コンソールにメッセージを出す
 		return E_FAIL;

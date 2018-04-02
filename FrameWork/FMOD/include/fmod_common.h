@@ -792,7 +792,7 @@ typedef enum
 */
 typedef struct FMOD_PLUGINLIST
 {
-    FMOD_PLUGINTYPE   type;         /* The plugin type */
+    FMOD_PLUGINTYPE   mType;         /* The plugin type */
     void*             description;  /* One of FMOD_DSP_DESCRIPTION, FMOD_OUTPUT_DESCRIPTION, FMOD_CODEC_DESCRIPTION */
 } FMOD_PLUGINLIST;
 
@@ -1203,7 +1203,7 @@ typedef struct
 */
 typedef FMOD_RESULT (F_CALLBACK *FMOD_DEBUG_CALLBACK)           (FMOD_DEBUG_FLAGS flags, const char *file, int line, const char *func, const char *message);
 
-typedef FMOD_RESULT (F_CALLBACK *FMOD_SYSTEM_CALLBACK)          (FMOD_SYSTEM *mSystem, FMOD_SYSTEM_CALLBACK_TYPE type, void *commanddata1, void *commanddata2, void *userdata);
+typedef FMOD_RESULT (F_CALLBACK *FMOD_SYSTEM_CALLBACK)          (FMOD_SYSTEM *mSystem, FMOD_SYSTEM_CALLBACK_TYPE mType, void *commanddata1, void *commanddata2, void *userdata);
 
 typedef FMOD_RESULT (F_CALLBACK *FMOD_CHANNELCONTROL_CALLBACK)  (FMOD_CHANNELCONTROL *channelcontrol, FMOD_CHANNELCONTROL_TYPE controltype, FMOD_CHANNELCONTROL_CALLBACK_TYPE callbacktype, void *commanddata1, void *commanddata2);
 
@@ -1218,9 +1218,9 @@ typedef FMOD_RESULT (F_CALLBACK *FMOD_FILE_SEEK_CALLBACK)       (void *handle, u
 typedef FMOD_RESULT (F_CALLBACK *FMOD_FILE_ASYNCREAD_CALLBACK)  (FMOD_ASYNCREADINFO *info, void *userdata);
 typedef FMOD_RESULT (F_CALLBACK *FMOD_FILE_ASYNCCANCEL_CALLBACK)(FMOD_ASYNCREADINFO *info, void *userdata);
 
-typedef void *      (F_CALLBACK *FMOD_MEMORY_ALLOC_CALLBACK)    (unsigned int size, FMOD_MEMORY_TYPE type, const char *sourcestr);
-typedef void *      (F_CALLBACK *FMOD_MEMORY_REALLOC_CALLBACK)  (void *ptr, unsigned int size, FMOD_MEMORY_TYPE type, const char *sourcestr);
-typedef void        (F_CALLBACK *FMOD_MEMORY_FREE_CALLBACK)     (void *ptr, FMOD_MEMORY_TYPE type, const char *sourcestr);
+typedef void *      (F_CALLBACK *FMOD_MEMORY_ALLOC_CALLBACK)    (unsigned int size, FMOD_MEMORY_TYPE mType, const char *sourcestr);
+typedef void *      (F_CALLBACK *FMOD_MEMORY_REALLOC_CALLBACK)  (void *ptr, unsigned int size, FMOD_MEMORY_TYPE mType, const char *sourcestr);
+typedef void        (F_CALLBACK *FMOD_MEMORY_FREE_CALLBACK)     (void *ptr, FMOD_MEMORY_TYPE mType, const char *sourcestr);
 
 typedef float       (F_CALLBACK *FMOD_3D_ROLLOFF_CALLBACK)      (FMOD_CHANNELCONTROL *channelcontrol, float distance);
 
@@ -1382,7 +1382,7 @@ typedef enum
 */
 typedef struct FMOD_TAG
 {
-    FMOD_TAGTYPE      type;         /* [r] The type of this tag. */
+    FMOD_TAGTYPE      mType;         /* [r] The type of this tag. */
     FMOD_TAGDATATYPE  datatype;     /* [r] The type of data that this tag contains */
     char             *name;         /* [r] The name of this tag i.e. "TITLE", "ARTIST" etc. */
     void             *data;         /* [r] Pointer to the tag data - its format is determined by the datatype member */
