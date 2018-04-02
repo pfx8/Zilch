@@ -60,12 +60,12 @@ Audio::~Audio()
 //*****************************************************************************
 HRESULT Audio::createStream(const string name, const string path, FMOD_MODE mode)
 {
-	FMOD::Sound* sound = new FMOD::Sound();
+	/*FMOD::Sound* sound = new FMOD::Sound();
 	this->mSounds.insert(make_pair(name, sound));
 	this->mResult = this->mSystem->createStream(path.c_str(), mode, 0, &sound);
 	if (this->mResult != FMOD_OK)
 	{
 		cout << "[Error] FMOD system create stream ... " << FMOD_ErrorString(this->mResult);
 		return E_FAIL;
-	}
+	}*/
 }
