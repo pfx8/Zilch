@@ -21,7 +21,7 @@ class Texture
 
 private:
 	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
-	string						mFileName;		// テクスチャパス
+	string						mPath;		// テクスチャパス
 
 public:
 	Texture(string path);
@@ -29,9 +29,14 @@ public:
 
 	HRESULT loadingTexture();		// テクスチャを読み込み
 
-	string getTexFileName()
+	string getTexPath()
 	{
-		return this->mFileName;
+		return this->mPath;
+	}
+
+	void deleteTex()
+	{
+		RELEASE_POINT(mTex);
 	}
 };
 

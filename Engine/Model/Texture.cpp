@@ -14,7 +14,7 @@
 //*****************************************************************************
 Texture::Texture(string path)
 {
-	this->mFileName = path;
+	this->mPath = path;
 	this->mTex = nullptr;
 
 	// テクスチャを読み込み
@@ -28,7 +28,7 @@ Texture::Texture(string path)
 //*****************************************************************************
 Texture::~Texture()
 {
-	RELEASE_POINT(mTex);
+
 }
 
 //*****************************************************************************
@@ -43,14 +43,14 @@ HRESULT Texture::loadingTexture()
 	// テクスチャを読み込み
 	if (FAILED(D3DXCreateTextureFromFile(
 		D3dDevice,
-		mFileName.data(),
+		mPath.data(),
 		&mTex)))
 	{
-		cout << "[Error] Loading <Texture> " << mFileName << " ... Fail!" << endl;	// コンソールにメッセージを出す
+		cout << "[Error] Loading <Texture> " << mPath << " ... Fail!" << endl;	// コンソールにメッセージを出す
 		return E_FAIL;
 	}
 
-	cout << "[Information] Loading <Texture> " << mFileName << " ... Success!" << endl;	// コンソールにメッセージを出す
+	cout << "[Information] Loading <Texture> " << mPath << " ... Success!" << endl;	// コンソールにメッセージを出す
 
 	return S_OK;
 }

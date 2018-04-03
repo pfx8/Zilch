@@ -80,7 +80,7 @@ namespace FMOD
         FMOD_RESULT F_API setCallback             (FMOD_SYSTEM_CALLBACK callback, FMOD_SYSTEM_CALLBACK_TYPE callbackmask = FMOD_SYSTEM_CALLBACK_ALL);
 
         // Plug-in support.
-        FMOD_RESULT F_API setPluginPath           (const char *mFileName);
+        FMOD_RESULT F_API setPluginPath           (const char *mPath);
         FMOD_RESULT F_API loadPlugin              (const char *filename, unsigned int *handle, unsigned int priority = 0);
         FMOD_RESULT F_API unloadPlugin            (unsigned int handle);
         FMOD_RESULT F_API getNumNestedPlugins     (unsigned int handle, int *count);

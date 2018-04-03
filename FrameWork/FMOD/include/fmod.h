@@ -71,7 +71,7 @@ FMOD_RESULT F_API FMOD_System_SetCallback               (FMOD_SYSTEM *mSystem, F
      Plug-in support.
 */
 
-FMOD_RESULT F_API FMOD_System_SetPluginPath             (FMOD_SYSTEM *mSystem, const char *mFileName);
+FMOD_RESULT F_API FMOD_System_SetPluginPath             (FMOD_SYSTEM *mSystem, const char *mPath);
 FMOD_RESULT F_API FMOD_System_LoadPlugin                (FMOD_SYSTEM *mSystem, const char *filename, unsigned int *handle, unsigned int priority);
 FMOD_RESULT F_API FMOD_System_UnloadPlugin              (FMOD_SYSTEM *mSystem, unsigned int handle);
 FMOD_RESULT F_API FMOD_System_GetNumNestedPlugins       (FMOD_SYSTEM *mSystem, unsigned int handle, int *count);

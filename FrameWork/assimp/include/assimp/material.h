@@ -732,7 +732,7 @@ public:
     // -------------------------------------------------------------------
     aiReturn GetTexture(aiTextureType mType,
         unsigned int  index,
-        C_STRUCT aiString* mFileName,
+        C_STRUCT aiString* mPath,
         aiTextureMapping* mapping   = NULL,
         unsigned int* uvindex       = NULL,
         float* blend                = NULL,
@@ -1513,7 +1513,7 @@ ASSIMP_API unsigned int aiGetMaterialTextureCount(const C_STRUCT aiMaterial* pMa
 ASSIMP_API aiReturn aiGetMaterialTexture(const C_STRUCT aiMaterial* mat,
     aiTextureType mType,
     unsigned int  index,
-    aiString* mFileName,
+    aiString* mPath,
     aiTextureMapping* mapping   = NULL,
     unsigned int* uvindex       = NULL,
     float* blend                = NULL,

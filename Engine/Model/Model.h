@@ -32,7 +32,7 @@ private:
 	void SetWorldMatrix();						// ワールド変換
 	void RotationVecUp(float angle);			// 上方向のベクトルにして回転
 
-	HRESULT loadModel(string const &mFileName);					// モデルを読み込み
+	HRESULT loadModel(string const &mPath);					// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);	// ノード処理
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);	// メッシュ処理
 	vector<Texture> loadMaterialTexture(aiMaterial *mat, aiTextureType mType, string typeName);		// マテリアルからテクスチャを読み込み
@@ -57,11 +57,13 @@ public:
 	vector<Texture>					mTexturesLoaded;	// 読み込まれたテクスチャデータ
 
 	Model();
-	Model(string const &mFileName);
+	Model(string const &mPath);
 	~Model();
 
+	void draw();	// モデルを描画する
+
 	void Update();	// 更新
-	void Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// モデルを描画する
+
 };
 
 #endif // !_MODEL_H_
