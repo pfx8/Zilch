@@ -59,27 +59,7 @@ using namespace std;
 #define RELEASE_CLASS_POINT(ptr)			{ if(ptr) { delete ptr; } }
 #define RELEASE_CLASS_ARRY_POINT(ptr)		{ if(ptr) { delete [] ptr;} }
 
-#define	FVF_DX_VERTEX_3D		(D3DFVF_XYZ | D3DFVF_DIFFUSE)
-// 頂点フォーマット
-typedef struct DX_VERTEX_3D
-{
-	// 頂点楮体変数の順番は頂点フォーマットのと同じ
-	D3DXVECTOR4 position;		// 頂点座標
-	D3DCOLOR diffuse;			// 反射光
-}DX_VERTEX_3D;
-
-//*****************************************************************************
-//
-// 構造体定義
-//
-//*****************************************************************************
-// テクスチャ構造体
-typedef struct TextureStruct
-{
-	const char*			Name;			// テクスチャ名前
-	const char*			Path;			// テクスチャパス
-	LPDIRECT3DTEXTURE9		TexturePoint;		// テクスチャポインタ
-}TextureStruct;
+#define	FVF_DX_VERTEX_3D					(D3DFVF_XYZ | D3DFVF_DIFFUSE)
 
 //*****************************************************************************
 //

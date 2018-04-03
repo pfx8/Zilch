@@ -30,7 +30,7 @@ private:
 	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;	// 頂点インデックスバッファ
 	IDirect3DVertexDeclaration9*	mVertexDecl;	// 頂点シェーダー宣言
 
-	void SetupMesh();
+	HRESULT SetupMesh();							// メッシュをセットアップ
 
 public:
 	// メッシュデータ
@@ -41,7 +41,6 @@ public:
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture>  textures);
 	~Mesh();
 
-	HRESULT MakeBuffer();		// 描画用各バッファを作る
 	void Draw(Shader *shader);	// ドロー
 };
 

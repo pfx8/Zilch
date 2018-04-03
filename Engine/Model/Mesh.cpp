@@ -37,78 +37,6 @@ Mesh::~Mesh()
 	RELEASE_POINT(mVertexBuffer);
 	RELEASE_POINT(mIndexBuffer);
 	RELEASE_POINT(mVertexDecl);
-
-}
-
-//*****************************************************************************
-//
-// 描画用各バッファを作る
-//
-//*****************************************************************************
-HRESULT Mesh::MakeBuffer()
-{
-	//// 頂点シェーダー宣言
-	//{
-	//	D3DVERTEXELEMENT9 Decl[] =		// 頂点データのレイアウトを定義
-	//	{
-	//		{ 0,  0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-	//		{ 0, 16, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
-	//		{ 0, 32, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,    0 },
-	//		{ 0, 48, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
-	//		D3DDECL_END()
-	//	};
-	//	mD3DDevice->CreateVertexDeclaration(Decl, &mVertexDecl);
-	//}
-
-	//// 頂点バッファ作成
-	//{
-	//	if (FAILED(mD3DDevice->CreateVertexBuffer(m_vertexNum * sizeof(DX_VERTEX_3D), D3DUSAGE_WRITEONLY, FVF_DX_VERTEX_3D, D3DPOOL_MANAGED, &mVertexBuffer, NULL)))
-	//	{
-	//		cout << "[Error] Make <Mesh> vertex buffer ... Fail!" << endl;	// エラーメッセージ
-	//		return E_FAIL;
-	//	}
-
-	//	DX_VERTEX_3D* vertices = NULL;
-	//	mVertexBuffer->Lock(0, 0, (void**)&vertices, 0);
-	//	for (int count = 0; count < m_vertexNum; count++)
-	//	{
-	//		vertices[count].position.x = m_vertex[count].position.x;
-	//		vertices[count].position.y = m_vertex[count].position.y;
-	//		vertices[count].position.z = m_vertex[count].position.z;
-	//		vertices[count].position.w = m_vertex[count].position.w;
-
-	//		vertices[count].diffuse = D3DCOLOR_RGBA(0, 0, 0, 255);
-	//	}
-	//	mVertexBuffer->Unlock();
-	//}
-
-	//// 頂点インデックスバッファ作成
-	//{
-	//	if (FAILED(mD3DDevice->CreateIndexBuffer(m_IndexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer, NULL)))
-	//	{
-	//		cout << "[Error] Make <Mesh> vertex index buffer ... Fail!" << endl;	// エラーメッセージ
-	//		return E_FAIL;
-	//	}
-
-	//	int* vertexIndex = NULL;		// イデックスの中身を埋める
-	//	mIndexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);	// インデックス データのある一定範囲をロックし、そのインデックス バッファー メモリーへのポインターを取得する
-	//	int i = 0;
-	//	for (int count = 0; count < m_IndexNum; count++)
-	//	{
-	//		vertexIndex[count] = m_Index[count];
-	//		//cout << vertexIndex[count] << ",";
-	//		cout << m_Index[count] << ",";
-	//		i++;
-	//		if (i == 3)
-	//		{
-	//			i = 0;
-	//			cout << endl;
-	//		}
-	//	}
-	//	mIndexBuffer->Unlock();	// インデックス データのロックを解除する
-	//}
-
-	return S_OK;
 }
 
 //*****************************************************************************
@@ -116,9 +44,73 @@ HRESULT Mesh::MakeBuffer()
 // メッシュを設定
 //
 //*****************************************************************************
-void Mesh::SetupMesh()
+HRESULT Mesh::SetupMesh()
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	// 頂点シェーダー宣言
+	{
+		D3DVERTEXELEMENT9 Decl[] =		// 頂点データのレイアウトを定義
+		{
+			{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+			{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
+			{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+			{ 0, 32, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,  0 },
+			{ 0, 44, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0 },
+			D3DDECL_END()
+		};
+		pDevice->CreateVertexDeclaration(Decl, &mVertexDecl);
+	}
+
+	// 頂点バッファ作成
+	if (FAILED(pDevice->CreateVertexBuffer(mVertices.size() * sizeof(Vertex), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &mVertexBuffer, NULL)))
+	{
+		cout << "[Error] Make <Mesh> vertex buffer ... Fail!" << endl;	// エラーメッセージ
+		return E_FAIL;
+	}
+		
+	Vertex* vertices = nullptr;
+		
+	// 頂点データの範囲をロックし、頂点バッファ メモリへのポインタを取得
+	mVertexBuffer->Lock(0, 0, (void**)&vertices, 0);
+
+	unsigned int count = 0;
+	for (auto it : mVertices)
+	{
+		vertices[count].pos = it.pos;
+		vertices[count].nor = it.nor;
+		vertices[count].tex = it.tex;
+		vertices[count].tangent = it.tangent;
+		vertices[count].bitangent = it.bitangent;
+
+		count++;
+	}
+
+	// 頂点データをアンロック
+	mVertexBuffer->Unlock();
+
+	// 頂点インデックスバッファ作成
+	if (FAILED(pDevice->CreateIndexBuffer(mIndices.size() * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer, NULL)))
+	{
+		cout << "[Error] Make <Mesh> vertex index buffer ... Fail!" << endl;	// エラーメッセージ
+		return E_FAIL;
+	}
+
+	unsigned int* vertexIndex = nullptr;
+
+	// インデックス データのある一定範囲をロックし、そのインデックスバッファメモリーへのポインターを取得
+	mIndexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);
+
+	count = 0;
+	for (auto it : mIndices)
+	{
+		vertexIndex[count] = it;
+	}
+
+	// インデックス データのロックを解除
+	mIndexBuffer->Unlock();
+
+	return S_OK;
 }
 
 //*****************************************************************************
