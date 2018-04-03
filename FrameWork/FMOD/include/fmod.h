@@ -100,8 +100,8 @@ FMOD_RESULT F_API FMOD_System_Close                     (FMOD_SYSTEM *mSystem);
 
 FMOD_RESULT F_API FMOD_System_Update                    (FMOD_SYSTEM *mSystem);
 
-FMOD_RESULT F_API FMOD_System_SetSpeakerPosition        (FMOD_SYSTEM *mSystem, FMOD_SPEAKER speaker, float x, float y, FMOD_BOOL active);
-FMOD_RESULT F_API FMOD_System_GetSpeakerPosition        (FMOD_SYSTEM *mSystem, FMOD_SPEAKER speaker, float *x, float *y, FMOD_BOOL *active);
+FMOD_RESULT F_API FMOD_System_SetSpeakerPosition        (FMOD_SYSTEM *mSystem, FMOD_SPEAKER speaker, float x, float y, FMOD_BOOL mActive);
+FMOD_RESULT F_API FMOD_System_GetSpeakerPosition        (FMOD_SYSTEM *mSystem, FMOD_SPEAKER speaker, float *x, float *y, FMOD_BOOL *mActive);
 FMOD_RESULT F_API FMOD_System_SetStreamBufferSize       (FMOD_SYSTEM *mSystem, unsigned int filebuffersize, FMOD_TIMEUNIT filebuffersizetype);
 FMOD_RESULT F_API FMOD_System_GetStreamBufferSize       (FMOD_SYSTEM *mSystem, unsigned int *filebuffersize, FMOD_TIMEUNIT *filebuffersizetype);
 FMOD_RESULT F_API FMOD_System_Set3DSettings             (FMOD_SYSTEM *mSystem, float dopplerscale, float distancefactor, float rolloffscale);
@@ -573,8 +573,8 @@ FMOD_RESULT F_API FMOD_DSP_GetOutput                    (FMOD_DSP *dsp, int inde
      DSP unit control.
 */
 
-FMOD_RESULT F_API FMOD_DSP_SetActive                    (FMOD_DSP *dsp, FMOD_BOOL active);
-FMOD_RESULT F_API FMOD_DSP_GetActive                    (FMOD_DSP *dsp, FMOD_BOOL *active);
+FMOD_RESULT F_API FMOD_DSP_SetActive                    (FMOD_DSP *dsp, FMOD_BOOL mActive);
+FMOD_RESULT F_API FMOD_DSP_GetActive                    (FMOD_DSP *dsp, FMOD_BOOL *mActive);
 FMOD_RESULT F_API FMOD_DSP_SetBypass                    (FMOD_DSP *dsp, FMOD_BOOL bypass);
 FMOD_RESULT F_API FMOD_DSP_GetBypass                    (FMOD_DSP *dsp, FMOD_BOOL *bypass);
 FMOD_RESULT F_API FMOD_DSP_SetWetDryMix                 (FMOD_DSP *dsp, float prewet, float postwet, float dry);
@@ -666,8 +666,8 @@ FMOD_RESULT F_API FMOD_Geometry_GetPolygonAttributes    (FMOD_GEOMETRY *geometry
      Object manipulation.
 */
 
-FMOD_RESULT F_API FMOD_Geometry_SetActive               (FMOD_GEOMETRY *geometry, FMOD_BOOL active);
-FMOD_RESULT F_API FMOD_Geometry_GetActive               (FMOD_GEOMETRY *geometry, FMOD_BOOL *active);
+FMOD_RESULT F_API FMOD_Geometry_SetActive               (FMOD_GEOMETRY *geometry, FMOD_BOOL mActive);
+FMOD_RESULT F_API FMOD_Geometry_GetActive               (FMOD_GEOMETRY *geometry, FMOD_BOOL *mActive);
 FMOD_RESULT F_API FMOD_Geometry_SetRotation             (FMOD_GEOMETRY *geometry, const FMOD_VECTOR *forward, const FMOD_VECTOR *up);
 FMOD_RESULT F_API FMOD_Geometry_GetRotation             (FMOD_GEOMETRY *geometry, FMOD_VECTOR *forward, FMOD_VECTOR *up);
 FMOD_RESULT F_API FMOD_Geometry_SetPosition             (FMOD_GEOMETRY *geometry, const FMOD_VECTOR *position);
@@ -697,8 +697,8 @@ FMOD_RESULT F_API FMOD_Reverb3D_Set3DAttributes         (FMOD_REVERB3D *reverb3d
 FMOD_RESULT F_API FMOD_Reverb3D_Get3DAttributes         (FMOD_REVERB3D *reverb3d, FMOD_VECTOR *position, float *mindistance, float *maxdistance);
 FMOD_RESULT F_API FMOD_Reverb3D_SetProperties           (FMOD_REVERB3D *reverb3d, const FMOD_REVERB_PROPERTIES *properties);
 FMOD_RESULT F_API FMOD_Reverb3D_GetProperties           (FMOD_REVERB3D *reverb3d, FMOD_REVERB_PROPERTIES *properties);
-FMOD_RESULT F_API FMOD_Reverb3D_SetActive               (FMOD_REVERB3D *reverb3d, FMOD_BOOL active);
-FMOD_RESULT F_API FMOD_Reverb3D_GetActive               (FMOD_REVERB3D *reverb3d, FMOD_BOOL *active);
+FMOD_RESULT F_API FMOD_Reverb3D_SetActive               (FMOD_REVERB3D *reverb3d, FMOD_BOOL mActive);
+FMOD_RESULT F_API FMOD_Reverb3D_GetActive               (FMOD_REVERB3D *reverb3d, FMOD_BOOL *mActive);
 
 /*
      Userdata set/get.

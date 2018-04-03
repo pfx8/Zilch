@@ -62,8 +62,6 @@ void Scene01::start()
 
 	// フィールド
 	this->field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
-	this->mResourcesManager->LoadTexture("field", &this->field->tex);
-	this->mResourcesManager->LoadTexture("fieldNor", &this->field->normalMap);
 
 	// カメラ
 	this->camera->InitCameraByPlayer(this->woman);

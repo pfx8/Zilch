@@ -9,7 +9,6 @@
     <ClCompile Include="Engine\Light.cpp" />
     <ClCompile Include="Engine\Material.cpp" />
     <ClCompile Include="Engine\Plane.cpp" />
-    <ClCompile Include="Engine\ResourcesManager.cpp" />
     <ClCompile Include="Engine\SceneManager.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\SkyBox.cpp" />
@@ -27,6 +26,7 @@
     <ClCompile Include="Engine\Model\Mesh.cpp" />
     <ClCompile Include="Engine\Model\Model.cpp" />
     <ClCompile Include="Engine\Model\Texture.cpp" />
+    <ClCompile Include="Engine\Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
@@ -37,7 +37,6 @@
     <ClInclude Include="Engine\Light.h" />
     <ClInclude Include="Engine\Material.h" />
     <ClInclude Include="Engine\Plane.h" />
-    <ClInclude Include="Engine\ResourcesManager.h" />
     <ClInclude Include="Engine\SceneManager.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\SkyBox.h" />
@@ -54,6 +53,7 @@
     <ClInclude Include="Engine\Model\Texture.h" />
     <ClInclude Include="Engine\Model\Mesh.h" />
     <ClInclude Include="Engine\Model\Model.h" />
+    <ClInclude Include="Engine\Resources.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

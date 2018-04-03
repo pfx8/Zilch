@@ -396,24 +396,27 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 
 		bool skip = false;
 
-		for (unsigned int i = 0; i < this->mTexturesLoaded.size(); i++)
+		// もう読み込んだテクスチャならば、mTextureLoadedからもらう
+		for (auto it : mTexturesLoaded)
 		{
-			if (strcmp(this->mTexturesLoaded[i].mPath.data(), str.C_Str()) == 0)
+			if (strcmp(it.getTexPath.data(), str.C_Str()) == 0)
 			{
-				// テクスチャが読み込まれたかどうかをチェック
-				textures.push_back(this->mTexturesLoaded[i]);
+				textures.push_back(it);
 				skip = true;
 				break;
 			}
 		}
 
+		// 新しいテクスチャならば読み込む
 		if (!skip)
 		{
 			// テクスチャまだ読み込まなっかたら読み込む
-			Texture texture;
-			TextureFromFile(str.C_Str(), texture.mTex);
-			texture.mType = typeName;
-			texture.mPath = str.C_Str();
+			Texture texture(str.C_Str());
+
+			if (texture.mTex != nullptr)
+				cout << "Victory" << endl;
+
+			// テクスチャタイプ属性を切り捨てる(warning)
 
 			// 読み込んだテクスチャを保存
 			textures.push_back(texture);
@@ -421,34 +424,4 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 	}
 
 	return textures;
-}
-
-//*****************************************************************************
-//
-// テクスチャを読み込み
-//
-//*****************************************************************************
-HRESULT Model::TextureFromFile(const char *mPath, LPDIRECT3DTEXTURE9 &mTex)
-{
-	string fileName = string(mPath);
-	//fileName = "Resources/Texture/Hixo/" + fileName;
-	fileName = "Resources/Texture/Hixo/eye.png";
-	cout << fileName << endl;
-
-	// テクスチャを読み込み
-	if (FAILED(D3DXCreateTextureFromFile(
-		this->mD3DDevice,
-		fileName.c_str(),
-		&mTex)))
-	{
-		cout << "[Error] Loading <Texture> " << fileName << " ... Fail!" << endl;	// コンソールにメッセージを出す
-		return E_FAIL;
-	}
-
-	cout << "[Information] Loading <Texture> " << fileName << " ... Success!" << endl;	// コンソールにメッセージを出す
-	
-	cout << endl;
-
-
-	return S_OK;
 }

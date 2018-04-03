@@ -83,21 +83,21 @@ void Scene02::start()
 void Scene02::loading()
 {
 	// skybox
-	mResourcesManager->LoadTexture("skybox", "Resources/Texture/skybox.jpg");
+	mResources->LoadTexture("skybox", "Resources/Texture/skybox.jpg");
 
 	// 床
-	mResourcesManager->LoadTexture("gird", "Resources/Texture/grid.png");
+	mResources->LoadTexture("gird", "Resources/Texture/grid.png");
 
 	// Hixo
-	mResourcesManager->LoadTexture("HixoClothes", "Resources/Texture/grid.png");
-	mResourcesManager->LoadTexture("HixoEye", "Resources/Texture/grid.png");
-	mResourcesManager->LoadTexture("HixoFace", "Resources/Texture/grid.png");
-	mResourcesManager->LoadTexture("HixoFacial", "Resources/Texture/grid.png");
-	mResourcesManager->LoadTexture("HixoHair1", "Resources/Texture/grid.png");
-	mResourcesManager->LoadTexture("HixoHair2", "Resources/Texture/grid.png");
-	mResourcesManager->LoadTexture("HixoPanties", "Resources/Texture/grid.png");
-	mResourcesManager->LoadTexture("HixoSkin", "Resources/Texture/grid.png");
-	mResourcesManager->loadModel("HixoModel", "Resources/Model/Hiox/FBX/Hixo.fbx");
+	/*mResources->LoadTexture("HixoClothes", "Resources/Texture/HixoClothes.png");
+	mResources->LoadTexture("HixoEye", "Resources/Texture/HixoEye.png");
+	mResources->LoadTexture("HixoFace", "Resources/Texture/HixoFace.png");
+	mResources->LoadTexture("HixoFacial", "Resources/Texture/HixoFacial.png");
+	mResources->LoadTexture("HixoHair1", "Resources/Texture/HixoHair1.png");
+	mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
+	mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
+	mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
+	mResources->loadModel("HixoModel", "Resources/Model/Hiox/FBX/Hixo.fbx");
 }
 
 //*****************************************************************************

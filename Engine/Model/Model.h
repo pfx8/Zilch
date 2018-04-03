@@ -11,6 +11,7 @@
 #include "Mesh.h"
 #include "../Engine.h"
 #include "../Material.h"
+#include "../Resources.h"
 #include "../Shader.h"
 
 //--------------Assimp--------------//
@@ -35,7 +36,6 @@ private:
 	void processNode(aiNode *node, const aiScene *scene);	// ノード処理
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);	// メッシュ処理
 	vector<Texture> loadMaterialTexture(aiMaterial *mat, aiTextureType mType, string typeName);		// マテリアルからテクスチャを読み込み
-	HRESULT TextureFromFile(const char *mPath, LPDIRECT3DTEXTURE9 &mTex);	// テクスチャを読み込み
 
 public:
 	D3DXVECTOR3		pos;			// 位置
@@ -51,9 +51,11 @@ public:
 	IDirect3DVertexDeclaration9*	vertexDecl;			// 頂点宣言
 
 
+
+
 	LPDIRECT3DDEVICE9				mD3DDevice;			// D3Dデバイス
 	vector<Mesh>					mMeshes;			// メッシュデータ
-	vector<Texture>					mTexturesLoaded;	// テクスチャデータ
+	vector<Texture>					mTexturesLoaded;	// 読み込まれたテクスチャデータ
 
 	Model();
 	Model(string const &mPath);

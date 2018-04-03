@@ -103,8 +103,8 @@ namespace FMOD
         // General post-init system functions.
         FMOD_RESULT F_API update                  ();        /* IMPORTANT! CALL THIS ONCE PER FRAME! */
 
-        FMOD_RESULT F_API setSpeakerPosition      (FMOD_SPEAKER speaker, float x, float y, bool active);
-        FMOD_RESULT F_API getSpeakerPosition      (FMOD_SPEAKER speaker, float *x, float *y, bool *active);
+        FMOD_RESULT F_API setSpeakerPosition      (FMOD_SPEAKER speaker, float x, float y, bool mActive);
+        FMOD_RESULT F_API getSpeakerPosition      (FMOD_SPEAKER speaker, float *x, float *y, bool *mActive);
         FMOD_RESULT F_API setStreamBufferSize     (unsigned int filebuffersize, FMOD_TIMEUNIT filebuffersizetype);
         FMOD_RESULT F_API getStreamBufferSize     (unsigned int *filebuffersize, FMOD_TIMEUNIT *filebuffersizetype);
         FMOD_RESULT F_API set3DSettings           (float dopplerscale, float distancefactor, float rolloffscale);
@@ -463,8 +463,8 @@ namespace FMOD
         FMOD_RESULT F_API getOutput              (int index, DSP **output, DSPConnection **outputconnection);
 
         // DSP unit control.
-        FMOD_RESULT F_API setActive              (bool active);
-        FMOD_RESULT F_API getActive              (bool *active);
+        FMOD_RESULT F_API setActive              (bool mActive);
+        FMOD_RESULT F_API getActive              (bool *mActive);
         FMOD_RESULT F_API setBypass              (bool bypass);
         FMOD_RESULT F_API getBypass              (bool *bypass);
         FMOD_RESULT F_API setWetDryMix           (float prewet, float postwet, float dry);
@@ -557,8 +557,8 @@ namespace FMOD
         FMOD_RESULT F_API getPolygonAttributes   (int index, float *directocclusion, float *reverbocclusion, bool *doublesided);
 
         // Object manipulation.
-        FMOD_RESULT F_API setActive              (bool active);
-        FMOD_RESULT F_API getActive              (bool *active);
+        FMOD_RESULT F_API setActive              (bool mActive);
+        FMOD_RESULT F_API getActive              (bool *mActive);
         FMOD_RESULT F_API setRotation            (const FMOD_VECTOR *forward, const FMOD_VECTOR *up);
         FMOD_RESULT F_API getRotation            (FMOD_VECTOR *forward, FMOD_VECTOR *up);
         FMOD_RESULT F_API setPosition            (const FMOD_VECTOR *position);
@@ -593,8 +593,8 @@ namespace FMOD
         FMOD_RESULT F_API get3DAttributes        (FMOD_VECTOR *position, float *mindistance,float *maxdistance);
         FMOD_RESULT F_API setProperties          (const FMOD_REVERB_PROPERTIES *properties);
         FMOD_RESULT F_API getProperties          (FMOD_REVERB_PROPERTIES *properties);
-        FMOD_RESULT F_API setActive              (bool active);
-        FMOD_RESULT F_API getActive              (bool *active);
+        FMOD_RESULT F_API setActive              (bool mActive);
+        FMOD_RESULT F_API getActive              (bool *mActive);
 
         // Userdata set/get.
         FMOD_RESULT F_API setUserData            (void *userdata);

@@ -8,7 +8,7 @@
 #ifndef _COMPONENT_H_
 #define _COMPONENT_H_
 
-#include "..\Engine\Engine.h"
+#include "../Engine/Engine.h"
 
 class Component
 {
@@ -17,8 +17,8 @@ private:
 	virtual void update();
 
 public:
-	bool active = true;
-	float lastActiveTime = 0;
+	bool		mActive = true;
+	float		mLastActiveTime = 0;
 
 	Component();
 	virtual ~Component();

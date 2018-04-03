@@ -12,12 +12,11 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Texture::Texture(string path, TextureType type)
+Texture::Texture(string path)
 {
 	this->mD3DDevice = GetDevice();
 
 	this->mPath = path;
-	this->mType = type;
 	this->mTex = nullptr;
 
 	// テクスチャを読み込み
@@ -45,7 +44,7 @@ HRESULT Texture::loadingTexture()
 	// テクスチャを読み込み
 	if (FAILED(D3DXCreateTextureFromFile(
 		mD3DDevice,
-		mPath.c_str(),
+		mPath.data(),
 		&mTex)))
 	{
 		cout << "[Error] Loading <Texture> " << mPath << " ... Fail!" << endl;	// コンソールにメッセージを出す

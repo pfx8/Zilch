@@ -10,12 +10,6 @@
 
 #include "../Engine.h"
 
-enum TextureType
-{
-	TT_diffuse,
-	TT_effect,
-};
-
 //*****************************************************************************
 //
 // クラス宣言
@@ -23,17 +17,23 @@ enum TextureType
 //*****************************************************************************
 class Texture
 {
+	friend class Model;
+
 private:
 	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
-	TextureType					mType;		// テクスチャタイプ
 	string						mPath;		// テクスチャパス
 	LPDIRECT3DDEVICE9			mD3DDevice;		// D3Dデバイス
 
 public:
-	Texture(string path, TextureType type);
+	Texture(string path);
 	~Texture();
 
 	HRESULT loadingTexture();		// テクスチャを読み込み
+
+	string getTexPath()
+	{
+		return this->mPath;
+	}
 };
 
 #endif // !_TEXTURE_H_

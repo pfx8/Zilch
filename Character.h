@@ -8,9 +8,9 @@
 #ifndef _CHARACTER_H_
 #define _CHARACTER_H_
 
-#include "Engine\Engine.h"
-#include "Engine\DebugMessage.h"
-#include "Model\Model.h"
+#include "Engine/Engine.h"
+#include "Engine/DebugMessage.h"
+#include "Engine/Model/Model.h"
 
 //*****************************************************************************
 //

@@ -1,18 +1,18 @@
 ﻿//*****************************************************************************
 //
-// リソース管理クラス [ResourcesManager.cpp]
+// リソース管理 [Resources.cpp]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "ResourcesManager.h"
+#include "Resources.h"
 
 //*****************************************************************************
 //
 // コンストラクタ
 //
 //*****************************************************************************
-ResourcesManager::ResourcesManager()
+Resources::Resources()
 {
 	mD3DDevice = GetDevice();
 }
@@ -22,7 +22,7 @@ ResourcesManager::ResourcesManager()
 // デストラクタ
 //
 //*****************************************************************************
-ResourcesManager::~ResourcesManager()
+Resources::~Resources()
 {
 	RELEASE_POINT(mD3DDevice);
 
@@ -34,7 +34,7 @@ ResourcesManager::~ResourcesManager()
 // Assimpでモデルを読み込み
 //
 //*****************************************************************************
-void ResourcesManager::loadModel(string name, string path)
+void Resources::loadModel(string name, string path)
 {
 	mModels.insert({ name, new Model(path) }); // モデルを名前とデータをペアにする
 }
@@ -44,7 +44,7 @@ void ResourcesManager::loadModel(string name, string path)
 // モデルを名前によってゲット
 //
 //*****************************************************************************
-Model* ResourcesManager::GetModel(string name)
+Model* Resources::GetModel(string name)
 {
 	if (mModels.find(name) != mModels.end())
 	{
@@ -60,9 +60,9 @@ Model* ResourcesManager::GetModel(string name)
 // Assimpでテクスチャを読み込み
 //
 //*****************************************************************************
-void ResourcesManager::LoadTexture(string name, string path, TextureType type)
+void Resources::LoadTexture(string name, string path)
 {
-	mTextures.insert({ name, new Texture(path, type) });	
+	mTextures.insert({ name, new Texture(path) });	
 }
 
 //*****************************************************************************
@@ -70,7 +70,7 @@ void ResourcesManager::LoadTexture(string name, string path, TextureType type)
 // テクスチャを名前によって取得
 //
 //*****************************************************************************
-Texture* ResourcesManager::GetTexture(string name)
+Texture* Resources::GetTexture(string name)
 {
 	if (mTextures.find(name) != mTextures.end())
 	{

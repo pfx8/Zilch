@@ -17,8 +17,8 @@ private:
 	void update();
 
 public:
-	bool active = true;
-	float lastActiveTime = 0;
+	bool mActive = true;
+	float mLastActiveTime = 0;
 
 	GameObject();
 	virtual ~GameObject();

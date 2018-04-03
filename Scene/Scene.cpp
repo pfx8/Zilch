@@ -16,7 +16,7 @@ using namespace std;
 //*****************************************************************************
 Scene::Scene()
 {	
-	this->mResourcesManager = new ResourcesManager;	// リソース
+	this->mResources = new Resources;	// リソース
 	this->message = new DebugMessage;
 
 	// テクスチャを読み込み
@@ -32,7 +32,7 @@ Scene::~Scene()
 {
 	// クラスポインタ
 	// リソース
-	RELEASE_CLASS_POINT(this->mResourcesManager);
+	RELEASE_CLASS_POINT(this->mResources);
 	RELEASE_CLASS_POINT(this->message);
 }
 

@@ -9,8 +9,8 @@
 #define _MESH_H_
 
 #include "Texture.h"
-#include "..\Engine.h"
-#include "..\Shader.h"
+#include "../Engine.h"
+#include "../Shader.h"
 
 struct Vertex 
 {

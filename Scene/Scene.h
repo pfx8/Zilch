@@ -9,7 +9,7 @@
 #define _SCENE_H_
 
 #include "..\Engine\Engine.h"
-#include "..\Engine\ResourcesManager.h"
+#include "..\Engine\Resources.h"
 #include "..\Engine\DebugMessage.h"
 
 //*****************************************************************************
@@ -22,8 +22,8 @@ class Scene
 private:
 
 public:
-	ResourcesManager*	mResourcesManager;	// リソースマネジメント
-	DebugMessage*		message;			// メッセージ
+	Resources*			mResources;		// リソース
+	DebugMessage*		message;		// メッセージ
 	
 	Scene();
 	~Scene();
