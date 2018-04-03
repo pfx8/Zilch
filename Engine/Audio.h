@@ -26,7 +26,7 @@ public:
 	Audio();
 	~Audio();
 
-	HRESULT createStream(const string name, const string mPath, FMOD_MODE mode);		// オーディオをストリームとして読み込み
+	HRESULT createStream(const string name, const string mFileName, FMOD_MODE mode);		// オーディオをストリームとして読み込み
 
 };
 

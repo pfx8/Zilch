@@ -14,8 +14,7 @@
 //*****************************************************************************
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture>  textures)
 {
-	// D3Dデバイスポインタを取得
-	this->mD3DDevice = GetDevice();
+	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
 
 	// メッシュデータコンテナを初期化
 	this->mVertices = vertices;
@@ -38,7 +37,7 @@ Mesh::~Mesh()
 	RELEASE_POINT(this->mVertexBuffer);
 	RELEASE_POINT(this->mIndexBuffer);
 	RELEASE_POINT(this->mVertexDecl);
-	RELEASE_POINT(this->mD3DDevice);
+
 }
 
 //*****************************************************************************

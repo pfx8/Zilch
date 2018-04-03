@@ -13,8 +13,6 @@
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\SkyBox.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
-    <ClCompile Include="Model\Mesh.cpp" />
-    <ClCompile Include="Model\Model.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
@@ -23,10 +21,10 @@
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
     <ClCompile Include="Scene\Scene02.cpp" />
-    <ClCompile Include="Engine\Model\Mesh.cpp" />
     <ClCompile Include="Engine\Model\Model.cpp" />
     <ClCompile Include="Engine\Model\Texture.cpp" />
     <ClCompile Include="Engine\Resources.cpp" />
+    <ClCompile Include="Engine\Model\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
@@ -41,8 +39,6 @@
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\SkyBox.h" />
     <ClInclude Include="GameObject\GameObject.h" />
-    <ClInclude Include="Model\Mesh.h" />
-    <ClInclude Include="Model\Model.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Scene01.h" />

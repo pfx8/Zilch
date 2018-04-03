@@ -14,8 +14,7 @@
 //*****************************************************************************
 Model::Model()
 {
-	// D3Dデバイスポインタを取得
-	mD3DDevice = GetDevice();
+	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
 
 	// 数値を初期化
 	upVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -41,7 +40,7 @@ Model::Model()
 		D3DDECL_END()
 	};
 
-	mD3DDevice->CreateVertexDeclaration(planeDecl, &vertexDecl);
+	D3dDevice->CreateVertexDeclaration(planeDecl, &vertexDecl);
 }
 
 //*****************************************************************************
@@ -49,12 +48,11 @@ Model::Model()
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(string const &mPath)
+Model::Model(string const &mFileName)
 {
-	// D3Dデバイスポインタを取得
-	mD3DDevice = GetDevice();
+	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
 
-	loadModel(mPath);
+	loadModel(mFileName);
 
 	// 数値を初期化
 	upVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -80,7 +78,7 @@ Model::Model(string const &mPath)
 		D3DDECL_END()
 	};
 
-	mD3DDevice->CreateVertexDeclaration(planeDecl, &vertexDecl);
+	D3dDevice->CreateVertexDeclaration(planeDecl, &vertexDecl);
 }
 
 //*****************************************************************************
@@ -92,7 +90,6 @@ Model::~Model()
 {
 	// ポインタ
 	RELEASE_POINT(meshPoint);
-	RELEASE_POINT(mD3DDevice);
 	RELEASE_CLASS_POINT(meshTexturePoint);
 
 	// クラスポインタ
@@ -174,6 +171,8 @@ void Model::Update()
 //*****************************************************************************
 void Model::Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
+	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
+
 	// テクニックを設定
 	mShader->effect->SetTechnique("defaultRender");
 
@@ -204,9 +203,9 @@ void Model::Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 		attributes = new D3DXATTRIBUTERANGE[materialNum];				// エントリ数によって、属性テーブル配列メモリを作り
 		meshPoint->GetAttributeTable(attributes, &materialNum);	// メッシュの属性テーブルを取得
 
-		mD3DDevice->SetVertexDeclaration(vertexDecl);				// 頂点宣言を設定
-		mD3DDevice->SetStreamSource(0, vertexBuffer, 0, 32);				// sizeof(POSITION, NORMAL, UV)
-		mD3DDevice->SetIndices(indexBuffer);
+		D3dDevice->SetVertexDeclaration(vertexDecl);				// 頂点宣言を設定
+		D3dDevice->SetStreamSource(0, vertexBuffer, 0, 32);				// sizeof(POSITION, NORMAL, UV)
+		D3dDevice->SetIndices(indexBuffer);
 
 		// 描画
 		for (DWORD count = 0; count < materialNum; count++)
@@ -215,10 +214,10 @@ void Model::Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 			{
 				//DWORD matNum = attributes[count].AttribId;			// マテリアル数を取得
 				//shader->effectPoint->SetTexture(shader->texture1Handle, meshTexturePoint[matNum]);	// テクスチャを設定
-				//mD3DDevice->SetTexture(0, this->meshTexturePoint[matNum]);	// テクスチャを設定
+				//D3dDevice->SetTexture(0, this->meshTexturePoint[matNum]);	// テクスチャを設定
 
 				// モデルを描画する
-				this->mD3DDevice->DrawIndexedPrimitive(
+				D3dDevice->DrawIndexedPrimitive(
 					D3DPT_TRIANGLELIST,
 					0,
 					attributes[count].VertexStart,
@@ -243,10 +242,10 @@ void Model::Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 // モデルをロードする
 //
 //*****************************************************************************
-HRESULT Model::loadModel(string const &mPath)
+HRESULT Model::loadModel(string const &mFileName)
 {
 	Assimp::Importer import;																// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(mPath, aiProcess_Triangulate/*aiProcessPreset_TargetRealtime_Quality*/);	// ポリゴンを強制に三角形にする
+	const aiScene *scene = import.ReadFile(mFileName, aiProcess_Triangulate/*aiProcessPreset_TargetRealtime_Quality*/);	// ポリゴンを強制に三角形にする
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -391,7 +390,7 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 
 	for (unsigned int count = 0; count < mat->GetTextureCount(mType); count++)
 	{
-		aiString str;
+		aiString str;									// モデルから読み込まれたテクスチャファイルの名前
 		mat->GetTexture(mType, count, &str);			// テクスチャパスを読み込み
 
 		bool skip = false;
@@ -399,7 +398,7 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 		// もう読み込んだテクスチャならば、mTextureLoadedからもらう
 		for (auto it : mTexturesLoaded)
 		{
-			if (strcmp(it.getTexPath.data(), str.C_Str()) == 0)
+			if (strcmp(it.getTexFileName().data(), str.C_Str()) == 0)
 			{
 				textures.push_back(it);
 				skip = true;
@@ -411,10 +410,8 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 		if (!skip)
 		{
 			// テクスチャまだ読み込まなっかたら読み込む
-			Texture texture(str.C_Str());
-
-			if (texture.mTex != nullptr)
-				cout << "Victory" << endl;
+			string filePath = "Resources/Texture/Hixo/Hixo" + string(str.C_Str());
+			Texture texture(filePath.data());
 
 			// テクスチャタイプ属性を切り捨てる(warning)
 

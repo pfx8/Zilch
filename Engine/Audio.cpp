@@ -58,7 +58,7 @@ Audio::~Audio()
 // オーディオをストリームとして読み込み
 //
 //*****************************************************************************
-HRESULT Audio::createStream(const string name, const string mPath, FMOD_MODE mode)
+HRESULT Audio::createStream(const string name, const string mFileName, FMOD_MODE mode)
 {
 	/*FMOD::Sound* sound = new FMOD::Sound();
 	this->mSounds.insert(make_pair(name, sound));

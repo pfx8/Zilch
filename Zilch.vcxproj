@@ -40,8 +40,6 @@
     <ClCompile Include="Engine\SkyBox.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Model\Mesh.cpp" />
-    <ClCompile Include="Model\Model.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\Scene01.cpp" />
     <ClCompile Include="Scene\Scene02.cpp" />
@@ -67,8 +65,6 @@
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\SkyBox.h" />
     <ClInclude Include="GameObject\GameObject.h" />
-    <ClInclude Include="Model\Mesh.h" />
-    <ClInclude Include="Model\Model.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Scene01.h" />
     <ClInclude Include="Scene\Scene02.h" />

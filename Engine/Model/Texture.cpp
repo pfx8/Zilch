@@ -14,9 +14,7 @@
 //*****************************************************************************
 Texture::Texture(string path)
 {
-	this->mD3DDevice = GetDevice();
-
-	this->mPath = path;
+	this->mFileName = path;
 	this->mTex = nullptr;
 
 	// テクスチャを読み込み
@@ -30,7 +28,6 @@ Texture::Texture(string path)
 //*****************************************************************************
 Texture::~Texture()
 {
-	RELEASE_POINT(mD3DDevice);
 	RELEASE_POINT(mTex);
 }
 
@@ -41,17 +38,19 @@ Texture::~Texture()
 //*****************************************************************************
 HRESULT Texture::loadingTexture()
 {
+	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
+
 	// テクスチャを読み込み
 	if (FAILED(D3DXCreateTextureFromFile(
-		mD3DDevice,
-		mPath.data(),
+		D3dDevice,
+		mFileName.data(),
 		&mTex)))
 	{
-		cout << "[Error] Loading <Texture> " << mPath << " ... Fail!" << endl;	// コンソールにメッセージを出す
+		cout << "[Error] Loading <Texture> " << mFileName << " ... Fail!" << endl;	// コンソールにメッセージを出す
 		return E_FAIL;
 	}
 
-	cout << "[Information] Loading <Texture> " << mPath << " ... Success!" << endl;	// コンソールにメッセージを出す
+	cout << "[Information] Loading <Texture> " << mFileName << " ... Success!" << endl;	// コンソールにメッセージを出す
 
 	return S_OK;
 }

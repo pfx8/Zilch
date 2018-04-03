@@ -21,8 +21,7 @@ class Texture
 
 private:
 	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
-	string						mPath;		// テクスチャパス
-	LPDIRECT3DDEVICE9			mD3DDevice;		// D3Dデバイス
+	string						mFileName;		// テクスチャパス
 
 public:
 	Texture(string path);
@@ -30,9 +29,9 @@ public:
 
 	HRESULT loadingTexture();		// テクスチャを読み込み
 
-	string getTexPath()
+	string getTexFileName()
 	{
-		return this->mPath;
+		return this->mFileName;
 	}
 };
 
