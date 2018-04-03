@@ -26,7 +26,7 @@ class Scene02 : public Scene
 private:
 	string				mSceneName;
 	Shader*				mShader;			// シェーダー
-	Camera*				camera;				// カメラ
+	//Camera*				camera;				// カメラ
 	Light*				light;				// ライト
 	Plane*				field;				// フィールド
 	//SkyBox*				skyBox;				// スカイボックス

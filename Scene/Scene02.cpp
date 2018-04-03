@@ -14,6 +14,9 @@
 //*****************************************************************************
 Scene02::Scene02()
 {
+	// シーン01
+	cout << "[Information] Scene02 <アニメーション> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
+
 	// Shader
 	mShader = new Shader;
 
@@ -30,7 +33,7 @@ Scene02::Scene02()
 	mHixo = new Character;
 
 	// カメラ
-	camera = new Camera;
+	//camera = new Camera;
 
 	// 初期化
 	start();
@@ -45,9 +48,6 @@ void Scene02::start()
 {
 	// loading
 	this->loading();
-
-	// シーン01
-	cout << "[Information] Scene02 <アニメーション> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
 
 	// Shader
 	mShader->LoadEffectFile("Resources/Shader/render3D_phong.fx");
@@ -66,7 +66,7 @@ void Scene02::start()
 	field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
 
 	// カメラ
-	camera->InitCameraByPlayer(mHixo);
+	//camera->InitCameraByPlayer(mHixo);
 
 	// player
 	//mHixo->model->
@@ -97,7 +97,7 @@ void Scene02::loading()
 	mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
 	mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
 	mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
-	mResources->loadModel("HixoModel", "Resources/Model/Hiox/FBX/Hixo.fbx");
+	mResources->loadModel("HixoModel", "Resources/Model/Hiox/Hixo_noEnd.fbx");
 }
 
 //*****************************************************************************
@@ -109,7 +109,7 @@ Scene02::~Scene02()
 {
 	// クラスポインタ
 	RELEASE_CLASS_POINT(mHixo);				// プレーヤー
-	RELEASE_CLASS_POINT(camera);				// カメラ
+	//RELEASE_CLASS_POINT(camera);				// カメラ
 	RELEASE_CLASS_POINT(light);				// ライト
 	RELEASE_CLASS_POINT(mShader);				// シェーダー
 	RELEASE_CLASS_POINT(field);				// フィールド
@@ -144,7 +144,7 @@ void Scene02::Update()
 	field->Update();
 
 	// カメラ更新
-	camera->Update(mHixo);
+	//camera->Update(mHixo);
 }
 
 //*****************************************************************************
@@ -178,7 +178,7 @@ void Scene02::Draw()
 //*****************************************************************************
 void Scene02::oneFrame()
 {
-	field->Draw(mShader, camera);
+	//field->Draw(mShader, camera);
 	//skyBox->Draw(shader, &VPmatrix);
 
 	// デッバグメッセージ
