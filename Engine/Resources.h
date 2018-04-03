@@ -9,6 +9,7 @@
 #define _RESOURCES_H_
 
 #include "Engine.h"
+#include "Shader.h"
 #include "Model\Mesh.h"
 #include "Model\Model.h"
 
@@ -22,16 +23,18 @@ class Resources
 private:
 	map<string, Model*>				mModels;		// モデル
 	map<string, Texture*>			mTextures;		// テクスチャ
-	LPDIRECT3DDEVICE9				mD3DDevice;		// D3Dデバイス
+	map<string, Shader*>			mShaders;		// シェーダー
 
 public:
 	Resources();
 	~Resources();
 	
 	void loadModel(string name, string path);		// Assimpでモデルを読み込み
-	Model *GetModel(string name);					// モデルを名前によって取得
-	void LoadTexture(string name, string path);		// Assimpでテクスチャを読み込み
-	Texture *GetTexture(string name);				// テクスチャを名前によって取得
+	Model* getModel(string name);					// モデルの名前によって取得
+	void loadTexture(string name, string path);		// テクスチャを読み込み
+	Texture* getTexture(string name);				// テクスチャの名前によって取得
+	void loadShader(string name, string path);		// シェーダーを読み込み
+	Shader* getShader(string name);					// シェーダーの名前によって取得
 };
 
 #endif // !_RESOURCES_H_

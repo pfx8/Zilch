@@ -15,12 +15,12 @@ class Shader
 private:
 
 public:
-	ID3DXEffect*	effect;		// エフェクト
+	ID3DXEffect*	mEffect;		// エフェクト
 
-	Shader();
+	Shader(string path);
 	~Shader();
 
-	HRESULT LoadEffectFile(string shaderName);		// 頂点シェーダーファイルを読み込む
+	HRESULT loadEffectFile(string path);		// 頂点シェーダーファイルを読み込む
 };
 
 #endif // !_SHADER_H_

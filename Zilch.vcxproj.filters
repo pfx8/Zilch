@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\Console.cpp" />
     <ClCompile Include="Engine\DebugMessage.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
@@ -25,9 +24,9 @@
     <ClCompile Include="Engine\Model\Texture.cpp" />
     <ClCompile Include="Engine\Resources.cpp" />
     <ClCompile Include="Engine\Model\Mesh.cpp" />
+    <ClCompile Include="Engine\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Console.h" />
     <ClInclude Include="Engine\DebugMessage.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -50,6 +49,7 @@
     <ClInclude Include="Engine\Model\Mesh.h" />
     <ClInclude Include="Engine\Model\Model.h" />
     <ClInclude Include="Engine\Resources.h" />
+    <ClInclude Include="Engine\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

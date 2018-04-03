@@ -730,7 +730,7 @@ public:
     *    axis: UVW order (=XYZ)).
     */
     // -------------------------------------------------------------------
-    aiReturn GetTexture(aiTextureType mType,
+    aiReturn getTexture(aiTextureType mType,
         unsigned int  index,
         C_STRUCT aiString* mPath,
         aiTextureMapping* mapping   = NULL,

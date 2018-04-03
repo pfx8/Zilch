@@ -227,50 +227,50 @@ void Plane::Draw(Shader* mShader, Camera* camera)
 	{
 	case RS_withoutLight:
 		renderStatus = RS_withoutLight;
-		mShader->effect->SetTechnique("render_without_light");
+		mShader->mEffect->SetTechnique("render_without_light");
 		break;
 
 	case RS_withLight:
 		renderStatus = RS_withLight;
-		mShader->effect->SetTechnique("render_with_light");
+		mShader->mEffect->SetTechnique("render_with_light");
 
 		// カメラ位置の設定
-		mShader->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
+		mShader->mEffect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
 		break;
 
 	case RS_withNormalMap:
 		renderStatus = RS_withNormalMap;
-		mShader->effect->SetTechnique("render_with_normalMap");
+		mShader->mEffect->SetTechnique("render_with_normalMap");
 
 		// カメラ位置の設定
-		mShader->effect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
+		mShader->mEffect->SetValue("cameraPos", &camera->posEye, sizeof(D3DXVECTOR3));
 		// ノーマルマップを設定
-		mShader->effect->SetTexture("normalMap", this->normalMap);
+		mShader->mEffect->SetTexture("normalMap", this->normalMap);
 		break;
 	}
 
 	// ワールド変換、ビューイング変換、プロジェクション変換マトリックス
-	mShader->effect->SetMatrix("wMat", &this->wMatrix);
-	mShader->effect->SetMatrix("vMat", &camera->vMatrix);
-	mShader->effect->SetMatrix("pMat", &camera->pMatrix);
+	mShader->mEffect->SetMatrix("wMat", &this->wMatrix);
+	mShader->mEffect->SetMatrix("vMat", &camera->vMatrix);
+	mShader->mEffect->SetMatrix("pMat", &camera->pMatrix);
 
 	// テクスチャの設定
-	mShader->effect->SetTexture("tex", this->tex);
+	mShader->mEffect->SetTexture("tex", this->tex);
 
 	// 描画
 	UINT passNum = 0;
-	mShader->effect->Begin(&passNum, 0);
+	mShader->mEffect->Begin(&passNum, 0);
 	// 各パスを実行する
 	for (unsigned int count = 0; count < passNum; count++)
 	{
-		mShader->effect->BeginPass(count);
+		mShader->mEffect->BeginPass(count);
 		
 		pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
 		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
 		pDevice->SetIndices(this->indexBuffer);										// 頂点インデックスバッファを設定
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ポリゴンの描画
 
-		mShader->effect->EndPass();
+		mShader->mEffect->EndPass();
 	}
-	mShader->effect->End();
+	mShader->mEffect->End();
 }

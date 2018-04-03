@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //! @cond never
 
 // ---------------------------------------------------------------------------
-inline aiReturn aiMaterial::GetTexture( aiTextureType mType,
+inline aiReturn aiMaterial::getTexture( aiTextureType mType,
    unsigned int  index,
    C_STRUCT aiString* mPath,
    aiTextureMapping* mapping    /*= NULL*/,

@@ -17,9 +17,6 @@ Scene02::Scene02()
 	// シーン01
 	cout << "[Information] Scene02 <アニメーション> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
 
-	// Shader
-	mShader = new Shader;
-
 	// ライト、光方向はデフォルトで
 	light = new Light;
 
@@ -49,14 +46,10 @@ void Scene02::start()
 	// loading
 	this->loading();
 
-	// Shader
-	mShader->LoadEffectFile("Resources/Shader/render3D_phong.fx");
-	//shader3D->LoadEffectFile("Resources/Shader/default3DRender.fx");
-
 	// シェーダーにライトを設定
-	mShader->effect->SetValue("lightPos", &light->pos, sizeof(D3DXVECTOR3));
-	mShader->effect->SetValue("lightDiffuse", &light->diffuse, sizeof(D3DXVECTOR3));
-	mShader->effect->SetFloat("lightAttenuation", light->attenuation);
+	/*mShader->mEffect->SetValue("lightPos", &light->pos, sizeof(D3DXVECTOR3));
+	mShader->mEffect->SetValue("lightDiffuse", &light->diffuse, sizeof(D3DXVECTOR3));
+	mShader->mEffect->SetFloat("lightAttenuation", light->attenuation);*/
 
 	//// スカイボックス
 	//skyBox->InitSkyBox(2500.0f);
@@ -83,10 +76,10 @@ void Scene02::start()
 void Scene02::loading()
 {
 	// skybox
-	mResources->LoadTexture("skybox", "Resources/Texture/skybox.jpg");
+	mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");
 
 	// 床
-	mResources->LoadTexture("gird", "Resources/Texture/grid.png");
+	mResources->loadTexture("gird", "Resources/Texture/grid.png");
 
 	// Hixo
 	/*mResources->LoadTexture("HixoClothes", "Resources/Texture/HixoClothes.png");
@@ -97,7 +90,10 @@ void Scene02::loading()
 	mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
 	mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
 	mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
-	mResources->loadModel("HixoModel", "Resources/Model/Hiox/Hixo_noEnd.fbx");
+	mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo_noEnd.fbx");
+
+	// shader
+	mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
 }
 
 //*****************************************************************************

@@ -12,9 +12,9 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Shader::Shader()
+Shader::Shader(string path)
 {
-	this->effect = NULL;
+	loadEffectFile(path);
 }
 
 //*****************************************************************************
@@ -24,7 +24,7 @@ Shader::Shader()
 //*****************************************************************************
 Shader::~Shader()
 {
-	RELEASE_POINT(this->effect);
+	RELEASE_POINT(mEffect);
 }
 
 //*****************************************************************************
@@ -32,7 +32,7 @@ Shader::~Shader()
 // 頂点シェーダーファイルを読み込む
 //
 //*****************************************************************************
-HRESULT Shader::LoadEffectFile(string effectFileName)
+HRESULT Shader::loadEffectFile(string path)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -45,23 +45,23 @@ HRESULT Shader::LoadEffectFile(string effectFileName)
 
 	ID3DXBuffer* errorBuffer = NULL;		// エラーバッファ
 	D3DXCreateEffectFromFile(pDevice,
-						effectFileName.c_str(),	// エフェクトファイルの名前
+						path.c_str(),	// エフェクトファイルの名前
 						0,
 						0,
 						D3DXSHADER_DEBUG,
 						0,
-						&this->effect,		// エフェクトポインタ
+						&this->mEffect,		// エフェクトポインタ
 						&errorBuffer);		// エラー情報
 
 	if (errorBuffer)	// エラーをチェック
 	{
-		cout << "[Error] Loading <Shader> " << effectFileName  << " ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Loading <Shader> " << path  << " ... Fail!" << endl;	// エラーメッセージ
 		cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
-	cout << "[Information] Loading <Shader> " << effectFileName << " ... Success!" << endl;
+	cout << "[Information] Loading <Shader> " << path << " ... Success!" << endl;
 
 	return S_OK;
 }

@@ -12,73 +12,11 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model()
-{
-	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
-
-	// 数値を初期化
-	upVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	lookVector = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-	rightVector = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	pos = D3DXVECTOR3(0.0f, 0.5f, 0.0f);
-	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
-	// ポインタ
-	meshPoint = NULL;
-	meshTexturePoint = NULL;
-
-	// クラスポインタ
-	material = new Material();
-
-	// 頂点宣言
-	D3DVERTEXELEMENT9 planeDecl[] =		// 頂点データのレイアウトを定義
-	{
-		{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0 },
-		{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
-		D3DDECL_END()
-	};
-
-	D3dDevice->CreateVertexDeclaration(planeDecl, &vertexDecl);
-}
-
-//*****************************************************************************
-//
-// コンストラクタ
-//
-//*****************************************************************************
 Model::Model(string const &mPath)
 {
 	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
 
 	loadModel(mPath);
-
-	// 数値を初期化
-	upVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	lookVector = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-	rightVector = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	pos = D3DXVECTOR3(0.0f, 0.5f, 0.0f);
-	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
-	// ポインタ
-	meshPoint = NULL;
-	meshTexturePoint = NULL;
-
-	// クラスポインタ
-	material = new Material();
-
-	// 頂点宣言
-	D3DVERTEXELEMENT9 planeDecl[] =		// 頂点データのレイアウトを定義
-	{
-		{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0 },
-		{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
-		D3DDECL_END()
-	};
-
-	D3dDevice->CreateVertexDeclaration(planeDecl, &vertexDecl);
 }
 
 //*****************************************************************************
@@ -88,70 +26,7 @@ Model::Model(string const &mPath)
 //*****************************************************************************
 Model::~Model()
 {
-	// ポインタ
-	RELEASE_POINT(meshPoint);
-	RELEASE_CLASS_POINT(meshTexturePoint);
 
-	// クラスポインタ
-	RELEASE_CLASS_POINT(material);
-}
-
-//*****************************************************************************
-//
-// 上方向のベクトルにして回転
-//
-//*****************************************************************************
-void Model::RotationVecUp(float angle)
-{
-	// 角度を記録する
-	rot.y += angle;
-
-	if (rot.y >= D3DXToRadian(360.0f))
-	{
-		rot.y = 0.0f;
-	}
-	if (rot.y <= D3DXToRadian(-360.0f))
-	{
-		rot.y = 0.0f;
-	}
-
-	D3DXMATRIX rotMatrix;
-	D3DXMatrixRotationAxis(&rotMatrix, &upVector, angle);					// 回転行列を作る
-	D3DXVec3TransformCoord(&lookVector, &lookVector, &rotMatrix);	// カメラの新しい座標を計算する
-
-	D3DXVec3Normalize(&lookVector, &lookVector);
-	D3DXVec3Cross(&rightVector, &lookVector, &upVector);
-	D3DXVec3Normalize(&rightVector, &rightVector);
-	D3DXVec3Cross(&upVector, &rightVector, &lookVector);
-	D3DXVec3Normalize(&upVector, &upVector);
-
-	// OGL -> DX
-	rightVector = -rightVector;
-}
-
-//*****************************************************************************
-//
-// ワールド変換を設定
-//
-//*****************************************************************************
-void Model::SetWorldMatrix()
-{
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
-
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&wMatrix);
-
-	// スケールを反映
-	D3DXMatrixScaling(&mtxScl, scl.x, scl.y, scl.z);
-	D3DXMatrixMultiply(&wMatrix, &wMatrix, &mtxScl);
-
-	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
-	D3DXMatrixMultiply(&wMatrix, &wMatrix, &mtxRot);
-
-	// 移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
-	D3DXMatrixMultiply(&wMatrix, &wMatrix, &mtxTranslate);
 }
 
 //*****************************************************************************
@@ -166,12 +41,14 @@ HRESULT Model::loadModel(string const &mPath)
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
-		cout << "[Error] Assimp::" << import.GetErrorString() << endl;
+		cout << "[Error] 1 Assimp::" << import.GetErrorString() << endl;
 		return E_FAIL;
 	}
 
 	// ルートノードから処理を始める
 	processNode(scene->mRootNode, scene);
+
+	cout << "[Information] Loading <Model> " << mPath << " ... Success!" << endl;
 }
 
 //*****************************************************************************
@@ -308,7 +185,7 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 	for (unsigned int count = 0; count < mat->GetTextureCount(mType); count++)
 	{
 		aiString str;									// モデルから読み込まれたテクスチャファイルの名前
-		mat->GetTexture(mType, count, &str);			// テクスチャパスを読み込み
+		mat->getTexture(mType, count, &str);			// テクスチャパスを読み込み
 		string path = "Resources/Texture/Hixo/Hixo" + string(str.C_Str());		// テクスチャの前にパスをつき
 
 		bool skip = false;
@@ -339,16 +216,6 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 	}
 
 	return textures;
-}
-
-//*****************************************************************************
-//
-// 状態更新
-//
-//*****************************************************************************
-void Model::Update()
-{
-
 }
 
 //*****************************************************************************

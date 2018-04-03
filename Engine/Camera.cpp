@@ -62,13 +62,13 @@ Camera::~Camera()
 //*****************************************************************************
 void Camera::InitCameraByPlayer(Character* player)
 {	
-	this->posEye = D3DXVECTOR3(0.0f, 10.0f, -35.0f);
-	this->posAt = D3DXVECTOR3(0.0f, 7.5f, 0.0f);
+	//this->posEye = D3DXVECTOR3(0.0f, 10.0f, -35.0f);
+	//this->posAt = D3DXVECTOR3(0.0f, 7.5f, 0.0f);
 
-	this->offSetFromPlayer = player->model->pos - this->posEye;
-	this->offSetFromPlayerBack = player->model->pos - this->posEye; // プレーヤー後ろになる座標を保存
+	//this->offSetFromPlayer = player->model->pos - this->posEye;
+	//this->offSetFromPlayerBack = player->model->pos - this->posEye; // プレーヤー後ろになる座標を保存
 
-	SetViewport();		// ビューポートを設定
+	//SetViewport();		// ビューポートを設定
 }
 
 
@@ -79,68 +79,68 @@ void Camera::InitCameraByPlayer(Character* player)
 //*****************************************************************************
 void Camera::Update(Character* player)
 {
-	// カメラ操作更新
-	CameraContrlUpdate(player);
+	//// カメラ操作更新
+	//CameraContrlUpdate(player);
 
-	D3DXVECTOR3 temp = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//D3DXVECTOR3 temp = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	// カメラ位置を更新
-	switch (whereIsCamera)
-	{
-	case WIC_freedom:
-		this->posEye = player->model->pos - this->offSetFromPlayer;
-		this->posAt = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
-		
-		// 注視方向ベクトル
-		temp = player->model->pos - this->posEye;
+	//// カメラ位置を更新
+	//switch (whereIsCamera)
+	//{
+	//case WIC_freedom:
+	//	this->posEye = player->model->pos - this->offSetFromPlayer;
+	//	this->posAt = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+	//	
+	//	// 注視方向ベクトル
+	//	temp = player->model->pos - this->posEye;
 
-		break;
-	case WIC_left:
-		this->posAt = player->model->pos - player->model->rightVector * 20.0f;
-		this->posEye = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) - player->model->rightVector * 1.5f;
+	//	break;
+	//case WIC_left:
+	//	this->posAt = player->model->pos - player->model->rightVector * 20.0f;
+	//	this->posEye = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) - player->model->rightVector * 1.5f;
 
-		// 注視方向ベクトル
-		temp = -player->model->rightVector;
+	//	// 注視方向ベクトル
+	//	temp = -player->model->rightVector;
 
-		break;
-	case WIC_right:
-		this->posAt = player->model->pos + player->model->rightVector * 20.0f;
-		this->posEye = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) + player->model->rightVector * 1.5f;
+	//	break;
+	//case WIC_right:
+	//	this->posAt = player->model->pos + player->model->rightVector * 20.0f;
+	//	this->posEye = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f) + player->model->rightVector * 1.5f;
 
-		// 注視方向ベクトル
-		temp = player->model->rightVector;
+	//	// 注視方向ベクトル
+	//	temp = player->model->rightVector;
 
-		break;
-	case WIC_playerBack:
-		this->posEye = player->model->pos - this->offSetFromPlayerBack;
-		this->posAt = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+	//	break;
+	//case WIC_playerBack:
+	//	this->posEye = player->model->pos - this->offSetFromPlayerBack;
+	//	this->posAt = player->model->pos + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 
-		// 注視方向ベクトル
-		temp = player->model->pos - this->posEye;
+	//	// 注視方向ベクトル
+	//	temp = player->model->pos - this->posEye;
 
-		// フリーカメラに戻る
-		this->whereIsCamera = WIC_freedom;
-		this->offSetFromPlayer = this->offSetFromPlayerBack;
+	//	// フリーカメラに戻る
+	//	this->whereIsCamera = WIC_freedom;
+	//	this->offSetFromPlayer = this->offSetFromPlayerBack;
 
-		break;
-	}
+	//	break;
+	//}
 
-	// カメラベクトルを更新
-	D3DXVec3Normalize(&this->lookVector, &temp);
-	D3DXVec3Cross(&this->rightVector, &this->lookVector, &player->model->upVector);
-	D3DXVec3Normalize(&this->rightVector, &this->rightVector);
-	D3DXVec3Cross(&this->upVector, &this->rightVector, &this->lookVector);
-	D3DXVec3Normalize(&this->upVector, &this->upVector);
+	//// カメラベクトルを更新
+	//D3DXVec3Normalize(&this->lookVector, &temp);
+	//D3DXVec3Cross(&this->rightVector, &this->lookVector, &player->model->upVector);
+	//D3DXVec3Normalize(&this->rightVector, &this->rightVector);
+	//D3DXVec3Cross(&this->upVector, &this->rightVector, &this->lookVector);
+	//D3DXVec3Normalize(&this->upVector, &this->upVector);
 
-	// ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&this->vMatrix, &this->posEye, &this->posAt, &this->upVector);
+	//// ビューマトリックスの作成
+	//D3DXMatrixLookAtLH(&this->vMatrix, &this->posEye, &this->posAt, &this->upVector);
 
-	// プロジェクションマトリックスの作成
-	D3DXMatrixPerspectiveFovLH(&this->pMatrix,
-								this->field,   		// ビュー平面の視野角
-								this->ratio,		// ビュー平面のアスペクト比
-								this->rangeStart,	// ヒュー平面のNearZ値
-								this->rangeEnd);	// ビュー平面のFarZ値
+	//// プロジェクションマトリックスの作成
+	//D3DXMatrixPerspectiveFovLH(&this->pMatrix,
+	//							this->field,   		// ビュー平面の視野角
+	//							this->ratio,		// ビュー平面のアスペクト比
+	//							this->rangeStart,	// ヒュー平面のNearZ値
+	//							this->rangeEnd);	// ビュー平面のFarZ値
 }
 
 //*****************************************************************************
@@ -150,82 +150,82 @@ void Camera::Update(Character* player)
 //*****************************************************************************
 void Camera::CameraContrlUpdate(Character* player)
 {
-	// 射撃モードに変更
-	bool isButton = false;
+	//// 射撃モードに変更
+	//bool isButton = false;
 
-	isButton = (GetKeyboardTrigger(DIK_R) || IsButtonTriggered(0, BUTTON_L1));
-	if (isButton)
-	{
-		if (this->whereIsCamera == WIC_left)
-		{
-			this->whereIsCamera = WIC_freedom;
-		}
-		else
-		{
-			this->whereIsCamera = WIC_left;
-		}
-
-	}
-	isButton = (GetKeyboardTrigger(DIK_T) || IsButtonTriggered(0, BUTTON_R1));
-	if (isButton)
-	{
-		if (this->whereIsCamera == WIC_right)
-		{
-			this->whereIsCamera = WIC_freedom;
-		}
-		else
-		{
-			this->whereIsCamera = WIC_right;
-		}
-
-	}
-
-	//if (GetKeyboardPress(DIK_I))	// カメラを上に移動
+	//isButton = (GetKeyboardTrigger(DIK_R) || IsButtonTriggered(0, BUTTON_L1));
+	//if (isButton)
 	//{
-	//	Rotation(player, 0, D3DXToRadian(1.0f));
+	//	if (this->whereIsCamera == WIC_left)
+	//	{
+	//		this->whereIsCamera = WIC_freedom;
+	//	}
+	//	else
+	//	{
+	//		this->whereIsCamera = WIC_left;
+	//	}
+
 	//}
-	//else if (GetKeyboardPress(DIK_K))	// カメラを下に移動
+	//isButton = (GetKeyboardTrigger(DIK_T) || IsButtonTriggered(0, BUTTON_R1));
+	//if (isButton)
 	//{
-	//	Rotation(player, 0, D3DXToRadian(-1.0f));
+	//	if (this->whereIsCamera == WIC_right)
+	//	{
+	//		this->whereIsCamera = WIC_freedom;
+	//	}
+	//	else
+	//	{
+	//		this->whereIsCamera = WIC_right;
+	//	}
+
 	//}
 
-	isButton = (GetKeyboardPress(DIK_J) || IsButtonPressed(0, RIGHT_STICK_LEFT));
-	if (isButton && this->whereIsCamera == WIC_freedom)	// 左回転
-	{
-		Rotation(player, D3DXToRadian(1.0f), 0);
-	}
-	isButton = (GetKeyboardPress(DIK_L) || IsButtonPressed(0, RIGHT_STICK_RIGHT));
-	if (isButton && this->whereIsCamera == WIC_freedom)	// 右回転
-	{
-		Rotation(player, D3DXToRadian(-1.0f), 0);
-	}
+	////if (GetKeyboardPress(DIK_I))	// カメラを上に移動
+	////{
+	////	Rotation(player, 0, D3DXToRadian(1.0f));
+	////}
+	////else if (GetKeyboardPress(DIK_K))	// カメラを下に移動
+	////{
+	////	Rotation(player, 0, D3DXToRadian(-1.0f));
+	////}
 
-	isButton = (GetKeyboardPress(DIK_Q) || IsButtonPressed(0, BUTTON_TRIANGLE));
-	if (isButton && this->whereIsCamera == WIC_freedom)	// ゾーンを拡大
-	{
-		Zoom(zoomSpeed);
-	}
-	isButton = (GetKeyboardPress(DIK_E) || IsButtonPressed(0, BUTTON_CROSS));
-	if (isButton && this->whereIsCamera == WIC_freedom)	// ゾーンを縮小
-	{
-		Zoom(-zoomSpeed);
-	}
+	//isButton = (GetKeyboardPress(DIK_J) || IsButtonPressed(0, RIGHT_STICK_LEFT));
+	//if (isButton && this->whereIsCamera == WIC_freedom)	// 左回転
+	//{
+	//	Rotation(player, D3DXToRadian(1.0f), 0);
+	//}
+	//isButton = (GetKeyboardPress(DIK_L) || IsButtonPressed(0, RIGHT_STICK_RIGHT));
+	//if (isButton && this->whereIsCamera == WIC_freedom)	// 右回転
+	//{
+	//	Rotation(player, D3DXToRadian(-1.0f), 0);
+	//}
 
-	// プレーヤーの後ろに戻る
-	if (GetKeyboardTrigger(DIK_Z) || IsButtonTriggered(0, BUTTON_CIRCLE))
-	{
-		this->whereIsCamera = WIC_playerBack;
+	//isButton = (GetKeyboardPress(DIK_Q) || IsButtonPressed(0, BUTTON_TRIANGLE));
+	//if (isButton && this->whereIsCamera == WIC_freedom)	// ゾーンを拡大
+	//{
+	//	Zoom(zoomSpeed);
+	//}
+	//isButton = (GetKeyboardPress(DIK_E) || IsButtonPressed(0, BUTTON_CROSS));
+	//if (isButton && this->whereIsCamera == WIC_freedom)	// ゾーンを縮小
+	//{
+	//	Zoom(-zoomSpeed);
+	//}
 
-		// もしプレーヤーが回転されたら
-		// 水平(playerBcak)
-		float angle = this->beforeAngle + player->model->rot.y;
+	//// プレーヤーの後ろに戻る
+	//if (GetKeyboardTrigger(DIK_Z) || IsButtonTriggered(0, BUTTON_CIRCLE))
+	//{
+	//	this->whereIsCamera = WIC_playerBack;
 
-		D3DXMATRIX HorizonalMatrixBack;
-		D3DXMatrixRotationAxis(&HorizonalMatrixBack, &player->model->upVector, angle);							// 回転行列を作る
-		D3DXVec3TransformCoord(&this->offSetFromPlayerBack, &this->offSetFromPlayerBack, &HorizonalMatrixBack);	// カメラの新しい座標を計算する
+	//	// もしプレーヤーが回転されたら
+	//	// 水平(playerBcak)
+	//	float angle = this->beforeAngle + player->model->rot.y;
 
-		this->beforeAngle -= angle;
-	}
+	//	D3DXMATRIX HorizonalMatrixBack;
+	//	D3DXMatrixRotationAxis(&HorizonalMatrixBack, &player->model->upVector, angle);							// 回転行列を作る
+	//	D3DXVec3TransformCoord(&this->offSetFromPlayerBack, &this->offSetFromPlayerBack, &HorizonalMatrixBack);	// カメラの新しい座標を計算する
+
+	//	this->beforeAngle -= angle;
+	//}
 }
 
 //*****************************************************************************
@@ -235,22 +235,22 @@ void Camera::CameraContrlUpdate(Character* player)
 //*****************************************************************************
 void Camera::Rotation(Character* player, float radiansHorizonal, float radiansVertical)
 {
-	// 水平
-	D3DXMATRIX HorizonalMatrix;
-	D3DXMatrixRotationAxis(&HorizonalMatrix, &player->model->upVector, radiansHorizonal);			// 回転行列を作る
-	D3DXVec3TransformCoord(&this->offSetFromPlayer, &this->offSetFromPlayer, &HorizonalMatrix);	// カメラの新しい座標を計算する
+	//// 水平
+	//D3DXMATRIX HorizonalMatrix;
+	//D3DXMatrixRotationAxis(&HorizonalMatrix, &player->model->upVector, radiansHorizonal);			// 回転行列を作る
+	//D3DXVec3TransformCoord(&this->offSetFromPlayer, &this->offSetFromPlayer, &HorizonalMatrix);	// カメラの新しい座標を計算する
 
-	// 垂直
-	D3DXMATRIX VerticalMatrix;
-	D3DXMatrixRotationAxis(&VerticalMatrix, &player->model->rightVector, radiansVertical);			// 回転行列を作る
-	D3DXVECTOR3 tempOffset = D3DXVECTOR3(1.0f, 1.0f, 1.0f);				
-	D3DXVec3TransformCoord(&tempOffset, &tempOffset, &VerticalMatrix);	// 移動後の座標を計算
-	D3DXVec3Normalize(&tempOffset, &tempOffset);						// 法線を正規化
-	float radianToPlayerUp = D3DXVec3Dot(&tempOffset, &player->model->upVector);	// カメラの移動範囲を制限するため、プレーヤーの垂直ベクトルと内積を計算する
-	if (radianToPlayerUp < this->verticalRadiansMax && radianToPlayerUp > this->verticalRadiansMin)
-	{
-		this->offSetFromPlayer = tempOffset;
-	}
+	//// 垂直
+	//D3DXMATRIX VerticalMatrix;
+	//D3DXMatrixRotationAxis(&VerticalMatrix, &player->model->rightVector, radiansVertical);			// 回転行列を作る
+	//D3DXVECTOR3 tempOffset = D3DXVECTOR3(1.0f, 1.0f, 1.0f);				
+	//D3DXVec3TransformCoord(&tempOffset, &tempOffset, &VerticalMatrix);	// 移動後の座標を計算
+	//D3DXVec3Normalize(&tempOffset, &tempOffset);						// 法線を正規化
+	//float radianToPlayerUp = D3DXVec3Dot(&tempOffset, &player->model->upVector);	// カメラの移動範囲を制限するため、プレーヤーの垂直ベクトルと内積を計算する
+	//if (radianToPlayerUp < this->verticalRadiansMax && radianToPlayerUp > this->verticalRadiansMin)
+	//{
+	//	this->offSetFromPlayer = tempOffset;
+	//}
 }
 
 //*****************************************************************************

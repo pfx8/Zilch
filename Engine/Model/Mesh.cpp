@@ -17,14 +17,14 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
 	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
 
 	// メッシュデータコンテナを初期化
-	this->mVertices = vertices;
-	this->mIndices = indices;
-	this->mTextures = textures;
+	mVertices = vertices;
+	mIndices = indices;
+	mTextures = textures;
 
 	// バッファポインタを初期化
-	this->mVertexBuffer = nullptr;
-	this->mIndexBuffer = nullptr;
-	this->mVertexDecl = nullptr;
+	mVertexBuffer = nullptr;
+	mIndexBuffer = nullptr;
+	mVertexDecl = nullptr;
 }
 
 //*****************************************************************************
@@ -34,9 +34,9 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
 //*****************************************************************************
 Mesh::~Mesh()
 {
-	RELEASE_POINT(this->mVertexBuffer);
-	RELEASE_POINT(this->mIndexBuffer);
-	RELEASE_POINT(this->mVertexDecl);
+	RELEASE_POINT(mVertexBuffer);
+	RELEASE_POINT(mIndexBuffer);
+	RELEASE_POINT(mVertexDecl);
 
 }
 

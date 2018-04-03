@@ -14,7 +14,7 @@
 //*****************************************************************************
 Resources::Resources()
 {
-	mD3DDevice = GetDevice();
+
 }
 
 //*****************************************************************************
@@ -24,8 +24,6 @@ Resources::Resources()
 //*****************************************************************************
 Resources::~Resources()
 {
-	RELEASE_POINT(mD3DDevice);
-
 	// delete Map(to do)
 }
 
@@ -41,10 +39,10 @@ void Resources::loadModel(string name, string path)
 
 //*****************************************************************************
 //
-// モデルを名前によってゲット
+// モデルの名前によってゲット
 //
 //*****************************************************************************
-Model* Resources::GetModel(string name)
+Model* Resources::getModel(string name)
 {
 	if (mModels.find(name) != mModels.end())
 	{
@@ -57,26 +55,52 @@ Model* Resources::GetModel(string name)
 
 //*****************************************************************************
 //
-// Assimpでテクスチャを読み込み
+// テクスチャを読み込み
 //
 //*****************************************************************************
-void Resources::LoadTexture(string name, string path)
+void Resources::loadTexture(string name, string path)
 {
 	mTextures.insert({ name, new Texture(path) });	
 }
 
 //*****************************************************************************
 //
-// テクスチャを名前によって取得
+// テクスチャの名前によって取得
 //
 //*****************************************************************************
-Texture* Resources::GetTexture(string name)
+Texture* Resources::getTexture(string name)
 {
 	if (mTextures.find(name) != mTextures.end())
 	{
 		return mTextures[name];
 	}
 	
+	cout << "[Error] " << name << " failed!" << endl;
+	return nullptr;
+}
+
+//*****************************************************************************
+//
+// シェーダーを読み込み
+//
+//*****************************************************************************
+void Resources::loadShader(string name, string path)
+{
+	mShaders.insert({ name, new Shader(path) });
+}
+
+//*****************************************************************************
+//
+// シェーダーの名前によって取得
+//
+//*****************************************************************************
+Shader* Resources::getShader(string name)
+{
+	if (mShaders.find(name) != mShaders.end())
+	{
+		return mShaders[name];
+	}
+
 	cout << "[Error] " << name << " failed!" << endl;
 	return nullptr;
 }
