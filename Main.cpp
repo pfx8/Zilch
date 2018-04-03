@@ -37,7 +37,7 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
 
 void	Updata(HWND hWnd, int cmd);
-void	Draw(HWND hWnd);
+void	draw(HWND hWnd);
 void	Release(void);
 
 //*****************************************************************************
@@ -185,7 +185,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 				dwExecLastTime = dwCurrentTime;	//処理した時刻を保存
 				Updata(hWnd, nCmdShow);		// 更新処理
-				Draw(hWnd);					// 描画処理
+				draw(hWnd);					// 描画処理
 				dwFrameCount++;				//処理回数のカウントを加算
 				if (dwFrameCount == 60)		// 60フレームを確定
 					continue;
@@ -219,7 +219,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_PAINT:
-		Draw(hWnd);
+		draw(hWnd);
 		ValidateRect(hWnd, NULL);
 		break;
 
@@ -362,7 +362,7 @@ void Updata(HWND hWnd, int cmd)
 	if (g_Console->isConsoleFront == false)
 	{
 		UpdateInput();			// 入力更新
-		g_SceneManager->Update();	// シンーを更新する
+		g_SceneManager->update();	// シンーを更新する
 	}
 }
 
@@ -371,11 +371,11 @@ void Updata(HWND hWnd, int cmd)
 // 描画処理
 //
 //*****************************************************************************
-void Draw(HWND hWnd)
+void draw(HWND hWnd)
 {
 	if (g_Console->isConsoleFront == false)
 	{
-		g_SceneManager->Draw();	// シンーをドロー
+		g_SceneManager->draw();	// シンーをドロー
 	}
 }
 

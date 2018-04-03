@@ -73,7 +73,7 @@ public:
 	~Camera();
 
 	void InitCameraByPlayer(Character* player);											// カメラを初期化関	
-	void Update(Character* player);														// カメラ更新
+	void update(Character* player);														// カメラ更新
 	void Rotation(Character* player, float radiansHorizonal, float radiansVertical);	// 回転操作
 	void Zoom(float distance);															// ズーム操作
 	void SetViewport();																	// ビューポートを設定

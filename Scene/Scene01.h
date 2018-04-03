@@ -38,10 +38,10 @@ public:
 	~Scene01();
 
 	void start();	// 初期化
-	void Update();			// 更新
-	void Draw();			// 描画
+	void update();			// 更新
+	void draw();			// 描画
 	void oneFrame();		// 1フレームの描画内容
-	void SetRenderState();	// レンダリングを設定
+	void setRenderState();	// レンダリングを設定
 };
 #endif // !_SCENE00_H_
 

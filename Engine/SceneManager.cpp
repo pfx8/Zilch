@@ -16,7 +16,7 @@ using namespace std;
 //*****************************************************************************
 SceneManager::SceneManager()
 {
-	ChooseScene();	// シーンを選択
+
 }
 
 //*****************************************************************************
@@ -26,19 +26,7 @@ SceneManager::SceneManager()
 //*****************************************************************************
 SceneManager::~SceneManager()
 {
-	// クラスポインタ
-	RELEASE_CLASS_POINT(scene);
-}
-
-//*****************************************************************************
-//
-// シーンを選択する
-//
-//*****************************************************************************
-void SceneManager::ChooseScene()
-{
-	scene = new Scene02; // 初期化する
-	scene->SetRenderState();	// レンダリング状態を設定
+	// to do delete map
 }
 
 //*****************************************************************************
@@ -46,29 +34,15 @@ void SceneManager::ChooseScene()
 // シンーの更新
 //
 //*****************************************************************************
-void SceneManager::Update()
+void SceneManager::update()
 {
-	scene->Update();		// シンー01更新
-	ChangeRenderState();	// レンダリング状態更新
-}
-
-//*****************************************************************************
-//
-// レンダリング状態更新
-//
-//*****************************************************************************
-void SceneManager::ChangeRenderState()
-{
-	// 塗りつぶしモード
-	if (GetKeyboardPress(DIK_1))			// key 1
+	if (mScenes[mCurrentScene]->mIsStart)
 	{
-		// ワイヤフレームを塗りつぶす
-		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		mScenes[mCurrentScene]->update();
 	}
-	if (GetKeyboardPress(DIK_2))			// key 2
+	else
 	{
-		// 面を塗りつぶす
-		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		mScenes[mCurrentScene]->start();
 	}
 }
 
@@ -77,7 +51,27 @@ void SceneManager::ChangeRenderState()
 // シーンの描画
 //
 //*****************************************************************************
-void SceneManager::Draw()
+void SceneManager::draw()
 {
-	scene->Draw();	// シーんを描画
+	mScenes[mCurrentScene]->draw();	// シーんを描画
+}
+
+//*****************************************************************************
+//
+// シーンを増加
+//
+//*****************************************************************************
+void SceneManager::addScene(string name, Scene* scene)
+{
+	mScenes.insert({ name, scene });
+}
+
+//*****************************************************************************
+//
+// 名前によってシーンを交替
+//
+//*****************************************************************************
+void SceneManager::setActiveScene(string name)
+{
+	mCurrentScene = name;
 }

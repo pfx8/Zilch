@@ -41,7 +41,7 @@ public:
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture>  textures);
 	~Mesh();
 
-	void Draw(Shader *shader);	// ドロー
+	void draw(Shader *shader);	// ドロー
 };
 
 

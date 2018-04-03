@@ -77,7 +77,7 @@ void Camera::InitCameraByPlayer(Character* player)
 // カメラ更新
 //
 //*****************************************************************************
-void Camera::Update(Character* player)
+void Camera::update(Character* player)
 {
 	//// カメラ操作更新
 	//CameraContrlUpdate(player);

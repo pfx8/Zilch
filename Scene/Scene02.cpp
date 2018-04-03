@@ -16,24 +16,6 @@ Scene02::Scene02()
 {
 	// シーン01
 	cout << "[Information] Scene02 <アニメーション> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
-
-	// ライト、光方向はデフォルトで
-	light = new Light;
-
-	//// スカイボックス
-	//skyBox = new SkyBox;
-
-	// フィールド
-	field = new Plane;
-	
-	// 主人公
-	mHixo = new Character;
-
-	// カメラ
-	//camera = new Camera;
-
-	// 初期化
-	start();
 }
 
 //*****************************************************************************
@@ -43,8 +25,36 @@ Scene02::Scene02()
 //*****************************************************************************
 void Scene02::start()
 {
-	// loading
-	this->loading();
+	mIsStart = true;
+
+	// リソースを読み込み
+	{
+		// test
+		//mResources->loadModel("test", "Resources/Model/test.fbx");
+
+		// skybox
+		mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");
+
+		// 床
+		mResources->loadTexture("gird", "Resources/Texture/grid.png");
+
+		// Hixo
+		/*mResources->LoadTexture("HixoClothes", "Resources/Texture/HixoClothes.png");
+		mResources->LoadTexture("HixoEye", "Resources/Texture/HixoEye.png");
+		mResources->LoadTexture("HixoFace", "Resources/Texture/HixoFace.png");
+		mResources->LoadTexture("HixoFacial", "Resources/Texture/HixoFacial.png");
+		mResources->LoadTexture("HixoHair1", "Resources/Texture/HixoHair1.png");
+		mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
+		mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
+		mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
+		mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo_noEnd.fbx");
+
+		// shader
+		mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
+	}
+
+	// player
+	GameObject* player = new GameObject();
 
 	// シェーダーにライトを設定
 	/*mShader->mEffect->SetValue("lightPos", &light->pos, sizeof(D3DXVECTOR3));
@@ -75,25 +85,7 @@ void Scene02::start()
 //*****************************************************************************
 void Scene02::loading()
 {
-	// skybox
-	mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");
-
-	// 床
-	mResources->loadTexture("gird", "Resources/Texture/grid.png");
-
-	// Hixo
-	/*mResources->LoadTexture("HixoClothes", "Resources/Texture/HixoClothes.png");
-	mResources->LoadTexture("HixoEye", "Resources/Texture/HixoEye.png");
-	mResources->LoadTexture("HixoFace", "Resources/Texture/HixoFace.png");
-	mResources->LoadTexture("HixoFacial", "Resources/Texture/HixoFacial.png");
-	mResources->LoadTexture("HixoHair1", "Resources/Texture/HixoHair1.png");
-	mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
-	mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
-	mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
-	mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo_noEnd.fbx");
-
-	// shader
-	mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
+	
 }
 
 //*****************************************************************************
@@ -118,7 +110,7 @@ Scene02::~Scene02()
 // レンダリング状態を設定
 //
 //*****************************************************************************
-void Scene02::SetRenderState()
+void Scene02::setRenderState()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -134,10 +126,10 @@ void Scene02::SetRenderState()
 // シンーの更新
 //
 //*****************************************************************************
-void Scene02::Update()
+void Scene02::update()
 {
 	// フィールド更新
-	field->Update();
+	field->update();
 
 	// カメラ更新
 	//camera->Update(mHixo);
@@ -148,7 +140,7 @@ void Scene02::Update()
 // シンーの描画
 //
 //*****************************************************************************
-void Scene02::Draw()
+void Scene02::draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 

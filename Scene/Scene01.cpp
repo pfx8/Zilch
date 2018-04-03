@@ -89,15 +89,15 @@ Scene01::~Scene01()
 // レンダリング状態を設定
 //
 //*****************************************************************************
-void Scene01::SetRenderState()
+void Scene01::setRenderState()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// レンダーステートパラメータの設定
-	pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
-	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);				// αブレンドを行う
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);			// αソースカラーの指定
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);		// αデスティネーションカラーの指定
+	pDevice->setRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
+	pDevice->setRenderState(D3DRS_ALPHABLENDENABLE, TRUE);				// αブレンドを行う
+	pDevice->setRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);			// αソースカラーの指定
+	pDevice->setRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);		// αデスティネーションカラーの指定
 }
 
 //*****************************************************************************
@@ -105,13 +105,13 @@ void Scene01::SetRenderState()
 // シンーの更新
 //
 //*****************************************************************************
-void Scene01::Update()
+void Scene01::update()
 {
 	// フィールド更新
-	this->field->Update();
+	this->field->update();
 
 	// カメラ更新
-	this->camera->Update(this->woman);
+	this->camera->update(this->woman);
 }
 
 //*****************************************************************************
@@ -119,7 +119,7 @@ void Scene01::Update()
 // シンーの描画
 //
 //*****************************************************************************
-void Scene01::Draw()
+void Scene01::draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -145,7 +145,7 @@ void Scene01::Draw()
 //*****************************************************************************
 void Scene01::oneFrame()
 {
-	this->field->Draw(this->mShader, this->camera);
+	this->field->draw(this->mShader, this->camera);
 	//this->skyBox->Draw(this->shader, &VPmatrix);
 	//this->woman->model->Draw(this->shader3D, &this->camera->vMatrix, &this->camera->pMatrix);
 

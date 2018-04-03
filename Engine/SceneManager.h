@@ -22,17 +22,18 @@
 class SceneManager
 {
 private:
-	Scene*  scene;			// シーン
+	string mCurrentScene;				// 今のシーンの名前
 	map<string, Scene*> mScenes;
 
-	void ChangeRenderState();	// レンダリング状態更新
-	void ChooseScene();		// シーンを選択する
 public:
 	SceneManager();
 	~SceneManager();
 
-	void Update();		// シーンの更新
-	void Draw();			// シーンの描画
+	void update();			// シーンを更新
+	void draw();			// シーンを描画
+
+	void addScene(string name, Scene* scene);	// シーンを増加
+	void setActiveScene(string name);			// 名前によってシーンを交替
 }; 
 
 #endif // !_SCENE_MANAGER_H_

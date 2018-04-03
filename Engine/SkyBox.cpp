@@ -174,7 +174,7 @@ void SkyBox::SetWorldMatrix()
 // スカイボックスを描画
 //
 //*****************************************************************************
-void SkyBox::Draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
+void SkyBox::draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 

@@ -55,7 +55,7 @@ void Character::OutputMessage(int row)
 // キャラクター更新
 //
 //*****************************************************************************
-void Character::Update()
+void Character::update()
 {
 	// プレーの操作
 

@@ -8,10 +8,13 @@
 #ifndef _GAME_OBJECT_H_
 #define _GAME_OBJECT_H_
 
-#include "..\Engine\Engine.h"
+#include "../Engine/Engine.h"
+#include "../Scene/Scene.h"
 
 class GameObject
 {
+	friend class Scene;
+
 private:
 	void start();
 	void update();

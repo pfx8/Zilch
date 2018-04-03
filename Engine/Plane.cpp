@@ -176,7 +176,7 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 // 更新
 //
 //*****************************************************************************
-void Plane::Update()
+void Plane::update()
 {
 	// 行列更新
 	SetWorldMatrix();
@@ -218,7 +218,7 @@ void Plane::SetWorldMatrix()
 // テクスチャを描画する
 //
 //*****************************************************************************
-void Plane::Draw(Shader* mShader, Camera* camera)
+void Plane::draw(Shader* mShader, Camera* camera)
 {
 	PDIRECT3DDEVICE9 pDevice = GetDevice();
 

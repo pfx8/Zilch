@@ -25,6 +25,9 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
 	mVertexBuffer = nullptr;
 	mIndexBuffer = nullptr;
 	mVertexDecl = nullptr;
+
+	// メッシュのバッファを作り
+	SetupMesh();
 }
 
 //*****************************************************************************
@@ -83,6 +86,9 @@ HRESULT Mesh::SetupMesh()
 		vertices[count].tangent = it.tangent;
 		vertices[count].bitangent = it.bitangent;
 
+		// test
+		//cout << "-> (" << vertices[count].pos.x << ", " << vertices[count].pos.y << ", " << vertices[count].pos.z << ")" << endl;
+
 		count++;
 	}
 
@@ -118,7 +124,7 @@ HRESULT Mesh::SetupMesh()
 // メッシュをドロー
 //
 //*****************************************************************************
-void Mesh::Draw(Shader *shader)
+void Mesh::draw(Shader *shader)
 {
 	//D3DXMATRIX wMatrix;
 	//// ワールドマトリックスを初期化する
