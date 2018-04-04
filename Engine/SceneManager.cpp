@@ -7,8 +7,6 @@
 //*****************************************************************************
 #include "SceneManager.h"
 
-using namespace std;
-
 //*****************************************************************************
 //
 // コンストラクタ
@@ -17,6 +15,21 @@ using namespace std;
 SceneManager::SceneManager()
 {
 
+}
+
+//*****************************************************************************
+//
+// 最初のシーンを初期化
+//
+//*****************************************************************************
+void SceneManager::start()
+{
+	// 各シーンのポイントを初期化
+	Scene02* zilch = new Scene02();
+	addScene("zilch", zilch);
+
+	// 最初のシーンを選択
+	setActiveScene("zilch");
 }
 
 //*****************************************************************************
@@ -53,7 +66,8 @@ void SceneManager::update()
 //*****************************************************************************
 void SceneManager::draw()
 {
-	mScenes[mCurrentScene]->draw();	// シーんを描画
+	// シーンを描画
+	mScenes[mCurrentScene]->draw();	
 }
 
 //*****************************************************************************
@@ -68,10 +82,18 @@ void SceneManager::addScene(string name, Scene* scene)
 
 //*****************************************************************************
 //
-// 名前によってシーンを交替
+// これから実行するシーンを選択
 //
 //*****************************************************************************
-void SceneManager::setActiveScene(string name)
+HRESULT SceneManager::setActiveScene(string name)
 {
-	mCurrentScene = name;
+	if (mScenes.find(name) != mScenes.end())
+	{
+		mCurrentScene = name;
+
+		return S_OK;
+	}
+
+	cout << "[Error] <Scene> Set " << name << " ... failed!" << endl;
+	return E_FAIL;
 }

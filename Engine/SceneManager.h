@@ -29,11 +29,12 @@ public:
 	SceneManager();
 	~SceneManager();
 
+	void start();				// 最初のシーンを初期化
 	void update();			// シーンを更新
 	void draw();			// シーンを描画
 
-	void addScene(string name, Scene* scene);	// シーンを増加
-	void setActiveScene(string name);			// 名前によってシーンを交替
+	void addScene(string name, Scene* scene);		// シーンを増加
+	HRESULT setActiveScene(string name);				// これから実行するシーンを選択
 }; 
 
 #endif // !_SCENE_MANAGER_H_

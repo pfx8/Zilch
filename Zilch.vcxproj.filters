@@ -24,10 +24,7 @@
     <ClCompile Include="Engine\Model\Mesh.cpp" />
     <ClCompile Include="Component\Camera.cpp" />
     <ClCompile Include="Component\PlayerController.cpp" />
-    <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\Time.cpp" />
-    <ClCompile Include="Engine\Windows.cpp" />
-    <ClCompile Include="Engine\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -52,10 +49,7 @@
     <ClInclude Include="Engine\Resources.h" />
     <ClInclude Include="Component\Camera.h" />
     <ClInclude Include="Component\PlayerController.h" />
-    <ClInclude Include="Engine\Game.h" />
-    <ClInclude Include="Engine\Windows.h" />
     <ClInclude Include="Engine\Time.h" />
-    <ClInclude Include="Engine\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

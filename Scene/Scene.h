@@ -25,6 +25,11 @@ class Scene
 private:
 
 public:
+	// シーンの正方向ベクトルを初期化
+	D3DXVECTOR3			mSceneFront = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	D3DXVECTOR3			mSceneUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	D3DXVECTOR3			mSceneRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+
 	Resources*			mResources;		// リソース
 	DebugMessage*		message;		// メッセージ
 	bool				mIsStart;
@@ -34,7 +39,7 @@ public:
 	Scene();
 	~Scene();
 
-	virtual void start() {};			// シーンのスタート
+	virtual void start() {};				// シーンのスタート
 	virtual void update() {};			// シーンの更新
 	virtual void draw() {};				// シーンの描画
 

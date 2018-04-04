@@ -1,32 +1,28 @@
 ﻿//*****************************************************************************
 //
-// ゲーム全体処理[main.cpp]
+// ゲーム処理[main.cpp]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Engine\Engine.h"
-#include "Engine\Console.h"
-#include "Engine\SceneManager.h"
-#include "Engine\input.h"
-
-using namespace std;
+#include "Engine/Engine.h"
+#include "Engine/Console.h"
+#include "Engine/SceneManager.h"
+#include "Engine/input.h"
+#include "Engine/Time.h"
 
 //*****************************************************************************
 //
 // グローバル変数
 //
 //*****************************************************************************
-int					g_nCountFPS;						// FPSカウンタ
-LPDIRECT3D9			g_pD3D = NULL;					// Direct3Dオブジェクト
-LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;				// Deviceオブジェクト(描画に必要)
+int										gFPS;										// FPSカウンタ
+LPDIRECT3D9						gD3D = nullptr;						// Direct3Dオブジェクト
+LPDIRECT3DDEVICE9		gD3DDevice = nullptr;			// Deviceオブジェクト(描画に必要)
 
-//////////////////////////////////////////////////////////////////////////////////
-Console*			g_Console;				// コンソール
-SceneManager*		g_SceneManager;			// シンー管理？？？
-// 臨時
-
-//////////////////////////////////////////////////////////////////////////////////
+Console*								gConsole;								// コンソールウインド
+SceneManager*					gSceneManager;					// シンー管理
+Time*									gTime;										// ゲーム時間
 
 //*****************************************************************************
 //
@@ -47,20 +43,19 @@ void	Release(void);
 //*****************************************************************************
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	//srand(timeGetTime());
 	srand((unsigned)time(NULL));
 
 	// ウィンドウを初期化
 	UNREFERENCED_PARAMETER(hPrevInstance);	// 無くても良いけど、警告が出る（未使用宣言）
 	UNREFERENCED_PARAMETER(lpCmdLine);		// 無くても良いけど、警告が出る（未使用宣言）
 
-	//時間計測用(*35)
+	// 時間計測用(*35)
 	DWORD dwExecLastTime;
 	DWORD dwFPSLastTime;
 	DWORD dwCurrentTime;
 	DWORD dwFrameCount;
 
-	//フレームカウント初期化(*35)
+	// フレームカウント初期化(*35)
 	timeBeginPeriod(1);		//分解能を設定
 	dwExecLastTime = dwFPSLastTime = timeGetTime();		//ミリ秒単位で取得 syutoku
 	dwCurrentTime = dwFrameCount = 0;
@@ -86,14 +81,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	wcex.lpszClassName = CLASS_NAME;
 	wcex.hIconSm = NULL;
 
-	HWND		hWnd;	// ハンドル
-	MSG		msg;		// メッセージ
+	HWND		hWnd;		// ハンドル
+	MSG			msg;		// メッセージ
 
 	// ウィンドウクラスの登録
 	if (!RegisterClassEx(&wcex))
 		return -1;
-
-
 
 	// ウィンドウの作成
 	hWnd = CreateWindow(CLASS_NAME,
@@ -120,18 +113,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 	// メッセージを出る為のコンソールを初期化
-	g_Console = new Console();
-	if (g_Console->isConsoleRun == false)
+	gConsole = new Console();
+	if (gConsole->isConsoleRun == false)
 	{
-		cout << "[Error] Make console ... fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Set console ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
-	// 音楽
-	
+	// ゲーム時間
+	gTime = new Time();
 
 	// シンーマネジメント
-	g_SceneManager = new SceneManager();
+	gSceneManager = new SceneManager();
+	gSceneManager->start();
 
 	//ヴインドウを中心に移動
 	RECT rect;
@@ -170,7 +164,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwFPSLastTime) >= 500)	//0.5秒ごとに実行
 			{
-				g_nCountFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);	//FPSを計測
+				gFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);	//FPSを計測
 
 				dwFPSLastTime = dwCurrentTime;	//FPS計測時刻を保存
 
@@ -180,7 +174,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))	//1/60秒ごとに実行
 			{
 				char str[256] = {};
-				sprintf(str, _T("Project : Zilch ... %d"), g_nCountFPS);
+				sprintf(str, _T("Project : Zilch ... %d"), gFPS);
 				SetWindowText(hWnd, str);
 
 				dwExecLastTime = dwCurrentTime;	//処理した時刻を保存
@@ -208,10 +202,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 //*****************************************************************************
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static float fog_start = 50;
-	static float fog_end = 300;
-	static float fog_density = 0.01f;
-
 	switch( message )
 	{
 	case WM_DESTROY:
@@ -249,16 +239,16 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	D3DDISPLAYMODE d3ddm;
 
 	// Direct3Dオブジェクトの作成
-	g_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
+	gD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
-	if (g_pD3D == NULL)
+	if (gD3D == NULL)
 	{
 		cout << "[Error] DirectX initialization ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
 	// 現在のディスプレイモードを取得
-	if (FAILED(g_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
+	if (FAILED(gD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
 		cout << "[Error] Get displayer mode ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
@@ -270,7 +260,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 
 	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE; // デフォルトで使わない
-	if (g_pD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
+	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
 		0, D3DMULTISAMPLE_4_SAMPLES, NULL))
 	{
 		multiSampType = D3DMULTISAMPLE_4_SAMPLES; // 4倍
@@ -306,7 +296,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	D3DCAPS9 caps; 
 	int vp = 0;
-	if (FAILED(g_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
+	if (FAILED(gD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
 		cout << "[Error] Get directX device ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
@@ -319,23 +309,23 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// デバイスの生成
 	// ディスプレイアダプタを表すためのデバイスを作成
 	// 描画と頂点処理をハードウェアで行なう
-	if (FAILED(g_pD3D->CreateDevice(D3DADAPTER_DEFAULT,							// ディスプレイアダプタ
+	if (FAILED(gD3D->CreateDevice(D3DADAPTER_DEFAULT,							// ディスプレイアダプタ
 		D3DDEVTYPE_HAL,								// ディスプレイタイプ
 		hWnd,										// フォーカスするウインドウへのハンドル
 		vp,											// デバイス作成制御の組み合わせ
 		&d3dpp,										// デバイスのプレゼンテーションパラメータ
-		&g_pD3DDevice)))							// デバイスインターフェースへのポインタ
+		&gD3DDevice)))							// デバイスインターフェースへのポインタ
 	{
 		cout << "[Error] DirectX device initialization ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
-	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
-	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);				// αブレンドを行う
-	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);		// αソースカラーの指定
-	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
+	gD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
+	gD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);				// αブレンドを行う
+	gD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);		// αソースカラーの指定
+	gD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
 
-	RELEASE_POINT(g_pD3D); // リリースLPDIRECT3D9
+	RELEASE_POINT(gD3D); // リリースLPDIRECT3D9
 
 	//*****************************************************************************
 	//
@@ -354,21 +344,8 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //*****************************************************************************
 void Updata(HWND hWnd, int cmd)
 {
-	// ウィンドウからコンソールに変更
-	if (GetKeyboardRelease(DIK_8) && g_Console->isConsoleFront == false)
-	{
-		//g_Console->SetConsoleFront(hWnd);
-	}
-	if (GetKeyboardRelease(DIK_8) && g_Console->isConsoleFront == true)
-	{
-		//g_Console->SetConsoleBack(hWnd, cmd);
-	}
-
-	if (g_Console->isConsoleFront == false)
-	{
-		UpdateInput();			// 入力更新
-		g_SceneManager->update();	// シンーを更新する
-	}
+	UpdateInput();							// 入力更新
+	gSceneManager->update();		// シンーを更新する
 }
 
 //*****************************************************************************
@@ -378,9 +355,9 @@ void Updata(HWND hWnd, int cmd)
 //*****************************************************************************
 void draw(HWND hWnd)
 {
-	if (g_Console->isConsoleFront == false)
+	if (gConsole->isConsoleFront == false)
 	{
-		g_SceneManager->draw();	// シンーをドロー
+		gSceneManager->draw();	// シンーをドロー
 	}
 }
 
@@ -392,15 +369,15 @@ void draw(HWND hWnd)
 void Release(void)
 {
 	// ポインタ
-	RELEASE_POINT(g_pD3D);
-	RELEASE_POINT(g_pD3DDevice);
+	RELEASE_POINT(gD3D);
+	RELEASE_POINT(gD3DDevice);
 
 	// 入力処理の終了処理
 	UninitInput();
 
 	// コンソールの終了処理
-	RELEASE_CLASS_POINT(g_Console);
-	RELEASE_CLASS_POINT(g_SceneManager);
+	RELEASE_CLASS_POINT(gConsole);
+	RELEASE_CLASS_POINT(gSceneManager);
 }
 
 //*****************************************************************************
@@ -412,5 +389,5 @@ void Release(void)
 //*****************************************************************************
 LPDIRECT3DDEVICE9 GetDevice(void)
 {
-	return g_pD3DDevice;
+	return gD3DDevice;
 }
