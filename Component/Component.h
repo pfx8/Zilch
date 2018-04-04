@@ -9,7 +9,6 @@
 #define _COMPONENT_H_
 
 #include "../Engine/Engine.h"
-#include "../GameObject/GameObject.h"
 
 class Component
 {

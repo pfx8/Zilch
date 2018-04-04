@@ -9,7 +9,6 @@
 #define _GAME_OBJECT_H_
 
 #include "../Engine/Engine.h"
-#include "../Scene/Scene.h"
 #include "../Component/Component.h"
 
 class GameObject

@@ -8,9 +8,9 @@
 #ifndef _SCENE01_H_
 #define _SCENE01_H_
 
+#include "..\Component\Camera.h"
 #include "..\Engine\Engine.h"
 #include "..\Engine\Shader.h"
-#include "..\Engine\Camera.h"
 #include "..\Engine\Light.h"
 #include "..\Engine\Plane.h"
 #include "Scene.h"
@@ -32,8 +32,6 @@ private:
 	//SkyBox*				skyBox;				// スカイボックス
 
 public:
-	Character*			woman;			// プレーヤー
-
 	Scene01();
 	~Scene01();
 

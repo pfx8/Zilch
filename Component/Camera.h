@@ -8,10 +8,10 @@
 #ifndef _CAMERA_CLASS_H_
 #define _CAMERA_CLASS_H_
 
-#include "Engine.h"
-#include "DebugMessage.h"
-#include "input.h"
-#include "../Character.h"
+#include "Component.h"
+#include "../Engine/Engine.h"
+#include "../Engine/DebugMessage.h"
+#include "../Engine/input.h"
 
 enum cameraState	// カメラ逆かどうかの状態
 {
@@ -32,7 +32,7 @@ enum WhereIsCamera
 // クラス宣言
 //
 //*****************************************************************************
-class Camera
+class Camera : public Component
 {
 private:
 	DebugMessage*	message;
@@ -50,7 +50,7 @@ private:
 	float rangeStart;								// NearZ値
 	float rangeEnd;									// FarZ値
 
-	void  CameraContrlUpdate(Character* player);	// カメラ操作更新
+	//void  CameraContrlUpdate(Character* player);	// カメラ操作更新
 
 public:
 	float rotateSpeedHorizonal;						// カメラの水平移動偏り量
@@ -72,9 +72,9 @@ public:
 	Camera();
 	~Camera();
 
-	void InitCameraByPlayer(Character* player);											// カメラを初期化関	
-	void update(Character* player);														// カメラ更新
-	void Rotation(Character* player, float radiansHorizonal, float radiansVertical);	// 回転操作
+	//void InitCameraByPlayer(Character* player);											// カメラを初期化関	
+	//void update(Character* player);														// カメラ更新
+	//void Rotation(Character* player, float radiansHorizonal, float radiansVertical);	// 回転操作
 	void Zoom(float distance);															// ズーム操作
 	void SetViewport();																	// ビューポートを設定
 	void OutputMessage(int row);											// 座標をメッセージに渡して、画面に描画する

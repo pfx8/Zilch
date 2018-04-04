@@ -30,6 +30,10 @@
 
 using namespace std;
 
+class Scene;
+class GameObject;
+class Component;
+
 //*****************************************************************************
 //
 // ˆË‘¶ƒtƒ@ƒCƒ‹

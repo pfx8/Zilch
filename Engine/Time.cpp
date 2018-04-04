@@ -1,18 +1,18 @@
 //*****************************************************************************
 //
-// プレーヤコントローラ [PlayerControllers.cpp]
+// 時間処理 [Time.h]
 //
-// Author : リョウ　カンシン
+// Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "PlayerController.h"
+#include "Time.h"
 
 //*****************************************************************************
 //
 // コンストラクタ
 //
 //*****************************************************************************
-PlayerController::PlayerController()
+Time::Time()
 {
 
 }
@@ -22,29 +22,23 @@ PlayerController::PlayerController()
 // デストラクタ
 //
 //*****************************************************************************
-PlayerController::~PlayerController()
+Time::~Time()
 {
-
 }
 
 //*****************************************************************************
 //
-// 更新
+// 時間を更新
 //
 //*****************************************************************************
-void PlayerController::update()
+void Time::update()
 {
-	// 塗りつぶしモード
-	if (GetKeyboardPress(DIK_1))			// key 1
-	{
-		// ワイヤフレームを塗りつぶす
-		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		cout << "[Information] <RenderState> ... WIREFRAME" << endl;	// コンソールにメッセージを出す
-	}
-	if (GetKeyboardPress(DIK_2))			// key 2
-	{
-		// 面を塗りつぶす
-		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		cout << "[Information] <RenderState> ... SOLID" << endl;	// コンソールにメッセージを出す
-	}
+	// 今の時間を取得
+	mCurrentTime = timeGetTime();
+
+	// 1回更新の時間差を計算
+	mDeltaTime = mCurrentTime - mLastTime;
+
+	// 前の時間を更新
+	mLastTime = mCurrentTime;
 }

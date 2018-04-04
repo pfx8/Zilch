@@ -10,7 +10,7 @@
 
 #include "Engine.h"
 #include "Shader.h"
-#include "Camera.h"
+#include "../Component/Camera.h"
 
 struct PLANEVERTEX
 {

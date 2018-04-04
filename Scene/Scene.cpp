@@ -16,8 +16,8 @@ using namespace std;
 //*****************************************************************************
 Scene::Scene()
 {	
-	this->mResources = new Resources;	// リソース
-	this->message = new DebugMessage;
+	mResources = new Resources;	// リソース
+	message = new DebugMessage;
 
 	// テクスチャを読み込み
 	// this->resourcesManager->InitTexture();

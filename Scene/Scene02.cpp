@@ -27,31 +27,31 @@ void Scene02::start()
 {
 	mIsStart = true;
 
+	//-----------------------
 	// リソースを読み込み
-	{
-		// test
-		//mResources->loadModel("test", "Resources/Model/test.fbx");
+	//-----------------------
+	// test
+	//mResources->loadModel("test", "Resources/Model/test.fbx");
 
-		// skybox
-		mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");
+	// skybox
+	mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");
 
-		// 床
-		mResources->loadTexture("gird", "Resources/Texture/grid.png");
+	// 床
+	mResources->loadTexture("gird", "Resources/Texture/grid.png");
 
-		// Hixo
-		/*mResources->LoadTexture("HixoClothes", "Resources/Texture/HixoClothes.png");
-		mResources->LoadTexture("HixoEye", "Resources/Texture/HixoEye.png");
-		mResources->LoadTexture("HixoFace", "Resources/Texture/HixoFace.png");
-		mResources->LoadTexture("HixoFacial", "Resources/Texture/HixoFacial.png");
-		mResources->LoadTexture("HixoHair1", "Resources/Texture/HixoHair1.png");
-		mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
-		mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
-		mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
-		mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo_noEnd.fbx");
+	// Hixo
+	/*mResources->LoadTexture("HixoClothes", "Resources/Texture/HixoClothes.png");
+	mResources->LoadTexture("HixoEye", "Resources/Texture/HixoEye.png");
+	mResources->LoadTexture("HixoFace", "Resources/Texture/HixoFace.png");
+	mResources->LoadTexture("HixoFacial", "Resources/Texture/HixoFacial.png");
+	mResources->LoadTexture("HixoHair1", "Resources/Texture/HixoHair1.png");
+	mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
+	mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
+	mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
+	mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo_noEnd.fbx");
 
-		// shader
-		mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
-	}
+	// shader
+	mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
 
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
@@ -63,6 +63,8 @@ void Scene02::start()
 	GameObject* player = new GameObject();
 	Transform* playerTrans = new Transform();		// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	player->addComponent("trans", playerTrans);
+	PlayerController* playerController = new PlayerController();
+	player->addComponent("playerCtrl", playerController);
 	this->addGameObject("player", player);
 
 	// 床

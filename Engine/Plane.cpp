@@ -61,9 +61,9 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	this->vertexNum = (planeNum.x + 1) * (planeNum.y + 1);	// 総頂点数
-	this->polygonNum = planeNum.x * planeNum.y * 2 + (planeNum.y - 1) * 4;		// ポリゴン数
-	this->indexNum = (planeNum.x + 1) * 2 * planeNum.y + (planeNum.y - 1) * 2;	// インデックス数
+	vertexNum = int((planeNum.x + 1) * (planeNum.y + 1));						// 総頂点数
+	polygonNum = int(planeNum.x * planeNum.y * 2 + (planeNum.y - 1) * 4);		// ポリゴン数
+	indexNum = int((planeNum.x + 1) * 2 * planeNum.y + (planeNum.y - 1) * 2);	// インデックス数
 
 	// 頂点シェーダー宣言
 	{
