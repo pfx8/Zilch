@@ -17,7 +17,8 @@ class GameObject
 	friend class Scene;
 
 private:
-	map<string, Component*> mComponents;
+	vector<Component*>			mComponents;		// コンポーネントコンテナ
+	map<string, Component*>		mComponentsMap;		// 名前つきのコンポーネントマップ
 
 	void start();
 	void update();
@@ -34,15 +35,16 @@ public:
 	template<typename T>
 	void addComponent(string name, T* t)
 	{
-		mComponents.insert({name, t});
+		mComponents.push_back(t);
+		mComponentsMap.insert({name, t});
 	}
 
 	template<typename T>
 	T* getComponent(string name)
 	{
-		if (mComponents.find(name) != mComponents.end())
+		if (mComponentsMap.find(name) != mComponentsMap.end())
 		{
-			return mComponents.find(name);
+			return mComponentsMap.find(name);
 		}
 
 		cout << "[Error] <Component> Get " << name << " failed!" << endl;

@@ -9,9 +9,11 @@
 #define _COMPONENT_H_
 
 #include "../Engine/Engine.h"
+#include "../GameObject/GameObject.h"
 
 class Component
 {
+	friend class GameObject;
 private:
 	virtual void start();
 	virtual void update();
