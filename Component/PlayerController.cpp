@@ -1,18 +1,18 @@
 //*****************************************************************************
 //
-// GameObjectファイル [GameObject.cpp]
+// プレーヤコントローラ [PlayerControllers.cpp]
 //
 // Author : リョウ　カンシン
 //
 //*****************************************************************************
-#include "GameObject.h"
+#include "PlayerController.h"
 
 //*****************************************************************************
 //
 // コンストラクタ
 //
 //*****************************************************************************
-GameObject::GameObject()
+PlayerController::PlayerController()
 {
 
 }
@@ -22,22 +22,9 @@ GameObject::GameObject()
 // デストラクタ
 //
 //*****************************************************************************
-GameObject::~GameObject()
+PlayerController::~PlayerController()
 {
 
-}
-
-//*****************************************************************************
-//
-// 初期化
-//
-//*****************************************************************************
-void GameObject::start()
-{
-	for (auto it : mComponents)
-	{
-		
-	}
 }
 
 //*****************************************************************************
@@ -45,10 +32,17 @@ void GameObject::start()
 // 更新
 //
 //*****************************************************************************
-void GameObject::update()
+void PlayerController::update()
 {
-	for (auto it : mComponents)
+	// 塗りつぶしモード
+	if (GetKeyboardPress(DIK_1))			// key 1
 	{
-
+		// ワイヤフレームを塗りつぶす
+		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	}
+	if (GetKeyboardPress(DIK_2))			// key 2
+	{
+		// 面を塗りつぶす
+		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 }

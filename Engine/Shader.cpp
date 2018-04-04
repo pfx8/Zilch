@@ -55,13 +55,13 @@ HRESULT Shader::loadEffectFile(string path)
 
 	if (errorBuffer)	// エラーをチェック
 	{
-		cout << "[Error] Loading <Shader> " << path  << " ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Loading <Shader> " << path  << " ... fail!" << endl;	// エラーメッセージ
 		cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
-	cout << "[Information] Loading <Shader> " << path << " ... Success!" << endl;
+	cout << "[Information] Loading <Shader> " << path << " ... success!" << endl;
 
 	return S_OK;
 }

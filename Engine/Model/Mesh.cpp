@@ -68,7 +68,7 @@ HRESULT Mesh::SetupMesh()
 	// 頂点バッファ作成
 	if (FAILED(pDevice->CreateVertexBuffer(mVertices.size() * sizeof(Vertex), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &mVertexBuffer, NULL)))
 	{
-		cout << "[Error] Make <Mesh> vertex buffer ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] <Mesh> Make vertex buffer ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 		
@@ -98,7 +98,7 @@ HRESULT Mesh::SetupMesh()
 	// 頂点インデックスバッファ作成
 	if (FAILED(pDevice->CreateIndexBuffer(mIndices.size() * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer, NULL)))
 	{
-		cout << "[Error] Make <Mesh> vertex index buffer ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] <Mesh> Make index buffer ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 

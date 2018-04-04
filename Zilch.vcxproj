@@ -20,10 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Component\Camera.cpp" />
     <ClCompile Include="Component\Component.cpp" />
+    <ClCompile Include="Component\PlayerController.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
-    <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\Console.cpp" />
     <ClCompile Include="Engine\DebugMessage.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
@@ -46,10 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Component\Camera.h" />
     <ClInclude Include="Component\Component.h" />
+    <ClInclude Include="Component\PlayerController.h" />
     <ClInclude Include="Component\Transform.h" />
     <ClInclude Include="Engine\Audio.h" />
-    <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Console.h" />
     <ClInclude Include="Engine\DebugMessage.h" />
     <ClInclude Include="Engine\Engine.h" />

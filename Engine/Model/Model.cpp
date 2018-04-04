@@ -41,14 +41,14 @@ HRESULT Model::loadModel(string const &mPath)
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
-		cout << "[Error] 1 Assimp::" << import.GetErrorString() << endl;
+		cout << "[Error] Assimp::" << import.GetErrorString() << endl;
 		return E_FAIL;
 	}
 
 	// ルートノードから処理を始める
 	processNode(scene->mRootNode, scene);
 
-	cout << "[Information] Loading <Model> " << mPath << " ... Success!" << endl;
+	cout << "[Information] Loading <Model> " << mPath << " ... success!" << endl;
 }
 
 //*****************************************************************************

@@ -46,11 +46,11 @@ HRESULT Texture::loadingTexture()
 		mPath.data(),
 		&mTex)))
 	{
-		cout << "[Error] Loading <Texture> " << mPath << " ... Fail!" << endl;	// コンソールにメッセージを出す
+		cout << "[Error] Loading <Texture> " << mPath << " ... fail!" << endl;	// コンソールにメッセージを出す
 		return E_FAIL;
 	}
 
-	cout << "[Information] Loading <Texture> " << mPath << " ... Success!" << endl;	// コンソールにメッセージを出す
+	cout << "[Information] Loading <Texture> " << mPath << " ... success!" << endl;	// コンソールにメッセージを出す
 
 	return S_OK;
 }

@@ -63,23 +63,3 @@ void Scene::SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos, D3DXVECTOR3 rot
 	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
 	D3DXMatrixMultiply(wMatrix, wMatrix, &mtxTranslate);
 }
-
-//*****************************************************************************
-//
-// レンダリング状態を設定
-//
-//*****************************************************************************
-void Scene::setRenderState()
-{
-	// 塗りつぶしモード
-	if (GetKeyboardPress(DIK_1))			// key 1
-	{
-		// ワイヤフレームを塗りつぶす
-		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	}
-	if (GetKeyboardPress(DIK_2))			// key 2
-	{
-		// 面を塗りつぶす
-		GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	}
-}

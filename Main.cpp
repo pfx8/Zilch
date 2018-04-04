@@ -123,7 +123,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	g_Console = new Console();
 	if (g_Console->isConsoleRun == false)
 	{
-		cout << "[Error] Make console ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Make console ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
@@ -253,14 +253,14 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	if (g_pD3D == NULL)
 	{
-		cout << "[Error] DirectX initialization ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] DirectX initialization ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
 	// 現在のディスプレイモードを取得
 	if (FAILED(g_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
-		cout << "[Error] Get displayer mode ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Get displayer mode ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
@@ -308,7 +308,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	int vp = 0;
 	if (FAILED(g_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
-		cout << "[Error] Get directX device ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Get directX device ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 	if (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
@@ -326,9 +326,14 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		&d3dpp,										// デバイスのプレゼンテーションパラメータ
 		&g_pD3DDevice)))							// デバイスインターフェースへのポインタ
 	{
-		cout << "[Error] DirectX device initialization ... Fail!" << endl;	// エラーメッセージ
+		cout << "[Error] DirectX device initialization ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
+
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);				// αブレンドを行う
+	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);		// αソースカラーの指定
+	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
 
 	RELEASE_POINT(g_pD3D); // リリースLPDIRECT3D9
 

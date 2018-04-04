@@ -9,6 +9,8 @@
 #define _SCENE02_H_
 
 #include "Scene.h"
+#include "../Component/Transform.h"
+#include "../Component/Camera.h"
 #include "../Engine/Shader.h"
 #include "../Engine/Camera.h"
 #include "../Engine/Light.h"
@@ -28,10 +30,8 @@ public:
 	~Scene02();
 
 	void start();			// 初期化
-	void update();			// 更新
 	void draw();			// 描画
 	void oneFrame();		// 1フレームの描画内容
-	void setRenderState();	// レンダリングを設定
 };
 #endif // !_SCENE02_H_
 

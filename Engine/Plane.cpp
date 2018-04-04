@@ -82,7 +82,7 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 	{
 		if (FAILED(pDevice->CreateVertexBuffer(this->vertexNum * sizeof(PLANEVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->vertexBuffer, NULL)))
 		{
-			cout << "[Error] Make <Plane> vertex buffer ... Fail!" << endl;	// エラーメッセージ
+			cout << "[Error] Make <Plane> vertex buffer ... fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 
@@ -133,7 +133,7 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 	{
 		if (FAILED(pDevice->CreateIndexBuffer(this->indexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
 		{
-			cout << "[Error] Make <Plane> vertex index buffer ... Fail!" << endl;	// エラーメッセージ
+			cout << "[Error] Make <Plane> vertex index buffer ... fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
 		}
 

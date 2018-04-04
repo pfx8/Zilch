@@ -53,8 +53,23 @@ void Scene02::start()
 		mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
 	}
 
+	// mainCamera
+	GameObject* mainCamera = new GameObject();
+	Camera* camera = new Camera();
+	mainCamera->addComponent("camera", camera);
+	this->addGameObject("mainCamera", mainCamera);
+
 	// player
 	GameObject* player = new GameObject();
+	Transform* playerTrans = new Transform();		// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	player->addComponent("trans", playerTrans);
+	this->addGameObject("player", player);
+
+	// 床
+	GameObject* floor = new GameObject();
+	Transform* floorTrans = new Transform();		// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	floor->addComponent("trans", floorTrans);
+	this->addGameObject("floor", floor);
 
 	// シェーダーにライトを設定
 	/*mShader->mEffect->SetValue("lightPos", &light->pos, sizeof(D3DXVECTOR3));
@@ -65,26 +80,8 @@ void Scene02::start()
 	//skyBox->InitSkyBox(2500.0f);
 	//resourcesManager->LoadTexture("skybox", &skyBox->titleTexture);
 
-	// フィールド
-	field->InitPlane(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXVECTOR2(1, 1));
-
-	// カメラ
-	//camera->InitCameraByPlayer(mHixo);
-
-	// player
-	//mHixo->model->
 
 	// 効果音
-	
-}
-
-//*****************************************************************************
-//
-// 資源を読み込み
-//
-//*****************************************************************************
-void Scene02::loading()
-{
 	
 }
 
@@ -95,44 +92,7 @@ void Scene02::loading()
 //*****************************************************************************
 Scene02::~Scene02()
 {
-	// クラスポインタ
-	RELEASE_CLASS_POINT(mHixo);				// プレーヤー
-	//RELEASE_CLASS_POINT(camera);				// カメラ
-	RELEASE_CLASS_POINT(light);				// ライト
-	RELEASE_CLASS_POINT(mShader);				// シェーダー
-	RELEASE_CLASS_POINT(field);				// フィールド
-	//RELEASE_CLASS_POINT(skyBox);			// トゥ―ンシェーダー
 
-}
-
-//*****************************************************************************
-//
-// レンダリング状態を設定
-//
-//*****************************************************************************
-void Scene02::setRenderState()
-{
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	// レンダーステートパラメータの設定
-	pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
-	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);				// αブレンドを行う
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);			// αソースカラーの指定
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);		// αデスティネーションカラーの指定
-}
-
-//*****************************************************************************
-//
-// シンーの更新
-//
-//*****************************************************************************
-void Scene02::update()
-{
-	// フィールド更新
-	field->update();
-
-	// カメラ更新
-	//camera->Update(mHixo);
 }
 
 //*****************************************************************************

@@ -22,7 +22,6 @@ public:
 
 	Component();
 	virtual ~Component();
-
 };
 
 #endif // !_COMPONENT_H_
