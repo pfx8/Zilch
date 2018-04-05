@@ -24,6 +24,8 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
 	// バッファポインタを初期化
 	mVertexBuffer = nullptr;
 	mIndexBuffer = nullptr;
+
+	// 頂点フォーマット宣言ポイントを初期化
 	mVertexDecl = nullptr;
 
 	// メッシュのバッファを作り
@@ -39,7 +41,6 @@ Mesh::~Mesh()
 {
 	RELEASE_POINT(mVertexBuffer);
 	RELEASE_POINT(mIndexBuffer);
-	RELEASE_POINT(mVertexDecl);
 }
 
 //*****************************************************************************

@@ -13,6 +13,7 @@
 #include "../Component/Camera.h"
 #include "../Component/PlayerController.h"
 #include "../Component/Camera.h"
+#include "../Component/MeshRender.h"
 #include "../Engine/Shader.h"
 #include "../Engine/Light.h"
 #include "../Engine/Plane.h"
@@ -30,9 +31,8 @@ public:
 	Scene02();
 	~Scene02();
 
-	void start();			// ‰Šú‰»
+	void start();				// ‰Šú‰»
 	void draw();			// •`‰æ
-	void oneFrame();		// 1ƒtƒŒ[ƒ€‚Ì•`‰æ“à—e
 };
 #endif // !_SCENE02_H_
 

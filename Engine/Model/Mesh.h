@@ -28,7 +28,7 @@ class Mesh
 private:
 	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;	// 頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;	// 頂点インデックスバッファ
-	IDirect3DVertexDeclaration9*	mVertexDecl;	// 頂点シェーダー宣言
+	IDirect3DVertexDeclaration9*			mVertexDecl;		// 頂点シェーダー宣言
 
 	HRESULT SetupMesh();							// メッシュをセットアップ
 

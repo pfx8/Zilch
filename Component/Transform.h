@@ -8,8 +8,8 @@
 #ifndef _TRANSFORM_H_
 #define _TRANSFORM_H_
 
-#include "../Engine/Engine.h"
 #include "Component.h"
+#include "../Engine/Engine.h"
 
 class Transform : public Component
 {

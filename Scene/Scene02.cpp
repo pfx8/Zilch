@@ -15,7 +15,7 @@
 Scene02::Scene02()
 {
 	// シーン01
-	cout << "[Information] Scene02 <アニメーション> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
+	cout << "[Information] Scene02 <Project : Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
 }
 
 //*****************************************************************************
@@ -30,13 +30,14 @@ void Scene02::start()
 	//-----------------------
 	// リソースを読み込み
 	//-----------------------
-	// test
-	//mResources->loadModel("test", "Resources/Model/test.fbx");
+	// cube -- for test
+	mResources->loadModel("cube", "Resources/Model/test.fbx");
 
 	// skybox
 	mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");
 
 	// 床
+	mResources->loadModel("floor", "Resources/Model/floor.fbx");
 	mResources->loadTexture("gird", "Resources/Texture/grid.png");
 
 	// Hixo
@@ -48,7 +49,7 @@ void Scene02::start()
 	mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
 	mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
 	mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
-	mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo_noEnd.fbx");
+	mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo2.fbx");
 
 	// shader
 	mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
@@ -59,9 +60,20 @@ void Scene02::start()
 	mainCamera->addComponent("camera", camera);
 	this->addGameObject("mainCamera", mainCamera);
 
+	// cube -- for test
+	GameObject* cube = new GameObject();
+	Transform* cubeTrans = new Transform();												// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	cube->addComponent("trans", cubeTrans);
+	MeshRender* cubeMeshRender = new MeshRender();
+	cubeMeshRender->mModel = mResources->getModel("cube");		// リソースからモデルを取得
+	cubeMeshRender->mMainCamera = mainCamera;								// シーンのメインカメラを取得
+	cube->addComponent("render", cubeMeshRender);
+	cube->mIsDraw = true;
+	this ->addGameObject("cube", cube);
+
 	// player
 	GameObject* player = new GameObject();
-	Transform* playerTrans = new Transform();		// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	Transform* playerTrans = new Transform();											// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	player->addComponent("trans", playerTrans);
 	PlayerController* playerController = new PlayerController();
 	player->addComponent("playerCtrl", playerController);
@@ -69,7 +81,7 @@ void Scene02::start()
 
 	// 床
 	GameObject* floor = new GameObject();
-	Transform* floorTrans = new Transform();		// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	Transform* floorTrans = new Transform();												// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	floor->addComponent("trans", floorTrans);
 	this->addGameObject("floor", floor);
 
@@ -112,25 +124,19 @@ void Scene02::draw()
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(GetDevice()->BeginScene()))
 	{
-		oneFrame(); // 描画
+		// 描画内容
+		for (auto it : mGameObjects)
+		{
+			// もしMeshRenderが入ってるGameObjectはあれば描画
+			if (it.second->mIsDraw == true)
+			{
+
+			}
+		}
 
 		GetDevice()->EndScene();
 	}
 
 	// バックバッファとフロントバッファの入れ替え
 	GetDevice()->Present(NULL, NULL, NULL, NULL);
-}
-
-//*****************************************************************************
-//
-// 1フレームの描画内容
-//
-//*****************************************************************************
-void Scene02::oneFrame()
-{
-	//field->Draw(mShader, camera);
-	//skyBox->Draw(shader, &VPmatrix);
-
-	// デッバグメッセージ
-	//camera->OutputMessage(0);
 }

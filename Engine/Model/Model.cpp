@@ -49,6 +49,7 @@ HRESULT Model::loadModel(string const &mPath)
 	processNode(scene->mRootNode, scene);
 
 	cout << "[Information] Loading <Model> " << mPath << " ... success!" << endl;
+	return S_OK;
 }
 
 //*****************************************************************************

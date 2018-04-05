@@ -33,8 +33,8 @@ private:
 	vector<Texture> loadMaterialTexture(aiMaterial *mat, aiTextureType mType, string typeName);		// マテリアルからテクスチャを読み込み
 
 public:
-	vector<Mesh>					mMeshes;			// メッシュデータ
-	vector<Texture>					mTexturesLoaded;	// 読み込まれたテクスチャデータ
+	vector<Mesh>					mMeshes;					// メッシュデータ
+	vector<Texture>				mTexturesLoaded;		// 読み込まれたテクスチャデータ
 
 	Model(string const &mPath);
 	~Model();

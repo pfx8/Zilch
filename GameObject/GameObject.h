@@ -24,6 +24,7 @@ private:
 
 public:
 	bool mActive = true;
+	bool mIsDraw = false;
 	float mLastActiveTime = 0;
 
 	GameObject();
@@ -48,6 +49,16 @@ public:
 
 		cout << "[Error] <Component> Get " << name << " failed!" << endl;
 		return nullptr;
+	}
+
+	template<typename T>
+	bool findComponent(string name)
+	{
+		if (mComponentsMap.find(name) != mComponentsMap.end())
+		{
+			return true;
+		}
+		return false;
 	}
 };
 
