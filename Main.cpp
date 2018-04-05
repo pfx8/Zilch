@@ -355,10 +355,20 @@ void Updata(HWND hWnd, int cmd)
 //*****************************************************************************
 void draw(HWND hWnd)
 {
-	if (gConsole->isConsoleFront == false)
+	// バックバッファ＆Ｚバッファのクリア
+	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
+
+	// Direct3Dによる描画の開始
+	if (SUCCEEDED(GetDevice()->BeginScene()))
 	{
-		gSceneManager->draw();	// シンーをドロー
+		// シーンを描画
+		gSceneManager->draw();
+
+		GetDevice()->EndScene();
 	}
+
+	// バックバッファとフロントバッファの入れ替え
+	GetDevice()->Present(NULL, NULL, NULL, NULL);
 }
 
 //*****************************************************************************

@@ -119,25 +119,5 @@ void Scene02::draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	// バックバッファ＆Ｚバッファのクリア
-	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 
-	// Direct3Dによる描画の開始
-	if (SUCCEEDED(GetDevice()->BeginScene()))
-	{
-		// 描画内容
-		for (auto it : mGameObjects)
-		{
-			// もしMeshRenderが入ってるGameObjectはあれば描画
-			if (it.second->mIsDraw == true)
-			{
-				GameObject* gameObject = it.second;
-			}
-		}
-
-		GetDevice()->EndScene();
-	}
-
-	// バックバッファとフロントバッファの入れ替え
-	GetDevice()->Present(NULL, NULL, NULL, NULL);
 }

@@ -16,7 +16,7 @@ class GameObject
 	friend class Scene;
 
 private:
-	vector<Component*>			mComponents;		// コンポーネントコンテナ
+	vector<Component*>									mComponents;				// コンポーネントコンテナ
 	unordered_map<string, Component*>		mComponentsMap;		// 名前つきのコンポーネントマップ
 
 	void start();
@@ -30,36 +30,8 @@ public:
 	GameObject();
 	virtual ~GameObject();
 
-	// 任意コンポーネントを追加できるようにテンプレートを使った
-	// ここのtypenameはComponentクラスまたそれの継承クラス
-	template<typename T>
-	void addComponent(string name, T* t)
-	{
-		mComponents.push_back(t);
-		mComponentsMap.insert({name, t});
-	}
-
-	template<typename T>
-	T* getComponent(string name)
-	{
-		if (mComponentsMap.find(name) != mComponentsMap.end())
-		{
-			return mComponentsMap.find(name);
-		}
-
-		cout << "[Error] <Component> Get " << name << " failed!" << endl;
-		return nullptr;
-	}
-
-	template<typename T>
-	bool findComponent(string name)
-	{
-		if (mComponentsMap.find(name) != mComponentsMap.end())
-		{
-			return true;
-		}
-		return false;
-	}
+	template<typename T> void addComponent(string name, T* t);			// 任意コンポーネントを追加できるようにテンプレートを使った
+	template<typename T> T* getComponent(string name);						// 名前によってコンポーネント取得
 };
 
 #endif // !_GAME_OBJECT_H_

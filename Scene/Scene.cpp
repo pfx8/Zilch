@@ -63,3 +63,29 @@ void Scene::SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos, D3DXVECTOR3 rot
 	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
 	D3DXMatrixMultiply(wMatrix, wMatrix, &mtxTranslate);
 }
+
+//*****************************************************************************
+//
+// シーンにGameObjectを添付
+//
+//*****************************************************************************
+void Scene::addGameObject(string name, GameObject* gameObject)
+{
+	mGameObjects.insert({ name, gameObject });
+}
+
+//*****************************************************************************
+//
+// シーンからGameObjectを取得
+//
+//*****************************************************************************
+GameObject* Scene::getGameObject(string name)
+{
+	if (mGameObjects.find(name) != mGameObjects.end())
+	{
+		return mGameObjects[name];
+	}
+
+	cout << "[Error] <GameObject> Get " << name << " failed!" << endl;
+	return nullptr;
+}

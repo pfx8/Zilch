@@ -9,6 +9,7 @@
 #define _SCENE_H_
 
 #include "../Component/Component.h"
+#include "../Component/MeshRender.h"
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
 #include "../Engine/Resources.h"
@@ -30,11 +31,14 @@ public:
 	D3DXVECTOR3			mSceneUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXVECTOR3			mSceneRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 
-	Resources*			mResources;		// リソース
-	DebugMessage*		message;		// メッセージ
-	bool				mIsStart;
-	
-	unordered_map<string, GameObject*> mGameObjects;	// シーンの中にすべてのgameObjectを保存
+	Resources*					mResources;		// リソース
+	DebugMessage*		message;				// メッセージ
+	bool								mIsStart;
+
+	unordered_map<string, GameObject*> mGameObjects;			// シーンの中にすべてのgameObjectを保存
+	vector<MeshRender*>								mMeshRenders;			// 描画メッシュ集合
+	vector<Light*>											mLights;						// ライト集合
+
 
 	Scene();
 	~Scene();
@@ -47,23 +51,8 @@ public:
 	void SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos=D3DXVECTOR3(0.0f, 0.0f, 0.0f), 
 		D3DXVECTOR3 rot=D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3 scl=D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	
-	// シーンにGameObjectを増加
-	void addGameObject(string name, GameObject* gameObject)
-	{
-		mGameObjects.insert({ name, gameObject });
-	}
-
-	// シーンからGameObjectを取得
-	GameObject* getGameObject(string name)
-	{
-		if (mGameObjects.find(name) != mGameObjects.end())
-		{
-			return mGameObjects[name];
-		}
-
-		cout << "[Error] <GameObject> Get " << name << " failed!" << endl;
-		return nullptr;
-	}
+	void addGameObject(string name, GameObject* gameObject);		// シーンにGameObjectを増加
+	GameObject* getGameObject(string name);										// シーンからGameObjectを取得
 };
 
 #endif // !_SCENE_H_

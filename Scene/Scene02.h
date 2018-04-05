@@ -13,7 +13,6 @@
 #include "../Component/Camera.h"
 #include "../Component/PlayerController.h"
 #include "../Component/Camera.h"
-#include "../Component/MeshRender.h"
 #include "../Engine/Shader.h"
 #include "../Engine/Light.h"
 #include "../Engine/Plane.h"
