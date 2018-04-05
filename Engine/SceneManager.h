@@ -23,7 +23,7 @@ class SceneManager
 {
 private:
 	string mCurrentScene;				// ¡‚ÌƒV[ƒ“‚Ì–¼‘O
-	map<string, Scene*> mScenes;
+	unordered_map<string, Scene*> mScenes;
 
 public:
 	SceneManager();

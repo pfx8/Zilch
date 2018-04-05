@@ -21,7 +21,7 @@ private:
 	FMOD::System* mSystem;		// fmod.hppが必要
 	HRESULT start();
 
-	map<string, FMOD::Sound> mSounds;		// すべてのオーディオをここに保存
+	unordered_map<string, FMOD::Sound> mSounds;		// すべてのオーディオをここに保存
 public:
 	Audio();
 	~Audio();

@@ -17,7 +17,7 @@ class GameObject
 
 private:
 	vector<Component*>			mComponents;		// コンポーネントコンテナ
-	map<string, Component*>		mComponentsMap;		// 名前つきのコンポーネントマップ
+	unordered_map<string, Component*>		mComponentsMap;		// 名前つきのコンポーネントマップ
 
 	void start();
 	void update();

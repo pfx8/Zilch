@@ -21,9 +21,9 @@
 class Resources
 {
 private:
-	map<string, Model*>				mModels;		// モデル
-	map<string, Texture*>			mTextures;		// テクスチャ
-	map<string, Shader*>			mShaders;		// シェーダー
+	unordered_map<string, Model*>			mModels;		// モデル
+	unordered_map<string, Texture*>			mTextures;		// テクスチャ
+	unordered_map<string, Shader*>			mShaders;		// シェーダー
 
 public:
 	Resources();

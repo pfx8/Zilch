@@ -34,7 +34,7 @@ public:
 	DebugMessage*		message;		// メッセージ
 	bool				mIsStart;
 	
-	map<string, GameObject*> mGameObjects;	// シーンの中にすべてのgameObjectを保存
+	unordered_map<string, GameObject*> mGameObjects;	// シーンの中にすべてのgameObjectを保存
 
 	Scene();
 	~Scene();
