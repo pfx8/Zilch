@@ -11,6 +11,11 @@
 #include "Texture.h"
 #include "../Engine.h"
 
+//--------------Assimp--------------//
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 //*****************************************************************************
 //
 // クラス宣言
@@ -20,8 +25,8 @@ class Material
 {
 	friend class Model;
 private:
-	vector<Texture>		mTextures;				// テクスチャ
-	string							mName;					// マテリアルの名前
+	vector<Texture*>		mTexturesLoaded;				// テクスチャ
+	string							mName;								// マテリアルの名前
 
 public:
 	D3DXVECTOR3			mAmbient;				// 環境光
@@ -30,8 +35,15 @@ public:
 
 	float							mShininess;			// 光沢
 
-	Material(string name, D3DXVECTOR3 ambient, D3DXVECTOR3 diffuse, D3DXVECTOR3 specular);
+	// マテリアルがなければデフォルトで初期化
+	Material(aiMaterial* mat);
 	~Material();
+
+	// マテリアルを読み込み
+	void loadingMaterial(aiMaterial* mat);
+
+	// マテリアルによってテクスチャを読み込み
+	vector<Texture*> loadMaterialTexture(aiMaterial* mat, aiTextureType mType, string typeName);
 };
 
 #endif // !_MATERIAL_H

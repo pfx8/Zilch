@@ -31,7 +31,7 @@ void Scene02::start()
 	// リソースを読み込み
 	//-----------------------
 	// cube -- for test
-	mResources->loadModel("cube", "Resources/Model/test.fbx");
+	//mResources->loadModel("cube", "Resources/Model/test.fbx");
 
 	// skybox
 	//mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");

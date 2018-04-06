@@ -12,14 +12,14 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*>  textures)
+Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Material*>  materials)
 {
 	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
 
 	// メッシュデータコンテナを初期化
-	mVertices = vertices;
-	mIndices = indices;
-	mTextures = textures;
+	this->mVertices = vertices;
+	this->mIndices = indices;
+	this->mMaterials = materials;
 
 	// バッファポインタを初期化
 	mVertexBuffer = nullptr;

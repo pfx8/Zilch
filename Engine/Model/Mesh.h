@@ -8,7 +8,7 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
-#include "Texture.h"
+#include "Material.h"
 #include "../Engine.h"
 #include "../Shader.h"
 
@@ -36,9 +36,9 @@ public:
 	// メッシュデータ
 	vector<Vertex>						mVertices;					// 頂点データ
 	vector<unsigned int>			mIndices;					// インデックスデータ
-	vector<Texture*>					mTextures;					// テクスチャデータ
+	vector<Material*>					mMaterials;					// テクスチャデータ
 
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*>  textures);
+	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Material*>  materials);
 	~Mesh();
 
 	void draw(Shader *shader);	// ドロー

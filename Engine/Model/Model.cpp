@@ -12,9 +12,9 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(string const &mPath)
+Model::Model(string const &path)
 {
-	loadModel(mPath);
+	loadModel(path);
 }
 
 //*****************************************************************************
@@ -79,9 +79,10 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 //*****************************************************************************
 Mesh* Model::processMesh(aiMesh *mesh, const aiScene *scene)
 {
-	vector<Vertex> vertices;				// 頂点
-	vector<unsigned int> indices;			// 頂点インデックス
-	vector<Texture*> textures;				// 全部のテクスチャ
+	vector<Vertex> vertices;						// 頂点
+	vector<unsigned int> indices;				// 頂点インデックス
+	vector<Material*> materials;				// 全部のテクスチャ
+	bool skip = false;									// 同じマテリアルを読み込まないように
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -150,97 +151,36 @@ Mesh* Model::processMesh(aiMesh *mesh, const aiScene *scene)
 	}
 	
 	// マテリアル処理
-	if (mesh->mMaterialIndex >= 0)
 	{
 		// フェースのマテリアルを取得
-		aiMaterial* mat = scene->mMaterials[mesh->mMaterialIndex];
+		aiMaterial* aiMat = scene->mMaterials[mesh->mMaterialIndex];
 
-		// マテリアルを読み込み
-		Material* material = loadMaterial(mat);
-		mMaterialLoaded.push_back(material);
+		// マテリアルの名前を取得
+		aiString name;
+		aiMat->Get(AI_MATKEY_NAME, name);
 
-		// テクスチャを読み込み
-		vector<Texture*> diffuseMaps = loadMaterialTexture(mat, aiTextureType_DIFFUSE, "diffuseTexture");
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());	// 取得したdiffuseMapsをallTextureの後ろに追加
-		//vector<Texture> specularMaps = loadMaterialTexture(material, aiTextureType_SPECULAR, "specularTexture");
-		//textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());	// 取得したspecularMapsをallTextureの後ろに追加
-		//vector<Texture> normalMaps = loadMaterialTexture(material, aiTextureType_HEIGHT, "normalTexture");
-		//textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());		// 取得したnormalMapsをallTextureの後ろに追加
-		//vector<Texture> heightMaps = loadMaterialTexture(material, aiTextureType_AMBIENT, "heightTexture");
-		//textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());		// 取得したnormalMapsをallTextureの後ろに追加
-	}
-	else
-	{
-		cout << "[Warning] No Material" << endl;
-	}
-
-	return &Mesh(vertices, indices, textures);
-}
-
-//*****************************************************************************
-//
-// マテリアルからテクスチャを読み込み
-//
-//*****************************************************************************
-vector<Texture*> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType, string typeName)
-{
-	vector<Texture*> textures;	// 読み込んだテクスチャ
-
-	for (unsigned int count = 0; count < mat->GetTextureCount(mType); count++)
-	{
-		aiString str;															// モデルから読み込まれたテクスチャファイルの名前
-		mat->getTexture(mType, count, &str);			// テクスチャパスを読み込み
-		string path = "Resources/Texture/Hixo/" + string(str.C_Str());		// テクスチャの前にパスをつき
-
-		bool skip = false;
-
-		// もう読み込んだテクスチャならば、mTextureLoadedからもらう
-		for (auto it : mTexturesLoaded)
+		// マテリアルがあれば、マテリアル属性を取得
+		for (auto it : mMaterialLoaded)
 		{
-			if (strcmp(it->getTexPath().c_str(), path.c_str()) == 0)
+			if (it->mName == name.C_Str())
 			{
-				textures.push_back(it);
 				skip = true;
 				break;
 			}
 		}
 
-		// 新しいテクスチャならば読み込む
-		if (!skip)
+		if (skip == false)
 		{
-			// テクスチャまだ読み込まなっかたら読み込む
-			Texture* texture = new Texture(path.data());
-
-			// テクスチャタイプ属性を切り捨てる(warning)
-
-			// テクスチャを読み込み
-			textures.push_back(texture);
-			this->mTexturesLoaded.push_back(texture);
+			Material* mat = new Material(aiMat);
+			// モデルのマテリアルに入れる
+			mMaterialLoaded.push_back(mat);
+			// メッシュのマテリアルに入れる
+			materials.push_back(mat);
 		}
 	}
 
-	return textures;
-}
 
-//*****************************************************************************
-//
-// 
-//
-//*****************************************************************************
-Material* Model::loadMaterial(aiMaterial* mat)
-{
-	aiString name;
-	mat->Get(AI_MATKEY_NAME, name);
-
-	aiColor3D ambient(0.0f, 0.0f, 0.0f);
-	aiColor3D diffuse(0.0f, 0.0f, 0.0f);
-	aiColor3D specular(0.0f, 0.0f, 0.0f);
-
-	mat->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
-	mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
-	mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
-
-	return &Material(name.C_Str(), D3DXVECTOR3(ambient.r, ambient.g, ambient.b), D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b), D3DXVECTOR3(specular.r, specular.g, specular.b));
+	return &Mesh(vertices, indices, materials);
 }
 
 //*****************************************************************************
