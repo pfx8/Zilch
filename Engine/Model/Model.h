@@ -29,15 +29,15 @@ class Model
 private:
 	HRESULT loadModel(string const &mPath);								// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
-	Mesh processMesh(aiMesh *mesh, const aiScene *scene);		// メッシュ処理
+	Mesh* processMesh(aiMesh *mesh, const aiScene *scene);		// メッシュ処理
 
-	vector<Texture> loadMaterialTexture(aiMaterial* mat, aiTextureType mType, string typeName);		// マテリアルからテクスチャを読み込み
-	Material loadMaterial(aiMaterial* mat);
+	vector<Texture*> loadMaterialTexture(aiMaterial* mat, aiTextureType mType, string typeName);		// マテリアルからテクスチャを読み込み
+	Material* loadMaterial(aiMaterial* mat);
 
 public:
-	vector<Mesh>					mMeshes;					// メッシュデータ
-	vector<Texture>				mTexturesLoaded;		// 読み込まれたテクスチャデータ
-	vector<Material>				mMaterialLoaded;		// マテリアルデータ
+	vector<Mesh*>					mMeshes;					// メッシュデータ
+	vector<Texture*>				mTexturesLoaded;		// 読み込まれたテクスチャデータ
+	vector<Material*>				mMaterialLoaded;		// マテリアルデータ
 
 	Model(string const &mPath);
 	~Model();

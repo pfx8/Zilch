@@ -15,11 +15,6 @@
 Model::Model(string const &mPath)
 {
 	loadModel(mPath);
-
-	for (auto it : mMaterialLoaded)
-	{
-		cout << "[Test] <Material Name> " << it.mName << endl;
-	}
 }
 
 //*****************************************************************************
@@ -82,11 +77,11 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 // メッシュ処理
 //
 //*****************************************************************************
-Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
+Mesh* Model::processMesh(aiMesh *mesh, const aiScene *scene)
 {
 	vector<Vertex> vertices;				// 頂点
 	vector<unsigned int> indices;			// 頂点インデックス
-	vector<Texture> textures;				// 全部のテクスチャ
+	vector<Texture*> textures;				// 全部のテクスチャ
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -161,11 +156,11 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		aiMaterial* mat = scene->mMaterials[mesh->mMaterialIndex];
 
 		// マテリアルを読み込み
-		Material material = loadMaterial(mat);
+		Material* material = loadMaterial(mat);
 		mMaterialLoaded.push_back(material);
 
 		// テクスチャを読み込み
-		vector<Texture> diffuseMaps = loadMaterialTexture(mat, aiTextureType_DIFFUSE, "diffuseTexture");
+		vector<Texture*> diffuseMaps = loadMaterialTexture(mat, aiTextureType_DIFFUSE, "diffuseTexture");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());	// 取得したdiffuseMapsをallTextureの後ろに追加
 		//vector<Texture> specularMaps = loadMaterialTexture(material, aiTextureType_SPECULAR, "specularTexture");
 		//textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());	// 取得したspecularMapsをallTextureの後ろに追加
@@ -179,7 +174,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		cout << "[Warning] No Material" << endl;
 	}
 
-	return Mesh(vertices, indices, textures);
+	return &Mesh(vertices, indices, textures);
 }
 
 //*****************************************************************************
@@ -187,9 +182,9 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 // マテリアルからテクスチャを読み込み
 //
 //*****************************************************************************
-vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType, string typeName)
+vector<Texture*> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType, string typeName)
 {
-	vector<Texture> textures;	// 読み込んだテクスチャ
+	vector<Texture*> textures;	// 読み込んだテクスチャ
 
 	for (unsigned int count = 0; count < mat->GetTextureCount(mType); count++)
 	{
@@ -202,7 +197,7 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 		// もう読み込んだテクスチャならば、mTextureLoadedからもらう
 		for (auto it : mTexturesLoaded)
 		{
-			if (strcmp(it.getTexPath().c_str(), path.c_str()) == 0)
+			if (strcmp(it->getTexPath().c_str(), path.c_str()) == 0)
 			{
 				textures.push_back(it);
 				skip = true;
@@ -214,11 +209,11 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 		if (!skip)
 		{
 			// テクスチャまだ読み込まなっかたら読み込む
-			Texture texture(path.data());
+			Texture* texture = new Texture(path.data());
 
 			// テクスチャタイプ属性を切り捨てる(warning)
 
-			// 読み込んだテクスチャを保存
+			// テクスチャを読み込み
 			textures.push_back(texture);
 			this->mTexturesLoaded.push_back(texture);
 		}
@@ -228,23 +223,13 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 }
 
 //*****************************************************************************
- //
- // モデルを描画
- //
- //*****************************************************************************
-void Model::draw()
+//
+// 
+//
+//*****************************************************************************
+Material* Model::loadMaterial(aiMaterial* mat)
 {
-	// 各メッシュを描画
-	for (auto it : mMeshes)
-	{
-		//it.Draw();
-	}
-
-}
-
-Material Model::loadMaterial(aiMaterial* mat)
-{
-	string name;
+	aiString name;
 	mat->Get(AI_MATKEY_NAME, name);
 
 	aiColor3D ambient(0.0f, 0.0f, 0.0f);
@@ -255,5 +240,20 @@ Material Model::loadMaterial(aiMaterial* mat)
 	mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
 	mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
 
-	return Material(name, D3DXVECTOR3(ambient.r, ambient.g, ambient.b), D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b), D3DXVECTOR3(specular.r, specular.g, specular.b));
+	return &Material(name.C_Str(), D3DXVECTOR3(ambient.r, ambient.g, ambient.b), D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b), D3DXVECTOR3(specular.r, specular.g, specular.b));
+}
+
+//*****************************************************************************
+//
+// モデルを描画
+//
+//*****************************************************************************
+void Model::draw()
+{
+	// 各メッシュを描画
+	for (auto it : mMeshes)
+	{
+		//it.Draw();
+	}
+
 }

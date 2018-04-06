@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture>  textures)
+Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*>  textures)
 {
 	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
 

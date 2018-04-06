@@ -36,9 +36,9 @@ public:
 	// メッシュデータ
 	vector<Vertex>						mVertices;					// 頂点データ
 	vector<unsigned int>			mIndices;					// インデックスデータ
-	vector<Texture>					mTextures;					// テクスチャデータ
+	vector<Texture*>					mTextures;					// テクスチャデータ
 
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture>  textures);
+	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*>  textures);
 	~Mesh();
 
 	void draw(Shader *shader);	// ドロー

@@ -21,7 +21,7 @@ class Texture
 
 private:
 	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
-	string						mPath;		// テクスチャパス
+	string										mPath;		// テクスチャパス
 
 public:
 	Texture(string path);
