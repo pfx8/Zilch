@@ -6,7 +6,6 @@
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\input.cpp" />
     <ClCompile Include="Engine\Light.cpp" />
-    <ClCompile Include="Engine\Material.cpp" />
     <ClCompile Include="Engine\Plane.cpp" />
     <ClCompile Include="Engine\SceneManager.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
@@ -26,6 +25,7 @@
     <ClCompile Include="Component\PlayerController.cpp" />
     <ClCompile Include="Engine\Time.cpp" />
     <ClCompile Include="Component\MeshRender.cpp" />
+    <ClCompile Include="Engine\Model\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -33,7 +33,6 @@
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\input.h" />
     <ClInclude Include="Engine\Light.h" />
-    <ClInclude Include="Engine\Material.h" />
     <ClInclude Include="Engine\Plane.h" />
     <ClInclude Include="Engine\SceneManager.h" />
     <ClInclude Include="Engine\Shader.h" />
@@ -52,6 +51,7 @@
     <ClInclude Include="Component\PlayerController.h" />
     <ClInclude Include="Engine\Time.h" />
     <ClInclude Include="Component\MeshRender.h" />
+    <ClInclude Include="Engine\Model\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

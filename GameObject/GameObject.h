@@ -30,8 +30,26 @@ public:
 	GameObject();
 	virtual ~GameObject();
 
-	template<typename T> void addComponent(string name, T* t);			// 任意コンポーネントを追加できるようにテンプレートを使った
-	template<typename T> T* getComponent(string name);						// 名前によってコンポーネント取得
+	// 任意コンポーネントを追加できるようにテンプレートを使った
+	// ここのtypenameはComponentクラスまたそれの継承クラス
+	template<typename T> void addComponent(string name, T* t)
+	{
+		mComponents.push_back(t);
+		mComponentsMap.insert({ name, t });
+	}
+
+	// 名前によってコンポーネント取得
+	// ここのtypenameはComponentクラスまたそれの継承クラス
+	template<typename T> T* getComponent(string name)
+	{
+		if (mComponentsMap.find(name) != mComponentsMap.end())
+		{
+			return mComponentsMap.find(name);
+		}
+
+		cout << "[Error] <Component> Get " << name << " failed!" << endl;
+		return nullptr;
+	}
 };
 
 #endif // !_GAME_OBJECT_H_

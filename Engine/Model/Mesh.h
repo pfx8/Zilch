@@ -34,9 +34,9 @@ private:
 
 public:
 	// メッシュデータ
-	vector<Vertex>					mVertices;
-	vector<unsigned int>			mIndices;
-	vector<Texture>					mTextures;
+	vector<Vertex>						mVertices;					// 頂点データ
+	vector<unsigned int>			mIndices;					// インデックスデータ
+	vector<Texture>					mTextures;					// テクスチャデータ
 
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture>  textures);
 	~Mesh();

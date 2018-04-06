@@ -14,9 +14,12 @@
 //*****************************************************************************
 Model::Model(string const &mPath)
 {
-	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
-
 	loadModel(mPath);
+
+	for (auto it : mMaterialLoaded)
+	{
+		cout << "[Test] <Material Name> " << it.mName << endl;
+	}
 }
 
 //*****************************************************************************
@@ -36,8 +39,8 @@ Model::~Model()
 //*****************************************************************************
 HRESULT Model::loadModel(string const &mPath)
 {
-	Assimp::Importer import;																// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(mPath, /*aiProcess_Triangulate*/aiProcessPreset_TargetRealtime_Quality);	// ポリゴンを強制に三角形にする
+	Assimp::Importer import;			// Assimpのインポートを作る
+	const aiScene *scene = import.ReadFile(mPath, aiProcessPreset_TargetRealtime_Quality);	// ポリゴンを強制に三角形にする
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -155,9 +158,14 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 	if (mesh->mMaterialIndex >= 0)
 	{
 		// フェースのマテリアルを取得
-		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+		aiMaterial* mat = scene->mMaterials[mesh->mMaterialIndex];
 
-		vector<Texture> diffuseMaps = loadMaterialTexture(material, aiTextureType_DIFFUSE, "diffuseTexture");
+		// マテリアルを読み込み
+		Material material = loadMaterial(mat);
+		mMaterialLoaded.push_back(material);
+
+		// テクスチャを読み込み
+		vector<Texture> diffuseMaps = loadMaterialTexture(mat, aiTextureType_DIFFUSE, "diffuseTexture");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());	// 取得したdiffuseMapsをallTextureの後ろに追加
 		//vector<Texture> specularMaps = loadMaterialTexture(material, aiTextureType_SPECULAR, "specularTexture");
 		//textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());	// 取得したspecularMapsをallTextureの後ろに追加
@@ -185,9 +193,9 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial *mat, aiTextureType mType,
 
 	for (unsigned int count = 0; count < mat->GetTextureCount(mType); count++)
 	{
-		aiString str;									// モデルから読み込まれたテクスチャファイルの名前
+		aiString str;															// モデルから読み込まれたテクスチャファイルの名前
 		mat->getTexture(mType, count, &str);			// テクスチャパスを読み込み
-		string path = "Resources/Texture/Hixo/Hixo" + string(str.C_Str());		// テクスチャの前にパスをつき
+		string path = "Resources/Texture/Hixo/" + string(str.C_Str());		// テクスチャの前にパスをつき
 
 		bool skip = false;
 
@@ -232,4 +240,20 @@ void Model::draw()
 		//it.Draw();
 	}
 
+}
+
+Material Model::loadMaterial(aiMaterial* mat)
+{
+	string name;
+	mat->Get(AI_MATKEY_NAME, name);
+
+	aiColor3D ambient(0.0f, 0.0f, 0.0f);
+	aiColor3D diffuse(0.0f, 0.0f, 0.0f);
+	aiColor3D specular(0.0f, 0.0f, 0.0f);
+
+	mat->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
+	mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
+	mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
+
+	return Material(name, D3DXVECTOR3(ambient.r, ambient.g, ambient.b), D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b), D3DXVECTOR3(specular.r, specular.g, specular.b));
 }

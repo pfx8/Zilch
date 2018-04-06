@@ -31,7 +31,7 @@ void Scene02::start()
 	// リソースを読み込み
 	//-----------------------
 	// cube -- for test
-	mResources->loadModel("cube", "Resources/Model/test.fbx");
+	//mResources->loadModel("cube", "Resources/Model/test.fbx");
 
 	// skybox
 	//mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");
@@ -49,7 +49,7 @@ void Scene02::start()
 	mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
 	mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
 	mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
-	//mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo2.fbx");
+	mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo2.fbx");
 
 	// shader
 	mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
@@ -117,7 +117,9 @@ Scene02::~Scene02()
 //*****************************************************************************
 void Scene02::draw()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-
+	for (auto it : mMeshRenders)
+	{
+		// 各メッシュを描画する
+		it->draw();
+	}
 }

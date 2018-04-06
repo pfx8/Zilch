@@ -55,32 +55,3 @@ void GameObject::update()
 		}
 	}
 }
-
-//*****************************************************************************
-//
-// 任意コンポーネントを追加できるようにテンプレートを使った
-// ここのtypenameはComponentクラスまたそれの継承クラス
-//
-//*****************************************************************************
-template<typename T> void GameObject::addComponent(string name, T* t)
-{
-	mComponents.push_back(t);
-	mComponentsMap.insert({ name, t });
-}
-
-//*****************************************************************************
-//
-// 名前によってコンポーネント取得
-// ここのtypenameはComponentクラスまたそれの継承クラス
-//
-//*****************************************************************************
-template<typename T> T* GameObject::getComponent(string name)
-{
-	if (mComponentsMap.find(name) != mComponentsMap.end())
-	{
-		return mComponentsMap.find(name);
-	}
-
-	cout << "[Error] <Component> Get " << name << " failed!" << endl;
-	return nullptr;
-}

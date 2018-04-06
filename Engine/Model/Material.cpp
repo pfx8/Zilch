@@ -12,11 +12,14 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Material::Material()
+Material::Material(string name, D3DXVECTOR3 ambient, D3DXVECTOR3 diffuse, D3DXVECTOR3 specular)
 {
-	this->materialPoint = NULL;
-	this->materialNum = 0;
-	this->materialBuffer = NULL;
+	this->mName = name;
+	this->mAmbient = ambient;
+	this->mDiffuse = diffuse;
+	this->mSpecular = specular;
+
+	this->mShininess = 1.0f;				// デフォルト値
 }
 
 //*****************************************************************************
@@ -26,5 +29,5 @@ Material::Material()
 //*****************************************************************************
 Material::~Material()
 {
-	RELEASE_CLASS_POINT(this->materialPoint); 
+
 }

@@ -18,7 +18,6 @@ class MeshRender : public Component
 {
 private:
 	void start();
-	void draw();
 
 public:
 	GameObject*		mMainCamera;				// 描画するため使ってるカメラが必要
@@ -28,6 +27,7 @@ public:
 	MeshRender();
 	~MeshRender();
 
+	void draw();
 };
 
 #endif // !_MESH_RENDER_H_

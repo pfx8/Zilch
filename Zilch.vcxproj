@@ -30,7 +30,7 @@
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\input.cpp" />
     <ClCompile Include="Engine\Light.cpp" />
-    <ClCompile Include="Engine\Material.cpp" />
+    <ClCompile Include="Engine\Model\Material.cpp" />
     <ClCompile Include="Engine\Model\Mesh.cpp" />
     <ClCompile Include="Engine\Model\Model.cpp" />
     <ClCompile Include="Engine\Model\Texture.cpp" />
@@ -57,7 +57,7 @@
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\input.h" />
     <ClInclude Include="Engine\Light.h" />
-    <ClInclude Include="Engine\Material.h" />
+    <ClInclude Include="Engine\Model\Material.h" />
     <ClInclude Include="Engine\Model\Mesh.h" />
     <ClInclude Include="Engine\Model\Model.h" />
     <ClInclude Include="Engine\Model\Texture.h" />

@@ -12,6 +12,7 @@
 #include "../Component/MeshRender.h"
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
+#include "../Engine/Light.h"
 #include "../Engine/Resources.h"
 #include "../Engine/DebugMessage.h"
 #include "../GameObject/GameObject.h"
