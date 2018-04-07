@@ -286,7 +286,7 @@ void Camera::SetViewport()
 	vp.MinZ = 0.0f;
 	vp.MaxZ = 1.0f;
 
-	GetDevice()->SetViewport(&vp);	// ヒューポットを設定
+	getDevice()->SetViewport(&vp);	// ヒューポットを設定
 }
 
 //*****************************************************************************

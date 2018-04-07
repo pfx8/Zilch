@@ -10,6 +10,7 @@
 
 #include "Texture.h"
 #include "../Engine.h"
+#include "../Resources.h"
 
 //--------------Assimp--------------//
 #include <assimp/Importer.hpp>
@@ -43,7 +44,7 @@ public:
 	void loadingMaterial(aiMaterial* mat);
 
 	// マテリアルによってテクスチャを読み込み
-	vector<Texture*> loadMaterialTexture(aiMaterial* mat, aiTextureType mType, string typeName);
+	vector<Texture*> addTextureFromResources(aiMaterial* mat, aiTextureType mType);
 };
 
 #endif // !_MATERIAL_H

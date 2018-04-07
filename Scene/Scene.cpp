@@ -14,7 +14,6 @@
 //*****************************************************************************
 Scene::Scene()
 {	
-	mResources = new Resources;	// リソース
 	message = new DebugMessage;
 }
 
@@ -25,8 +24,6 @@ Scene::Scene()
 //*****************************************************************************
 Scene::~Scene()
 {
-	// リソース
-	RELEASE_CLASS_POINT(this->mResources);
 	RELEASE_CLASS_POINT(this->message);
 }
 
@@ -37,7 +34,7 @@ Scene::~Scene()
 //*****************************************************************************
 void Scene::SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scl)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = getDevice();
 
 	// 計算用マトリックス
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;

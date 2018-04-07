@@ -25,6 +25,7 @@ Scene02::Scene02()
 //*****************************************************************************
 void Scene02::start()
 {
+	Resources* resource = getResources();
 	mIsStart = true;
 
 	//-----------------------
@@ -32,23 +33,22 @@ void Scene02::start()
 	//-----------------------
 
 	// 床
-	//mResources->loadTexture("gird", "Resources/Texture/grid.png");
-	mResources->loadModel("gridField", "Resources/Model/gridField.fbx");
-
+	resource->loadTexture("grid", "Resources/Texture/grid.png");
+	resource->loadModel("gridField", "Resources/Model/gridField.fbx");
 
 	// Hixo
-	/*mResources->LoadTexture("HixoClothes", "Resources/Texture/HixoClothes.png");
-	mResources->LoadTexture("HixoEye", "Resources/Texture/HixoEye.png");
-	mResources->LoadTexture("HixoFace", "Resources/Texture/HixoFace.png");
-	mResources->LoadTexture("HixoFacial", "Resources/Texture/HixoFacial.png");
-	mResources->LoadTexture("HixoHair1", "Resources/Texture/HixoHair1.png");
-	mResources->LoadTexture("HixoHair2", "Resources/Texture/HixoHair2.png");
-	mResources->LoadTexture("HixoPanties", "Resources/Texture/HixoPanties.png");
-	mResources->LoadTexture("HixoSkin", "Resources/Texture/HixoSkin.png");*/
-	mResources->loadModel("HixoModel", "Resources/Model/Hixo/FBX/Hixo2.fbx");
+	resource->loadTexture("clothes", "Resources/Texture/Hixo/HixoClothes.png");
+	resource->loadTexture("eye", "Resources/Texture/Hixo/HixoEye.png");
+	resource->loadTexture("face", "Resources/Texture/Hixo/HixoFace.png");
+	resource->loadTexture("facial", "Resources/Texture/Hixo/HixoFacial.png");
+	resource->loadTexture("hair1", "Resources/Texture/Hixo/HixoHair1.png");
+	resource->loadTexture("hair2", "Resources/Texture/Hixo/HixoHair2.png");
+	resource->loadTexture("panties", "Resources/Texture/Hixo/HixoPanties.png");
+	resource->loadTexture("skin", "Resources/Texture/Hixo/HixoSkin.png");
+	resource->loadModel("HixoModel", "Resources/Model/Hixo2k.fbx");
 
 	// shader
-	mResources->loadShader("phongShading", "Resources/Shader/phongShading.fx");
+	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
 
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
@@ -61,9 +61,9 @@ void Scene02::start()
 	Transform* gridFieldTrans = new Transform();																	// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridField->addComponent("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->mModel = mResources->getModel("gridField");						// リソースからモデルを取得
+	gridFieldMeshRender->mModel = resource->getModel("gridField");						// リソースからモデルを取得
 	gridFieldMeshRender->mMainCamera = mainCamera;													// シーンのメインカメラを取得
-	gridFieldMeshRender->mShader = mResources->getShader("phongShading");			// シェーダーを取得
+	gridFieldMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
 	gridField->addComponent("meshRender", gridFieldMeshRender);
 	this ->addGameObject("gridField", gridField);
 

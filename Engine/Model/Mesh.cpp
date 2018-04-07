@@ -14,7 +14,7 @@
 //*****************************************************************************
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Material*>  materials)
 {
-	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
+	LPDIRECT3DDEVICE9	D3dDevice = getDevice();
 
 	// メッシュデータコンテナを初期化
 	this->mVertices = vertices;
@@ -50,7 +50,7 @@ Mesh::~Mesh()
 //*****************************************************************************
 HRESULT Mesh::SetupMesh()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = getDevice();
 
 	// 頂点シェーダー宣言
 	{

@@ -21,6 +21,7 @@ LPDIRECT3D9						gD3D = nullptr;						// Direct3Dオブジェクト
 LPDIRECT3DDEVICE9		gD3DDevice = nullptr;			// Deviceオブジェクト(描画に必要)
 
 Console*								gConsole;								// コンソールウインド
+Resources*							gResources;							// リソース
 SceneManager*					gSceneManager;					// シンー管理
 Time*									gTime;										// ゲーム時間
 
@@ -126,6 +127,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// シンーマネジメント
 	gSceneManager = new SceneManager();
 	gSceneManager->start();
+
+	// リソース
+	gResources = new Resources();
 
 	//ヴインドウを中心に移動
 	RECT rect;
@@ -359,16 +363,16 @@ void draw(HWND hWnd)
 	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
-	if (SUCCEEDED(GetDevice()->BeginScene()))
+	if (SUCCEEDED(getDevice()->BeginScene()))
 	{
 		// シーンを描画
 		gSceneManager->draw();
 
-		GetDevice()->EndScene();
+		getDevice()->EndScene();
 	}
 
 	// バックバッファとフロントバッファの入れ替え
-	GetDevice()->Present(NULL, NULL, NULL, NULL);
+	getDevice()->Present(NULL, NULL, NULL, NULL);
 }
 
 //*****************************************************************************
@@ -397,7 +401,17 @@ void Release(void)
 // 他のファイルの中に、グローバル変数を渡すとき、こういうGET関数が必要だ。
 //
 //*****************************************************************************
-LPDIRECT3DDEVICE9 GetDevice(void)
+LPDIRECT3DDEVICE9 getDevice(void)
 {
 	return gD3DDevice;
+}
+
+//*****************************************************************************
+//
+// リソースを取得
+//
+//*****************************************************************************
+Resources* getResources(void)
+{
+	return gResources;
 }

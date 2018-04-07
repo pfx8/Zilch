@@ -14,6 +14,10 @@
 //*****************************************************************************
 Model::Model(string const &path)
 {
+	// モデルの名前を取得
+	string fileName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp c:/aaa/bbb/ccc.fbx -> ccc.fbx
+	cout << endl << "<Model> : "  << fileName << endl;
+
 	loadModel(path);
 }
 
@@ -46,7 +50,6 @@ HRESULT Model::loadModel(string const &mPath)
 	// ルートノードから処理を始める
 	processNode(scene->mRootNode, scene);
 
-	cout << "[Information] Loading <Model> " << mPath << " ... success!" << endl;
 	return S_OK;
 }
 

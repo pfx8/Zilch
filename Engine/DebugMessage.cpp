@@ -14,7 +14,7 @@
 //*****************************************************************************
 DebugMessage::DebugMessage()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = getDevice();
 
 	this->font = NULL;
 	this->rectCoor = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };

@@ -46,7 +46,7 @@ SkyBox::~SkyBox()
 //*****************************************************************************
 HRESULT SkyBox::InitSkyBox(float length)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = getDevice();
 
 	{// 頂点設計
 		D3DVERTEXELEMENT9 boundingBoxDecl[] =	// 頂点データのレイアウトを定義
@@ -157,7 +157,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 //*****************************************************************************
 void SkyBox::SetWorldMatrix()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = getDevice();
 
 	D3DXMATRIX mtxTranslate;
 
@@ -176,7 +176,7 @@ void SkyBox::SetWorldMatrix()
 //*****************************************************************************
 void SkyBox::draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
-	PDIRECT3DDEVICE9 pDevice = GetDevice();
+	PDIRECT3DDEVICE9 pDevice = getDevice();
 
 	// テクニックを設定
 	mShader->mEffect->SetTechnique("render_no_light");

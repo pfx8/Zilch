@@ -14,6 +14,7 @@
 //*****************************************************************************
 Shader::Shader(string path)
 {
+	cout << endl << "<Shader> :" << endl;
 	loadEffectFile(path);
 }
 
@@ -34,7 +35,7 @@ Shader::~Shader()
 //*****************************************************************************
 HRESULT Shader::loadEffectFile(string path)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = getDevice();
 
 	D3DCAPS9 caps;
 	pDevice->GetDeviceCaps(&caps);

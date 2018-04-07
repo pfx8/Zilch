@@ -13,7 +13,6 @@
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
 #include "../Engine/Light.h"
-#include "../Engine/Resources.h"
 #include "../Engine/DebugMessage.h"
 #include "../GameObject/GameObject.h"
 
@@ -32,7 +31,6 @@ public:
 	D3DXVECTOR3			mSceneUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXVECTOR3			mSceneRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 
-	Resources*					mResources;		// リソース
 	DebugMessage*		message;				// メッセージ
 	bool								mIsStart;
 

@@ -48,8 +48,7 @@ Model* Resources::getModel(string name)
 	{
 		return mModels[name];
 	}
-
-	cout << "[Error] <Model> Get " << name << " failed!" << endl;
+	cout << "[Error] <Model> Get " << name << " ... failed!" << endl;
 	return nullptr;
 }
 
@@ -74,8 +73,7 @@ Texture* Resources::getTexture(string name)
 	{
 		return mTextures[name];
 	}
-	
-	cout << "[Error] <Texture> Get " << name << " failed!" << endl;
+	cout << "[Error] <Texture> Get " << name << " ... failed!" << endl;
 	return nullptr;
 }
 
@@ -100,7 +98,6 @@ Shader* Resources::getShader(string name)
 	{
 		return mShaders[name];
 	}
-
-	cout << "[Error] <Shader> Get " << name << " failed!" << endl;
+	cout << "[Error] <Shader> Get " << name << " ... failed!" << endl;
 	return nullptr;
 }

@@ -59,7 +59,7 @@ HRESULT Plane::InitPlane(D3DXVECTOR3 pos, D3DXVECTOR2 planeSize, D3DXVECTOR2 pla
 //*****************************************************************************
 HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = getDevice();
 
 	vertexNum = int((planeNum.x + 1) * (planeNum.y + 1));						// 総頂点数
 	polygonNum = int(planeNum.x * planeNum.y * 2 + (planeNum.y - 1) * 4);		// ポリゴン数
@@ -202,7 +202,7 @@ void Plane::update()
 //*****************************************************************************
 void Plane::SetWorldMatrix()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = getDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
 
 	// ワールドマトリックスを初期化する
@@ -220,7 +220,7 @@ void Plane::SetWorldMatrix()
 //*****************************************************************************
 void Plane::draw(Shader* mShader, Camera* camera)
 {
-	PDIRECT3DDEVICE9 pDevice = GetDevice();
+	PDIRECT3DDEVICE9 pDevice = getDevice();
 
 	// テクニックを設定
 	switch (renderStatus)

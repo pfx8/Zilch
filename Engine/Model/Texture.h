@@ -18,6 +18,7 @@
 class Texture
 {
 	friend class Model;
+	friend class Material;
 
 private:
 	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ

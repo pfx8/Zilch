@@ -29,12 +29,12 @@ public:
 	Resources();
 	~Resources();
 	
-	void loadModel(string name, string path);		// Assimpでモデルを読み込み
-	Model* getModel(string name);					// モデルの名前によって取得
+	void loadModel(string name, string path);			// Assimpでモデルを読み込み
+	Model* getModel(string name);							// モデルの名前によって取得
 	void loadTexture(string name, string path);		// テクスチャを読み込み
-	Texture* getTexture(string name);				// テクスチャの名前によって取得
+	Texture* getTexture(string name);						// テクスチャの名前によって取得
 	void loadShader(string name, string path);		// シェーダーを読み込み
-	Shader* getShader(string name);					// シェーダーの名前によって取得
+	Shader* getShader(string name);							// シェーダーの名前によって取得
 };
 
 #endif // !_RESOURCES_H_

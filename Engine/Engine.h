@@ -33,6 +33,11 @@ using namespace std;
 class Scene;
 class GameObject;
 class Component;
+class Texture;
+class Material;
+class Mesh;
+class Model;
+class Resources;
 
 //*****************************************************************************
 //
@@ -82,6 +87,7 @@ enum RenderStatus
 // プロトタイプ宣言
 //
 //*****************************************************************************
-LPDIRECT3DDEVICE9 GetDevice(void);
+LPDIRECT3DDEVICE9 getDevice(void);
+Resources* getResources(void);
 
 #endif // !_ENGINE_H_

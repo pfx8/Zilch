@@ -11,7 +11,6 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "../Engine.h"
-#include "../Resources.h"
 #include "../Shader.h"
 
 //--------------Assimp--------------//
@@ -27,7 +26,7 @@
 class Model
 {
 private:
-	HRESULT loadModel(string const &path);								// モデルを読み込み
+	HRESULT loadModel(string const &path);									// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
 	Mesh* processMesh(aiMesh *mesh, const aiScene *scene);		// メッシュ処理
 

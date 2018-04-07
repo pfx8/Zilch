@@ -38,7 +38,7 @@ Texture::~Texture()
 //*****************************************************************************
 HRESULT Texture::loadingTexture()
 {
-	LPDIRECT3DDEVICE9	D3dDevice = GetDevice();
+	LPDIRECT3DDEVICE9	D3dDevice = getDevice();
 
 	// テクスチャを読み込み
 	if (FAILED(D3DXCreateTextureFromFile(
@@ -46,11 +46,9 @@ HRESULT Texture::loadingTexture()
 		mPath.data(),
 		&mTex)))
 	{
-		cout << "\t\t[Error] Loading <Texture> " << mPath << " ... fail!" << endl;	// コンソールにメッセージを出す
+		cout << "[Error] Loading <Texture> " << mPath << " ... fail!" << endl;	// コンソールにメッセージを出す
 		return E_FAIL;
 	}
-
-	cout << "\t\t[Information] Loading <Texture> " << mPath << " ... success!" << endl;	// コンソールにメッセージを出す
 
 	return S_OK;
 }
