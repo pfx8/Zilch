@@ -14,7 +14,7 @@
 //*****************************************************************************
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Material*>  materials)
 {
-	LPDIRECT3DDEVICE9	D3dDevice = getDevice();
+	LPDIRECT3DDEVICE9	D3dDevice = getD3DDevice();
 
 	// メッシュデータコンテナを初期化
 	this->mVertices = vertices;
@@ -50,7 +50,7 @@ Mesh::~Mesh()
 //*****************************************************************************
 HRESULT Mesh::SetupMesh()
 {
-	LPDIRECT3DDEVICE9 pDevice = getDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	// 頂点シェーダー宣言
 	{
@@ -59,15 +59,13 @@ HRESULT Mesh::SetupMesh()
 			{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
 			{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
 			{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
-			{ 0, 32, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,  0 },
-			{ 0, 44, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0 },
 			D3DDECL_END()
 		};
-		pDevice->CreateVertexDeclaration(Decl, &mVertexDecl);
+		pD3DDevice->CreateVertexDeclaration(Decl, &mVertexDecl);
 	}
 
 	// 頂点バッファ作成
-	if (FAILED(pDevice->CreateVertexBuffer(mVertices.size() * sizeof(Vertex), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &mVertexBuffer, NULL)))
+	if (FAILED(pD3DDevice->CreateVertexBuffer(mVertices.size() * sizeof(Vertex), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &mVertexBuffer, NULL)))
 	{
 		cout << "[Error] <Mesh> Make vertex buffer ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
@@ -84,11 +82,8 @@ HRESULT Mesh::SetupMesh()
 		vertices[count].pos = it.pos;
 		vertices[count].nor = it.nor;
 		vertices[count].tex = it.tex;
-		vertices[count].tangent = it.tangent;
-		vertices[count].bitangent = it.bitangent;
-
-		// test
-		//cout << "-> (" << vertices[count].pos.x << ", " << vertices[count].pos.y << ", " << vertices[count].pos.z << ")" << endl;
+		//vertices[count].tangent = it.tangent;
+		//vertices[count].bitangent = it.bitangent;
 
 		count++;
 	}
@@ -97,7 +92,7 @@ HRESULT Mesh::SetupMesh()
 	mVertexBuffer->Unlock();
 
 	// 頂点インデックスバッファ作成
-	if (FAILED(pDevice->CreateIndexBuffer(mIndices.size() * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer, NULL)))
+	if (FAILED(pD3DDevice->CreateIndexBuffer(mIndices.size() * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer, NULL)))
 	{
 		cout << "[Error] <Mesh> Make index buffer ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
@@ -125,8 +120,36 @@ HRESULT Mesh::SetupMesh()
 // メッシュをドロー
 //
 //*****************************************************************************
-void Mesh::draw(Shader *shader)
+void Mesh::draw()
 {
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
+	Resources* resource = getResources();
+	Shader* shader = resource->getShader("phongShading");
+
+	// テクニックを設定
+	shader->mEffect->SetTechnique("defaultRender");
+
+	// テクスチャを渡す
+	shader->mEffect->SetTexture("tex", this->meshTexturePoint);
+
+	// 描画
+	UINT passNum = 0;
+	shader->mEffect->Begin(&passNum, 0);
+	for (int count = 0; count < passNum; count++)
+	{
+		// 各パスを描画
+		shader->mEffect->BeginPass(count);
+
+		pD3DDevice->SetVertexDeclaration(mVertexDecl);							// 頂点宣言を設定
+		pD3DDevice->SetStreamSource(0, mVertexBuffer, 0, 32);				// 頂点バッファを設定
+		pD3DDevice->SetIndices(mIndexBuffer);											// インデックスバッファを設定
+
+		shader->mEffect->EndPass();
+	}
+	shader->mEffect->End();
+
+
+
 	//D3DXMATRIX wMatrix;
 	//// ワールドマトリックスを初期化する
 	//D3DXMatrixIdentity(&wMatrix);

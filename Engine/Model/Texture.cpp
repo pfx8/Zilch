@@ -38,7 +38,7 @@ Texture::~Texture()
 //*****************************************************************************
 HRESULT Texture::loadingTexture()
 {
-	LPDIRECT3DDEVICE9	D3dDevice = getDevice();
+	LPDIRECT3DDEVICE9	D3dDevice = getD3DDevice();
 
 	// テクスチャを読み込み
 	if (FAILED(D3DXCreateTextureFromFile(

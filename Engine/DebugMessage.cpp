@@ -14,13 +14,13 @@
 //*****************************************************************************
 DebugMessage::DebugMessage()
 {
-	LPDIRECT3DDEVICE9 pDevice = getDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	this->font = NULL;
 	this->rectCoor = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	// ƒtƒƒ“ƒg‚ð‰Šú‰»
-	D3DXCreateFont(pDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Terminal"), &this->font);
+	D3DXCreateFont(pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Terminal"), &this->font);
 }
 
 //*****************************************************************************

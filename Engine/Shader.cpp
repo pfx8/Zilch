@@ -35,17 +35,17 @@ Shader::~Shader()
 //*****************************************************************************
 HRESULT Shader::loadEffectFile(string path)
 {
-	LPDIRECT3DDEVICE9 pDevice = getDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	D3DCAPS9 caps;
-	pDevice->GetDeviceCaps(&caps);
+	pD3DDevice->GetDeviceCaps(&caps);
 	if (caps.PixelShaderVersion < D3DPS_VERSION(1, 1))	// ピクセル機能チェック
 	{
 		cout << "[Error] Don't support pixel shader!" << endl;
 	}
 
-	ID3DXBuffer* errorBuffer = NULL;		// エラーバッファ
-	D3DXCreateEffectFromFile(pDevice,
+	ID3DXBuffer* errorBuffer = nullptr	;		// エラーバッファ
+	D3DXCreateEffectFromFile(pD3DDevice,
 						path.c_str(),	// エフェクトファイルの名前
 						0,
 						0,
@@ -62,7 +62,7 @@ HRESULT Shader::loadEffectFile(string path)
 		return E_FAIL;
 	}
 
-	cout << "[Information] Loading <Shader> " << path << " ... success!" << endl;
+	//cout << "[Information] Loading <Shader> " << path << " ... success!" << endl;
 
 	return S_OK;
 }

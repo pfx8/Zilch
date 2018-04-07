@@ -196,7 +196,7 @@ void Model::draw()
 	// 各メッシュを描画
 	for (auto it : mMeshes)
 	{
-		//it.Draw();
+		it->draw();
 	}
 
 }

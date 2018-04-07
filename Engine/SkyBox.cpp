@@ -46,7 +46,7 @@ SkyBox::~SkyBox()
 //*****************************************************************************
 HRESULT SkyBox::InitSkyBox(float length)
 {
-	LPDIRECT3DDEVICE9 pDevice = getDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	{// 頂点設計
 		D3DVERTEXELEMENT9 boundingBoxDecl[] =	// 頂点データのレイアウトを定義
@@ -55,10 +55,10 @@ HRESULT SkyBox::InitSkyBox(float length)
 			{ 0, 12, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD },
 			D3DDECL_END()
 		};
-		pDevice->CreateVertexDeclaration(boundingBoxDecl, &this->vertexDecl);
+		pD3DDevice->CreateVertexDeclaration(boundingBoxDecl, &this->vertexDecl);
 
 		// オブジェクトの頂点バッファを生成
-		if (FAILED(pDevice->CreateVertexBuffer(16 * sizeof(SKYBOXVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &this->vertexBuffer, NULL)))
+		if (FAILED(pD3DDevice->CreateVertexBuffer(16 * sizeof(SKYBOXVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &this->vertexBuffer, NULL)))
 		{
 			cout << "[Error] Make [Skybox] vertex buffer ... fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
@@ -114,7 +114,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 
 	{// インデックス設計
 		//オブジェクトの頂点インデックスバッファを生成
-		if (FAILED(pDevice->CreateIndexBuffer(24 * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
+		if (FAILED(pD3DDevice->CreateIndexBuffer(24 * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
 		{
 			cout << "[Error] Make [Skybox] vertex index buffer ... fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
@@ -157,7 +157,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 //*****************************************************************************
 void SkyBox::SetWorldMatrix()
 {
-	LPDIRECT3DDEVICE9 pDevice = getDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	D3DXMATRIX mtxTranslate;
 
@@ -176,7 +176,7 @@ void SkyBox::SetWorldMatrix()
 //*****************************************************************************
 void SkyBox::draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 {
-	PDIRECT3DDEVICE9 pDevice = getDevice();
+	PDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	// テクニックを設定
 	mShader->mEffect->SetTechnique("render_no_light");
@@ -197,10 +197,10 @@ void SkyBox::draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix)
 	{
 		mShader->mEffect->BeginPass(0);
 
-		pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
-		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(SKYBOXVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
-		pDevice->SetIndices(this->indexBuffer);										// 頂点イデックスの設定
-		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 17, 0, 16);			// バウンディングボックスの描画
+		pD3DDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
+		pD3DDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(SKYBOXVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
+		pD3DDevice->SetIndices(this->indexBuffer);										// 頂点イデックスの設定
+		pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 17, 0, 16);			// バウンディングボックスの描画
 
 		mShader->mEffect->EndPass();
 	}

@@ -58,11 +58,11 @@ void Scene02::start()
 
 	// 床
 	GameObject* gridField = new GameObject();
-	Transform* gridFieldTrans = new Transform();																	// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	Transform* gridFieldTrans = new Transform();																// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridField->addComponent("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
 	gridFieldMeshRender->mModel = resource->getModel("gridField");						// リソースからモデルを取得
-	gridFieldMeshRender->mMainCamera = mainCamera;													// シーンのメインカメラを取得
+	gridFieldMeshRender->mMainCamera = mainCamera;												// シーンのメインカメラを取得
 	gridFieldMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
 	gridField->addComponent("meshRender", gridFieldMeshRender);
 	this ->addGameObject("gridField", gridField);

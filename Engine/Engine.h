@@ -82,12 +82,21 @@ enum RenderStatus
 	RS_withNormalMap,
 };
 
+struct WorldVector
+{
+	// ゲーム世界の正方向ベクトルを初期化
+	D3DXVECTOR3			worldLook = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	D3DXVECTOR3			worldUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	D3DXVECTOR3			worldRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+};
+
 //*****************************************************************************
 //
 // プロトタイプ宣言
 //
 //*****************************************************************************
-LPDIRECT3DDEVICE9 getDevice(void);
+LPDIRECT3DDEVICE9 getD3DDevice(void);
 Resources* getResources(void);
+WorldVector getWorldVector(void);
 
 #endif // !_ENGINE_H_

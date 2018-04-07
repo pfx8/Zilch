@@ -34,7 +34,7 @@ Scene::~Scene()
 //*****************************************************************************
 void Scene::SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scl)
 {
-	LPDIRECT3DDEVICE9 pDevice = getDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	// 計算用マトリックス
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;

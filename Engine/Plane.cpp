@@ -59,7 +59,7 @@ HRESULT Plane::InitPlane(D3DXVECTOR3 pos, D3DXVECTOR2 planeSize, D3DXVECTOR2 pla
 //*****************************************************************************
 HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 {
-	LPDIRECT3DDEVICE9 pDevice = getDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	vertexNum = int((planeNum.x + 1) * (planeNum.y + 1));						// 総頂点数
 	polygonNum = int(planeNum.x * planeNum.y * 2 + (planeNum.y - 1) * 4);		// ポリゴン数
@@ -75,12 +75,12 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 			{ 0, 32, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,  0 },
 			D3DDECL_END()
 		};
-		pDevice->CreateVertexDeclaration(planeDecl, &this->vertexDecl);
+		pD3DDevice->CreateVertexDeclaration(planeDecl, &this->vertexDecl);
 	}
 
 	// 頂点バッファ作成
 	{
-		if (FAILED(pDevice->CreateVertexBuffer(this->vertexNum * sizeof(PLANEVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->vertexBuffer, NULL)))
+		if (FAILED(pD3DDevice->CreateVertexBuffer(this->vertexNum * sizeof(PLANEVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->vertexBuffer, NULL)))
 		{
 			cout << "[Error] Make <Plane> vertex buffer ... fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
@@ -131,7 +131,7 @@ HRESULT Plane::MakeVertexDecl(D3DXVECTOR2 planeSize, D3DXVECTOR2 planeNum)
 
 	// 頂点インデックスバッファ作成
 	{
-		if (FAILED(pDevice->CreateIndexBuffer(this->indexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
+		if (FAILED(pD3DDevice->CreateIndexBuffer(this->indexNum * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
 		{
 			cout << "[Error] Make <Plane> vertex index buffer ... fail!" << endl;	// エラーメッセージ
 			return E_FAIL;
@@ -202,7 +202,7 @@ void Plane::update()
 //*****************************************************************************
 void Plane::SetWorldMatrix()
 {
-	LPDIRECT3DDEVICE9 pDevice = getDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
 
 	// ワールドマトリックスを初期化する
@@ -220,7 +220,7 @@ void Plane::SetWorldMatrix()
 //*****************************************************************************
 void Plane::draw(Shader* mShader, Camera* camera)
 {
-	PDIRECT3DDEVICE9 pDevice = getDevice();
+	PDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	// テクニックを設定
 	switch (renderStatus)
@@ -265,10 +265,10 @@ void Plane::draw(Shader* mShader, Camera* camera)
 	{
 		mShader->mEffect->BeginPass(count);
 		
-		pDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
-		pDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
-		pDevice->SetIndices(this->indexBuffer);										// 頂点インデックスバッファを設定
-		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ポリゴンの描画
+		pD3DDevice->SetVertexDeclaration(this->vertexDecl);							// 頂点宣言を設定
+		pD3DDevice->SetStreamSource(0, this->vertexBuffer, 0, sizeof(PLANEVERTEX));	// 頂点バッファをデバイスのデータストリームにバイナリ
+		pD3DDevice->SetIndices(this->indexBuffer);										// 頂点インデックスバッファを設定
+		pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->vertexNum, 0, this->polygonNum);	// ポリゴンの描画
 
 		mShader->mEffect->EndPass();
 	}

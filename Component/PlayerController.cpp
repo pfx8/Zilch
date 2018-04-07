@@ -38,13 +38,13 @@ void PlayerController::update()
 	if (GetKeyboardPress(DIK_1))			// key 1
 	{
 		// ワイヤフレームを塗りつぶす
-		getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		cout << "[Information] <RenderState> ... WIREFRAME" << endl;	// コンソールにメッセージを出す
 	}
 	if (GetKeyboardPress(DIK_2))			// key 2
 	{
 		// 面を塗りつぶす
-		getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		cout << "[Information] <RenderState> ... SOLID" << endl;	// コンソールにメッセージを出す
 	}
 }

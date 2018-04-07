@@ -19,8 +19,8 @@ struct Vertex
 	D3DXVECTOR2 tex;
 
 	// プラスインフォメーション
-	D3DXVECTOR3 tangent;
-	D3DXVECTOR3 bitangent;
+	//D3DXVECTOR3 tangent;
+	//D3DXVECTOR3 bitangent;
 };
 
 class Mesh
@@ -41,7 +41,7 @@ public:
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Material*>  materials);
 	~Mesh();
 
-	void draw(Shader *shader);	// ドロー
+	void draw();	// ドロー
 };
 
 

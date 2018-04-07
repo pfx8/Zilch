@@ -25,6 +25,8 @@ Resources*							gResources;							// リソース
 SceneManager*					gSceneManager;					// シンー管理
 Time*									gTime;										// ゲーム時間
 
+WorldVector						gWorldVector;
+
 //*****************************************************************************
 //
 // プロトタイプ宣言
@@ -245,7 +247,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// Direct3Dオブジェクトの作成
 	gD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
-	if (gD3D == NULL)
+	if (gD3D == nullptr)
 	{
 		cout << "[Error] DirectX initialization ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
@@ -267,7 +269,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
 		0, D3DMULTISAMPLE_4_SAMPLES, NULL))
 	{
-		multiSampType = D3DMULTISAMPLE_4_SAMPLES; // 4倍
+		multiSampType = D3DMULTISAMPLE_8_SAMPLES; // 4倍
 	}
 
 	d3dpp.BackBufferWidth = SCREEN_WIDTH;				// ゲーム画面サイズ(幅)
@@ -363,16 +365,16 @@ void draw(HWND hWnd)
 	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
-	if (SUCCEEDED(getDevice()->BeginScene()))
+	if (SUCCEEDED(getD3DDevice()->BeginScene()))
 	{
 		// シーンを描画
 		gSceneManager->draw();
 
-		getDevice()->EndScene();
+		getD3DDevice()->EndScene();
 	}
 
 	// バックバッファとフロントバッファの入れ替え
-	getDevice()->Present(NULL, NULL, NULL, NULL);
+	getD3DDevice()->Present(NULL, NULL, NULL, NULL);
 }
 
 //*****************************************************************************
@@ -401,7 +403,7 @@ void Release(void)
 // 他のファイルの中に、グローバル変数を渡すとき、こういうGET関数が必要だ。
 //
 //*****************************************************************************
-LPDIRECT3DDEVICE9 getDevice(void)
+LPDIRECT3DDEVICE9 getD3DDevice(void)
 {
 	return gD3DDevice;
 }
@@ -414,4 +416,14 @@ LPDIRECT3DDEVICE9 getDevice(void)
 Resources* getResources(void)
 {
 	return gResources;
+}
+
+//*****************************************************************************
+//
+// 世界ベクトルを取得
+//
+//*****************************************************************************
+WorldVector getWorldVector(void)
+{
+	return gWorldVector;
 }
