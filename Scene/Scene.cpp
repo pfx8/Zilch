@@ -7,8 +7,6 @@
 //*****************************************************************************
 #include "Scene.h"
 
-using namespace std;
-
 //*****************************************************************************
 //
 // コンストラクタ
@@ -18,9 +16,6 @@ Scene::Scene()
 {	
 	mResources = new Resources;	// リソース
 	message = new DebugMessage;
-
-	// テクスチャを読み込み
-	// this->resourcesManager->InitTexture();
 }
 
 //*****************************************************************************
@@ -30,7 +25,6 @@ Scene::Scene()
 //*****************************************************************************
 Scene::~Scene()
 {
-	// クラスポインタ
 	// リソース
 	RELEASE_CLASS_POINT(this->mResources);
 	RELEASE_CLASS_POINT(this->message);
@@ -71,7 +65,11 @@ void Scene::SetWorldMatrix(D3DXMATRIX* wMatrix, D3DXVECTOR3 pos, D3DXVECTOR3 rot
 //*****************************************************************************
 void Scene::addGameObject(string name, GameObject* gameObject)
 {
-	mGameObjects.insert({ name, gameObject });
+	if (name == "meshRender")
+	{
+		mMeshRenders.push_back(gameObject->getComponent<MeshRender>("meshRender"));
+	}
+	mGameObjectMap.insert({ name, gameObject });
 }
 
 //*****************************************************************************
@@ -81,11 +79,10 @@ void Scene::addGameObject(string name, GameObject* gameObject)
 //*****************************************************************************
 GameObject* Scene::getGameObject(string name)
 {
-	if (mGameObjects.find(name) != mGameObjects.end())
+	if (mGameObjectMap.find(name) != mGameObjectMap.end())
 	{
-		return mGameObjects[name];
+		return mGameObjectMap[name];
 	}
-
 	cout << "[Error] <GameObject> Get " << name << " failed!" << endl;
 	return nullptr;
 }

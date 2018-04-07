@@ -30,15 +30,11 @@ void Scene02::start()
 	//-----------------------
 	// リソースを読み込み
 	//-----------------------
-	// cube -- for test
-	//mResources->loadModel("cube", "Resources/Model/test.fbx");
-
-	// skybox
-	//mResources->loadTexture("skybox", "Resources/Texture/skybox.jpg");
 
 	// 床
-	//mResources->loadModel("floor", "Resources/Model/floor.fbx");
 	//mResources->loadTexture("gird", "Resources/Texture/grid.png");
+	mResources->loadModel("gridField", "Resources/Model/gridField.fbx");
+
 
 	// Hixo
 	/*mResources->LoadTexture("HixoClothes", "Resources/Texture/HixoClothes.png");
@@ -60,17 +56,16 @@ void Scene02::start()
 	mainCamera->addComponent("camera", camera);
 	this->addGameObject("mainCamera", mainCamera);
 
-	// cube -- for test
-	GameObject* cube = new GameObject();
-	Transform* cubeTrans = new Transform();												// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
-	cube->addComponent("trans", cubeTrans);
-	MeshRender* cubeMeshRender = new MeshRender();
-	cubeMeshRender->mModel = mResources->getModel("cube");							// リソースからモデルを取得
-	cubeMeshRender->mMainCamera = mainCamera;													// シーンのメインカメラを取得
-	cubeMeshRender->mShader = mResources->getShader("phongShading");			// シェーダーを取得
-	cube->addComponent("render", cubeMeshRender);
-	cube->mIsDraw = true;
-	this ->addGameObject("cube", cube);
+	// 床
+	GameObject* gridField = new GameObject();
+	Transform* gridFieldTrans = new Transform();																	// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	gridField->addComponent("trans", gridFieldTrans);
+	MeshRender* gridFieldMeshRender = new MeshRender();
+	gridFieldMeshRender->mModel = mResources->getModel("gridField");						// リソースからモデルを取得
+	gridFieldMeshRender->mMainCamera = mainCamera;													// シーンのメインカメラを取得
+	gridFieldMeshRender->mShader = mResources->getShader("phongShading");			// シェーダーを取得
+	gridField->addComponent("meshRender", gridFieldMeshRender);
+	this ->addGameObject("gridField", gridField);
 
 	// player
 	//GameObject* player = new GameObject();
@@ -79,25 +74,6 @@ void Scene02::start()
 	//PlayerController* playerController = new PlayerController();
 	//player->addComponent("playerCtrl", playerController);
 	//this->addGameObject("player", player);
-
-	// 床
-	//GameObject* floor = new GameObject();
-	//Transform* floorTrans = new Transform();												// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
-	//floor->addComponent("trans", floorTrans);
-	//this->addGameObject("floor", floor);
-
-	// シェーダーにライトを設定
-	/*mShader->mEffect->SetValue("lightPos", &light->pos, sizeof(D3DXVECTOR3));
-	mShader->mEffect->SetValue("lightDiffuse", &light->diffuse, sizeof(D3DXVECTOR3));
-	mShader->mEffect->SetFloat("lightAttenuation", light->attenuation);*/
-
-	//// スカイボックス
-	//skyBox->InitSkyBox(2500.0f);
-	//resourcesManager->LoadTexture("skybox", &skyBox->titleTexture);
-
-
-	// 効果音
-	
 }
 
 //*****************************************************************************
@@ -119,7 +95,6 @@ void Scene02::draw()
 {
 	for (auto it : mMeshRenders)
 	{
-		// 各メッシュを描画する
 		it->draw();
 	}
 }

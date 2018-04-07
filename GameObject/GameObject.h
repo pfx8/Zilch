@@ -23,9 +23,8 @@ private:
 	void update();
 
 public:
-	bool mActive = true;
-	bool mIsDraw = false;
-	float mLastActiveTime = 0;
+	bool			mActive = true;						// 使ってるマーク
+	float		mLastActiveTime = 0;			// 前回更新した時間
 
 	GameObject();
 	virtual ~GameObject();
@@ -44,7 +43,15 @@ public:
 	{
 		if (mComponentsMap.find(name) != mComponentsMap.end())
 		{
-			return mComponentsMap.find(name);
+			//------------------------------------------------------------
+			// dynamic_cast<type*>(e)
+			// typeは必ずクラス型、eは必ずポインタ(nullptrはダメ)
+			//
+			// 重要 : eは必ずtypeクラス型かtypeの継承クラス型
+			//
+			// 戻り値 : eのクラス型のポインタ
+			//------------------------------------------------------------
+			return dynamic_cast<T*>(mComponentsMap[name]);
 		}
 
 		cout << "[Error] <Component> Get " << name << " failed!" << endl;

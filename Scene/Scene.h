@@ -36,9 +36,9 @@ public:
 	DebugMessage*		message;				// メッセージ
 	bool								mIsStart;
 
-	unordered_map<string, GameObject*> mGameObjects;			// シーンの中にすべてのgameObjectを保存
-	vector<MeshRender*>								mMeshRenders;			// 描画メッシュ集合
-	vector<Light*>											mLights;						// ライト集合
+	unordered_map<string, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
+	vector<MeshRender*>											mMeshRenders;					// MeshRenderを保存して統一描画
+	vector<Light*>														mLights;								// ライト集合
 
 
 	Scene();
