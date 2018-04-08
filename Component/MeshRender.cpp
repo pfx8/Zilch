@@ -34,11 +34,12 @@ MeshRender::~MeshRender()
 //*****************************************************************************
 void MeshRender::start()
 {
-	// カメラ情報をシェーダーに入れる
-	// 変更行列を渡す
-	mShader->mEffect->SetValue("wMat", &this->wMatrix, sizeof(D3DXMATRIX));
-	mShader->mEffect->SetValue("vMat", vMatrix, sizeof(D3DXMATRIX));
-	mShader->mEffect->SetValue("pMat", pMatrix, sizeof(D3DXMATRIX));
+	// カメラ情報を取得
+	Camera* camera = mMainCamera->getComponent<Camera>("camera");
+
+	// カメラの行列をシェーダーに渡す
+	mShader->mEffect->SetValue("viewMatrix", camera->mViewMatrix, sizeof(D3DXMATRIX));
+	mShader->mEffect->SetValue("projectionMatrix", camera->mProjectionMatrix, sizeof(D3DXMATRIX));
 }
 
 //*****************************************************************************
@@ -48,5 +49,6 @@ void MeshRender::start()
 //*****************************************************************************
 void MeshRender::draw()
 {
+	mShader->mEffect->SetValue("worldMatrix", &this->wMatrix, sizeof(D3DXMATRIX));
 	mModel->draw();
 }

@@ -114,7 +114,7 @@ Mesh* Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		}
 
 		// 接線(Tangents)
-		if (mesh->mTangents)
+		/*if (mesh->mTangents)
 		{
 			vertex.tangent.x = mesh->mTangents[count].x;
 			vertex.tangent.y = mesh->mTangents[count].y;
@@ -123,10 +123,10 @@ Mesh* Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		else
 		{
 			vertex.tangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		}
+		}*/
 
 		// 従接線(Bitangents)
-		if (mesh->mBitangents)
+		/*if (mesh->mBitangents)
 		{
 			vertex.bitangent.x = mesh->mBitangents[count].x;
 			vertex.bitangent.y = mesh->mBitangents[count].y;
@@ -135,7 +135,7 @@ Mesh* Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		else
 		{
 			vertex.bitangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		}
+		}*/
 
 		// 取得した頂点を頂点コンテナの末尾に追加
 		vertices.push_back(vertex);

@@ -7,17 +7,15 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-float4 Wmat; // ワールド変換行列
-float4 Vmat; // ビューイング変換行列
-float4 Pmat; // プロジェクション変換行列
+float4 worldMatrix;            // ワールド変換行列
+float4 viewMatrix;              // ビューイング変換行列
+float4 projectionMatrix;    // プロジェクション変換行列
 
-float3 lightPos; // ライトの位置
-
-texture tex; // テクスチャ
-sampler texSam = // サンプラー
+texture diffuse;                                   // テクスチャ
+sampler diffuseSampler =                // サンプラー
 sampler_state
 {
-    Texture = <tex>;
+    Texture = <diffuse>;
     MipFilter = LINEAR;
     MinFilter = LINEAR;
     MagFilter = LINEAR;
@@ -32,8 +30,12 @@ struct VSout
     float2 coord : TEXCOORD0;
 };
 
-
-VSout vsMain(float3 pos : POSITION,
+//*****************************************************************************
+//
+// 頂点シェーダー処理
+//
+//*****************************************************************************
+VSout vertexShader(float3 pos : POSITION,
              float3 nor : NORMAL,
              float2 coord : TEXCOORD)
 {
@@ -41,13 +43,13 @@ VSout vsMain(float3 pos : POSITION,
     VSout vout = (VSout) 0;
 
     // 頂点変更
-    float4 vtx = mul(float4(pos, 1.0), Wmat);
-    vtx = mul(vtx, Vmat);
-    vtx = mul(vtx, Pmat);
+    float4 vtx = mul(float4(pos, 1.0), worldMatrix);
+    vtx = mul(vtx, viewMatrix);
+    vtx = mul(vtx, projectionMatrix);
     vout.pos = vtx;
 
     // 法線変更
-    vout.nor = mul(float4(nor, 1.0), Wmat);
+    vout.nor = mul(float4(nor, 1.0), worldMatrix);
 
     // UV座標変更
     vout.coord = coord;
@@ -57,16 +59,16 @@ VSout vsMain(float3 pos : POSITION,
 
 //*****************************************************************************
 //
-// 頂点宣言(Shader)
+// ピクセルシェーダー処理
 //
 //*****************************************************************************
-float4 psMain(VSout vout) : COLOR
+float4 pixelShader(VSout vout) : COLOR
 {
     float4 color = float4(0.0, 0.0, 0.0, 0.0);
 
     // カラーを計算
     color = float4(1.0, 0.0, 0.0, 1.0);
-    //color = tex2D(texSam, vout.coord);
+    //color = tex2D(diffuseSampler, vout.coord);
 
     return color;
 }
@@ -75,7 +77,7 @@ technique defaultRender
 {
     pass P0
     {
-        VertexShader = compile vs_3_0 vsMain();
-        PixelShader = compile ps_3_0 psMain();
+        VertexShader = compile vs_3_0 vertexShader();
+        PixelShader = compile ps_3_0 pixelShader();
     }
 }
