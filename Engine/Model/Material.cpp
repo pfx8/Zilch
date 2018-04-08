@@ -26,9 +26,6 @@ Material::Material(aiMaterial* mat)
 //*****************************************************************************
 void Material::loadingMaterial(aiMaterial* mat)
 {
-	// このマテリアルのテクスチャコンテナ
-	vector<Texture*> textures;
-	
 	// マテリアルの名前を取得
 	aiString name;
 	mat->Get(AI_MATKEY_NAME, name);
@@ -48,6 +45,8 @@ void Material::loadingMaterial(aiMaterial* mat)
 		this->mAmbient = D3DXVECTOR3(ambient.r, ambient.g, ambient.b);
 		this->mDiffuse = D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b);
 		this->mSpecular = D3DXVECTOR3(specular.r, specular.g, specular.b);
+
+		cout << "      <Material Name> : [" << name.C_Str() << "]" << endl;
 	}
 	else
 	{
@@ -59,10 +58,8 @@ void Material::loadingMaterial(aiMaterial* mat)
 	}
 
 	// テクスチャを読み込み
-	vector<Texture*> diffuseMaps = addTextureFromResources(mat, aiTextureType_DIFFUSE);
-	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());	// 取得したdiffuseMapsをallTextureの後ろに追加
-	//vector<Texture> normalMaps = loadMaterialTexture(material, aiTextureType_HEIGHT);
-	//textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());		// 取得したnormalMapsをallTextureの後ろに追加
+	addTextureFromResources(mat, aiTextureType_DIFFUSE);
+	//addTextureFromResources(mat, aiTextureType_HEIGHT); // normalMap
 }
 
 //*****************************************************************************
@@ -80,10 +77,8 @@ Material::~Material()
 // マテリアルによってテクスチャを読み込み
 //
 //*****************************************************************************
-vector<Texture*>Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
+void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 {
-	vector<Texture*> textures;	// 読み込んだテクスチャ
-
 	for (unsigned int count = 0; count < mat->GetTextureCount(type); count++)
 	{
 		aiString str;																// モデルから読み込まれたテクスチャファイルの名前
@@ -100,39 +95,20 @@ vector<Texture*>Material::addTextureFromResources(aiMaterial* mat, aiTextureType
 		fileName = fileName.substr(0, fileName.find_first_of("."));		// exp : xxx.png -> xxx
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		bool skip = false;
-
-		// もう読み込んだテクスチャならば、mTextureLoadedからもらう
-		for (auto it : mTexturesLoaded)
-		{
-			if (strcmp(it->getTexPath().c_str(), fileName.c_str()) == 0)
-			{
-				textures.push_back(it);
-				skip = true;
-				break;
-			}
-		}
-
-		// 新しいテクスチャならば読み込む
-		if (!skip)
-		{
-			// テクスチャまだ読み込まなっかたら読み込む
-			Resources* resource = getResources();
-			Texture* texture = resource->getTexture(fileName.c_str());
+		// テクスチャまだ読み込まなっかたら読み込む
+		Resources* resource = getResources();
+		Texture* texture = resource->getTexture(fileName.c_str());
 			
-			if (texture->mTex == nullptr)
-			{
-				cout << "[Error] Add <Texture> " << fileName.c_str() << " in <Material> ... failed!" << endl;
-			}
-			else
-			{
-				// テクスチャを保存
-				textures.push_back(texture);
-				this->mTexturesLoaded.push_back(texture);
-				cout << "[Information] Add <Texture> " << fileName.c_str() << " in <Material> ... success!" << endl;
-			}
+		if (texture->mTex == nullptr)
+		{
+			cout << "[Error] Add <Texture> " << fileName.c_str() << " in <Material> ... failed!" << endl;
 		}
+		else
+		{
+			// テクスチャを保存
+			this->mTextures.push_back(texture);
+			cout << "         <Texture Name> : [" << fileName.c_str() << "]" << endl;
+		}
+		
 	}
-
-	return textures;
 }

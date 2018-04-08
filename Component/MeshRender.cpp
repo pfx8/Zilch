@@ -29,26 +29,15 @@ MeshRender::~MeshRender()
 
 //*****************************************************************************
 //
-// 初期化
-//
-//*****************************************************************************
-void MeshRender::start()
-{
-	// カメラ情報を取得
-	Camera* camera = mMainCamera->getComponent<Camera>("camera");
-
-	// カメラの行列をシェーダーに渡す
-	mShader->mEffect->SetValue("viewMatrix", camera->mViewMatrix, sizeof(D3DXMATRIX));
-	mShader->mEffect->SetValue("projectionMatrix", camera->mProjectionMatrix, sizeof(D3DXMATRIX));
-}
-
-//*****************************************************************************
-//
 // ドロー
 //
 //*****************************************************************************
 void MeshRender::draw()
 {
-	mShader->mEffect->SetValue("worldMatrix", &this->wMatrix, sizeof(D3DXMATRIX));
-	mModel->draw();
+	// モデルのワールド変換行列を取得
+	Transform* trans = this->mGameObject->getComponent<Transform>("trans");
+	// カメラ情報を取得
+	Camera* camera = mMainCamera->getComponent<Camera>("camera");
+
+	mModel->draw(trans, camera);
 }

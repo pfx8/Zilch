@@ -1,6 +1,6 @@
-ï»¿//*****************************************************************************
+//*****************************************************************************
 //
-// ãƒ¢ãƒ‡ãƒ«å‡¦ç† [Model.cpp]
+// ƒ‚ƒfƒ‹ˆ— [Model.cpp]
 //
 // Author : LIAO HANCHEN
 //
@@ -9,37 +9,39 @@
 
 //*****************************************************************************
 //
-// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //
 //*****************************************************************************
 Model::Model(string const &path)
 {
-	// ãƒ¢ãƒ‡ãƒ«ã®åå‰ã‚’å–å¾—
+	// ƒ‚ƒfƒ‹‚Ì–¼‘O‚ğæ“¾
 	string fileName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp c:/aaa/bbb/ccc.fbx -> ccc.fbx
-	cout << endl << "<Model> : "  << fileName << endl;
+	cout << endl << "<Model> : ["  << fileName << "]" << endl;
 
 	loadModel(path);
+
+	//cout << "   <Mesh Nums> : [" << mMeshes.size() << "]" << endl;
 }
 
 //*****************************************************************************
 //
-// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+// ƒfƒXƒgƒ‰ƒNƒ^
 //
 //*****************************************************************************
 Model::~Model()
 {
-
+	// delete vector
 }
 
 //*****************************************************************************
 //
-// ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+// ƒ‚ƒfƒ‹‚ğƒ[ƒh‚·‚é
 //
 //*****************************************************************************
 HRESULT Model::loadModel(string const &mPath)
 {
-	Assimp::Importer import;			// Assimpã®ã‚¤ãƒ³ãƒãƒ¼ãƒˆã‚’ä½œã‚‹
-	const aiScene *scene = import.ReadFile(mPath, aiProcessPreset_TargetRealtime_Quality);	// ãƒãƒªã‚´ãƒ³ã‚’å¼·åˆ¶ã«ä¸‰è§’å½¢ã«ã™ã‚‹
+	Assimp::Importer import;			// Assimp‚ÌƒCƒ“ƒ|[ƒg‚ğì‚é
+	const aiScene *scene = import.ReadFile(mPath, aiProcessPreset_TargetRealtime_Quality);	// ƒ|ƒŠƒSƒ“‚ğ‹­§‚ÉOŠpŒ`‚É‚·‚é
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -47,7 +49,7 @@ HRESULT Model::loadModel(string const &mPath)
 		return E_FAIL;
 	}
 
-	// ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã‹ã‚‰å‡¦ç†ã‚’å§‹ã‚ã‚‹
+	// ƒ‹[ƒgƒm[ƒh‚©‚çˆ—‚ğn‚ß‚é
 	processNode(scene->mRootNode, scene);
 
 	return S_OK;
@@ -55,20 +57,20 @@ HRESULT Model::loadModel(string const &mPath)
 
 //*****************************************************************************
 //
-// ãƒãƒ¼ãƒ‰å‡¦ç†
+// ƒm[ƒhˆ—
 //
 //*****************************************************************************
 void Model::processNode(aiNode *node, const aiScene *scene)
 {
-	// ã‚‚ã—ä»Šã®ãƒãƒ¼ãƒ‰ã«ãƒ¡ãƒƒã‚·ãƒ¥ãŒã‚ã‚Œã°å‡¦ç†ã™ã‚‹
+	// ‚à‚µ¡‚Ìƒm[ƒh‚ÉƒƒbƒVƒ…‚ª‚ ‚ê‚Îˆ—‚·‚é
 	for (unsigned int count = 0; count < node->mNumMeshes; count++)
 	{
-		// sceneã®mMeshesã¯æœ¬å½“ã®ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã€ä¸€æ­©ã§nodeã®mMesherã¯ãƒ¡ãƒƒã‚·ãƒ¥ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-		aiMesh *mesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(processMesh(mesh, scene));
+		// scene‚ÌmMeshes‚Í–{“–‚ÌƒƒbƒVƒ…ƒf[ƒ^Aˆê•à‚Ånode‚ÌmMesher‚ÍƒƒbƒVƒ…‚ÌƒCƒ“ƒfƒbƒNƒX
+		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
+		this->mMeshes.push_back(new Mesh(aiMesh, scene));
 	}
 
-	// å­ä¾›ãƒãƒ¼ãƒ‰ã‚’åŒã˜ã‚ˆã†ã«å‡¦ç†ã™ã‚‹
+	// q‹Ÿƒm[ƒh‚ğ“¯‚¶‚æ‚¤‚Éˆ—‚·‚é
 	for (unsigned int count = 0; count < node->mNumChildren; count++)
 	{
 		processNode(node->mChildren[count], scene);
@@ -77,126 +79,14 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 
 //*****************************************************************************
 //
-// ãƒ¡ãƒƒã‚·ãƒ¥å‡¦ç†
+// ƒ‚ƒfƒ‹‚ğ•`‰æ
 //
 //*****************************************************************************
-Mesh* Model::processMesh(aiMesh *mesh, const aiScene *scene)
+void Model::draw(Transform* trans, Camera* camera)
 {
-	vector<Vertex> vertices;						// é ‚ç‚¹
-	vector<unsigned int> indices;				// é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	vector<Material*> materials;				// å…¨éƒ¨ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£
-	bool skip = false;									// åŒã˜ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’èª­ã¿è¾¼ã¾ãªã„ã‚ˆã†ã«
-
-	// é ‚ç‚¹å‡¦ç†
-	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
-	{
-		Vertex vertex;
-
-		// ä½ç½®
-		vertex.pos.x = mesh->mVertices[count].x;
-		vertex.pos.y = mesh->mVertices[count].y;
-		vertex.pos.z = mesh->mVertices[count].z;
-
-		// æ³•ç·š
-		vertex.nor.x = mesh->mNormals[count].x;
-		vertex.nor.y = mesh->mNormals[count].y;
-		vertex.nor.z = mesh->mNormals[count].z;
-
-		// UVåº§æ¨™
-		if (mesh->mTextureCoords[0])	// ãƒ†ã‚¯ã‚¹ãƒãƒ£0ã‹ã‚‰(Maxã¯8ã§)
-		{
-			vertex.tex.x = mesh->mTextureCoords[0][count].x;
-			vertex.tex.y = mesh->mTextureCoords[0][count].y;
-		}
-		else
-		{
-			vertex.tex = D3DXVECTOR2(0.0f, 0.0f);
-		}
-
-		// æ¥ç·š(Tangents)
-		/*if (mesh->mTangents)
-		{
-			vertex.tangent.x = mesh->mTangents[count].x;
-			vertex.tangent.y = mesh->mTangents[count].y;
-			vertex.tangent.z = mesh->mTangents[count].z;
-		}
-		else
-		{
-			vertex.tangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		}*/
-
-		// å¾“æ¥ç·š(Bitangents)
-		/*if (mesh->mBitangents)
-		{
-			vertex.bitangent.x = mesh->mBitangents[count].x;
-			vertex.bitangent.y = mesh->mBitangents[count].y;
-			vertex.bitangent.z = mesh->mBitangents[count].z;
-		}
-		else
-		{
-			vertex.bitangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		}*/
-
-		// å–å¾—ã—ãŸé ‚ç‚¹ã‚’é ‚ç‚¹ã‚³ãƒ³ãƒ†ãƒŠã®æœ«å°¾ã«è¿½åŠ 
-		vertices.push_back(vertex);
-	}
-
-	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹å‡¦ç†
-	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
-	{
-		aiFace face = mesh->mFaces[count];
-
-		for (unsigned int count = 0; count < face.mNumIndices; count++)
-		{
-			// ãƒ•ã‚§ãƒ¼ã‚¹ã«ã‚ˆã£ã¦å„é ‚ç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—
-			indices.push_back(face.mIndices[count]);
-		}
-	}
-	
-	// ãƒãƒ†ãƒªã‚¢ãƒ«å‡¦ç†
-	{
-		// ãƒ•ã‚§ãƒ¼ã‚¹ã®ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’å–å¾—
-		aiMaterial* aiMat = scene->mMaterials[mesh->mMaterialIndex];
-
-		// ãƒãƒ†ãƒªã‚¢ãƒ«ã®åå‰ã‚’å–å¾—
-		aiString name;
-		aiMat->Get(AI_MATKEY_NAME, name);
-
-		// ãƒãƒ†ãƒªã‚¢ãƒ«ãŒã‚ã‚Œã°ã€ãƒãƒ†ãƒªã‚¢ãƒ«å±æ€§ã‚’å–å¾—
-		for (auto it : mMaterialLoaded)
-		{
-			if (it->mName == name.C_Str())
-			{
-				skip = true;
-				break;
-			}
-		}
-
-		if (skip == false)
-		{
-			Material* mat = new Material(aiMat);
-			// ãƒ¢ãƒ‡ãƒ«ã®ãƒãƒ†ãƒªã‚¢ãƒ«ã«å…¥ã‚Œã‚‹
-			mMaterialLoaded.push_back(mat);
-			// ãƒ¡ãƒƒã‚·ãƒ¥ã®ãƒãƒ†ãƒªã‚¢ãƒ«ã«å…¥ã‚Œã‚‹
-			materials.push_back(mat);
-		}
-	}
-
-
-	return &Mesh(vertices, indices, materials);
-}
-
-//*****************************************************************************
-//
-// ãƒ¢ãƒ‡ãƒ«ã‚’æç”»
-//
-//*****************************************************************************
-void Model::draw()
-{
-	// å„ãƒ¡ãƒƒã‚·ãƒ¥ã‚’æç”»
+	// ŠeƒƒbƒVƒ…‚ğ•`‰æ
 	for (auto it : mMeshes)
 	{
-		it->draw();
+		it->draw(trans, camera);
 	}
-
 }

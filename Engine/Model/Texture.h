@@ -21,10 +21,11 @@ class Texture
 	friend class Material;
 
 private:
-	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
 	string										mPath;		// テクスチャパス
 
 public:
+	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
+
 	Texture(string path);
 	~Texture();
 

@@ -106,27 +106,37 @@ void CameraController::update()
 	// カメラを左右移動
 	if (GetKeyboardPress(DIK_J) == true)
 	{
-
+		rotation(0.0f, 1.0f);
+		cout << "<Key J> : [Left]" << endl;
 	}
 	if (GetKeyboardPress(DIK_L) == true)
 	{
-
+		rotation(0.0f, -1.0f);
+		cout << "<Key L> : [Right]" << endl;
 	}
 
 	// カメラを上下移動
 	if (GetKeyboardPress(DIK_I) == true)
 	{
-
+		rotation(1.0f, 0.0f);
+		cout << "<Key I> : [UP]" << endl;
 	}
 	if (GetKeyboardPress(DIK_K) == true)
 	{
-
+		rotation(-1.0f, 0.0f);
+		cout << "<Key K> : [Down]" << endl;
 	}
 
 	// ズーム拡大
 	if (GetKeyboardPress(DIK_U) == true)
+	{
 		zoom(getGameTimes()->mDeltaTime * this->mZoomSpeed);
+		cout << "<Key U> : [Zoom +]" << endl;
+	}
 	// ズーム縮小
 	if (GetKeyboardPress(DIK_O) == true)
+	{
 		zoom(-getGameTimes()->mDeltaTime * this->mZoomSpeed);
+		cout << "<Key O> : [Zoom -]" << endl;
+	}
 }

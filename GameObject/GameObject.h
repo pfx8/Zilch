@@ -23,6 +23,7 @@ private:
 	void update();
 
 public:
+	bool			mDraw = false;						// 描画マーク
 	bool			mActive = true;						// 使ってるマーク
 	float		mLastActiveTime = 0;			// 前回更新した時間
 

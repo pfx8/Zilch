@@ -49,9 +49,6 @@ void GameObject::update()
 {
 	for (auto it : mComponents)
 	{
-		if (it->mActive == true)
-		{
-			it->update();
-		}
+		it->update();
 	}
 }

@@ -17,7 +17,6 @@
 class MeshRender : public Component
 {
 private:
-	void start();
 
 public:
 	GameObject*		mMainCamera;				// 描画するため使ってるカメラが必要

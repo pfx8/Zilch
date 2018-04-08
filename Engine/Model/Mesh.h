@@ -11,6 +11,8 @@
 #include "Material.h"
 #include "../Engine.h"
 #include "../Shader.h"
+#include "../../Component/Camera.h"
+#include "../../Component/Transform.h"
 
 struct Vertex 
 {
@@ -30,20 +32,18 @@ private:
 	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;	// 頂点インデックスバッファ
 	IDirect3DVertexDeclaration9*			mVertexDecl;		// 頂点シェーダー宣言
 
-	HRESULT SetupMesh();							// メッシュをセットアップ
+	void loadingMesh(aiMesh *mesh, const aiScene *scene);		// メッシュを読み込み
+	HRESULT SetupMesh();																// メッシュをセットアップ
 
 public:
 	// メッシュデータ
-	vector<Vertex>						mVertices;					// 頂点データ
-	vector<unsigned int>			mIndices;					// インデックスデータ
-	vector<Material*>					mMaterials;					// テクスチャデータ
+	vector<Vertex>						mVertices;				// 頂点データ
+	vector<unsigned int>			mIndices;				// インデックスデータ
+	vector<Material*>					mMaterials;			// マテリアルデータ
 
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Material*>  materials);
+	Mesh(aiMesh *mesh, const aiScene *scene);		// メッシュの初期化
 	~Mesh();
 
-	void draw();	// ドロー
+	void draw(Transform* trans, Camera* camera);	// ドロー
 };
-
-
-
 #endif // !_MESH_H_

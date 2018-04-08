@@ -12,11 +12,8 @@
 #include "Material.h"
 #include "../Engine.h"
 #include "../Shader.h"
-
-//--------------Assimp--------------//
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "../../Component/Camera.h"
+#include "../../Component/Transform.h"
 
 //*****************************************************************************
 //
@@ -28,16 +25,14 @@ class Model
 private:
 	HRESULT loadModel(string const &path);									// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
-	Mesh* processMesh(aiMesh *mesh, const aiScene *scene);		// メッシュ処理
 
 public:
 	vector<Mesh*>					mMeshes;					// メッシュデータ
-	vector<Material*>				mMaterialLoaded;		// マテリアルデータ
 
 	Model(string const &mPath);
 	~Model();
 
-	void draw();	// モデルを描画する
+	void draw(Transform* trans, Camera* camera);	// モデルを描画する
 };
 
 #endif // !_MODEL_H_

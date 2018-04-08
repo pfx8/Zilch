@@ -28,6 +28,11 @@
 #include <vector>
 #include <unordered_map>				// mapが使われたところで、ペア関係だけできたっら順番にする必要がないのでmapからunordered_mapに変更した
 
+//--------------Assimp--------------//
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 using namespace std;
 
 class GameTimes;

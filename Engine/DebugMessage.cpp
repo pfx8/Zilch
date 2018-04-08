@@ -16,7 +16,7 @@ DebugMessage::DebugMessage()
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
-	this->font = NULL;
+	this->font = nullptr;
 	this->rectCoor = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	// フロントを初期化
@@ -35,7 +35,7 @@ DebugMessage::~DebugMessage()
 
 //*****************************************************************************
 //
-// 座標を描画する
+// 座標を描画
 //
 //*****************************************************************************
 void DebugMessage::DrawPosMessage(const char name[], D3DXVECTOR3 OutputPos, D3DXVECTOR2 MessagePos)

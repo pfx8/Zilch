@@ -326,9 +326,9 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		return E_FAIL;
 	}
 
-	gD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);						// Zバッファを使用
-	gD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);				// αブレンドを行う
-	gD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);		// αソースカラーの指定
+	gD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);												// Zバッファを使用
+	gD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);						// αブレンドを行う
+	gD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);			// αソースカラーの指定
 	gD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
 
 	RELEASE_POINT(gD3D); // リリースLPDIRECT3D9
@@ -350,7 +350,23 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //*****************************************************************************
 void Updata(HWND hWnd, int cmd)
 {
-	gGameTimes->update();						// ゲームタイムを更新
+	// システム変更
+	// 塗りつぶしモード
+	if (GetKeyboardTrigger(DIK_F1))			// key F1
+	{
+		// ワイヤフレームを塗りつぶす
+		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		cout << "[Information] <RenderState> : [WIREFRAME]" << endl;	// コンソールにメッセージを出す
+	}
+
+	if (GetKeyboardTrigger(DIK_F2))			// key F2
+	{
+		// 面を塗りつぶす
+		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		cout << "[Information] <RenderState> : [SOLID]" << endl;	// コンソールにメッセージを出す
+	}
+
+	gGameTimes->update();			// ゲームタイムを更新
 	UpdateInput();							// 入力更新
 	gSceneManager->update();		// シンーを更新する
 }
@@ -363,7 +379,7 @@ void Updata(HWND hWnd, int cmd)
 void draw(HWND hWnd)
 {
 	// バックバッファ＆Ｚバッファのクリア
-	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(58, 182, 255, 255), 1.0f, 0);
+	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(getD3DDevice()->BeginScene()))
@@ -385,16 +401,15 @@ void draw(HWND hWnd)
 //*****************************************************************************
 void Release(void)
 {
-	// ポインタ
 	RELEASE_POINT(gD3D);
 	RELEASE_POINT(gD3DDevice);
-
-	// 入力処理の終了処理
-	UninitInput();
-
-	// コンソールの終了処理
 	RELEASE_CLASS_POINT(gConsole);
 	RELEASE_CLASS_POINT(gSceneManager);
+	RELEASE_CLASS_POINT(gResources);
+	RELEASE_CLASS_POINT(gGameTimes);
+	
+	// 入力処理の終了処理
+	UninitInput();
 }
 
 //*****************************************************************************

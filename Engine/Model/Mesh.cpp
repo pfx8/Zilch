@@ -12,15 +12,8 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Material*>  materials)
+Mesh::Mesh(aiMesh* mesh, const aiScene* scene)
 {
-	LPDIRECT3DDEVICE9	D3dDevice = getD3DDevice();
-
-	// メッシュデータコンテナを初期化
-	this->mVertices = vertices;
-	this->mIndices = indices;
-	this->mMaterials = materials;
-
 	// バッファポインタを初期化
 	mVertexBuffer = nullptr;
 	mIndexBuffer = nullptr;
@@ -28,8 +21,99 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Materia
 	// 頂点フォーマット宣言ポイントを初期化
 	mVertexDecl = nullptr;
 
+	// メッシュを読み込み
+	loadingMesh(mesh, scene);
 	// メッシュのバッファを作り
 	SetupMesh();
+}
+
+//*****************************************************************************
+//
+// メッシュを読み込み
+//
+//*****************************************************************************
+void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
+{
+	cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
+
+	// 頂点処理
+	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
+	{
+		Vertex vertex;
+
+		// 位置
+		vertex.pos.x = mesh->mVertices[count].x;
+		vertex.pos.y = mesh->mVertices[count].y;
+		vertex.pos.z = mesh->mVertices[count].z;
+
+		// 法線
+		vertex.nor.x = mesh->mNormals[count].x;
+		vertex.nor.y = mesh->mNormals[count].y;
+		vertex.nor.z = mesh->mNormals[count].z;
+
+		// UV座標
+		if (mesh->mTextureCoords[0])	// テクスチャ0から(Maxは8で)
+		{
+			vertex.tex.x = mesh->mTextureCoords[0][count].x;
+			vertex.tex.y = mesh->mTextureCoords[0][count].y;
+		}
+		else
+		{
+			vertex.tex = D3DXVECTOR2(0.0f, 0.0f);
+		}
+
+		// 接線(Tangents)
+		/*if (mesh->mTangents)
+		{
+		vertex.tangent.x = mesh->mTangents[count].x;
+		vertex.tangent.y = mesh->mTangents[count].y;
+		vertex.tangent.z = mesh->mTangents[count].z;
+		}
+		else
+		{
+		vertex.tangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		}*/
+
+		// 従接線(Bitangents)
+		/*if (mesh->mBitangents)
+		{
+		vertex.bitangent.x = mesh->mBitangents[count].x;
+		vertex.bitangent.y = mesh->mBitangents[count].y;
+		vertex.bitangent.z = mesh->mBitangents[count].z;
+		}
+		else
+		{
+		vertex.bitangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		}*/
+
+		// 取得した頂点を頂点コンテナの末尾に追加
+		this->mVertices.push_back(vertex);
+	}
+
+	// インデックス処理
+	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
+	{
+		aiFace face = mesh->mFaces[count];
+
+		for (unsigned int count = 0; count < face.mNumIndices; count++)
+		{
+			// フェースによって各頂点のインデックスを取得
+			this->mIndices.push_back(face.mIndices[count]);
+		}
+	}
+
+	// マテリアル処理
+	{
+		// フェースのマテリアルを取得
+		aiMaterial* aiMat = scene->mMaterials[mesh->mMaterialIndex];
+		Material* mat = new Material(aiMat);
+		// メッシュのマテリアルに入れる
+		this->mMaterials.push_back(mat);
+	}
+
+	//cout << "      <Vertices Nums> : [" << this->mVertices.size() << "]" << endl
+	//	<< "      <Indices Nums> : [" << this->mIndices.size() << "]" << endl
+	//	<< "      <Materials Nums> : [" << this->mMaterials.size() << "]" << endl;
 }
 
 //*****************************************************************************
@@ -120,7 +204,7 @@ HRESULT Mesh::SetupMesh()
 // メッシュをドロー
 //
 //*****************************************************************************
-void Mesh::draw()
+void Mesh::draw(Transform* trans, Camera* camera)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 	Resources* resource = getResources();
@@ -129,8 +213,16 @@ void Mesh::draw()
 	// テクニックを設定
 	shader->mEffect->SetTechnique("defaultRender");
 
+	// モデルのワールド変換行列をシェーダーに渡る
+	shader->mEffect->SetValue("worldMatrix", &trans->mWorldMatrix, sizeof(D3DXMATRIX));
+
+	// カメラの行列をシェーダーに渡る
+	shader->mEffect->SetValue("viewMatrix", &camera->mViewMatrix, sizeof(D3DXMATRIX));
+	shader->mEffect->SetValue("projectionMatrix", &camera->mProjectionMatrix, sizeof(D3DXMATRIX));
+
 	// テクスチャを渡す
-	shader->mEffect->SetTexture("tex", this->meshTexturePoint);
+	LPDIRECT3DTEXTURE9	 diffuse = this->mMaterials.at(0)->mTextures.at(0)->mTex;
+	shader->mEffect->SetTexture("diffuse", diffuse);
 
 	// 描画
 	UINT passNum = 0;
@@ -147,23 +239,4 @@ void Mesh::draw()
 		shader->mEffect->EndPass();
 	}
 	shader->mEffect->End();
-
-
-
-	//D3DXMATRIX wMatrix;
-	//// ワールドマトリックスを初期化する
-	//D3DXMatrixIdentity(&wMatrix);
-	//// ワールドマトリクスの初期化
-	//mD3DDevice->SetTransform(D3DTS_WORLD, &wMatrix);
-
-	//// 頂点バッファをストリームに入れる
-	//mD3DDevice->SetStreamSource(0, mVertexBuffer, 0, sizeof(DX_VERTEX_3D));
-	//// 頂点フォーマットを設定
-	//mD3DDevice->SetFVF(FVF_DX_VERTEX_3D);
-	//// 頂点インデックスを設定
-	//mD3DDevice->SetIndices(mIndexBuffer);
-	//// 描画
-	//mD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_vertexNum, 0, m_IndexNum);
-
-
 }

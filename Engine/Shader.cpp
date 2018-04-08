@@ -62,7 +62,7 @@ HRESULT Shader::loadEffectFile(string path)
 		return E_FAIL;
 	}
 
-	//cout << "[Information] Loading <Shader> " << path << " ... success!" << endl;
+	cout << "[Information] Loading <Shader> " << path << " ... success!" << endl;
 
 	return S_OK;
 }

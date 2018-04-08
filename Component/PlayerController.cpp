@@ -34,17 +34,5 @@ PlayerController::~PlayerController()
 //*****************************************************************************
 void PlayerController::update()
 {
-	// 塗りつぶしモード
-	if (GetKeyboardPress(DIK_1))			// key 1
-	{
-		// ワイヤフレームを塗りつぶす
-		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		cout << "[Information] <RenderState> ... WIREFRAME" << endl;	// コンソールにメッセージを出す
-	}
-	if (GetKeyboardPress(DIK_2))			// key 2
-	{
-		// 面を塗りつぶす
-		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		cout << "[Information] <RenderState> ... SOLID" << endl;	// コンソールにメッセージを出す
-	}
+
 }

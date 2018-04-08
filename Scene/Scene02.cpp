@@ -66,6 +66,7 @@ void Scene02::start()
 	gridFieldMeshRender->mMainCamera = mainCamera;												// シーンのメインカメラを取得
 	gridFieldMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
 	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
+	gridField->mDraw = true;
 	this ->addGameObject("gridField", gridField);
 
 	// mainCamera
@@ -91,17 +92,4 @@ void Scene02::start()
 Scene02::~Scene02()
 {
 
-}
-
-//*****************************************************************************
-//
-// シンーの描画
-//
-//*****************************************************************************
-void Scene02::draw()
-{
-	for (auto it : mMeshRenders)
-	{
-		it->draw();
-	}
 }
