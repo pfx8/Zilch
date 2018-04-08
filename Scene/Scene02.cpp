@@ -53,8 +53,6 @@ void Scene02::start()
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
 	Camera* camera = new Camera();
-	mainCamera->addComponent("camera", camera);
-	this->addGameObject("mainCamera", mainCamera);
 
 	// 床
 	GameObject* gridField = new GameObject();
@@ -66,6 +64,12 @@ void Scene02::start()
 	gridFieldMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
 	gridField->addComponent("meshRender", gridFieldMeshRender);
 	this ->addGameObject("gridField", gridField);
+
+	// mainCamera
+	camera->mCameraPos = D3DXVECTOR3(0.0f, 5.0f, 10.0f);
+	camera->mTargetTrans = gridFieldTrans;
+	mainCamera->addComponent("camera", camera);
+	this->addGameObject("mainCamera", mainCamera);
 
 	// player
 	//GameObject* player = new GameObject();

@@ -9,6 +9,7 @@
 #define _COMPONENT_H_
 
 #include "../Engine/Engine.h"
+#include "../GameObject/GameObject.h"
 
 class Component
 {
@@ -18,8 +19,9 @@ private:
 	virtual void update();
 
 public:
-	bool		mActive = true;
-	float		mLastActiveTime = 0;
+	bool							mActive = true;					// 使ってるかどうかマーク
+	float						mLastActiveTime = 0;		// 前回更新した時間
+	GameObject*			mGameObject;					// 所属GameObjectの他のコンポーネントを取れるように
 
 	Component();
 	virtual ~Component();

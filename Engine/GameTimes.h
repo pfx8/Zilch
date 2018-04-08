@@ -1,16 +1,16 @@
 //*****************************************************************************
 //
-// 時間処理 [Time.h]
+// ゲームタイム処理 [GameTimes.h]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#ifndef _TIME_H_
-#define _TIME_H_
+#ifndef _GAME_TIMES_H_
+#define _GAME_TIMES_H_
 
 #include "Engine.h"
 
-class Time
+class GameTimes
 {
 private:
 
@@ -20,10 +20,10 @@ public:
 	float mDeltaTime;						// デルタ時間
 	float mLastTime = 0;					// 前の時間
 
-	Time();
-	~Time();
+	GameTimes();
+	~GameTimes();
 
 	void update();								// 時間を更新
 };
 
-#endif // !_TIME_H_
+#endif // !_GAME_TIMES_H_

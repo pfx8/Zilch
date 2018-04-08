@@ -5,8 +5,8 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#ifndef _CAMERA_CLASS_H_
-#define _CAMERA_CLASS_H_
+#ifndef _CAMERA_H_
+#define _CAMERA_H_
 
 #include "Component.h"
 #include "Transform.h"
@@ -31,9 +31,12 @@ private:
 public:
 	D3DXVECTOR3		mCameraPos;					// カメラの位置
 	D3DXVECTOR3		mCameraTarget;			// カメラの注視点
-	D3DXVECTOR3		mCameraLook;				// カメラの注視方向ベクトル
+	Transform*				mTargetTrans;				// 目標Transformを保存
+
+	D3DXVECTOR3		mCameraFront;				// カメラの注視方向ベクトル
 	D3DXVECTOR3		mCameraRight;				// カメラの右方向ベクトル
 	D3DXVECTOR3		mCameraUp;					// カメラの上方向ベクトル
+
 	D3DXMATRIX			mViewMatrix;					// ビューイング変換行列
 	D3DXMATRIX			mProjectionMatrix;		// プロジェクション変換行列
 

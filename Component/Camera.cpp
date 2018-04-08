@@ -47,19 +47,17 @@ void Camera::start()
 //*****************************************************************************
 void Camera::update()
 {
-	// ターゲットのTransformを取得
-	Transform* targetTrans = ;
 	// 世界ベクトルを取得
-	WorldVector world = getWorldVector();
+	WorldVector worldVector;
 	
-	mCameraTarget = targetTrans->mPos;
+	mCameraTarget = mTargetTrans->mPos;
 	// 新しい向きベクトルを計算
-	D3DXVec3Normalize(&mCameraLook, &(mCameraTarget - mCameraPos));
+	D3DXVec3Normalize(&mCameraFront, &(mCameraTarget - mCameraPos));
 	// 新しい右ベクトルを計算(外積)、そして正規化
-	D3DXVec3Cross(&mCameraRight, &mCameraLook, &world.worldUp);
+	D3DXVec3Cross(&mCameraRight, &mCameraFront, &worldVector.worldUp);
 	D3DXVec3Normalize(&mCameraRight, &mCameraRight);
 	// 新しい上ベクトルを計算(外積)、そして正規化
-	D3DXVec3Cross(&mCameraUp, &mCameraRight, &mCameraLook);
+	D3DXVec3Cross(&mCameraUp, &mCameraRight, &mCameraFront);
 	D3DXVec3Normalize(&mCameraUp, &mCameraUp);
 
 	// ビューマトリックスの作成

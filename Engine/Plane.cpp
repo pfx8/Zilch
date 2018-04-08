@@ -180,19 +180,6 @@ void Plane::update()
 {
 	// 行列更新
 	SetWorldMatrix();
-
-	if (GetKeyboardTrigger(DIK_F1))
-	{
-		renderStatus = RS_withoutLight;
-	}
-	if (GetKeyboardTrigger(DIK_F2))
-	{
-		renderStatus = RS_withLight;
-	}
-	if (GetKeyboardTrigger(DIK_F3))
-	{
-		renderStatus = RS_withNormalMap;
-	}
 }
 
 //*****************************************************************************

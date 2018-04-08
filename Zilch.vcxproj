@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component\Camera.cpp" />
+    <ClCompile Include="Component\CameraController.cpp" />
     <ClCompile Include="Component\Component.cpp" />
     <ClCompile Include="Component\MeshRender.cpp" />
     <ClCompile Include="Component\PlayerController.cpp" />
@@ -28,18 +29,17 @@
     <ClCompile Include="Engine\Console.cpp" />
     <ClCompile Include="Engine\DebugMessage.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\GameTimes.cpp" />
     <ClCompile Include="Engine\input.cpp" />
     <ClCompile Include="Engine\Light.cpp" />
     <ClCompile Include="Engine\Model\Material.cpp" />
     <ClCompile Include="Engine\Model\Mesh.cpp" />
     <ClCompile Include="Engine\Model\Model.cpp" />
     <ClCompile Include="Engine\Model\Texture.cpp" />
-    <ClCompile Include="Engine\Plane.cpp" />
     <ClCompile Include="Engine\Resources.cpp" />
     <ClCompile Include="Engine\SceneManager.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\SkyBox.cpp" />
-    <ClCompile Include="Engine\Time.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\Camera.h" />
+    <ClInclude Include="Component\CameraController.h" />
     <ClInclude Include="Component\Component.h" />
     <ClInclude Include="Component\MeshRender.h" />
     <ClInclude Include="Component\PlayerController.h" />
@@ -55,18 +56,17 @@
     <ClInclude Include="Engine\Console.h" />
     <ClInclude Include="Engine\DebugMessage.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\GameTimes.h" />
     <ClInclude Include="Engine\input.h" />
     <ClInclude Include="Engine\Light.h" />
     <ClInclude Include="Engine\Model\Material.h" />
     <ClInclude Include="Engine\Model\Mesh.h" />
     <ClInclude Include="Engine\Model\Model.h" />
     <ClInclude Include="Engine\Model\Texture.h" />
-    <ClInclude Include="Engine\Plane.h" />
     <ClInclude Include="Engine\Resources.h" />
     <ClInclude Include="Engine\SceneManager.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\SkyBox.h" />
-    <ClInclude Include="Engine\Time.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Scene02.h" />

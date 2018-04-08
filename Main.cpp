@@ -9,7 +9,7 @@
 #include "Engine/Console.h"
 #include "Engine/SceneManager.h"
 #include "Engine/input.h"
-#include "Engine/Time.h"
+#include "Engine/GameTimes.h"
 
 //*****************************************************************************
 //
@@ -23,9 +23,9 @@ LPDIRECT3DDEVICE9		gD3DDevice = nullptr;			// Deviceオブジェクト(描画に
 Console*								gConsole;								// コンソールウインド
 Resources*							gResources;							// リソース
 SceneManager*					gSceneManager;					// シンー管理
-Time*									gTime;										// ゲーム時間
+GameTimes*						gGameTimes;							// ゲームタイム
 
-WorldVector						gWorldVector;
+WorldVector						gWorldVector;						// ゲーム世界の3軸
 
 //*****************************************************************************
 //
@@ -124,7 +124,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 	// ゲーム時間
-	gTime = new Time();
+	gGameTimes = new GameTimes();
 
 	// シンーマネジメント
 	gSceneManager = new SceneManager();
@@ -184,10 +184,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				SetWindowText(hWnd, str);
 
 				dwExecLastTime = dwCurrentTime;	//処理した時刻を保存
-				Updata(hWnd, nCmdShow);		// 更新処理
-				draw(hWnd);					// 描画処理
-				dwFrameCount++;				//処理回数のカウントを加算
-				if (dwFrameCount == 60)		// 60フレームを確定
+				Updata(hWnd, nCmdShow);					// 更新処理
+				draw(hWnd);											// 描画処理
+				dwFrameCount++;								//処理回数のカウントを加算
+				if (dwFrameCount == 60)						// 60フレームを確定
 					continue;
 			}
 		}
@@ -350,6 +350,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //*****************************************************************************
 void Updata(HWND hWnd, int cmd)
 {
+	gGameTimes->update();						// ゲームタイムを更新
 	UpdateInput();							// 入力更新
 	gSceneManager->update();		// シンーを更新する
 }
@@ -420,10 +421,10 @@ Resources* getResources(void)
 
 //*****************************************************************************
 //
-// 世界ベクトルを取得
+// ゲームタイムを取得
 //
 //*****************************************************************************
-WorldVector getWorldVector(void)
+GameTimes* getGameTimes(void)
 {
-	return gWorldVector;
+	return gGameTimes;
 }

@@ -33,6 +33,9 @@ public:
 	// ここのtypenameはComponentクラスまたそれの継承クラス
 	template<typename T> void addComponent(string name, T* t)
 	{
+		// 添付したいコンポーネントの中に所属GameObjectのポインタを入れる
+		t->mGameObject = this;
+
 		mComponents.push_back(t);
 		mComponentsMap.insert({ name, t });
 	}
