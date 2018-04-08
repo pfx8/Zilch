@@ -103,6 +103,9 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 //*****************************************************************************
 void CameraController::update()
 {
+	// デバッグメッセージを取得
+	DebugMessage* debugMessage = getDebugMessage();
+
 	// カメラを左右移動
 	if (GetKeyboardPress(DIK_J) == true)
 	{
@@ -139,4 +142,9 @@ void CameraController::update()
 		zoom(-getGameTimes()->mDeltaTime * this->mZoomSpeed);
 		cout << "<Key O> : [Zoom -]" << endl;
 	}
+
+	debugMessage->setPosMessage("cameraFront", mMainCamera->getComponent<Camera>("camera")->mCameraFront);
+	debugMessage->setPosMessage("cameraRight", mMainCamera->getComponent<Camera>("camera")->mCameraRight);
+	debugMessage->setPosMessage("cameraUp", mMainCamera->getComponent<Camera>("camera")->mCameraUp);
+	debugMessage->setPosMessage("offSet", mOffsetFromTarget);
 }

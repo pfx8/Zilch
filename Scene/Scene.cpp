@@ -34,6 +34,7 @@ Scene::~Scene()
 //*****************************************************************************
 void Scene::addGameObject(string name, GameObject* gameObject)
 {
+	gameObject->mScene = this;
 	mGameObjectMap.insert({ name, gameObject });
 }
 

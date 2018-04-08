@@ -23,6 +23,7 @@ private:
 	void update();
 
 public:
+	Scene*    mScene;									// シーンポインタ
 	bool			mDraw = false;						// 描画マーク
 	bool			mActive = true;						// 使ってるマーク
 	float		mLastActiveTime = 0;			// 前回更新した時間
@@ -36,6 +37,11 @@ public:
 	{
 		// 添付したいコンポーネントの中に所属GameObjectのポインタを入れる
 		t->mGameObject = this;
+
+		if (name == "meshRender")
+		{
+			this->mDraw = true;
+		}
 
 		mComponents.push_back(t);
 		mComponentsMap.insert({ name, t });

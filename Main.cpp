@@ -10,6 +10,7 @@
 #include "Engine/SceneManager.h"
 #include "Engine/input.h"
 #include "Engine/GameTimes.h"
+#include "Engine\DebugMessage.h"
 
 //*****************************************************************************
 //
@@ -24,6 +25,7 @@ Console*								gConsole;								// コンソールウインド
 Resources*							gResources;							// リソース
 SceneManager*					gSceneManager;					// シンー管理
 GameTimes*						gGameTimes;							// ゲームタイム
+DebugMessage*				gDebugMessage;					// デバッグメッセージ
 
 WorldVector						gWorldVector;						// ゲーム世界の3軸
 
@@ -132,6 +134,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	// リソース
 	gResources = new Resources();
+
+	// デバッグメッセージ
+	gDebugMessage = new DebugMessage();
 
 	//ヴインドウを中心に移動
 	RECT rect;
@@ -387,6 +392,9 @@ void draw(HWND hWnd)
 		// シーンを描画
 		gSceneManager->draw();
 
+		// デバッグメッセージを描画
+		gDebugMessage->draw();
+
 		getD3DDevice()->EndScene();
 	}
 
@@ -407,6 +415,7 @@ void Release(void)
 	RELEASE_CLASS_POINT(gSceneManager);
 	RELEASE_CLASS_POINT(gResources);
 	RELEASE_CLASS_POINT(gGameTimes);
+	RELEASE_CLASS_POINT(gDebugMessage);
 	
 	// 入力処理の終了処理
 	UninitInput();
@@ -442,4 +451,14 @@ Resources* getResources(void)
 GameTimes* getGameTimes(void)
 {
 	return gGameTimes;
+}
+
+//*****************************************************************************
+//
+// デバッグメッセージを取得
+//
+//*****************************************************************************
+DebugMessage* getDebugMessage(void)
+{
+	return gDebugMessage;
 }

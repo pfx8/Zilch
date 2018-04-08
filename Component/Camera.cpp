@@ -49,6 +49,8 @@ void Camera::update()
 {
 	// 世界ベクトルを取得
 	WorldVector worldVector;
+	// デバッグメッセージを取得
+	DebugMessage* debugMessage = getDebugMessage();
 	
 	mCameraTarget = mTargetTrans->mPos;
 	// 新しい向きベクトルを計算
@@ -64,4 +66,11 @@ void Camera::update()
 	D3DXMatrixLookAtLH(&mViewMatrix, &mCameraPos, &mCameraTarget, &this->mCameraUp);
 	// プロジェクションマトリックスの作成
 	D3DXMatrixPerspectiveFovLH(&mProjectionMatrix, mField, mRatio, mRangeStart, mRangeEnd);
+
+	/*debugMessage->setPosMessage("cameraFront", mCameraFront);
+	debugMessage->setPosMessage("cameraRight", mCameraRight);
+	debugMessage->setPosMessage("cameraUp", mCameraUp);*/
+	debugMessage->setPosMessage("cameraPos", mCameraPos);
+	debugMessage->setPosMessage("cameraTarget", mCameraTarget);
+	debugMessage->setPosMessage("cameraAb", D3DXVECTOR3(this->mRangeStart, this->mRangeEnd, this->mField));
 }

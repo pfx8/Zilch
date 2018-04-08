@@ -21,8 +21,6 @@
 class Camera : public Component
 {
 private:
-	DebugMessage*	message;
-
 	float mField;											// ビューイングの視野角
 	float mRatio;											// アスペクト比
 	float mRangeStart;								// NearZ値

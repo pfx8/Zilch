@@ -37,7 +37,7 @@ void MeshRender::draw()
 	// モデルのワールド変換行列を取得
 	Transform* trans = this->mGameObject->getComponent<Transform>("trans");
 	// カメラ情報を取得
-	Camera* camera = mMainCamera->getComponent<Camera>("camera");
+	Camera* camera = this->mGameObject->mScene->getGameObject("mainCamera")->getComponent<Camera>("camera");
 
 	mModel->draw(trans, camera);
 }

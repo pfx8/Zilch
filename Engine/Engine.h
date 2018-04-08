@@ -43,6 +43,7 @@ class Material;
 class Mesh;
 class Model;
 class Resources;
+class DebugMessage;
 
 //*****************************************************************************
 //
@@ -103,5 +104,6 @@ struct WorldVector
 LPDIRECT3DDEVICE9 getD3DDevice(void);
 Resources* getResources(void);
 GameTimes* getGameTimes(void);
+DebugMessage* getDebugMessage(void);
 
 #endif // !_ENGINE_H_

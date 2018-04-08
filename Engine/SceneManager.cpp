@@ -56,6 +56,7 @@ void SceneManager::update()
 	else
 	{
 		mScenes[mCurrentScene]->start();
+		mScenes[mCurrentScene]->mIsStart = true;
 	}
 }
 

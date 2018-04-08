@@ -26,7 +26,6 @@ Scene02::Scene02()
 void Scene02::start()
 {
 	Resources* resource = getResources();
-	mIsStart = true;
 
 	//-----------------------
 	// リソースを読み込み
@@ -45,7 +44,7 @@ void Scene02::start()
 	resource->loadTexture("hair2", "Resources/Texture/Hixo/HixoHair2.png");
 	resource->loadTexture("panties", "Resources/Texture/Hixo/HixoPanties.png");
 	resource->loadTexture("skin", "Resources/Texture/Hixo/HixoSkin.png");
-	resource->loadModel("HixoModel", "Resources/Model/Hixo2k.fbx");
+	resource->loadModel("Hixo", "Resources/Model/Hixo2k.fbx");
 
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
@@ -54,34 +53,36 @@ void Scene02::start()
 	GameObject* mainCamera = new GameObject();
 	Camera* camera = new Camera();
 
+	// player
+	GameObject* player = new GameObject();
+	Transform* playerTrans = new Transform();											// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	player->addComponent("trans", playerTrans);
+	PlayerController* playerController = new PlayerController();
+	player->addComponent("playerController", playerController);
+	CameraController* cameraController = new CameraController();
+	cameraController->mMainCamera = mainCamera;
+	player->addComponent<CameraController>("cameraController", cameraController);
+	MeshRender* playerMeshRender = new MeshRender();
+	playerMeshRender->mModel = resource->getModel("Hixo");							// リソースからモデルを取得
+	playerMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
+	player->addComponent("meshRender", playerMeshRender);
+	this->addGameObject("player", player);
+
+	// mainCamera
+	camera->mCameraPos = D3DXVECTOR3(0.0f, 5.0f, 10.0f);
+	camera->mTargetTrans = playerTrans;
+	mainCamera->addComponent<Camera>("camera", camera);
+	this->addGameObject("mainCamera", mainCamera);
+
 	// 床
 	GameObject* gridField = new GameObject();
 	Transform* gridFieldTrans = new Transform();																// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
-	CameraController* cameraController = new CameraController();
-	cameraController->mMainCamera = mainCamera;
-	gridField->addComponent<CameraController>("cameraController", cameraController);
 	MeshRender* gridFieldMeshRender = new MeshRender();
 	gridFieldMeshRender->mModel = resource->getModel("gridField");						// リソースからモデルを取得
-	gridFieldMeshRender->mMainCamera = mainCamera;												// シーンのメインカメラを取得
 	gridFieldMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
 	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
-	gridField->mDraw = true;
-	this ->addGameObject("gridField", gridField);
-
-	// mainCamera
-	camera->mCameraPos = D3DXVECTOR3(0.0f, 5.0f, 10.0f);
-	camera->mTargetTrans = gridFieldTrans;
-	mainCamera->addComponent<Camera>("camera", camera);
-	this->addGameObject("mainCamera", mainCamera);
-
-	// player
-	//GameObject* player = new GameObject();
-	//Transform* playerTrans = new Transform();											// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
-	//player->addComponent("trans", playerTrans);
-	//PlayerController* playerController = new PlayerController();
-	//player->addComponent("playerCtrl", playerController);
-	//this->addGameObject("player", player);
+	this->addGameObject("gridField", gridField);
 }
 
 //*****************************************************************************

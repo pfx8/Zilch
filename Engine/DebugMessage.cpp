@@ -16,11 +16,10 @@ DebugMessage::DebugMessage()
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
-	this->font = nullptr;
-	this->rectCoor = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	this->mFont = nullptr;
 
 	// フロントを初期化
-	D3DXCreateFont(pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Terminal"), &this->font);
+	D3DXCreateFont(pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Terminal"), &this->mFont);
 }
 
 //*****************************************************************************
@@ -30,7 +29,17 @@ DebugMessage::DebugMessage()
 //*****************************************************************************
 DebugMessage::~DebugMessage()
 {
-	RELEASE_POINT(this->font);
+	RELEASE_POINT(this->mFont);
+}
+
+//*****************************************************************************
+//
+// 描画したい座標メッセージを設定
+//
+//*****************************************************************************
+void DebugMessage::setPosMessage(const string name, D3DXVECTOR3 pos)
+{
+	mPosMessageMaps.insert({ name, pos });
 }
 
 //*****************************************************************************
@@ -38,60 +47,22 @@ DebugMessage::~DebugMessage()
 // 座標を描画
 //
 //*****************************************************************************
-void DebugMessage::DrawPosMessage(const char name[], D3DXVECTOR3 OutputPos, D3DXVECTOR2 MessagePos)
+void DebugMessage::draw()
 {
-	RECT rectCoor = { int(MessagePos.x), int(MessagePos.y), SCREEN_WIDTH, SCREEN_HEIGHT };
+	// デバッグメッセージの位置
+	RECT rectCoor = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	unsigned int fontSize = 18;
 	char str[256];
 
-	// 文字列を作る
-	sprintf(str, _T("%s X:%.2f,Y:%.2f,Z:%.2f"), name, OutputPos.x, OutputPos.y, OutputPos.z);
+	for (auto it : mPosMessageMaps)
+	{
+		// 文字列を作る
+		sprintf_s(str, _T("<%s> [X:%.2f, Y:%.2f, Z:%.2f]"), it.first.c_str(), it.second.x, it.second.y, it.second.z);
 
-	// 文字列を描画する
-	this->font->DrawText(NULL, &str[0], -1, &rectCoor, DT_LEFT, D3DCOLOR_RGBA(255, 0, 0, 255));
-}
+		// 文字列を描画する
+		this->mFont->DrawText(NULL, &str[0], -1, &rectCoor, DT_LEFT, D3DCOLOR_RGBA(255, 0, 0, 255));
 
-//*****************************************************************************
-//
-// 行列を描画
-//
-//*****************************************************************************
-void DebugMessage::DrawMatrixMessage(D3DXMATRIX* matrix, D3DXVECTOR2 MessagePos)
-{
-	D3DXMATRIX* mat = matrix;
-
-	RECT rectCoor = { int(MessagePos.x), int(MessagePos.y), SCREEN_WIDTH, SCREEN_HEIGHT };
-	char str[256];
-
-	// 文字列を作る
-	sprintf(str, _T("%.2f,%.2f,%.2f,%.2f"), mat->_11, mat->_12, mat->_13, mat->_14);
-	// 文字列を描画する
-	this->font->DrawText(NULL, &str[0], -1, &rectCoor, DT_LEFT, D3DCOLOR_RGBA(255, 0, 0, 255));
+		rectCoor.top += fontSize;
+	}
 	
-	rectCoor.top += 18;
-	// 文字列を作る
-	sprintf(str, _T("%.2f,%.2f,%.2f,%.2f"), mat->_21, mat->_22, mat->_23, mat->_24);
-	// 文字列を描画する
-	this->font->DrawText(NULL, &str[0], -1, &rectCoor, DT_LEFT, D3DCOLOR_RGBA(255, 0, 0, 255));
-
-	rectCoor.top += 18;
-	// 文字列を作る
-	sprintf(str, _T("%.2f,%.2f,%.2f,%.2f"), mat->_31, mat->_32, mat->_33, mat->_34);
-	// 文字列を描画する
-	this->font->DrawText(NULL, &str[0], -1, &rectCoor, DT_LEFT, D3DCOLOR_RGBA(255, 0, 0, 255));
-
-	rectCoor.top += 18;
-	// 文字列を作る
-	sprintf(str, _T("%.2f,%.2f,%.2f,%.2f"), mat->_41, mat->_42, mat->_43, mat->_44);
-	// 文字列を描画する
-	this->font->DrawText(NULL, &str[0], -1, &rectCoor, DT_LEFT, D3DCOLOR_RGBA(255, 0, 0, 255));
-}
-
-//*****************************************************************************
-//
-// デバッグメッセージ
-//
-//*****************************************************************************
-void DebugMessage::DrawMessage(const char message[])
-{
-	this->font->DrawText(NULL, &message[0], -1, &this->rectCoor, DT_LEFT, D3DCOLOR_RGBA(255, 0, 255, 0xff));	// 文字列を描画する
 }

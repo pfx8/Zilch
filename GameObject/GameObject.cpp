@@ -34,10 +34,7 @@ GameObject::~GameObject()
 //*****************************************************************************
 void GameObject::start()
 {
-	for (auto it : mComponents)
-	{
-		it->start();
-	}
+
 }
 
 //*****************************************************************************
@@ -49,6 +46,14 @@ void GameObject::update()
 {
 	for (auto it : mComponents)
 	{
-		it->update();
+		if (it->mStart == true)
+		{
+			it->update();
+		}
+		else
+		{
+			it->start();
+			it->mStart = true;
+		}
 	}
 }

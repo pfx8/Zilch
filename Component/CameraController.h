@@ -10,6 +10,7 @@
 
 #include "Transform.h"
 #include "Camera.h"
+#include "../Engine/DebugMessage.h"
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
 #include "../Engine/GameTimes.h"

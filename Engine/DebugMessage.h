@@ -8,6 +8,8 @@
 #ifndef _DEBUG_MESSAGE_H_
 #define _DEBUG_MESSAGE_H_
 
+#include <map>
+
 #include "Engine.h"
 
 //*****************************************************************************
@@ -18,16 +20,15 @@
 class DebugMessage
 {
 private:
-	LPD3DXFONT			font;	// フォントのポインタ
-	RECT				rectCoor; // デバッグメッセージの位置
+	LPD3DXFONT								mFont;								// フォントのポインタ
+	map<string, D3DXVECTOR3> mPosMessageMaps;		// 文字と座標を保存
 
 public:
 	DebugMessage();
 	~DebugMessage();
 
-	void DrawPosMessage(const char name[], D3DXVECTOR3 OutputPos, D3DXVECTOR2 MessagePos); // 座標を描画する
-	void DrawMatrixMessage(D3DXMATRIX* matrix, D3DXVECTOR2 MessagePos); // 行列を描画
-	void DrawMessage(const char message[]);	// デバッグメッセージ
+	void setPosMessage(const string name, D3DXVECTOR3 pos);		// 描画したい座標メッセージを設定
+	void draw();																	// 座標を描画する
 };
 
 #endif // !Debug_MESSAGE_H_
