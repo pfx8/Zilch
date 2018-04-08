@@ -8,8 +8,12 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
+#include "../Component/Camera.h"
+#include "../Component/CameraController.h"
 #include "../Component/Component.h"
 #include "../Component/MeshRender.h"
+#include "../Component/PlayerController.h"
+#include "../Component/Transform.h"
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
 #include "../Engine/Light.h"

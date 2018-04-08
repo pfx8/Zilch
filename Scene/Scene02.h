@@ -9,13 +9,8 @@
 #define _SCENE02_H_
 
 #include "Scene.h"
-#include "../Component/Transform.h"
-#include "../Component/Camera.h"
-#include "../Component/PlayerController.h"
-#include "../Component/Camera.h"
 #include "../Engine/Shader.h"
 #include "../Engine/Light.h"
-#include "../Engine/Plane.h"
 
 //*****************************************************************************
 //
