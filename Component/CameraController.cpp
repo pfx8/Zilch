@@ -34,14 +34,7 @@ CameraController::~CameraController()
 //*****************************************************************************
 void CameraController::start()
 {
-	// mainCameraを取得
-	Camera* mainCamera = mMainCamera->getComponent<Camera>("camera");
-	// 目標Transを取得
-	// CameraControllerはplayer(mGameObject)のコンポーネントなので、直接取得できる
-	Transform* trans = mGameObject->getComponent<Transform>("trans");
 
-	// 目標からカメラまでの距離を計算
-	mOffsetFromTarget = trans->mPos - mainCamera->mTargetTrans->mPos;
 }
 
 //*****************************************************************************
@@ -105,6 +98,11 @@ void CameraController::update()
 {
 	// デバッグメッセージを取得
 	DebugMessage* debugMessage = getDebugMessage();
+	// mainCameraを取得
+	Camera* mainCamera = mMainCamera->getComponent<Camera>("camera");
+
+	// 目標からカメラまでの距離を計算
+	mOffsetFromTarget = mainCamera->mTargetTrans->mPos - mainCamera->mCameraPos;
 
 	// カメラを左右移動
 	if (GetKeyboardPress(DIK_J) == true)
@@ -143,8 +141,8 @@ void CameraController::update()
 		cout << "<Key O> : [Zoom -]" << endl;
 	}
 
-	debugMessage->setPosMessage("cameraFront", mMainCamera->getComponent<Camera>("camera")->mCameraFront);
-	debugMessage->setPosMessage("cameraRight", mMainCamera->getComponent<Camera>("camera")->mCameraRight);
-	debugMessage->setPosMessage("cameraUp", mMainCamera->getComponent<Camera>("camera")->mCameraUp);
+	debugMessage->setPosMessage("cameraFront", mainCamera->mCameraFront);
+	debugMessage->setPosMessage("cameraRight", mainCamera->mCameraRight);
+	debugMessage->setPosMessage("cameraUp", mainCamera->mCameraUp);
 	debugMessage->setPosMessage("offSet", mOffsetFromTarget);
 }

@@ -387,7 +387,7 @@ void draw(HWND hWnd)
 	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
-	if (SUCCEEDED(getD3DDevice()->BeginScene()))
+	if (SUCCEEDED(gD3DDevice->BeginScene()))
 	{
 		// シーンを描画
 		gSceneManager->draw();
@@ -395,11 +395,11 @@ void draw(HWND hWnd)
 		// デバッグメッセージを描画
 		gDebugMessage->draw();
 
-		getD3DDevice()->EndScene();
+		gD3DDevice->EndScene();
 	}
 
 	// バックバッファとフロントバッファの入れ替え
-	getD3DDevice()->Present(NULL, NULL, NULL, NULL);
+	gD3DDevice->Present(NULL, NULL, NULL, NULL);
 }
 
 //*****************************************************************************

@@ -1,15 +1,15 @@
 //*****************************************************************************
 //
-// テストシェーダー処理 [test.fx]
+// フォーンシェーダー処理 [phongShading.fx]
 //
 // コンパイルはしない
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-float4 worldMatrix;            // ワールド変換行列
-float4 viewMatrix;              // ビューイング変換行列
-float4 projectionMatrix;    // プロジェクション変換行列
+matrix worldMatrix;            // ワールド変換行列
+matrix viewMatrix;              // ビューイング変換行列
+matrix projectionMatrix;     // プロジェクション変換行列
 
 texture diffuse;                                   // テクスチャ
 sampler diffuseSampler =                // サンプラー
@@ -23,6 +23,11 @@ sampler_state
     AddressV = WRAP;
 };
 
+//*****************************************************************************
+//
+// プロトタイプ宣言
+//
+//*****************************************************************************
 struct VSout
 {
     float4 pos : POSITION0;
@@ -35,22 +40,17 @@ struct VSout
 // 頂点シェーダー処理
 //
 //*****************************************************************************
-VSout vertexShader(float3 pos : POSITION,
-             float3 nor : NORMAL,
-             float2 coord : TEXCOORD)
+VSout vertexShader(float3 pos : POSITION0,
+             float3 nor : NORMAL0,
+             float2 coord : TEXCOORD0)
 {
     // 戻り値を初期化
     VSout vout = (VSout) 0;
 
-    // 頂点変更
-    float4 vtx = mul(float4(pos, 1.0), worldMatrix);
-    vtx = mul(vtx, viewMatrix);
-    vtx = mul(vtx, projectionMatrix);
-    vout.pos = vtx;
-
+    // 頂点変換
+    vout.pos = mul(mul(mul(float4(pos, 1.0), worldMatrix), viewMatrix), projectionMatrix);
     // 法線変更
     vout.nor = mul(float4(nor, 1.0), worldMatrix);
-
     // UV座標変更
     vout.coord = coord;
 

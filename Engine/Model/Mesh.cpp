@@ -95,10 +95,10 @@ void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
 	{
 		aiFace face = mesh->mFaces[count];
 
-		for (unsigned int count = 0; count < face.mNumIndices; count++)
+		for (unsigned int i = 0; i < face.mNumIndices; i++)
 		{
 			// フェースによって各頂点のインデックスを取得
-			this->mIndices.push_back(face.mIndices[count]);
+			this->mIndices.push_back(face.mIndices[i]);
 		}
 	}
 
@@ -214,11 +214,11 @@ void Mesh::draw(Transform* trans, Camera* camera)
 	shader->mEffect->SetTechnique("defaultRender");
 
 	// モデルのワールド変換行列をシェーダーに渡る
-	shader->mEffect->SetValue("worldMatrix", &trans->mWorldMatrix, sizeof(D3DXMATRIX));
+	shader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
 
 	// カメラの行列をシェーダーに渡る
-	shader->mEffect->SetValue("viewMatrix", &camera->mViewMatrix, sizeof(D3DXMATRIX));
-	shader->mEffect->SetValue("projectionMatrix", &camera->mProjectionMatrix, sizeof(D3DXMATRIX));
+	shader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
+	shader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
 
 	// テクスチャを渡す
 	LPDIRECT3DTEXTURE9	 diffuse = this->mMaterials.at(0)->mTextures.at(0)->mTex;
@@ -232,9 +232,13 @@ void Mesh::draw(Transform* trans, Camera* camera)
 		// 各パスを描画
 		shader->mEffect->BeginPass(count);
 
-		pD3DDevice->SetVertexDeclaration(mVertexDecl);							// 頂点宣言を設定
-		pD3DDevice->SetStreamSource(0, mVertexBuffer, 0, 32);				// 頂点バッファを設定
-		pD3DDevice->SetIndices(mIndexBuffer);											// インデックスバッファを設定
+		HRESULT hr;
+		hr = pD3DDevice->SetVertexDeclaration(mVertexDecl);							// 頂点宣言を設定
+		hr = pD3DDevice->SetStreamSource(0, mVertexBuffer, 0, sizeof(Vertex));				// 頂点バッファを設定
+		hr = pD3DDevice->SetIndices(mIndexBuffer);											// インデックスバッファを設定
+		unsigned int vertexNums = mVertices.size();
+		unsigned int faceNums = mIndices.size() / 3;
+		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画
 
 		shader->mEffect->EndPass();
 	}

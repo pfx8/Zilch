@@ -39,7 +39,14 @@ DebugMessage::~DebugMessage()
 //*****************************************************************************
 void DebugMessage::setPosMessage(const string name, D3DXVECTOR3 pos)
 {
-	mPosMessageMaps.insert({ name, pos });
+	if (mPosMessageMaps.find(name) != mPosMessageMaps.end())
+	{
+		mPosMessageMaps[name] = pos;
+	}
+	else
+	{
+		mPosMessageMaps.insert({ name, pos });
+	}
 }
 
 //*****************************************************************************
