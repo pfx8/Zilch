@@ -6,6 +6,8 @@
 ## Ignore-file
 Resources/Model/
 Resources/Texture/
+assimp-vc140-mt.dll
+Zilch.exe
 
 # User-specific files
 *.suo

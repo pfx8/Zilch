@@ -462,3 +462,13 @@ DebugMessage* getDebugMessage(void)
 {
 	return gDebugMessage;
 }
+
+//*****************************************************************************
+//
+// シーン管理ポインタを取得
+//
+//*****************************************************************************
+SceneManager* getSceneManager(void)
+{
+	return gSceneManager;
+}

@@ -44,6 +44,7 @@ class Mesh;
 class Model;
 class Resources;
 class DebugMessage;
+class SceneManager;
 
 //*****************************************************************************
 //
@@ -105,5 +106,6 @@ LPDIRECT3DDEVICE9 getD3DDevice(void);
 Resources* getResources(void);
 GameTimes* getGameTimes(void);
 DebugMessage* getDebugMessage(void);
+SceneManager* getSceneManager(void);
 
 #endif // !_ENGINE_H_
