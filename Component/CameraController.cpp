@@ -102,29 +102,29 @@ void CameraController::update()
 	Camera* mainCamera = mMainCamera->getComponent<Camera>("camera");
 
 	// 目標からカメラまでの距離を計算
-	mOffsetFromTarget = mainCamera->mTargetTrans->mPos - mainCamera->mCameraPos;
+	mOffsetFromTarget = mainCamera->mCameraPos - mainCamera->mTargetTrans->mPos;
 
 	// カメラを左右移動
 	if (GetKeyboardPress(DIK_J) == true)
 	{
-		rotation(0.0f, 1.0f);
+		rotation(0.0f, D3DXToRadian(1.0));
 		cout << "<Key J> : [Left]" << endl;
 	}
 	if (GetKeyboardPress(DIK_L) == true)
 	{
-		rotation(0.0f, -1.0f);
+		rotation(0.0f, -D3DXToRadian(1.0f));
 		cout << "<Key L> : [Right]" << endl;
 	}
 
 	// カメラを上下移動
 	if (GetKeyboardPress(DIK_I) == true)
 	{
-		rotation(1.0f, 0.0f);
+		rotation(D3DXToRadian(1.0f), 0.0f);
 		cout << "<Key I> : [UP]" << endl;
 	}
 	if (GetKeyboardPress(DIK_K) == true)
 	{
-		rotation(-1.0f, 0.0f);
+		rotation(-D3DXToRadian(1.0f), 0.0f);
 		cout << "<Key K> : [Down]" << endl;
 	}
 
@@ -142,7 +142,7 @@ void CameraController::update()
 	}
 
 	// カメラを更新
-	mainCamera->mCameraPos = mainCamera->mTargetTrans->mPos
+	mainCamera->mCameraPos = mainCamera->mTargetTrans->mPos + mOffsetFromTarget;
 
 	debugMessage->setPosMessage("cameraFront", mainCamera->mCameraFront);
 	debugMessage->setPosMessage("cameraRight", mainCamera->mCameraRight);
