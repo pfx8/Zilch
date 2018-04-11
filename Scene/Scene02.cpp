@@ -52,22 +52,22 @@ void Scene02::start()
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
 	Camera* camera = new Camera();
-	camera->mCameraPos = D3DXVECTOR3(0.0f, 5.0f, 10.0f);
+	camera->mCameraPos = D3DXVECTOR3(0.0f, 5.0f, -5.0f);
 
 	// player
 	GameObject* player = new GameObject();
 	Transform* playerTrans = new Transform();											// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
-	playerTrans->mPos = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	playerTrans->mPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	player->addComponent<Transform>("trans", playerTrans);
 	PlayerController* playerController = new PlayerController();
 	player->addComponent<PlayerController>("playerController", playerController);
 	CameraController* cameraController = new CameraController();
 	cameraController->mMainCamera = mainCamera;
 	player->addComponent<CameraController>("cameraController", cameraController);
-	//MeshRender* playerMeshRender = new MeshRender();
-	//playerMeshRender->mModel = resource->getModel("Hixo");							// リソースからモデルを取得
-	//playerMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
-	//player->addComponent<MeshRender>("meshRender", playerMeshRender);
+	MeshRender* playerMeshRender = new MeshRender();
+	playerMeshRender->mModel = resource->getModel("Hixo");							// リソースからモデルを取得
+	playerMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
+	player->addComponent<MeshRender>("meshRender", playerMeshRender);
 	this->addGameObject("player", player);
 
 	// mainCamera

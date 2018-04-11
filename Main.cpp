@@ -384,7 +384,7 @@ void Updata(HWND hWnd, int cmd)
 void draw(HWND hWnd)
 {
 	// バックバッファ＆Ｚバッファのクリア
-	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
+	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 143, 230, 255), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(gD3DDevice->BeginScene()))
@@ -393,7 +393,7 @@ void draw(HWND hWnd)
 		gSceneManager->draw();
 
 		// デバッグメッセージを描画
-		gDebugMessage->draw();
+		//gDebugMessage->draw();
 
 		gD3DDevice->EndScene();
 	}

@@ -67,8 +67,8 @@ float4 pixelShader(VSout vout) : COLOR
     float4 color = float4(0.0, 0.0, 0.0, 0.0);
 
     // カラーを計算
-    color = float4(1.0, 0.0, 0.0, 1.0);
-    //color = tex2D(diffuseSampler, vout.coord);
+    //color = float4(1.0, 0.0, 0.0, 1.0);
+    color = tex2D(diffuseSampler, vout.coord);
 
     return color;
 }
@@ -82,6 +82,13 @@ technique defaultRender
 {
     pass P0
     {
+        // フラットシェーディング
+        ShadeMode = FLAT;
+        // Zバッファ
+        ZEnable = TRUE;
+        // 背面科カリング
+        CullMode = CCW;     // ポリゴンの表を表示
+        
         VertexShader = compile vs_3_0 vertexShader();
         PixelShader = compile ps_3_0 pixelShader();
     }
