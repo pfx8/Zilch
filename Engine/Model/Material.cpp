@@ -87,12 +87,16 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		//////////////////////////////////////////////////暫定対策//////////////////////////////////////////////////
 		// テクスチャ名前を保存
 		string fileName = str.C_Str();
+
+		//cout << "<Test1> : " << fileName << endl;
 		// 絶対パスならば、モデルの名前とテクスチャを取得
-		if (fileName.find_first_of("\\") != string::npos)							// exp : c:\aaa\bbb\ccc.png -> bbb.png
+		if (fileName.find("\\") != string::npos)							// exp : c:\aaa\bbb\ccc.png -> ccc.png
 		{
-			fileName = fileName.substr(fileName.find_last_of("\\") + 1, fileName.find_first_of("."));
+			fileName = fileName.substr(fileName.find_last_of("\\")+1, fileName.find_last_of("."));
+			//cout << "<Test2> : " << fileName << endl;
 		}
 		fileName = fileName.substr(0, fileName.find_first_of("."));		// exp : xxx.png -> xxx
+		//cout << "<Test3> : " << fileName << endl;
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// テクスチャまだ読み込まなっかたら読み込む

@@ -36,8 +36,8 @@ void GameTimes::update()
 	// 今の時間を取得
 	mCurrentTime = timeGetTime();
 
-	// 1回更新の時間差を計算
-	mDeltaTime = mCurrentTime - mLastTime;
+	// 1回更新の時間差を計算(second)
+	mDeltaTime = (mCurrentTime - mLastTime) / 1000.0f;
 
 	// 前の時間を更新
 	mLastTime = mCurrentTime;

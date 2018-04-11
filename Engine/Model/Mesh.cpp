@@ -43,12 +43,12 @@ void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
 
 		// 位置
 		// blender座標とDX座標が違うので、Y軸とZ軸を交換
+		//vertex.pos.x = mesh->mVertices[count].x;
+		//vertex.pos.y = mesh->mVertices[count].z;
+		//vertex.pos.z = mesh->mVertices[count].y; 
 		vertex.pos.x = mesh->mVertices[count].x;
-		vertex.pos.y = mesh->mVertices[count].z;
-		vertex.pos.z = mesh->mVertices[count].y; 
-		/*vertex.pos.x = mesh->mVertices[count].x;
 		vertex.pos.y = mesh->mVertices[count].y;
-		vertex.pos.z = mesh->mVertices[count].z;*/
+		vertex.pos.z = mesh->mVertices[count].z;
 
 		// 法線
 		vertex.nor.x = mesh->mNormals[count].x;
@@ -117,10 +117,6 @@ void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
 		// メッシュのマテリアルに入れる
 		this->mMaterials.push_back(mat);
 	}
-
-	//cout << "      <Vertices Nums> : [" << this->mVertices.size() << "]" << endl
-	//	<< "      <Indices Nums> : [" << this->mIndices.size() << "]" << endl
-	//	<< "      <Materials Nums> : [" << this->mMaterials.size() << "]" << endl;
 }
 
 //*****************************************************************************

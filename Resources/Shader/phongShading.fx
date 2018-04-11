@@ -87,7 +87,9 @@ technique defaultRender
         // Zバッファ
         ZEnable = TRUE;
         // 背面科カリング
-        CullMode = CCW;     // ポリゴンの表を表示
+        //CullMode = CCW;     // ポリゴンの表を表示
+        // アルファブレンティング
+        AlphaBlendEnable = FALSE;
         
         VertexShader = compile vs_3_0 vertexShader();
         PixelShader = compile ps_3_0 pixelShader();

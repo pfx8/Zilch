@@ -141,8 +141,11 @@ void CameraController::update()
 		cout << "<Key O> : [Zoom -]" << endl;
 	}
 
+	// カメラを更新
+	mainCamera->mCameraPos = mainCamera->mTargetTrans->mPos
+
 	debugMessage->setPosMessage("cameraFront", mainCamera->mCameraFront);
 	debugMessage->setPosMessage("cameraRight", mainCamera->mCameraRight);
 	debugMessage->setPosMessage("cameraUp", mainCamera->mCameraUp);
-	debugMessage->setPosMessage("offSet", mOffsetFromTarget);
+	debugMessage->setPosMessage("OffsetFromTarget", mOffsetFromTarget);
 }

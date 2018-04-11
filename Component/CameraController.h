@@ -25,7 +25,7 @@
 class CameraController : public Component
 {
 private:
-	float		mOffsetFromTargetMin = 15.0f;		// プレーヤーとカメラの偏りの最小値
+	float		mOffsetFromTargetMin = 5.0f;		// プレーヤーとカメラの偏りの最小値
 	float		mOffsetFromTargetMax = 25.0f;		// プレーヤーとカメラの偏りの最大値
 
 	float		mVerticalRadiansMin = cosf(D3DXToRadian(15.0f));			// カメラの垂直角度の最小値

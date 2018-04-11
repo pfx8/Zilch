@@ -331,10 +331,10 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		return E_FAIL;
 	}
 
-	gD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);												// Zバッファを使用
-	gD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);						// αブレンドを行う
-	gD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);			// αソースカラーの指定
-	gD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
+	//gD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);												// Zバッファを使用
+	//gD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);						// αブレンドを行う
+	//gD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);			// αソースカラーの指定
+	//gD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
 
 	RELEASE_POINT(gD3D); // リリースLPDIRECT3D9
 
@@ -393,7 +393,7 @@ void draw(HWND hWnd)
 		gSceneManager->draw();
 
 		// デバッグメッセージを描画
-		//gDebugMessage->draw();
+		gDebugMessage->draw();
 
 		gD3DDevice->EndScene();
 	}

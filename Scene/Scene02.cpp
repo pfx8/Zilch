@@ -33,18 +33,18 @@ void Scene02::start()
 
 	// 床
 	resource->loadTexture("grid", "Resources/Texture/grid.png");
-	resource->loadModel("gridField", "Resources/Model/gridField.fbx");
+	resource->loadModel("gridField", "Resources/Model/field.fbx");
 
 	// Hixo
-	resource->loadTexture("clothes", "Resources/Texture/Hixo/HixoClothes.png");
-	resource->loadTexture("eye", "Resources/Texture/Hixo/HixoEye.png");
-	resource->loadTexture("face", "Resources/Texture/Hixo/HixoFace.png");
-	resource->loadTexture("facial", "Resources/Texture/Hixo/HixoFacial.png");
-	resource->loadTexture("hair1", "Resources/Texture/Hixo/HixoHair1.png");
-	resource->loadTexture("hair2", "Resources/Texture/Hixo/HixoHair2.png");
-	resource->loadTexture("panties", "Resources/Texture/Hixo/HixoPanties.png");
-	resource->loadTexture("skin", "Resources/Texture/Hixo/HixoSkin.png");
-	resource->loadModel("Hixo", "Resources/Model/Hixo2k.fbx");
+	resource->loadTexture("clothes", "Resources/Texture/Hixo/clothes.png");
+	resource->loadTexture("eye", "Resources/Texture/Hixo/eye.png");
+	resource->loadTexture("face", "Resources/Texture/Hixo/face.png");
+	resource->loadTexture("facial", "Resources/Texture/Hixo/facial.png");
+	resource->loadTexture("hair1", "Resources/Texture/Hixo/hair1.png");
+	resource->loadTexture("hair2", "Resources/Texture/Hixo/hair2.png");
+	resource->loadTexture("panties", "Resources/Texture/Hixo/panties.png");
+	resource->loadTexture("skin", "Resources/Texture/Hixo/skin.png");
+	resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
 
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
@@ -52,7 +52,7 @@ void Scene02::start()
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
 	Camera* camera = new Camera();
-	camera->mCameraPos = D3DXVECTOR3(0.0f, 5.0f, -5.0f);
+	camera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, -5.0f);
 
 	// player
 	GameObject* player = new GameObject();

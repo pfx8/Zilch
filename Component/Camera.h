@@ -28,7 +28,6 @@ private:
 
 public:
 	D3DXVECTOR3		mCameraPos;					// カメラの位置
-	D3DXVECTOR3		mCameraTarget;			// カメラの注視点
 	Transform*				mTargetTrans;				// 目標Transformを保存
 
 	D3DXVECTOR3		mCameraFront;				// カメラの注視方向ベクトル

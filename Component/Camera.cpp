@@ -51,26 +51,18 @@ void Camera::update()
 	WorldVector worldVector;
 	// デバッグメッセージを取得
 	DebugMessage* debugMessage = getDebugMessage();
-	
-	mCameraTarget = mTargetTrans->mPos;
+
 	// 新しい向きベクトルを計算
-	D3DXVec3Normalize(&mCameraFront, &(mCameraTarget - mCameraPos));
+	D3DXVec3Normalize(&this->mCameraFront, &(this->mTargetTrans->mPos - this->mCameraPos));
 	// 新しい右ベクトルを計算(外積)、そして正規化
-	D3DXVec3Cross(&mCameraRight, &mCameraFront, &worldVector.worldUp);
-	D3DXVec3Normalize(&mCameraRight, &mCameraRight);
+	D3DXVec3Cross(&this->mCameraRight, &this->mCameraFront, &worldVector.worldUp);
+	D3DXVec3Normalize(&this->mCameraRight, &this->mCameraRight);
 	// 新しい上ベクトルを計算(外積)、そして正規化
-	D3DXVec3Cross(&mCameraUp, &mCameraRight, &mCameraFront);
-	D3DXVec3Normalize(&mCameraUp, &mCameraUp);
+	D3DXVec3Cross(&this->mCameraUp, &this->mCameraRight, &this->mCameraFront);
+	D3DXVec3Normalize(&this->mCameraUp, &this->mCameraUp);
 
 	// ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&mViewMatrix, &mCameraPos, &mCameraTarget, &this->mCameraUp);
+	D3DXMatrixLookAtLH(&this->mViewMatrix, &this->mCameraPos, &(this->mTargetTrans->mPos), &this->mCameraUp);
 	// プロジェクションマトリックスの作成
-	D3DXMatrixPerspectiveFovLH(&mProjectionMatrix, mField, mRatio, mRangeStart, mRangeEnd);
-
-	/*debugMessage->setPosMessage("cameraFront", mCameraFront);
-	debugMessage->setPosMessage("cameraRight", mCameraRight);
-	debugMessage->setPosMessage("cameraUp", mCameraUp);*/
-	debugMessage->setPosMessage("cameraPos", mCameraPos);
-	debugMessage->setPosMessage("cameraTarget", mCameraTarget);
-	debugMessage->setPosMessage("cameraAb", D3DXVECTOR3(this->mRangeStart, this->mRangeEnd, this->mField));
+	D3DXMatrixPerspectiveFovLH(&this->mProjectionMatrix, this->mField, this->mRatio, this->mRangeStart, this->mRangeEnd);
 }
