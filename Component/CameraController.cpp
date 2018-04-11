@@ -71,16 +71,16 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 
 	// 水平移動
 	D3DXMATRIX horizonalMatrix;
-	D3DXMatrixRotationAxis(&horizonalMatrix, &worldVector.worldUp, horizonalRadians);								// 回転行列を作る
+	D3DXMatrixRotationAxis(&horizonalMatrix, &worldVector.worldUp, horizonalRadians);								// 回転行列を作る(世界のY軸に中心して回転)
 	D3DXVec3TransformCoord(&this->mOffsetFromTarget, &this->mOffsetFromTarget, &horizonalMatrix);		// 新しいoffset座標を計算する
 
 	// 垂直移動
 	D3DXMATRIX verticalMatrix;
-	D3DXMatrixRotationAxis(&verticalMatrix, &mainCamera->mCameraRight, verticalRadians);						// 回転行列を作る
-	D3DXVECTOR3 newOffset = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	D3DXMatrixRotationAxis(&verticalMatrix, &mainCamera->mCameraRight, verticalRadians);						// 回転行列を作る(カメラの右軸に中心して回転)
+	D3DXVECTOR3 newOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVec3TransformCoord(&newOffset, &this->mOffsetFromTarget, &verticalMatrix);									// 新しいoffset座標を計算する
 
-	D3DXVECTOR3 newOffsetNormalize = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	D3DXVECTOR3 newOffsetNormalize = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVec3Normalize(&newOffsetNormalize, &newOffset);																					// ベクトルを正規化
 	float radianToWorldUp = D3DXVec3Dot(&newOffsetNormalize, &worldVector.worldUp);								// カメラと世界のUpベクトルの角度を外積で計算
 	if (radianToWorldUp <= this->mVerticalRadiansMax && radianToWorldUp > this->mVerticalRadiansMin)	// カメラの垂直角度が範囲内ならば
@@ -108,44 +108,44 @@ void CameraController::update()
 	if (GetKeyboardPress(DIK_J) == true)
 	{
 		rotation(0.0f, D3DXToRadian(1.0));
-		cout << "<Key J> : [Left]" << endl;
+		//cout << "<Key J> : [Left]" << endl;
 	}
 	if (GetKeyboardPress(DIK_L) == true)
 	{
 		rotation(0.0f, -D3DXToRadian(1.0f));
-		cout << "<Key L> : [Right]" << endl;
+		//cout << "<Key L> : [Right]" << endl;
 	}
 
 	// カメラを上下移動
 	if (GetKeyboardPress(DIK_I) == true)
 	{
 		rotation(D3DXToRadian(1.0f), 0.0f);
-		cout << "<Key I> : [UP]" << endl;
+		//cout << "<Key I> : [UP]" << endl;
 	}
 	if (GetKeyboardPress(DIK_K) == true)
 	{
 		rotation(-D3DXToRadian(1.0f), 0.0f);
-		cout << "<Key K> : [Down]" << endl;
+		//cout << "<Key K> : [Down]" << endl;
 	}
 
 	// ズーム拡大
 	if (GetKeyboardPress(DIK_U) == true)
 	{
 		zoom(getGameTimes()->mDeltaTime * this->mZoomSpeed);
-		cout << "<Key U> : [Zoom +]" << endl;
+		//cout << "<Key U> : [Zoom +]" << endl;
 	}
 	// ズーム縮小
 	if (GetKeyboardPress(DIK_O) == true)
 	{
 		zoom(-getGameTimes()->mDeltaTime * this->mZoomSpeed);
-		cout << "<Key O> : [Zoom -]" << endl;
+		//cout << "<Key O> : [Zoom -]" << endl;
 	}
 
 	// カメラを更新
 	mainCamera->mCameraPos = mainCamera->mTargetTrans->mPos + mOffsetFromTarget;
 
-	debugMessage->setPosMessage("cameraFront", mainCamera->mCameraFront);
-	debugMessage->setPosMessage("cameraRight", mainCamera->mCameraRight);
-	debugMessage->setPosMessage("cameraUp", mainCamera->mCameraUp);
-	debugMessage->setPosMessage("OffsetFromTarget", mOffsetFromTarget);
+	//debugMessage->setPosMessage("cameraFront", mainCamera->mCameraFront);
+	//debugMessage->setPosMessage("cameraRight", mainCamera->mCameraRight);
+	//debugMessage->setPosMessage("cameraUp", mainCamera->mCameraUp);
+	//debugMessage->setPosMessage("OffsetFromTarget", mOffsetFromTarget);
 }
