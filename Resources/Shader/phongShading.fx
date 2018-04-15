@@ -86,8 +86,8 @@ technique defaultRender
         ShadeMode = FLAT;
         // Zバッファ
         ZEnable = TRUE;
-        // 背面科カリング
-        //CullMode = CCW;     // ポリゴンの表を表示
+        // 背面カリング
+        CullMode = CCW;     // ポリゴンの表を表示
         // アルファブレンティング
         AlphaBlendEnable = FALSE;
         

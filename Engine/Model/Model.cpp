@@ -41,7 +41,7 @@ Model::~Model()
 HRESULT Model::loadModel(string const &mPath)
 {
 	Assimp::Importer import;			// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(mPath, aiProcessPreset_TargetRealtime_Quality);	// ポリゴンを強制に三角形にする
+	const aiScene *scene = import.ReadFile(mPath, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{

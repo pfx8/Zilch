@@ -43,12 +43,12 @@ void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
 
 		// 位置
 		// blender座標とDX座標が違うので、Y軸とZ軸を交換
-		//vertex.pos.x = mesh->mVertices[count].x;
-		//vertex.pos.y = mesh->mVertices[count].z;
-		//vertex.pos.z = mesh->mVertices[count].y; 
 		vertex.pos.x = mesh->mVertices[count].x;
-		vertex.pos.y = mesh->mVertices[count].y;
-		vertex.pos.z = mesh->mVertices[count].z;
+		vertex.pos.y = -mesh->mVertices[count].z;
+		vertex.pos.z = -mesh->mVertices[count].y; 
+		//vertex.pos.x = mesh->mVertices[count].x;
+		//vertex.pos.y = mesh->mVertices[count].y;
+		//vertex.pos.z = mesh->mVertices[count].z;
 
 		// 法線
 		vertex.nor.x = mesh->mNormals[count].x;
@@ -60,6 +60,8 @@ void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
 		{
 			vertex.tex.x = mesh->mTextureCoords[0][count].x;
 			vertex.tex.y = mesh->mTextureCoords[0][count].y;
+			
+			//cout << "<Test><Texture> : " << "X " << vertex.tex.x << ", Y " << vertex.tex.y << endl;
 		}
 		else
 		{

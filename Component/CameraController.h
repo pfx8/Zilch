@@ -28,7 +28,7 @@ private:
 	float		mOffsetFromTargetMin = 5.0f;		// プレーヤーとカメラの偏り(半径)の最小値
 	float		mOffsetFromTargetMax = 9.0f;		// プレーヤーとカメラの偏り(半径)の最大値
 
-	float		mVerticalRadiansMin = cosf(D3DXToRadian(45.0f));			// カメラの垂直角度の最小値
+	float		mVerticalRadiansMin = cosf(D3DXToRadian(65.0f));			// カメラの垂直角度の最小値
 	float		mVerticalRadiansMax = cosf(D3DXToRadian(15.0f));			// カメラの垂直角度の最大値
 
 	float		mRotateSpeedHorizonal = 2.0f;			// 水平移動スピード

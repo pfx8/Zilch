@@ -62,7 +62,7 @@ void Camera::update()
 	D3DXVec3Normalize(&this->mCameraUp, &this->mCameraUp);
 
 	// ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&this->mViewMatrix, &this->mCameraPos, &(this->mTargetTrans->mPos), &this->mCameraUp);
+	D3DXMatrixLookAtLH(&this->mViewMatrix, &this->mCameraPos, &(this->mTargetTrans->mPos + D3DXVECTOR3(0.0f, 2.0f, 0.0f)), &this->mCameraUp);
 	// プロジェクションマトリックスの作成
 	D3DXMatrixPerspectiveFovLH(&this->mProjectionMatrix, this->mField, this->mRatio, this->mRangeStart, this->mRangeEnd);
 }
