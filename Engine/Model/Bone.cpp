@@ -24,8 +24,8 @@ Bone::Bone()
 //*****************************************************************************
 Bone::Bone(unsigned int index, D3DXMATRIX offset)
 {
-	this->index = index;
-	this->offset = offset;
+	this->mIndex = index;
+	this->mOffset = offset;
 }
 
 //*****************************************************************************
