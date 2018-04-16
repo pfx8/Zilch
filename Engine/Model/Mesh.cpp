@@ -48,7 +48,7 @@ void Mesh::createMeshWithBone(aiMesh *mesh, const aiScene *scene)
 	cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
 
 	unsigned int	numBones = 0;		// 骨の数
-	unordered_map<string, Bone>		boneMapping;		//	骨マップ
+	unordered_map<string, Bone*>	boneMapping;		//	骨マップ
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -108,9 +108,13 @@ void Mesh::createMeshWithBone(aiMesh *mesh, const aiScene *scene)
 
 		// 取得した頂点を頂点コンテナの末尾に追加
 		this->mVertices.push_back(vertex);
+
+		// バウンディングボックスを作り
+		createBoundingBox(vertex.pos, this->mBoundingBoxMax, this->mBoundingBoxMin);
 	}
 
 	// 骨処理
+	//cout << "      <Bone Num> " << mesh->mNumBones << endl;
 	for (unsigned int count = 0; count < mesh->mNumBones; count++)
 	{
 		unsigned int boneIndex = 0;
@@ -127,13 +131,16 @@ void Mesh::createMeshWithBone(aiMesh *mesh, const aiScene *scene)
 
 			// 骨データを保存
 			D3DXMATRIX offset(mesh->mBones[count]->mOffsetMatrix[0]);		// aiMatrixからD3DXMATRIXへ変更
-			Bone bone = Bone(boneIndex, offset);
+			Bone *bone = new Bone(boneIndex, offset);
+			// 骨データを保存
+			mBones.push_back(bone);
+			// 2回読み込みを防ぐ
 			boneMapping[boneName] = bone;
 		}
 		else
 		{
 			// 骨マップから骨の番後を取得
-			boneIndex = boneMapping[boneName].mIndex;
+			boneIndex = boneMapping[boneName]->mIndex;
 		}
 
 		// 頂点に骨情報を入れる
@@ -178,6 +185,9 @@ void Mesh::createMeshWithBone(aiMesh *mesh, const aiScene *scene)
 		// メッシュのマテリアルに入れる
 		this->mMaterials.push_back(mat);
 	}
+
+	// test
+	//cout << "<Test><animation> : " << mesh->mNumAnimMeshes << endl;
 }
 
 //*****************************************************************************
@@ -498,4 +508,19 @@ void Mesh::draw(Transform* trans, Camera* camera)
 		shader->mEffect->EndPass();
 	}
 	shader->mEffect->End();
+}
+
+//*****************************************************************************
+//
+// バウンディングボックスサイズを作り
+//
+//*****************************************************************************
+void Mesh::createBoundingBox(D3DXVECTOR3 vertexPos, D3DXVECTOR3 &boxMax, D3DXVECTOR3 &boxMin)
+{
+	if (vertexPos.x > boxMax.x) boxMax.x = vertexPos.x;
+	if (vertexPos.x < boxMin.x) boxMin.x = vertexPos.x;
+	if (vertexPos.y > boxMax.y) boxMax.y = vertexPos.y;
+	if (vertexPos.y < boxMin.y) boxMin.y = vertexPos.y;
+	if (vertexPos.z > boxMax.z) boxMax.z = vertexPos.z;
+	if (vertexPos.z < boxMin.z) boxMin.z = vertexPos.z;
 }

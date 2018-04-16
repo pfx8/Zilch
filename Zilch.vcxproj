@@ -73,9 +73,6 @@
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Scene02.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2AB0424F-91D9-4340-9DA8-563735476DFD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

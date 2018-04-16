@@ -79,6 +79,7 @@ void Scene02::start()
 	// 床
 	GameObject* gridField = new GameObject();
 	Transform* gridFieldTrans = new Transform();																// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	gridFieldTrans->mScl = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
 	gridFieldMeshRender->mModel = resource->getModel("gridField");						// リソースからモデルを取得

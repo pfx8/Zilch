@@ -47,7 +47,7 @@ struct VertexBone
 
 	// 骨
 	unsigned int	boneID[NUM_BONES_PER_VEREX];		// 骨のID
-	float				weights[NUM_BONES_PER_VEREX];		// 骨の重量
+	float				weights[NUM_BONES_PER_VEREX];		// 骨の重み
 };
 
 //*****************************************************************************
@@ -69,7 +69,10 @@ enum MeshType
 class Mesh
 {
 private:
-	MeshType											mMeshType;		// メッシュタイプ
+	MeshType											mMeshType;					// メッシュタイプ
+	D3DXVECTOR3									mBoundingBoxMax;		// バウンディングボックスマックス座標の最大値
+	D3DXVECTOR3									mBoundingBoxMin;		// バウンディングボックスマックス座標の最小値
+
 	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;	// 頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;	// 頂点インデックスバッファ
 	IDirect3DVertexDeclaration9*			mVertexDecl;		// 頂点シェーダー宣言
@@ -78,6 +81,8 @@ private:
 	void createMeshWithBone(aiMesh *mesh, const aiScene *scene);						// 骨付きメッシュを読み込み
 	HRESULT SetupMesh();																								// デフォルトメッシュをセットアップ
 	HRESULT SetupMeshWithBone();																			// 骨付きメッシュをセットアップ
+
+	void createBoundingBox(D3DXVECTOR3 vertexPos, D3DXVECTOR3 &boxMax, D3DXVECTOR3 &boxMin);		// バウンディングボックスサイズを作り
 
 public:
 	// メッシュデータ

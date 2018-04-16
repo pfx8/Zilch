@@ -55,7 +55,4 @@
     <ClInclude Include="Engine\GameTimes.h" />
     <ClInclude Include="Engine\Model\Bone.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
 </Project>

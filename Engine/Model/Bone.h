@@ -27,7 +27,7 @@ public:
 	D3DXMATRIX					mOffset;								// モデルのルートに対して変更行列
 	
 	// アニメーション情報
-	D3DXMATRIX					mLastTransform;				// 最後計算できた行列
+	D3DXMATRIX					mFinaTransform;				// すべての親行列を計算した最終行列
 	D3DXVECTOR3				mScl;									// 拡大縮小
 	D3DXVECTOR3				mSot;									// 角度の変更
 

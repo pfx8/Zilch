@@ -71,7 +71,7 @@ class SceneManager;
 #define WINDOW_NAME						_T("Project : Zilch")		// ウインドウのキャプション名
 #define SCREEN_WIDTH						(1280)								// ウインドウの幅
 #define SCREEN_HEIGHT						(720)								// ウインドウの高さ
-#define NUM_BONES_PER_VEREX		(8)									// 頂点1個が影響される骨の最大数は4本
+#define NUM_BONES_PER_VEREX		(4)									// 頂点1個が影響される骨の最大数は4本
 
 #define RELEASE_POINT(ptr)								{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
 #define RELEASE_CLASS_POINT(ptr)					{ if(ptr) { delete ptr; } }
