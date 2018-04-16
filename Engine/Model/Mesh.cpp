@@ -34,7 +34,7 @@ Mesh::Mesh(aiMesh* mesh, const aiScene* scene)
 //*****************************************************************************
 void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
 {
-	cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
+	cout << "   <Mesh Name> : [" << mesh->name.C_Str() << "]" << endl;
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -226,14 +226,14 @@ void Mesh::draw(Transform* trans, Camera* camera)
 	shader->mEffect->SetTechnique("defaultRender");
 
 	// モデルのワールド変換行列をシェーダーに渡る
-	shader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
+	shader->mEffect->SetMatrix("worldMatrix", &trans->worldMatrix);
 
 	// カメラの行列をシェーダーに渡る
-	shader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
-	shader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
+	shader->mEffect->SetMatrix("viewMatrix", &camera->viewMatrix);
+	shader->mEffect->SetMatrix("projectionMatrix", &camera->projectionMatrix);
 
 	// テクスチャを渡す
-	LPDIRECT3DTEXTURE9	 diffuse = this->mMaterials.at(0)->mTextures.at(0)->mTex;
+	LPDIRECT3DTEXTURE9	 diffuse = this->mMaterials.at(0)->textures.at(0)->mTex;
 	shader->mEffect->SetTexture("diffuse", diffuse);
 
 	// 描画

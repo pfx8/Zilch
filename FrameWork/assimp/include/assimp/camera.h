@@ -103,7 +103,7 @@ struct aiCamera
      *  This node specifies the position of the camera in the scene
      *  hierarchy and can be animated.
      */
-    C_STRUCT aiString mName;
+    C_STRUCT aiString name;
 
     /** Position of the camera relative to the coordinate space
      *  defined by the corresponding node.

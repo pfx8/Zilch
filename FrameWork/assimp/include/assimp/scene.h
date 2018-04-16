@@ -92,7 +92,7 @@ struct aiNode
      * surrounded by @verbatim <> @endverbatim e.g.
      *  @verbatim<DummyRootNode> @endverbatim.
      */
-    C_STRUCT aiString mName;
+    C_STRUCT aiString name;
 
     /** The transformation relative to the node's parent. */
     C_STRUCT aiMatrix4x4 mTransformation;
@@ -125,7 +125,7 @@ struct aiNode
     /** Constructor */
     aiNode()
         // set all members to zero by default
-        : mName("")
+        : name("")
         , mParent(NULL)
         , mNumChildren(0)
         , mChildren(NULL)
@@ -139,7 +139,7 @@ struct aiNode
     /** Construction from a specific name */
     explicit aiNode(const std::string& name)
         // set all members to zero by default
-        : mName(name)
+        : name(name)
         , mParent(NULL)
         , mNumChildren(0)
         , mChildren(NULL)
@@ -186,7 +186,7 @@ struct aiNode
 
     inline const aiNode* FindNode(const char* name) const
     {
-        if (!::strcmp( mName.data,name))return this;
+        if (!::strcmp( name.data,name))return this;
         for (unsigned int i = 0; i < mNumChildren;++i)
         {
             const aiNode* const p = mChildren[i]->FindNode(name);
@@ -200,7 +200,7 @@ struct aiNode
 
     inline aiNode* FindNode(const char* name)
     {
-        if (!::strcmp( mName.data,name))return this;
+        if (!::strcmp( name.data,name))return this;
         for (unsigned int i = 0; i < mNumChildren;++i)
         {
             aiNode* const p = mChildren[i]->FindNode(name);
@@ -345,7 +345,7 @@ struct aiScene
     * An example is Quake's MDL format (which is also used by
     * some GameStudio versions)
     */
-    C_STRUCT aiTexture** mTextures;
+    C_STRUCT aiTexture** textures;
 
 
     /** The number of light sources in the scene. Light sources
@@ -399,7 +399,7 @@ struct aiScene
 
     //! Check whether the scene contains textures
     inline bool HasTextures() const
-        { return mTextures != NULL && mNumTextures > 0; }
+        { return textures != NULL && mNumTextures > 0; }
 
     //! Check whether the scene contains cameras
     inline bool HasCameras() const

@@ -34,10 +34,10 @@ Camera::~Camera()
 //*****************************************************************************
 void Camera::start()
 {
-	this->mField = D3DXToRadian(45);
-	this->mRatio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
-	this->mRangeStart = 0.1;
-	this->mRangeEnd = 1000;
+	this->field = D3DXToRadian(45);
+	this->ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
+	this->rangeStart = 0.1;
+	this->rangeEnd = 1000;
 }
 
 //*****************************************************************************
@@ -53,16 +53,16 @@ void Camera::update()
 	DebugMessage* debugMessage = getDebugMessage();
 
 	// 新しい向きベクトルを計算
-	D3DXVec3Normalize(&this->mCameraFront, &(this->mTargetTrans->mPos - this->mCameraPos));
+	D3DXVec3Normalize(&this->cameraFront, &(this->targetTrans->pos - this->cameraPos));
 	// 新しい右ベクトルを計算(外積)、そして正規化
-	D3DXVec3Cross(&this->mCameraRight, &this->mCameraFront, &worldVector.worldUp);
-	D3DXVec3Normalize(&this->mCameraRight, &this->mCameraRight);
+	D3DXVec3Cross(&this->cameraRight, &this->cameraFront, &worldVector.worldUp);
+	D3DXVec3Normalize(&this->cameraRight, &this->cameraRight);
 	// 新しい上ベクトルを計算(外積)、そして正規化
-	D3DXVec3Cross(&this->mCameraUp, &this->mCameraRight, &this->mCameraFront);
-	D3DXVec3Normalize(&this->mCameraUp, &this->mCameraUp);
+	D3DXVec3Cross(&this->cameraUp, &this->cameraRight, &this->cameraFront);
+	D3DXVec3Normalize(&this->cameraUp, &this->cameraUp);
 
 	// ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&this->mViewMatrix, &this->mCameraPos, &(this->mTargetTrans->mPos + D3DXVECTOR3(0.0f, 2.0f, 0.0f)), &this->mCameraUp);
+	D3DXMatrixLookAtLH(&this->viewMatrix, &this->cameraPos, &(this->targetTrans->pos + D3DXVECTOR3(0.0f, 2.0f, 0.0f)), &this->cameraUp);
 	// プロジェクションマトリックスの作成
-	D3DXMatrixPerspectiveFovLH(&this->mProjectionMatrix, this->mField, this->mRatio, this->mRangeStart, this->mRangeEnd);
+	D3DXMatrixPerspectiveFovLH(&this->projectionMatrix, this->field, this->ratio, this->rangeStart, this->rangeEnd);
 }

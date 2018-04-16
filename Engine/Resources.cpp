@@ -59,7 +59,7 @@ Model* Resources::getModel(string name)
 //*****************************************************************************
 void Resources::loadTexture(string name, string path)
 {
-	mTextures.insert({ name, new Texture(path) });	
+	textures.insert({ name, new Texture(path) });	
 }
 
 //*****************************************************************************
@@ -69,9 +69,9 @@ void Resources::loadTexture(string name, string path)
 //*****************************************************************************
 Texture* Resources::getTexture(string name)
 {
-	if (mTextures.find(name) != mTextures.end())
+	if (textures.find(name) != textures.end())
 	{
-		return mTextures[name];
+		return textures[name];
 	}
 	cout << "[Error] <Texture> Get " << name << " ... failed!" << endl;
 	return nullptr;

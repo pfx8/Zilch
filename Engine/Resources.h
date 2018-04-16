@@ -22,7 +22,7 @@ class Resources
 {
 private:
 	unordered_map<string, Model*>			mModels;		// モデル
-	unordered_map<string, Texture*>			mTextures;		// テクスチャ
+	unordered_map<string, Texture*>			textures;		// テクスチャ
 	unordered_map<string, Shader*>			mShaders;		// シェーダー
 
 public:

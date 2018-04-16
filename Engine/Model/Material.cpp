@@ -14,7 +14,7 @@
 //*****************************************************************************
 Material::Material(aiMaterial* mat)
 {
-	this->mShininess = 1.0f;				// デフォルト値
+	this->shininess = 1.0f;				// デフォルト値
 
 	loadingMaterial(mat);
 }
@@ -29,10 +29,10 @@ void Material::loadingMaterial(aiMaterial* mat)
 	// マテリアルの名前を取得
 	aiString name;
 	mat->Get(AI_MATKEY_NAME, name);
-	this->mName = name.C_Str();
+	this->name = name.C_Str();
 
 	// マテリアルがあれば、マテリアル属性を取得
-	if (this->mName != "DefaultMaterial")
+	if (this->name != "DefaultMaterial")
 	{
 		aiColor3D ambient(0.0f, 0.0f, 0.0f);
 		aiColor3D diffuse(0.0f, 0.0f, 0.0f);
@@ -42,17 +42,17 @@ void Material::loadingMaterial(aiMaterial* mat)
 		mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
 		mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
 	
-		this->mAmbient = D3DXVECTOR3(ambient.r, ambient.g, ambient.b);
-		this->mDiffuse = D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b);
-		this->mSpecular = D3DXVECTOR3(specular.r, specular.g, specular.b);
+		this->ambient = D3DXVECTOR3(ambient.r, ambient.g, ambient.b);
+		this->diffuse = D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b);
+		this->specular = D3DXVECTOR3(specular.r, specular.g, specular.b);
 
 		cout << "      <Material Name> : [" << name.C_Str() << "]" << endl;
 	}
 	else
 	{
-		this->mAmbient = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		this->mDiffuse = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		this->mSpecular = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		this->ambient = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		this->diffuse = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		this->specular = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		cout << "[Warning] No Material" << endl;
 	}
@@ -110,7 +110,7 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		else
 		{
 			// テクスチャを保存
-			this->mTextures.push_back(texture);
+			this->textures.push_back(texture);
 			cout << "         <Texture Name> : [" << fileName.c_str() << "]" << endl;
 		}
 		

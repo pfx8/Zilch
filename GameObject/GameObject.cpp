@@ -46,14 +46,14 @@ void GameObject::update()
 {
 	for (auto it : mComponents)
 	{
-		if (it->mStart == true)
+		if (it->isStart == true)
 		{
 			it->update();
 		}
 		else
 		{
 			it->start();
-			it->mStart = true;
+			it->isStart = true;
 		}
 	}
 }
