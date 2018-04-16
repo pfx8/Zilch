@@ -44,7 +44,8 @@ void Scene02::start()
 	resource->loadTexture("hair2", "Resources/Texture/Hixo/hair2.png");
 	resource->loadTexture("panties", "Resources/Texture/Hixo/panties.png");
 	resource->loadTexture("skin", "Resources/Texture/Hixo/skin.png");
-	resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
+	//resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
+	resource->loadModel("Hixo", "Resources/Model/Hixo.fbx");
 
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");

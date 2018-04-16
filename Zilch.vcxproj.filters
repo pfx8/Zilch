@@ -26,6 +26,7 @@
     <ClCompile Include="Engine\Model\Material.cpp" />
     <ClCompile Include="Component\CameraController.cpp" />
     <ClCompile Include="Engine\GameTimes.cpp" />
+    <ClCompile Include="Engine\Model\Bone.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="Engine\Model\Material.h" />
     <ClInclude Include="Component\CameraController.h" />
     <ClInclude Include="Engine\GameTimes.h" />
+    <ClInclude Include="Engine\Model\Bone.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
