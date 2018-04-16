@@ -46,6 +46,7 @@ void Scene02::start()
 	resource->loadTexture("skin", "Resources/Texture/Hixo/skin.png");
 	//resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
 	resource->loadModel(MT_withBone, "Hixo", "Resources/Model/Hixo.fbx");
+	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");

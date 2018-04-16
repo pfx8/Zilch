@@ -10,6 +10,7 @@
 
 #include "Mesh.h"
 #include "Material.h"
+#include "Animation.h"
 #include "../Engine.h"
 #include "../Shader.h"
 #include "../../Component/Camera.h"
@@ -29,10 +30,12 @@ private:
 
 public:
 	vector<Mesh*>					mMeshes;					// メッシュデータ
+	vector<Animation*>			mAnimationes;			// アニメーションデータ
 
-	Model(MeshType type, string const &mPath);
+	Model(MeshType type, string const &path);
 	~Model();
 
+	void addAnimation(Animation* animation);		// アニメーションデータを読み込み
 	void draw(Transform* trans, Camera* camera);	// モデルを描画する
 };
 

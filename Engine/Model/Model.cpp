@@ -49,10 +49,10 @@ Model::~Model()
 // モデルをロードする
 //
 //*****************************************************************************
-HRESULT Model::loadModel(string const &mPath)
+HRESULT Model::loadModel(string const &path)
 {
 	Assimp::Importer import;			// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(mPath, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
+	const aiScene *scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -86,6 +86,16 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 	{
 		processNode(node->mChildren[count], scene);
 	}
+}
+
+//*****************************************************************************
+//
+// アニメーションデータを読み込み
+//
+//*****************************************************************************
+void Model::addAnimation(Animation* animation)
+{
+	this->mAnimationes.push_back(animation);
 }
 
 //*****************************************************************************

@@ -32,6 +32,8 @@
     <ClCompile Include="Engine\GameTimes.cpp" />
     <ClCompile Include="Engine\input.cpp" />
     <ClCompile Include="Engine\Light.cpp" />
+    <ClCompile Include="Engine\Model\Animation.cpp" />
+    <ClCompile Include="Engine\Model\AnimationChannel.cpp" />
     <ClCompile Include="Engine\Model\Bone.cpp" />
     <ClCompile Include="Engine\Model\Material.cpp" />
     <ClCompile Include="Engine\Model\Mesh.cpp" />
@@ -60,6 +62,8 @@
     <ClInclude Include="Engine\GameTimes.h" />
     <ClInclude Include="Engine\input.h" />
     <ClInclude Include="Engine\Light.h" />
+    <ClInclude Include="Engine\Model\Animation.h" />
+    <ClInclude Include="Engine\Model\AnimationChannel.h" />
     <ClInclude Include="Engine\Model\Bone.h" />
     <ClInclude Include="Engine\Model\Material.h" />
     <ClInclude Include="Engine\Model\Mesh.h" />
