@@ -22,9 +22,9 @@ private:
 
 public:
 	// 骨情報
-	unsigned int					mIndex;								// 
+	unsigned int					mIndex;								// 骨の番号
 	D3DXMATRIX					mNodeTransform;				// 
-	D3DXMATRIX					mOffset;								// 
+	D3DXMATRIX					mOffset;								// モデルのルートに対して変更行列
 	
 	// アニメーション情報
 	D3DXMATRIX					mLastTransform;				// 最後計算できた行列

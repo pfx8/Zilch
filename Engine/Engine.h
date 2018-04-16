@@ -40,6 +40,7 @@ class Scene;
 class Component;
 class Texture;
 class Material;
+class Bone;
 class Mesh;
 class Model;
 class Resources;
@@ -66,10 +67,11 @@ class SceneManager;
 // マクロ定義
 //
 //*****************************************************************************
-#define CLASS_NAME			_T("D3d9Class")				// ウインドウのクラス名
-#define WINDOW_NAME		_T("Project : Zilch")		// ウインドウのキャプション名
-#define SCREEN_WIDTH		(1280)								// ウインドウの幅
-#define SCREEN_HEIGHT		(720)								// ウインドウの高さ
+#define CLASS_NAME							_T("D3d9Class")				// ウインドウのクラス名
+#define WINDOW_NAME						_T("Project : Zilch")		// ウインドウのキャプション名
+#define SCREEN_WIDTH						(1280)								// ウインドウの幅
+#define SCREEN_HEIGHT						(720)								// ウインドウの高さ
+#define NUM_BONES_PER_VEREX		(8)									// 頂点1個が影響される骨の最大数は4本
 
 #define RELEASE_POINT(ptr)								{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
 #define RELEASE_CLASS_POINT(ptr)					{ if(ptr) { delete ptr; } }

@@ -36,10 +36,13 @@ void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
 {
 	cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
 
+	unsigned int	numBones = 0;		// 骨の数
+	unordered_map<string, Bone>		boneMapping;		//	骨マップ
+
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
 	{
-		Vertex vertex;
+		VertexBone vertex;
 
 		// 位置
 		// blender座標とDX座標が違うので、Y軸とZ軸を交換
@@ -94,6 +97,51 @@ void Mesh::loadingMesh(aiMesh *mesh, const aiScene *scene)
 
 		// 取得した頂点を頂点コンテナの末尾に追加
 		this->mVertices.push_back(vertex);
+	}
+
+	// 骨処理
+	for (unsigned int count = 0; count < mesh->mNumBones; count++)
+	{
+		unsigned int boneIndex = 0;
+		string boneName{ mesh->mBones[count]->mName.C_Str() };			// 骨の名前を取得
+
+		cout << "      <Bone Name> [" << count << "] " << boneName << endl;
+
+		// 新しい骨ならば
+		if (boneMapping.find(boneName) == boneMapping.end())
+		{
+			// 骨の番号を付き
+			boneIndex = numBones;
+			numBones++;
+
+			// 骨データを保存
+			D3DXMATRIX offset(mesh->mBones[count]->mOffsetMatrix[0]);		// aiMatrixからD3DXMATRIXへ変更
+			Bone bone = Bone(boneIndex, offset);
+			boneMapping[boneName] = bone;
+		}
+		else
+		{
+			// 骨マップから骨の番後を取得
+			boneIndex = boneMapping[boneName].mIndex;
+		}
+
+		// 頂点に骨情報を入れる
+		for (unsigned int i = 0; i < mesh->mBones[count]->mNumWeights; i++)
+		{
+			// 今の骨に対して各影響されてる頂点のIDと重みを取得
+			unsigned int vertexID = mesh->mBones[count]->mWeights[i].mVertexId;
+			float weight = mesh->mBones[count]->mWeights[i].mWeight;
+
+			// 頂点に情報を入れる
+			for (unsigned int j = 0; j < NUM_BONES_PER_VEREX; j++)
+			{
+				if (mVertices.at(vertexID).weights[j] == 0)
+				{
+					mVertices.at(vertexID).boneID[j] = boneIndex;
+					mVertices.at(vertexID).weights[j] = weight;
+				}
+			}
+		}
 	}
 
 	// インデックス処理
@@ -154,13 +202,13 @@ HRESULT Mesh::SetupMesh()
 	}
 
 	// 頂点バッファ作成
-	if (FAILED(pD3DDevice->CreateVertexBuffer(mVertices.size() * sizeof(Vertex), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->mVertexBuffer, NULL)))
+	if (FAILED(pD3DDevice->CreateVertexBuffer(mVertices.size() * sizeof(VertexBone), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->mVertexBuffer, NULL)))
 	{
 		cout << "[Error] <Mesh> Make vertex buffer ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 		
-	Vertex* vertices = nullptr;
+	VertexBone* vertices = nullptr;
 		
 	// 頂点データの範囲をロックし、頂点バッファ メモリへのポインタを取得
 	this->mVertexBuffer->Lock(0, 0, (void**)&vertices, 0);
@@ -245,9 +293,9 @@ void Mesh::draw(Transform* trans, Camera* camera)
 		shader->mEffect->BeginPass(count);
 
 		HRESULT hr;
-		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);							// 頂点宣言を設定
-		hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(Vertex));				// 頂点バッファを設定
-		hr = pD3DDevice->SetIndices(this->mIndexBuffer);											// インデックスバッファを設定
+		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);											// 頂点宣言を設定
+		hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexBone));				// 頂点バッファを設定
+		hr = pD3DDevice->SetIndices(this->mIndexBuffer);															// インデックスバッファを設定
 		unsigned int vertexNums = mVertices.size();
 		unsigned int faceNums = mIndices.size() / 3;
 		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画
