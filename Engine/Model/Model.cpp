@@ -12,11 +12,22 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(string const &path)
+Model::Model(MeshType type, string const &path)
 {
+	// メッシュタイプを取得
+	this->mMeshType = type;
 	// モデルの名前を取得
 	string fileName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp c:/aaa/bbb/ccc.fbx -> ccc.fbx
-	cout << endl << "<Model> : ["  << fileName << "]" << endl;
+
+	switch (this->mMeshType)
+	{
+	case MT_default:
+		cout << endl << "<Model> : [" << fileName << "] <default>" << endl;
+		break;
+	case MT_withBone:
+		cout << endl << "<Model> : [" << fileName << "] <withBone>" << endl;
+		break;
+	}
 
 	loadModel(path);
 
@@ -67,7 +78,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(new Mesh(aiMesh, scene));
+		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, scene));
 	}
 
 	// 子供ノードを同じように処理する

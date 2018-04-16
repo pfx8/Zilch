@@ -32,9 +32,9 @@ Resources::~Resources()
 // Assimpでモデルを読み込み
 //
 //*****************************************************************************
-void Resources::loadModel(string name, string path)
+void Resources::loadModel(MeshType type, string name, string path)
 {
-	mModels.insert({ name, new Model(path) }); // モデルを名前とデータをペアにする
+	mModels.insert({ name, new Model(type, path) }); // モデルを名前とデータをペアにする
 }
 
 //*****************************************************************************

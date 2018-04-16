@@ -23,13 +23,14 @@
 class Model
 {
 private:
+	enum MeshType					mMeshType;									// メッシュタイプ
 	HRESULT loadModel(string const &path);									// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
 
 public:
 	vector<Mesh*>					mMeshes;					// メッシュデータ
 
-	Model(string const &mPath);
+	Model(MeshType type, string const &mPath);
 	~Model();
 
 	void draw(Transform* trans, Camera* camera);	// モデルを描画する

@@ -33,7 +33,7 @@ void Scene02::start()
 
 	// 床
 	resource->loadTexture("grid", "Resources/Texture/grid.png");
-	resource->loadModel("gridField", "Resources/Model/field.fbx");
+	resource->loadModel(MT_default,"gridField", "Resources/Model/field.fbx");
 
 	// Hixo
 	resource->loadTexture("clothes", "Resources/Texture/Hixo/clothes.png");
@@ -45,7 +45,7 @@ void Scene02::start()
 	resource->loadTexture("panties", "Resources/Texture/Hixo/panties.png");
 	resource->loadTexture("skin", "Resources/Texture/Hixo/skin.png");
 	//resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
-	resource->loadModel("Hixo", "Resources/Model/Hixo.fbx");
+	resource->loadModel(MT_withBone, "Hixo", "Resources/Model/Hixo.fbx");
 
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
