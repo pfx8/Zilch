@@ -81,6 +81,8 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, scene));
 	}
 
+	// ノードメッセージを保存
+
 	// 子供ノードを同じように処理する
 	for (unsigned int count = 0; count < node->mNumChildren; count++)
 	{
@@ -96,6 +98,16 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 void Model::addAnimation(Animation* animation)
 {
 	this->mAnimationes.push_back(animation);
+}
+
+//*****************************************************************************
+//
+// アニメーション更新
+//
+//*****************************************************************************
+void Model::updateAnimation(float timeInSeconds)
+{
+	this->mAnimationes[this->mCurAnimation]->processBoneTransform(this->mMatrix, timeInSeconds);
 }
 
 //*****************************************************************************

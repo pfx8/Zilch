@@ -89,7 +89,6 @@ public:
 	vector<VertexBone>										mVertices;					// 頂点データ
 	vector<unsigned int>									mIndices;					// インデックスデータ
 	vector<Material*>											mMaterials;				// マテリアルデータ
-	vector<Bone*>												mBones;						// 骨データ
 
 	Mesh(MeshType type, aiMesh *mesh, const aiScene *scene);		// メッシュの初期化
 	~Mesh();

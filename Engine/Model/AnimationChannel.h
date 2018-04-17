@@ -34,11 +34,9 @@ struct QuaternionKey
 class AnimationChannel
 {
 private:
-	float									mDuration;											// アニメーションの続き時間(単位はfps)
-	float									mTicksPerSecond;								// fps/seconds
-	unsigned int						mNumChannels;								// 子供ノードのアニメーション数
 
 public:
+	string									mBoneName;										// 骨の名前
 	vector<VertexKey>			mPosKeys;											// 頂点座標
 	vector<QuaternionKey>	mRotkeys;											// 回転四元数
 	vector<VertexKey>			mSclKeys;											// 拡大縮小データ
