@@ -38,17 +38,17 @@ void Transform::update()
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
 
 	// ワールドマトリックスを初期化する
-	D3DXMatrixIdentity(&this->worldMatrix);
+	D3DXMatrixIdentity(&this->mWorldMatrix);
 
 	// スケールを反映
-	D3DXMatrixScaling(&mtxScl, scl.x, scl.y, scl.z);
-	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxScl);
+	D3DXMatrixScaling(&mtxScl, mScl.x, mScl.y, mScl.z);
+	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxScl);
 
 	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
-	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxRot);
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, mRot.y, mRot.x, mRot.z);
+	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxRot);
 
 	// 平行移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
-	D3DXMatrixMultiply(&this->worldMatrix, &this->worldMatrix, &mtxTranslate);
+	D3DXMatrixTranslation(&mtxTranslate, mPos.x, mPos.y, mPos.z);
+	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxTranslate);
 }

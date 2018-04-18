@@ -54,26 +54,26 @@ void Scene02::start()
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
 	Camera* camera = new Camera();
-	camera->cameraPos = D3DXVECTOR3(0.0f, 4.0f, -5.0f);
+	camera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, -5.0f);
 
 	// player
 	GameObject* player = new GameObject();
 	Transform* playerTrans = new Transform();											// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
-	playerTrans->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	playerTrans->mPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	player->addComponent<Transform>("trans", playerTrans);
 	PlayerController* playerController = new PlayerController();
 	player->addComponent<PlayerController>("playerController", playerController);
 	CameraController* cameraController = new CameraController();
-	cameraController->mainCamera = mainCamera;
+	cameraController->mMainCamera = mainCamera;
 	player->addComponent<CameraController>("cameraController", cameraController);
 	MeshRender* playerMeshRender = new MeshRender();
-	playerMeshRender->model = resource->getModel("Hixo");							// リソースからモデルを取得
-	playerMeshRender->shader = resource->getShader("phongShading");			// シェーダーを取得
+	playerMeshRender->mModel = resource->getModel("Hixo");							// リソースからモデルを取得
+	playerMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
 	player->addComponent<MeshRender>("meshRender", playerMeshRender);
 	this->addGameObject("player", player);
 
 	// mainCamera
-	camera->targetTrans = playerTrans;
+	camera->mTargetTrans = playerTrans;
 	mainCamera->addComponent<Camera>("camera", camera);
 	this->addGameObject("mainCamera", mainCamera);
 
@@ -83,8 +83,8 @@ void Scene02::start()
 	gridFieldTrans->mScl = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->model = resource->getModel("gridField");						// リソースからモデルを取得
-	gridFieldMeshRender->shader = resource->getShader("phongShading");			// シェーダーを取得
+	gridFieldMeshRender->mModel = resource->getModel("gridField");						// リソースからモデルを取得
+	gridFieldMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
 	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);
 }

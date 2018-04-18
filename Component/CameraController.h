@@ -25,20 +25,20 @@
 class CameraController : public Component
 {
 private:
-	float							offsetFromTargetMin = 5.0f;		// プレーヤーとカメラの偏り(半径)の最小値
-	float							offsetFromTargetMax = 9.0f;		// プレーヤーとカメラの偏り(半径)の最大値
+	float		mOffsetFromTargetMin = 5.0f;		// プレーヤーとカメラの偏り(半径)の最小値
+	float		mOffsetFromTargetMax = 9.0f;		// プレーヤーとカメラの偏り(半径)の最大値
 
-	float							verticalRadiansMin = cosf(D3DXToRadian(65.0f));			// カメラの垂直角度の最小値
-	float							verticalRadiansMax = cosf(D3DXToRadian(15.0f));			// カメラの垂直角度の最大値
+	float		mVerticalRadiansMin = cosf(D3DXToRadian(65.0f));			// カメラの垂直角度の最小値
+	float		mVerticalRadiansMax = cosf(D3DXToRadian(15.0f));			// カメラの垂直角度の最大値
 
-	float							rotateSpeedHorizonal = 2.0f;			// 水平移動スピード
-	float							rotateSpeedVertical = 1.0f;				// 垂直移動スピード
-	float							zoomSpeed = 2.0f;							// ゾーンスピード
+	float		mRotateSpeedHorizonal = 2.0f;			// 水平移動スピード
+	float		mRotateSpeedVertical = 1.0f;				// 垂直移動スピード
+	float		mZoomSpeed = 2.0f;								// ゾーンスピード
 
-	D3DXVECTOR3			offsetFromTarget;			// カメラと目標の偏り
+	D3DXVECTOR3			mOffsetFromTarget;			// カメラと目標の偏り
 
 public:
-	GameObject*				mainCamera;					// マインカメラ
+	GameObject*				mMainCamera;					// マインカメラ
 
 	CameraController();
 	~CameraController();

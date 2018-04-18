@@ -45,7 +45,7 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, vector<D3DXMATRIX>* transforms, const ai
 //*****************************************************************************
 void Mesh::createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene)
 {
-	cout << "   <Mesh Name> : [" << mesh->name.C_Str() << "]" << endl;
+	cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
 
 	unsigned int	numBones = 0;		// 骨の数
 	unordered_map<string, Bone*>	boneMapping;		//	骨マップ
@@ -475,14 +475,14 @@ void Mesh::draw(Transform* trans, Camera* camera)
 	shader->mEffect->SetTechnique("defaultRender");
 
 	// モデルのワールド変換行列をシェーダーに渡る
-	shader->mEffect->SetMatrix("worldMatrix", &trans->worldMatrix);
+	shader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
 
 	// カメラの行列をシェーダーに渡る
-	shader->mEffect->SetMatrix("viewMatrix", &camera->viewMatrix);
-	shader->mEffect->SetMatrix("projectionMatrix", &camera->projectionMatrix);
+	shader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
+	shader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
 
 	// テクスチャを渡す
-	LPDIRECT3DTEXTURE9	 diffuse = this->mMaterials.at(0)->textures.at(0)->mTex;
+	LPDIRECT3DTEXTURE9	 diffuse = this->mMaterials.at(0)->mTextures.at(0)->mTex;
 	shader->mEffect->SetTexture("diffuse", diffuse);
 
 	// 描画

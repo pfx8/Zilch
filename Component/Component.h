@@ -19,8 +19,8 @@ private:
 	virtual void update() {};
 
 public:
-	GameObject*			gameObject;					// 所属GameObjectの他のコンポーネントを取れるように
-	bool							isStart = false;				// スタートマック
+	GameObject*			mGameObject;					// 所属GameObjectの他のコンポーネントを取れるように
+	bool							mStart = false;						// スタートマック
 
 	Component();
 	virtual ~Component();

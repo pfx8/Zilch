@@ -20,14 +20,14 @@
 class Material
 {
 private:
-	string								name;					// マテリアルの名前
+	string							mName;					// マテリアルの名前
 
 public:
-	vector<Texture*>			textures;				// テクスチャ
-	D3DXVECTOR3				ambient;				// 環境光
-	D3DXVECTOR3				diffuse;				// 拡散反射光
-	D3DXVECTOR3				specular;				// 鏡面反射光
-	float								shininess;			// 光沢
+	vector<Texture*>		mTextures;				// テクスチャ
+	D3DXVECTOR3			mAmbient;				// 環境光
+	D3DXVECTOR3			mDiffuse;				// 拡散反射光
+	D3DXVECTOR3			mSpecular;				// 鏡面反射光
+	float							mShininess;			// 光沢
 
 	// マテリアルがなければデフォルトで初期化
 	Material(aiMaterial* mat);

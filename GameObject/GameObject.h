@@ -36,7 +36,7 @@ public:
 	template<typename T> void addComponent(string name, T* t)
 	{
 		// 添付したいコンポーネントの中に所属GameObjectのポインタを入れる
-		t->gameObject = this;
+		t->mGameObject = this;
 
 		if (name == "meshRender")
 		{

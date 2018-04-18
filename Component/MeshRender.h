@@ -21,8 +21,8 @@ class MeshRender : public Component
 private:
 
 public:
-	Model*				model;							// 描画するモデル
-	Shader*				shader;						// 描画する用のシェーダー
+	Model*				mModel;							// 描画するモデル
+	Shader*				mShader;						// 描画する用のシェーダー
 
 	MeshRender();
 	~MeshRender();

@@ -30,6 +30,7 @@ public:
 	D3DXMATRIX				mFinaTransform;				// すべての親行列を計算した最終行列
 	D3DXVECTOR3				mScl;									// 拡大縮小
 	D3DXVECTOR3				mSot;									// 角度の変更
+
 	Bone();
 	Bone(unsigned int index, D3DXMATRIX offset);
 	~Bone();

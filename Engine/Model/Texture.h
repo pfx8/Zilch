@@ -35,6 +35,11 @@ public:
 	{
 		return this->mPath;
 	}
+
+	//void deleteTex()
+	//{
+	//	RELEASE_POINT(mTex);
+	//}
 };
 
 #endif // !_TEXTURE_H_

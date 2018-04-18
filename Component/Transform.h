@@ -17,11 +17,11 @@ private:
 	void update();
 
 public:
-	D3DXMATRIX			worldMatrix;			// ワールド変換行列
+	D3DXMATRIX			mWorldMatrix;			// ワールド変換行列
 
-	D3DXVECTOR3		pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 位置
-	D3DXVECTOR3		scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);				// 拡大縮小
-	D3DXVECTOR3		rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 角度
+	D3DXVECTOR3		mPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 位置
+	D3DXVECTOR3		mScl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);				// 拡大縮小
+	D3DXVECTOR3		mRot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 角度
 
 	Transform();
 	virtual ~Transform();
