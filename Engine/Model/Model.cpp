@@ -78,7 +78,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, scene));
+		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, &this->mTransforms, scene));
 	}
 
 	// ノードメッセージを保存
@@ -107,7 +107,7 @@ void Model::addAnimation(Animation* animation)
 //*****************************************************************************
 void Model::updateAnimation(float timeInSeconds)
 {
-	this->mAnimationes[this->mCurAnimation]->processBoneTransform(this->mMatrix, timeInSeconds);
+	this->mAnimationes[this->mCurAnimation]->processBoneTransforms(timeInSeconds, this->mTransforms);
 }
 
 //*****************************************************************************

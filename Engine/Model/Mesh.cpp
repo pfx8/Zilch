@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Mesh::Mesh(MeshType type, aiMesh* mesh, const aiScene* scene)
+Mesh::Mesh(MeshType type, aiMesh* mesh, vector<D3DXMATRIX>* transforms, const aiScene* scene)
 {
 	// メッシュタイプを設定
 	this->mMeshType = type;
@@ -31,7 +31,7 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, const aiScene* scene)
 		SetupMesh();
 		break;
 	case MT_withBone:
-		createMeshWithBone(mesh, scene);
+		createMeshWithBone(mesh, transforms, scene);
 		SetupMeshWithBone();
 		break;
 	}
@@ -43,7 +43,7 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, const aiScene* scene)
 // 骨付きメッシュを読み込み
 //
 //*****************************************************************************
-void Mesh::createMeshWithBone(aiMesh *mesh, const aiScene *scene)
+void Mesh::createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene)
 {
 	cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
 
@@ -120,7 +120,7 @@ void Mesh::createMeshWithBone(aiMesh *mesh, const aiScene *scene)
 		unsigned int boneIndex = 0;
 		string boneName{ mesh->mBones[count]->mName.C_Str() };			// 骨の名前を取得
 
-		cout << "      <Bone Name> [" << count << "] " << boneName << endl;
+		//cout << "      <Bone Name> [" << count << "] " << boneName << endl;
 
 		// 新しい骨ならば
 		if (boneMapping.find(boneName) == boneMapping.end())
@@ -132,10 +132,13 @@ void Mesh::createMeshWithBone(aiMesh *mesh, const aiScene *scene)
 			// 骨データを保存
 			D3DXMATRIX offset(mesh->mBones[count]->mOffsetMatrix[0]);		// aiMatrixからD3DXMATRIXへ変更
 			Bone *bone = new Bone(boneIndex, offset);
-			// 骨データを保存
-			mBones.push_back(bone);
 			// 2回読み込みを防ぐ
 			boneMapping[boneName] = bone;
+
+			// 骨にデファクト変換行列を作る
+			D3DXMATRIX matrix;
+			D3DXMatrixIdentity(&matrix);
+			transforms->push_back(matrix);
 		}
 		else
 		{
@@ -157,6 +160,7 @@ void Mesh::createMeshWithBone(aiMesh *mesh, const aiScene *scene)
 				{
 					mVertices.at(vertexID).boneID[j] = boneIndex;
 					mVertices.at(vertexID).weights[j] = weight;
+					break;
 				}
 			}
 		}

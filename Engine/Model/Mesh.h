@@ -69,16 +69,15 @@ enum MeshType
 class Mesh
 {
 private:
-	MeshType											mMeshType;					// メッシュタイプ
-	D3DXVECTOR3									mBoundingBoxMax;		// バウンディングボックスマックス座標の最大値
-	D3DXVECTOR3									mBoundingBoxMin;		// バウンディングボックスマックス座標の最小値
-
-	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;	// 頂点バッファへのポインタ
-	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;	// 頂点インデックスバッファ
-	IDirect3DVertexDeclaration9*			mVertexDecl;		// 頂点シェーダー宣言
+	MeshType							mMeshType;			// メッシュタイプ
+	D3DXVECTOR3						mBoundingBoxMax;		// バウンディングボックスマックス座標の最大値
+	D3DXVECTOR3						mBoundingBoxMin;		// バウンディングボックスマックス座標の最小値
+	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;		// 頂点バッファへのポインタ
+	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;		// 頂点インデックスバッファ
+	IDirect3DVertexDeclaration9*		mVertexDecl;			// 頂点シェーダー宣言
 
 	void createMesh(aiMesh *mesh, const aiScene *scene);										//	デフォルトメッシュを読み込み
-	void createMeshWithBone(aiMesh *mesh, const aiScene *scene);						// 骨付きメッシュを読み込み
+	void createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene);						// 骨付きメッシュを読み込み
 	HRESULT SetupMesh();																								// デフォルトメッシュをセットアップ
 	HRESULT SetupMeshWithBone();																			// 骨付きメッシュをセットアップ
 
@@ -86,11 +85,11 @@ private:
 
 public:
 	// メッシュデータ
-	vector<VertexBone>										mVertices;					// 頂点データ
-	vector<unsigned int>									mIndices;					// インデックスデータ
-	vector<Material*>											mMaterials;				// マテリアルデータ
+	vector<VertexBone>				mVertices;				// 頂点データ
+	vector<unsigned int>				mIndices;				// 頂点インデックスデータ
+	vector<Material*>					mMaterials;				// マテリアルデータ
 
-	Mesh(MeshType type, aiMesh *mesh, const aiScene *scene);		// メッシュの初期化
+	Mesh(MeshType type, aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene);		// メッシュの初期化
 	~Mesh();
 
 	void draw(Transform* trans, Camera* camera);	// ドロー

@@ -22,12 +22,12 @@ private:
 
 public:
 	// 骨情報
-	unsigned int					mIndex;								// 骨の番号
-	D3DXMATRIX					mNodeTransform;				// 
-	D3DXMATRIX					mOffset;								// モデルのルートに対して変更行列
+	unsigned int				mIndex;						// 骨の番号
+	D3DXMATRIX				mNodeTransform;				// 
+	D3DXMATRIX				mOffset;						// モデルのルートに対して変更行列
 	
 	// アニメーション情報
-	D3DXMATRIX					mFinaTransform;				// すべての親行列を計算した最終行列
+	D3DXMATRIX				mFinaTransform;				// すべての親行列を計算した最終行列
 	D3DXVECTOR3				mScl;									// 拡大縮小
 	D3DXVECTOR3				mSot;									// 角度の変更
 
