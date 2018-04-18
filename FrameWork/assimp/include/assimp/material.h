@@ -653,13 +653,13 @@ public:
      * NULL is a valid value for this parameter.
      */
     template <typename Type>
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, Type* pOut, unsigned int* pMax) const;
 
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, int* pOut, unsigned int* pMax) const;
 
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, float* pOut, unsigned int* pMax) const;
 
     // -------------------------------------------------------------------
@@ -673,26 +673,26 @@ public:
      * @param pOut Reference to receive the output value
      */
     template <typename Type>
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx,Type& pOut) const;
 
 
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, int& pOut) const;
 
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, float& pOut) const;
 
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, aiString& pOut) const;
 
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, aiColor3D& pOut) const;
 
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, aiColor4D& pOut) const;
 
-    aiReturn Get(const char* pKey,unsigned int mType,
+    aiReturn Get(const char* pKey,unsigned int type,
         unsigned int idx, aiUVTransform& pOut) const;
 
     // -------------------------------------------------------------------
@@ -700,7 +700,7 @@ public:
      *  @param type Texture type to check for
      *  @return Number of textures for this type.
      *  @note A texture can be easily queried using #GetTexture() */
-    unsigned int GetTextureCount(aiTextureType mType) const;
+    unsigned int GetTextureCount(aiTextureType type) const;
 
     // -------------------------------------------------------------------
     /** Helper function to get all parameters pertaining to a
@@ -730,9 +730,9 @@ public:
     *    axis: UVW order (=XYZ)).
     */
     // -------------------------------------------------------------------
-    aiReturn getTexture(aiTextureType mType,
+    aiReturn GetTexture(aiTextureType type,
         unsigned int  index,
-        C_STRUCT aiString* mPath,
+        C_STRUCT aiString* path,
         aiTextureMapping* mapping   = NULL,
         unsigned int* uvindex       = NULL,
         float* blend                = NULL,
@@ -756,7 +756,7 @@ public:
     aiReturn AddBinaryProperty (const void* pInput,
         unsigned int pSizeInBytes,
         const char* pKey,
-        unsigned int mType ,
+        unsigned int type ,
         unsigned int index ,
         aiPropertyTypeInfo pType);
 
@@ -770,7 +770,7 @@ public:
      *  @param index Set by the AI_MATKEY_XXX macro */
     aiReturn AddProperty (const aiString* pInput,
         const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     // ------------------------------------------------------------------------------
@@ -784,43 +784,43 @@ public:
     aiReturn AddProperty (const TYPE* pInput,
         unsigned int pNumValues,
         const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     aiReturn AddProperty (const aiVector3D* pInput,
         unsigned int pNumValues,
         const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     aiReturn AddProperty (const aiColor3D* pInput,
         unsigned int pNumValues,
         const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     aiReturn AddProperty (const aiColor4D* pInput,
         unsigned int pNumValues,
         const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     aiReturn AddProperty (const int* pInput,
         unsigned int pNumValues,
         const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     aiReturn AddProperty (const float* pInput,
         unsigned int pNumValues,
         const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     aiReturn AddProperty (const aiUVTransform* pInput,
         unsigned int pNumValues,
         const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     // ------------------------------------------------------------------------------
@@ -831,7 +831,7 @@ public:
      *  @param type Set by the AI_MATKEY_XXX macro
      *  @param index Set by the AI_MATKEY_XXX macro  */
     aiReturn RemoveProperty (const char* pKey,
-        unsigned int mType  = 0,
+        unsigned int type  = 0,
         unsigned int index = 0);
 
     // ------------------------------------------------------------------------------
@@ -902,7 +902,7 @@ extern "C" {
 //! @endcond
 
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_TEXTURE(mType, N) _AI_MATKEY_TEXTURE_BASE,mType,N
+#define AI_MATKEY_TEXTURE(type, N) _AI_MATKEY_TEXTURE_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -942,7 +942,7 @@ extern "C" {
 //! @endcond
 
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_UVWSRC(mType, N) _AI_MATKEY_UVWSRC_BASE,mType,N
+#define AI_MATKEY_UVWSRC(type, N) _AI_MATKEY_UVWSRC_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -981,7 +981,7 @@ extern "C" {
 
 //! @endcond
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_TEXOP(mType, N) _AI_MATKEY_TEXOP_BASE,mType,N
+#define AI_MATKEY_TEXOP(type, N) _AI_MATKEY_TEXOP_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -1020,7 +1020,7 @@ extern "C" {
 
 //! @endcond
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_MAPPING(mType, N) _AI_MATKEY_MAPPING_BASE,mType,N
+#define AI_MATKEY_MAPPING(type, N) _AI_MATKEY_MAPPING_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -1059,7 +1059,7 @@ extern "C" {
 
 //! @endcond
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_TEXBLEND(mType, N) _AI_MATKEY_TEXBLEND_BASE,mType,N
+#define AI_MATKEY_TEXBLEND(type, N) _AI_MATKEY_TEXBLEND_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -1098,7 +1098,7 @@ extern "C" {
 
 //! @endcond
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_MAPPINGMODE_U(mType, N) _AI_MATKEY_MAPPINGMODE_U_BASE,mType,N
+#define AI_MATKEY_MAPPINGMODE_U(type, N) _AI_MATKEY_MAPPINGMODE_U_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -1137,7 +1137,7 @@ extern "C" {
 
 //! @endcond
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_MAPPINGMODE_V(mType, N) _AI_MATKEY_MAPPINGMODE_V_BASE,mType,N
+#define AI_MATKEY_MAPPINGMODE_V(type, N) _AI_MATKEY_MAPPINGMODE_V_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -1176,7 +1176,7 @@ extern "C" {
 
 //! @endcond
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_TEXMAP_AXIS(mType, N) _AI_MATKEY_TEXMAP_AXIS_BASE,mType,N
+#define AI_MATKEY_TEXMAP_AXIS(type, N) _AI_MATKEY_TEXMAP_AXIS_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -1215,7 +1215,7 @@ extern "C" {
 
 //! @endcond
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_UVTRANSFORM(mType, N) _AI_MATKEY_UVTRANSFORM_BASE,mType,N
+#define AI_MATKEY_UVTRANSFORM(type, N) _AI_MATKEY_UVTRANSFORM_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -1257,7 +1257,7 @@ extern "C" {
 
 //! @endcond
 // ---------------------------------------------------------------------------
-#define AI_MATKEY_TEXFLAGS(mType, N) _AI_MATKEY_TEXFLAGS_BASE,mType,N
+#define AI_MATKEY_TEXFLAGS(type, N) _AI_MATKEY_TEXFLAGS_BASE,type,N
 
 // For backward compatibility and simplicity
 //! @cond MATS_DOC_FULL
@@ -1313,7 +1313,7 @@ extern "C" {
 ASSIMP_API C_ENUM aiReturn aiGetMaterialProperty(
      const C_STRUCT aiMaterial* pMat,
     const char* pKey,
-     unsigned int mType,
+     unsigned int type,
     unsigned int  index,
     const C_STRUCT aiMaterialProperty** pPropOut);
 
@@ -1346,7 +1346,7 @@ ASSIMP_API C_ENUM aiReturn aiGetMaterialProperty(
 ASSIMP_API C_ENUM aiReturn aiGetMaterialFloatArray(
     const C_STRUCT aiMaterial* pMat,
     const char* pKey,
-    unsigned int mType,
+    unsigned int type,
     unsigned int index,
     float* pOut,
     unsigned int* pMax);
@@ -1375,11 +1375,11 @@ ASSIMP_API C_ENUM aiReturn aiGetMaterialFloatArray(
 // ---------------------------------------------------------------------------
 inline aiReturn aiGetMaterialFloat(const aiMaterial* pMat,
     const char* pKey,
-    unsigned int mType,
+    unsigned int type,
     unsigned int index,
     float* pOut)
 {
-    return aiGetMaterialFloatArray(pMat,pKey,mType,index,pOut,(unsigned int*)0x0);
+    return aiGetMaterialFloatArray(pMat,pKey,type,index,pOut,(unsigned int*)0x0);
 }
 
 #else
@@ -1398,7 +1398,7 @@ inline aiReturn aiGetMaterialFloat(const aiMaterial* pMat,
  * See the sample for aiGetMaterialFloatArray for more information.*/
 ASSIMP_API C_ENUM aiReturn aiGetMaterialIntegerArray(const C_STRUCT aiMaterial* pMat,
      const char* pKey,
-     unsigned int  mType,
+     unsigned int  type,
      unsigned int  index,
      int* pOut,
      unsigned int* pMax);
@@ -1413,11 +1413,11 @@ ASSIMP_API C_ENUM aiReturn aiGetMaterialIntegerArray(const C_STRUCT aiMaterial* 
 // ---------------------------------------------------------------------------
 inline aiReturn aiGetMaterialInteger(const C_STRUCT aiMaterial* pMat,
     const char* pKey,
-    unsigned int mType,
+    unsigned int type,
    unsigned int index,
     int* pOut)
 {
-    return aiGetMaterialIntegerArray(pMat,pKey,mType,index,pOut,(unsigned int*)0x0);
+    return aiGetMaterialIntegerArray(pMat,pKey,type,index,pOut,(unsigned int*)0x0);
 }
 
 #else
@@ -1437,7 +1437,7 @@ inline aiReturn aiGetMaterialInteger(const C_STRUCT aiMaterial* pMat,
 // ---------------------------------------------------------------------------
 ASSIMP_API C_ENUM aiReturn aiGetMaterialColor(const C_STRUCT aiMaterial* pMat,
     const char* pKey,
-    unsigned int mType,
+    unsigned int type,
     unsigned int index,
     C_STRUCT aiColor4D* pOut);
 
@@ -1449,7 +1449,7 @@ ASSIMP_API C_ENUM aiReturn aiGetMaterialColor(const C_STRUCT aiMaterial* pMat,
 // ---------------------------------------------------------------------------
 ASSIMP_API C_ENUM aiReturn aiGetMaterialUVTransform(const C_STRUCT aiMaterial* pMat,
     const char* pKey,
-    unsigned int mType,
+    unsigned int type,
     unsigned int index,
     C_STRUCT aiUVTransform* pOut);
 
@@ -1461,7 +1461,7 @@ ASSIMP_API C_ENUM aiReturn aiGetMaterialUVTransform(const C_STRUCT aiMaterial* p
 // ---------------------------------------------------------------------------
 ASSIMP_API C_ENUM aiReturn aiGetMaterialString(const C_STRUCT aiMaterial* pMat,
     const char* pKey,
-    unsigned int mType,
+    unsigned int type,
     unsigned int index,
     C_STRUCT aiString* pOut);
 
@@ -1473,7 +1473,7 @@ ASSIMP_API C_ENUM aiReturn aiGetMaterialString(const C_STRUCT aiMaterial* pMat,
  *  @note A texture can be easily queried using #aiGetMaterialTexture() */
 // ---------------------------------------------------------------------------
 ASSIMP_API unsigned int aiGetMaterialTextureCount(const C_STRUCT aiMaterial* pMat,
-    C_ENUM aiTextureType mType);
+    C_ENUM aiTextureType type);
 
 // ---------------------------------------------------------------------------
 /** @brief Helper function to get all values pertaining to a particular
@@ -1511,9 +1511,9 @@ ASSIMP_API unsigned int aiGetMaterialTextureCount(const C_STRUCT aiMaterial* pMa
 // ---------------------------------------------------------------------------
 #ifdef __cplusplus
 ASSIMP_API aiReturn aiGetMaterialTexture(const C_STRUCT aiMaterial* mat,
-    aiTextureType mType,
+    aiTextureType type,
     unsigned int  index,
-    aiString* mPath,
+    aiString* path,
     aiTextureMapping* mapping   = NULL,
     unsigned int* uvindex       = NULL,
     float* blend                = NULL,

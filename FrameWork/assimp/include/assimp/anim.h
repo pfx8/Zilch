@@ -241,7 +241,7 @@ struct aiNodeAnim
      *
      * If there are position keys, there will also be at least one
      * scaling and one rotation key.*/
-    C_STRUCT aiVectorKey* mPosKeys;
+    C_STRUCT aiVectorKey* mPositionKeys;
 
     /** The number of rotation keys */
     unsigned int mNumRotationKeys;
@@ -283,7 +283,7 @@ struct aiNodeAnim
 #ifdef __cplusplus
     aiNodeAnim()
     {
-        mNumPositionKeys = 0; mPosKeys = NULL;
+        mNumPositionKeys = 0; mPositionKeys = NULL;
         mNumRotationKeys = 0; mRotationKeys = NULL;
         mNumScalingKeys  = 0; mScalingKeys  = NULL;
 
@@ -292,7 +292,7 @@ struct aiNodeAnim
 
     ~aiNodeAnim()
     {
-        delete [] mPosKeys;
+        delete [] mPositionKeys;
         delete [] mRotationKeys;
         delete [] mScalingKeys;
     }
@@ -311,7 +311,7 @@ struct aiMeshAnim
      *  animated meshes need to be named (not necessarily uniquely,
      *  the name can basically serve as wildcard to select a group
      *  of meshes with similar animation setup)*/
-    C_STRUCT aiString name;
+    C_STRUCT aiString mName;
 
     /** Size of the #mKeys array. Must be 1, at least. */
     unsigned int mNumKeys;
@@ -342,7 +342,7 @@ struct aiAnimation
     /** The name of the animation. If the modeling package this data was
      *  exported from does support only a single animation channel, this
      *  name is usually empty (length is zero). */
-    C_STRUCT aiString name;
+    C_STRUCT aiString mName;
 
     /** Duration of the animation in ticks.  */
     double mDuration;

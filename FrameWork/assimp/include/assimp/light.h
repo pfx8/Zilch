@@ -116,7 +116,7 @@ struct aiLight
      *  This node specifies the position of the light in the scene
      *  hierarchy and can be animated.
      */
-    C_STRUCT aiString name;
+    C_STRUCT aiString mName;
 
     /** The type of the light source.
      *

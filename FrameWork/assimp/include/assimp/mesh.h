@@ -233,7 +233,7 @@ struct aiVertexWeight
 struct aiBone
 {
     //! The name of the bone.
-    C_STRUCT aiString name;
+    C_STRUCT aiString mName;
 
     //! The number of vertices affected by this bone
     //! The maximum value for this member is #AI_MAX_BONE_WEIGHTS.
@@ -249,7 +249,7 @@ struct aiBone
 
     //! Default constructor
     aiBone()
-        : name()
+        : mName()
         , mNumWeights( 0 )
       , mWeights( NULL )
     {
@@ -257,7 +257,7 @@ struct aiBone
 
     //! Copy constructor
     aiBone(const aiBone& other)
-      : name( other.name )
+      : mName( other.mName )
       , mNumWeights( other.mNumWeights )
       , mOffsetMatrix( other.mOffsetMatrix )
     {
@@ -596,7 +596,7 @@ struct aiMesh
      *      partitioning.
      *   - Vertex animations refer to meshes by their names.
      **/
-    C_STRUCT aiString name;
+    C_STRUCT aiString mName;
 
 
     /** NOT CURRENTLY IN USE. The number of attachment meshes */
