@@ -12,11 +12,22 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(string const &path)
+Model::Model(MeshType type, string const &path)
 {
+	// メッシュタイプを取得
+	this->mMeshType = type;
 	// モデルの名前を取得
 	string fileName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp c:/aaa/bbb/ccc.fbx -> ccc.fbx
-	cout << endl << "<Model> : ["  << fileName << "]" << endl;
+
+	switch (this->mMeshType)
+	{
+	case MT_default:
+		cout << endl << "<Model> : [" << fileName << "] <default>" << endl;
+		break;
+	case MT_withBone:
+		cout << endl << "<Model> : [" << fileName << "] <withBone>" << endl;
+		break;
+	}
 
 	loadModel(path);
 
@@ -38,10 +49,10 @@ Model::~Model()
 // モデルをロードする
 //
 //*****************************************************************************
-HRESULT Model::loadModel(string const &mPath)
+HRESULT Model::loadModel(string const &path)
 {
 	Assimp::Importer import;			// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(mPath, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
+	const aiScene *scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -67,14 +78,36 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(new Mesh(aiMesh, scene));
+		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, &this->mTransforms, scene));
 	}
+
+	// ノードメッセージを保存
 
 	// 子供ノードを同じように処理する
 	for (unsigned int count = 0; count < node->mNumChildren; count++)
 	{
 		processNode(node->mChildren[count], scene);
 	}
+}
+
+//*****************************************************************************
+//
+// アニメーションデータを読み込み
+//
+//*****************************************************************************
+void Model::addAnimation(Animation* animation)
+{
+	this->mAnimationes.push_back(animation);
+}
+
+//*****************************************************************************
+//
+// アニメーション更新
+//
+//*****************************************************************************
+void Model::updateAnimation(float timeInSeconds)
+{
+	this->mAnimationes[this->mCurAnimation]->processBoneTransforms(timeInSeconds, this->mTransforms);
 }
 
 //*****************************************************************************

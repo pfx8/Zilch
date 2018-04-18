@@ -33,7 +33,7 @@ void Scene02::start()
 
 	// 床
 	resource->loadTexture("grid", "Resources/Texture/grid.png");
-	resource->loadModel("gridField", "Resources/Model/field.fbx");
+	resource->loadModel(MT_default,"gridField", "Resources/Model/field.fbx");
 
 	// Hixo
 	resource->loadTexture("clothes", "Resources/Texture/Hixo/clothes.png");
@@ -45,7 +45,8 @@ void Scene02::start()
 	resource->loadTexture("panties", "Resources/Texture/Hixo/panties.png");
 	resource->loadTexture("skin", "Resources/Texture/Hixo/skin.png");
 	//resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
-	resource->loadModel("Hixo", "Resources/Model/Hixo.fbx");
+	resource->loadModel(MT_withBone, "Hixo", "Resources/Model/Hixo.fbx");
+	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
@@ -79,6 +80,7 @@ void Scene02::start()
 	// 床
 	GameObject* gridField = new GameObject();
 	Transform* gridFieldTrans = new Transform();																// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	gridFieldTrans->mScl = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
 	gridFieldMeshRender->model = resource->getModel("gridField");						// リソースからモデルを取得

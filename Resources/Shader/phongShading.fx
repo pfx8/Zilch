@@ -89,7 +89,7 @@ technique defaultRender
         // 背面カリング
         CullMode = CCW;     // ポリゴンの表を表示
         // アルファブレンティング
-        AlphaBlendEnable = FALSE;
+        AlphaBlendEnable = TRUE;
         
         VertexShader = compile vs_3_0 vertexShader();
         PixelShader = compile ps_3_0 pixelShader();

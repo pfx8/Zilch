@@ -10,8 +10,8 @@
 
 #include "Engine.h"
 #include "Shader.h"
-#include "Model\Mesh.h"
-#include "Model\Model.h"
+#include "Model/Mesh.h"
+#include "Model/Model.h"
 
 //*****************************************************************************
 //
@@ -29,7 +29,7 @@ public:
 	Resources();
 	~Resources();
 	
-	void loadModel(string name, string path);			// Assimpでモデルを読み込み
+	void loadModel(enum MeshType type, string name, string path);			// Assimpでモデルを読み込み
 	Model* getModel(string name);							// モデルの名前によって取得
 	void loadTexture(string name, string path);		// テクスチャを読み込み
 	Texture* getTexture(string name);						// テクスチャの名前によって取得

@@ -241,7 +241,7 @@ struct aiNodeAnim
      *
      * If there are position keys, there will also be at least one
      * scaling and one rotation key.*/
-    C_STRUCT aiVectorKey* mPositionKeys;
+    C_STRUCT aiVectorKey* mPosKeys;
 
     /** The number of rotation keys */
     unsigned int mNumRotationKeys;
@@ -283,7 +283,7 @@ struct aiNodeAnim
 #ifdef __cplusplus
     aiNodeAnim()
     {
-        mNumPositionKeys = 0; mPositionKeys = NULL;
+        mNumPositionKeys = 0; mPosKeys = NULL;
         mNumRotationKeys = 0; mRotationKeys = NULL;
         mNumScalingKeys  = 0; mScalingKeys  = NULL;
 
@@ -292,7 +292,7 @@ struct aiNodeAnim
 
     ~aiNodeAnim()
     {
-        delete [] mPositionKeys;
+        delete [] mPosKeys;
         delete [] mRotationKeys;
         delete [] mScalingKeys;
     }

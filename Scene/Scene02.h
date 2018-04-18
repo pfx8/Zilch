@@ -11,6 +11,7 @@
 #include "Scene.h"
 #include "../Engine/Shader.h"
 #include "../Engine/Light.h"
+#include "../Engine/Model/Mesh.h"
 
 //*****************************************************************************
 //
@@ -26,7 +27,6 @@ public:
 	~Scene02();
 
 	void start();				// ‰Šú‰»
-	void draw();			// •`‰æ
 };
 #endif // !_SCENE02_H_
 

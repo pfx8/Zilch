@@ -26,7 +26,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <unordered_map>				// mapが使われたところで、ペア関係だけできたっら順番にする必要がないのでmapからunordered_mapに変更した
+#include <map>
+#include <unordered_map>				// ペア関係だけで順番にする必要がないのでmapからunordered_mapに変更した
 
 //--------------Assimp--------------//
 #include <assimp/Importer.hpp>
@@ -40,6 +41,7 @@ class Scene;
 class Component;
 class Texture;
 class Material;
+class Bone;
 class Mesh;
 class Model;
 class Resources;
@@ -66,10 +68,11 @@ class SceneManager;
 // マクロ定義
 //
 //*****************************************************************************
-#define CLASS_NAME			_T("D3d9Class")				// ウインドウのクラス名
-#define WINDOW_NAME		_T("Project : Zilch")		// ウインドウのキャプション名
-#define SCREEN_WIDTH		(1280)								// ウインドウの幅
-#define SCREEN_HEIGHT		(720)								// ウインドウの高さ
+#define CLASS_NAME							_T("D3d9Class")				// ウインドウのクラス名
+#define WINDOW_NAME						_T("Project : Zilch")		// ウインドウのキャプション名
+#define SCREEN_WIDTH						(1280)								// ウインドウの幅
+#define SCREEN_HEIGHT						(720)								// ウインドウの高さ
+#define NUM_BONES_PER_VEREX		(4)									// 頂点1個が影響される骨の最大数は4本
 
 #define RELEASE_POINT(ptr)								{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
 #define RELEASE_CLASS_POINT(ptr)					{ if(ptr) { delete ptr; } }
@@ -89,6 +92,11 @@ enum RenderStatus
 	RS_withNormalMap,
 };
 
+//*****************************************************************************
+//
+// 構造体定義
+//
+//*****************************************************************************
 struct WorldVector
 {
 	// ゲーム世界の3軸
