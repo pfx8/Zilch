@@ -36,8 +36,9 @@ void MeshRender::draw()
 {
 	// モデルのワールド変換行列を取得
 	Transform* trans = this->mGameObject->getComponent<Transform>("trans");
-	// モデルのワールド変換行列をシェーダーに渡る
+	// モデルのワールド変換行列と回転行列をシェーダーに渡る
 	this->mShader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
+	this->mShader->mEffect->SetMatrix("rotMatrix", &trans->mRotMatrix);
 
 	// カメラ情報を取得
 	Camera* camera = this->mGameObject->mScene->getGameObject("mainCamera")->getComponent<Camera>("camera");

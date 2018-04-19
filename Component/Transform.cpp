@@ -35,7 +35,7 @@ Transform::~Transform()
 void Transform::update()
 {
 	// 計算用マトリックス
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
+	D3DXMATRIX mtxScl, mtxTranslate;
 
 	// ワールドマトリックスを初期化する
 	D3DXMatrixIdentity(&this->mWorldMatrix);
@@ -45,8 +45,8 @@ void Transform::update()
 	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxScl);
 
 	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, mRot.y, mRot.x, mRot.z);
-	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxRot);
+	D3DXMatrixRotationYawPitchRoll(&this->mRotMatrix, mRot.y, mRot.x, mRot.z);
+	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &this->mRotMatrix);
 
 	// 平行移動を反映
 	D3DXMatrixTranslation(&mtxTranslate, mPos.x, mPos.y, mPos.z);

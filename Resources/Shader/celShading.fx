@@ -7,6 +7,7 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
+matrix rotMatrix;               // 回転行列
 matrix worldMatrix;             // ワールド変換行列
 matrix viewMatrix;              // ビューイング変換行列
 matrix projectionMatrix;        // プロジェクション変換行列
