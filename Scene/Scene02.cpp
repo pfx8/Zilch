@@ -36,14 +36,14 @@ void Scene02::start()
 	resource->loadModel(MT_default,"gridField", "Resources/Model/field.fbx");
 
 	// Hixo
-	resource->loadTexture("clothes", "Resources/Texture/Hixo2/clothes.png");
-	resource->loadTexture("eye", "Resources/Texture/Hixo2/eye.png");
-	resource->loadTexture("face", "Resources/Texture/Hixo2/face.png");
-	resource->loadTexture("facial", "Resources/Texture/Hixo2/facial.png");
-	resource->loadTexture("hair1", "Resources/Texture/Hixo2/hair1.png");
-	resource->loadTexture("hair2", "Resources/Texture/Hixo2/hair2.png");
-	resource->loadTexture("panties", "Resources/Texture/Hixo2/panties.png");
-	resource->loadTexture("skin", "Resources/Texture/Hixo2/skin.png");
+	resource->loadTexture("clothes", "Resources/Texture/Hixo/clothes.png");
+	resource->loadTexture("eye", "Resources/Texture/Hixo/eye.png");
+	resource->loadTexture("face", "Resources/Texture/Hixo/face.png");
+	resource->loadTexture("facial", "Resources/Texture/Hixo/facial.png");
+	resource->loadTexture("hair1", "Resources/Texture/Hixo/hair1.png");
+	resource->loadTexture("hair2", "Resources/Texture/Hixo/hair2.png");
+	resource->loadTexture("panties", "Resources/Texture/Hixo/panties.png");
+	resource->loadTexture("skin", "Resources/Texture/Hixo/skin.png");
 	//resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
 	resource->loadModel(MT_withBone, "Hixo", "Resources/Model/Hixo.fbx");
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));

@@ -272,9 +272,9 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE; // デフォルトで使わない
 	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
-		0, D3DMULTISAMPLE_4_SAMPLES, NULL))
+		0, D3DMULTISAMPLE_16_SAMPLES, NULL))
 	{
-		multiSampType = D3DMULTISAMPLE_8_SAMPLES; // 4倍
+		multiSampType = D3DMULTISAMPLE_16_SAMPLES; // 16倍
 	}
 
 	d3dpp.BackBufferWidth = SCREEN_WIDTH;				// ゲーム画面サイズ(幅)

@@ -476,9 +476,15 @@ void Mesh::draw(Shader* shader, Transform* trans, Camera* camera)
 	//shader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
 	//shader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
 
+	// マテリアル属性を渡す
+	shader->mEffect->SetValue("amibent", this->mMaterials.at(0)->mAmbient, sizeof(D3DXVECTOR3));
+	shader->mEffect->SetValue("diffuse", this->mMaterials.at(0)->mDiffuse, sizeof(D3DXVECTOR3));
+	shader->mEffect->SetValue("specular", this->mMaterials.at(0)->mSpecular, sizeof(D3DXVECTOR3));
+	shader->mEffect->SetFloat("shininess", this->mMaterials.at(0)->mShininess);
+
 	// テクスチャを渡す
-	LPDIRECT3DTEXTURE9 diffuse = this->mMaterials.at(0)->mTextures.at(0)->mTex;
-	shader->mEffect->SetTexture("diffuse", diffuse);
+	LPDIRECT3DTEXTURE9 tex = this->mMaterials.at(0)->mTextures.at(0)->mTex;
+	shader->mEffect->SetTexture("tex", tex);
 
 	// 描画
 	UINT passNum = 0;

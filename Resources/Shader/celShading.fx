@@ -15,17 +15,19 @@ matrix projectionMatrix;        // プロジェクション変換行列
 float3 lightDir = float3(-1.0f, 1.0f, 1.0f);   // ライト方向ベクトル
 float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);    // ライトカラー
 
-float outLineFactor = 0.4f;     // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-float outLineStr = 0.01f;       // outLineの太さをコントロール因子
+float outLineFactor = 0.3f;     // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
+float outLineStr = 0.009f;      // outLineの太さをコントロール因子
 
-int colorSteps = 2;            // カラーのレベル
-float diffuseRange = 0.5f;      // diffuseカラーとシャドウの分割因数
+float3 amibent; // 環境光
+float3 diffuse; // 拡散反射光
+float3 specular; // 鏡面反射光
+float shininess; // 光沢
 
-texture diffuse;               // テクスチャ
-sampler diffuseSampler =       // サンプラー
+texture tex;               // テクスチャ
+sampler texSampler =       // サンプラー
 sampler_state
 {
-    Texture = <diffuse>;
+    Texture = <tex>;
     MipFilter = LINEAR;
     MinFilter = LINEAR;
     MagFilter = LINEAR;
@@ -41,7 +43,7 @@ sampler_state
 struct VSout
 {
     float4 pos : POSITION0;
-    float4 nor : NORMAL0;
+    float3 nor : NORMAL0;
     float2 coord : TEXCOORD0;
 };
 
@@ -88,7 +90,7 @@ VSout outLineVS(float3 pos : POSITION0,
 float4 outLinePS(VSout vout) : COLOR
 {
     // outLineカラーを設定
-    return float4(170.0f / 255.0f, 123.0f / 255.0f, 65.0f / 255.0f, 1.0);
+    return float4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 //*****************************************************************************
@@ -121,26 +123,25 @@ VSout modelVS(float3 pos : POSITION0,
 float4 modelPS(VSout vout) : COLOR
 {
     // テクスチャによって色をつき
-    float4 color = tex2D(diffuseSampler, vout.coord);
+    float4 color = tex2D(texSampler, vout.coord);
 
     // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
     // 外積の値がマイナスならばシャドウにする(0)
-    float diffuse = max(0, dot(vout.nor.xyz, -lightDir));
+    // maxx(x, y) xとy のうちの大きい方の値を選択。マイナスを防ぐように
+    float diffuse = max(0, dot(vout.nor, -lightDir));
 
-    // 臨時 -- シャドウの明るさを増加
-    diffuse = (diffuse + 1) / 2;
-
-    // 色を[0, 1]にする、なぜならばRGB値の範囲は0.0~1.0
-    smoothstep(0, 1, diffuse);
-
-    //
-    float toon = floor(diffuse * colorSteps) / colorSteps;
-
-    // 
-    diffuse = lerp(diffuse, toon, diffuse);
-
-    // 最終色を出す
-    color *= lightColor * diffuse;
+    // シャドウと色を分離
+    if (diffuse > 0.15f)
+    {
+        //　diffuse
+        color *= lightColor;
+    }
+    else
+    {
+        // シャドウ
+        color *= lightColor * 0.93f;
+    }
+    //color.a = 1.0f;
 
     return color;
 }
@@ -155,10 +156,14 @@ technique celShading
     // outLine
     pass P0
     {
+        // アルファブレンティング
+        AlphaBlendEnable = TRUE;
+        // フラットシェーディング
+        ShadeMode = GOURAUD;
         // Zバッファ
         ZEnable = TRUE;
         // 背面カリング
-        CullMode = CW;     // ポリゴンの裏を表示
+        CullMode = CW; // ポリゴンの裏を表示
         
         VertexShader = compile vs_3_0 outLineVS();
         PixelShader = compile ps_3_0 outLinePS();
@@ -167,14 +172,15 @@ technique celShading
     // モデル
     pass P1
     {
+        DestBlend = ONE;
+        // アルファブレンティング
+        AlphaBlendEnable = FALSE;
         // フラットシェーディング
-        ShadeMode = FLAT;
+        ShadeMode = GOURAUD;
         // Zバッファ
         ZEnable = TRUE;
         // 背面カリング
         CullMode = CCW; // ポリゴンの表を表示
-        // アルファブレンティング
-        AlphaBlendEnable = TRUE;
         
         VertexShader = compile vs_3_0 modelVS();
         PixelShader = compile ps_3_0 modelPS();

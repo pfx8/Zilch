@@ -11,11 +11,11 @@ matrix worldMatrix;            // ワールド変換行列
 matrix viewMatrix;              // ビューイング変換行列
 matrix projectionMatrix;     // プロジェクション変換行列
 
-texture diffuse;                                   // テクスチャ
-sampler diffuseSampler =                // サンプラー
+texture tex;                                   // テクスチャ
+sampler texSampler =                // サンプラー
 sampler_state
 {
-    Texture = <diffuse>;
+    Texture = <tex>;
     MipFilter = LINEAR;
     MinFilter = LINEAR;
     MagFilter = LINEAR;
@@ -68,7 +68,7 @@ float4 pixelShader(VSout vout) : COLOR
 
     // カラーを計算
     //color = float4(1.0, 0.0, 0.0, 1.0);
-    color = tex2D(diffuseSampler, vout.coord);
+    color = tex2D(texSampler, vout.coord);
 
     return color;
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component\Billboard.cpp" />
     <ClCompile Include="Component\Camera.cpp" />
     <ClCompile Include="Component\CameraController.cpp" />
     <ClCompile Include="Component\Component.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="Scene\Scene02.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\Billboard.h" />
     <ClInclude Include="Component\Camera.h" />
     <ClInclude Include="Component\CameraController.h" />
     <ClInclude Include="Component\Component.h" />
