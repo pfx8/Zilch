@@ -81,10 +81,18 @@ Texture* Resources::getTexture(string name)
 //
 // シェーダーを読み込み
 //
+// 初期化した後でtechniqueを選択
+// one shader one technique
+//
 //*****************************************************************************
-void Resources::loadShader(string name, string path)
+void Resources::loadShader(string techniqueName, string path)
 {
-	mShaders.insert({ name, new Shader(path) });
+	Shader* shader = new Shader(path);
+	
+	// techniqueを確定
+	shader->mEffect->SetTechnique((D3DXHANDLE)techniqueName.c_str());
+
+	mShaders.insert({ techniqueName, shader });
 }
 
 //*****************************************************************************
@@ -92,12 +100,12 @@ void Resources::loadShader(string name, string path)
 // シェーダーの名前によって取得
 //
 //*****************************************************************************
-Shader* Resources::getShader(string name)
+Shader* Resources::getShader(string techniqueName)
 {
-	if (mShaders.find(name) != mShaders.end())
+	if (mShaders.find(techniqueName) != mShaders.end())
 	{
-		return mShaders[name];
+		return mShaders[techniqueName];
 	}
-	cout << "[Error] <Shader> Get " << name << " ... failed!" << endl;
+	cout << "[Error] <Shader> Get technique " << techniqueName << " ... failed!" << endl;
 	return nullptr;
 }

@@ -78,7 +78,7 @@ float4 pixelShader(VSout vout) : COLOR
 // シェーダーテクニック
 //
 //*****************************************************************************
-technique defaultRender
+technique phongShading
 {
     pass P0
     {

@@ -22,8 +22,8 @@ class Resources
 {
 private:
 	unordered_map<string, Model*>			mModels;		// モデル
-	unordered_map<string, Texture*>			mTextures;		// テクスチャ
-	unordered_map<string, Shader*>			mShaders;		// シェーダー
+	unordered_map<string, Texture*>		mTextures;		// テクスチャ
+	unordered_map<string, Shader*>		mShaders;		// シェーダー
 
 public:
 	Resources();
@@ -33,8 +33,8 @@ public:
 	Model* getModel(string name);							// モデルの名前によって取得
 	void loadTexture(string name, string path);		// テクスチャを読み込み
 	Texture* getTexture(string name);						// テクスチャの名前によって取得
-	void loadShader(string name, string path);		// シェーダーを読み込み
-	Shader* getShader(string name);							// シェーダーの名前によって取得
+	void loadShader(string techniqueName, string path);		// シェーダーを読み込み
+	Shader* getShader(string techniqueName);							// シェーダーの名前によって取得
 };
 
 #endif // !_RESOURCES_H_

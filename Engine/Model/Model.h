@@ -42,7 +42,7 @@ public:
 
 	void addAnimation(Animation* animation);		// アニメーションデータを読み込み
 	void updateAnimation(float timeInSeconds);	// アニメーション更新
-	void draw(Transform* trans, Camera* camera);	// モデルを描画する
+	void draw(Shader* shader, Transform* trans, Camera* camera);	// モデルを描画する
 };
 
 #endif // !_MODEL_H_

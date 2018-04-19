@@ -115,11 +115,11 @@ void Model::updateAnimation(float timeInSeconds)
 // ƒ‚ƒfƒ‹‚ğ•`‰æ
 //
 //*****************************************************************************
-void Model::draw(Transform* trans, Camera* camera)
+void Model::draw(Shader* shader, Transform* trans, Camera* camera)
 {
 	// ŠeƒƒbƒVƒ…‚ğ•`‰æ
 	for (auto it : mMeshes)
 	{
-		it->draw(trans, camera);
+		it->draw(shader, trans, camera);
 	}
 }

@@ -36,25 +36,26 @@ void Scene02::start()
 	resource->loadModel(MT_default,"gridField", "Resources/Model/field.fbx");
 
 	// Hixo
-	resource->loadTexture("clothes", "Resources/Texture/Hixo/clothes.png");
-	resource->loadTexture("eye", "Resources/Texture/Hixo/eye.png");
-	resource->loadTexture("face", "Resources/Texture/Hixo/face.png");
-	resource->loadTexture("facial", "Resources/Texture/Hixo/facial.png");
-	resource->loadTexture("hair1", "Resources/Texture/Hixo/hair1.png");
-	resource->loadTexture("hair2", "Resources/Texture/Hixo/hair2.png");
-	resource->loadTexture("panties", "Resources/Texture/Hixo/panties.png");
-	resource->loadTexture("skin", "Resources/Texture/Hixo/skin.png");
+	resource->loadTexture("clothes", "Resources/Texture/Hixo2/clothes.png");
+	resource->loadTexture("eye", "Resources/Texture/Hixo2/eye.png");
+	resource->loadTexture("face", "Resources/Texture/Hixo2/face.png");
+	resource->loadTexture("facial", "Resources/Texture/Hixo2/facial.png");
+	resource->loadTexture("hair1", "Resources/Texture/Hixo2/hair1.png");
+	resource->loadTexture("hair2", "Resources/Texture/Hixo2/hair2.png");
+	resource->loadTexture("panties", "Resources/Texture/Hixo2/panties.png");
+	resource->loadTexture("skin", "Resources/Texture/Hixo2/skin.png");
 	//resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
 	resource->loadModel(MT_withBone, "Hixo", "Resources/Model/Hixo.fbx");
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
+	resource->loadShader("celShading", "Resources/Shader/celShading.fx");
 
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
 	Camera* camera = new Camera();
-	camera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, -5.0f);
+	camera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, 5.0f);
 
 	// player
 	GameObject* player = new GameObject();
@@ -67,8 +68,8 @@ void Scene02::start()
 	cameraController->mMainCamera = mainCamera;
 	player->addComponent<CameraController>("cameraController", cameraController);
 	MeshRender* playerMeshRender = new MeshRender();
-	playerMeshRender->mModel = resource->getModel("Hixo");							// リソースからモデルを取得
-	playerMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
+	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
+	playerMeshRender->mShader = resource->getShader("celShading");			// シェーダーを取得
 	player->addComponent<MeshRender>("meshRender", playerMeshRender);
 	this->addGameObject("player", player);
 

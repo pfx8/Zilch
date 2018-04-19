@@ -92,6 +92,6 @@ public:
 	Mesh(MeshType type, aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene);		// メッシュの初期化
 	~Mesh();
 
-	void draw(Transform* trans, Camera* camera);	// ドロー
+	void draw(Shader* shader, Transform* trans, Camera* camera);	// ドロー
 };
 #endif // !_MESH_H_

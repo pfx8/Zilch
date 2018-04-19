@@ -465,24 +465,19 @@ HRESULT Mesh::SetupMesh()
 // メッシュをドロー
 //
 //*****************************************************************************
-void Mesh::draw(Transform* trans, Camera* camera)
+void Mesh::draw(Shader* shader, Transform* trans, Camera* camera)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
-	Resources* resource = getResources();
-	Shader* shader = resource->getShader("phongShading");
 
-	// テクニックを設定
-	shader->mEffect->SetTechnique("defaultRender");
+	//// モデルのワールド変換行列をシェーダーに渡る
+	//shader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
 
-	// モデルのワールド変換行列をシェーダーに渡る
-	shader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
-
-	// カメラの行列をシェーダーに渡る
-	shader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
-	shader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
+	//// カメラの行列をシェーダーに渡る
+	//shader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
+	//shader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
 
 	// テクスチャを渡す
-	LPDIRECT3DTEXTURE9	 diffuse = this->mMaterials.at(0)->mTextures.at(0)->mTex;
+	LPDIRECT3DTEXTURE9 diffuse = this->mMaterials.at(0)->mTextures.at(0)->mTex;
 	shader->mEffect->SetTexture("diffuse", diffuse);
 
 	// 描画
@@ -494,8 +489,8 @@ void Mesh::draw(Transform* trans, Camera* camera)
 		shader->mEffect->BeginPass(count);
 
 		HRESULT hr;
-		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);													// 頂点宣言を設定
-		switch (this->mMeshType)																												// 頂点バッファを設定
+		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);		// 頂点宣言を設定
+		switch (this->mMeshType)										// 頂点バッファを設定
 		{	
 		case MT_default:
 			hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(Vertex));
