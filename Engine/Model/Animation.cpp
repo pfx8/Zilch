@@ -193,6 +193,15 @@ void Animation::processAnimationTransforms(float animationTime, const aiNode* no
 	}
 
 	D3DXMATRIX globalTransform = parentTransform * nodeTransform;
+
+	// ノードに
+
+
+	// 子ノード処理
+	for (unsigned int count = 0; count < node->mNumChildren; count++)
+	{
+		processAnimationTransforms(animationTime, node->mChildren[count], globalTransform);
+	}
 }
 
 //*****************************************************************************
