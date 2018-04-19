@@ -13,9 +13,13 @@ matrix viewMatrix;              // ビューイング変換行列
 matrix projectionMatrix;        // プロジェクション変換行列
 
 float3 lightDir = float3(-1.0f, 1.0f, 1.0f);   // ライト方向ベクトル
+float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);    // ライトカラー
 
-float outLineFactor = 0.4;        // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-float outLineStr = 0.01;          // outLineの太さをコントロール因子
+float outLineFactor = 0.4f;     // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
+float outLineStr = 0.01f;       // outLineの太さをコントロール因子
+
+int colorSteps = 2;            // カラーのレベル
+float diffuseRange = 0.5f;      // diffuseカラーとシャドウの分割因数
 
 texture diffuse;               // テクスチャ
 sampler diffuseSampler =       // サンプラー
@@ -83,12 +87,8 @@ VSout outLineVS(float3 pos : POSITION0,
 //*****************************************************************************
 float4 outLinePS(VSout vout) : COLOR
 {
-    float4 color = float4(0.0, 0.0, 0.0, 0.0);
-
-    // カラーを黒にする
-    color = float4(0.0, 0.0, 0.0, 1.0);
-
-    return color;
+    // outLineカラーを設定
+    return float4(170.0f / 255.0f, 123.0f / 255.0f, 65.0f / 255.0f, 1.0);
 }
 
 //*****************************************************************************
@@ -106,7 +106,7 @@ VSout modelVS(float3 pos : POSITION0,
     // 頂点変換
     vout.pos = mul(mul(mul(float4(pos, 1.0), worldMatrix), viewMatrix), projectionMatrix);
     // 法線変更
-    vout.nor = mul(float4(nor, 1.0), worldMatrix);
+    vout.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
     // UV座標変更
     vout.coord = coord;
 
@@ -120,10 +120,27 @@ VSout modelVS(float3 pos : POSITION0,
 //*****************************************************************************
 float4 modelPS(VSout vout) : COLOR
 {
-    float4 color = float4(0.0, 0.0, 0.0, 0.0);
-
     // テクスチャによって色をつき
-    color = tex2D(diffuseSampler, vout.coord);
+    float4 color = tex2D(diffuseSampler, vout.coord);
+
+    // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
+    // 外積の値がマイナスならばシャドウにする(0)
+    float diffuse = max(0, dot(vout.nor.xyz, -lightDir));
+
+    // 臨時 -- シャドウの明るさを増加
+    diffuse = (diffuse + 1) / 2;
+
+    // 色を[0, 1]にする、なぜならばRGB値の範囲は0.0~1.0
+    smoothstep(0, 1, diffuse);
+
+    //
+    float toon = floor(diffuse * colorSteps) / colorSteps;
+
+    // 
+    diffuse = lerp(diffuse, toon, diffuse);
+
+    // 最終色を出す
+    color *= lightColor * diffuse;
 
     return color;
 }
