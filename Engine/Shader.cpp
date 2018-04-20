@@ -14,7 +14,8 @@
 //*****************************************************************************
 Shader::Shader(string path)
 {
-	cout << endl << "<Shader> :" << endl;
+	string name = path.substr(path.find_last_of("//") + 1, path.find_last_of("/n"));
+	cout << endl << "<Shader> : "  << name << endl;
 	loadEffectFile(path);
 }
 

@@ -17,21 +17,47 @@ Model::Model(MeshType type, string const &path)
 	// メッシュタイプを取得
 	this->mMeshType = type;
 	// モデルの名前を取得
-	string fileName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp c:/aaa/bbb/ccc.fbx -> ccc.fbx
+	string fileName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp c:/aaa/bbb/ccc.fbx -> ccc
 
 	switch (this->mMeshType)
 	{
 	case MT_default:
-		cout << endl << "<Model> : [" << fileName << "] <default>" << endl;
+		cout << endl << "<Model><default> : [" << fileName << "]" << endl;
 		break;
 	case MT_withBone:
-		cout << endl << "<Model> : [" << fileName << "] <withBone>" << endl;
+		cout << endl << "<Model><withBone> : [" << fileName << "]" << endl;
 		break;
 	}
 
 	loadModel(path);
+	
+	// モデル構造をdebugウインドに出す
+	// mseh
+	unsigned int meshesNum = 1;
+	for (auto it : this->mMeshes)
+	{
+		cout << "  |- <Mesh><No." << meshesNum << "> : [" << it->mName << "]" << endl;
+		meshesNum++;
 
-	//cout << "   <Mesh Nums> : [" << mMeshes.size() << "]" << endl;
+		// material
+		unsigned int materialsNum = 1;
+		for (auto it1 : it->mMaterials)
+		{
+			cout << "    |- <Material><No." << materialsNum << "> : [" << it1->mName << "]" << endl;
+			materialsNum++;
+
+			// texture
+			unsigned int texturesNum = 1;
+			for (auto it2 : it1->mTextures)
+			{
+				cout << "      |- <Texture><No." << texturesNum << "> : [" << it2->mName << "]" << endl;
+				texturesNum++;
+			}
+		}
+	}
+
+	// bones
+	unsigned int bonesNum = 0;
 }
 
 //*****************************************************************************

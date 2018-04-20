@@ -45,7 +45,7 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, vector<D3DXMATRIX>* transforms, const ai
 //*****************************************************************************
 void Mesh::createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene)
 {
-	cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
+	this->mName = mesh->mName.C_Str();
 
 	unsigned int	numBones = 0;		// 骨の数
 	unordered_map<string, Bone*>	boneMapping;		//	骨マップ
@@ -166,6 +166,14 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, cons
 		}
 	}
 
+	// 読み込んだ骨をdeBugヴェインドに出す
+	/*unsigned int count = 0;
+	for (auto it : boneMapping)
+	{
+		cout << "      <Bone> : <No." << count << "> : [" << it.first << "]" << endl;
+		count++;
+	}
+*/
 	// インデックス処理
 	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
 	{
@@ -201,7 +209,10 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, cons
 //*****************************************************************************
 void Mesh::createMesh(aiMesh *mesh, const aiScene *scene)
 {
-	cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
+	// メッシュ名前を保存
+	this->mName = mesh->mName.C_Str();
+	//cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
+
 
 	unsigned int	numBones = 0;		// 骨の数
 	unordered_map<string, Bone>		boneMapping;		//	骨マップ
@@ -468,13 +479,6 @@ HRESULT Mesh::SetupMesh()
 void Mesh::draw(Shader* shader, Transform* trans, Camera* camera)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
-
-	//// モデルのワールド変換行列をシェーダーに渡る
-	//shader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
-
-	//// カメラの行列をシェーダーに渡る
-	//shader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
-	//shader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
 
 	// マテリアル属性を渡す
 	shader->mEffect->SetValue("amibent", this->mMaterials.at(0)->mAmbient, sizeof(D3DXVECTOR3));

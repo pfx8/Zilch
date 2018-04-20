@@ -28,14 +28,14 @@ private:
 
 public:
 	D3DXVECTOR3		mCameraPos;					// カメラの位置
-	Transform*				mTargetTrans;				// 目標Transformを保存
+	Transform*		mTargetTrans;				// 目標Transformを保存
 
 	D3DXVECTOR3		mCameraFront;				// カメラの注視方向ベクトル
 	D3DXVECTOR3		mCameraRight;				// カメラの右方向ベクトル
 	D3DXVECTOR3		mCameraUp;					// カメラの上方向ベクトル
 
-	D3DXMATRIX			mViewMatrix;					// ビューイング変換行列
-	D3DXMATRIX			mProjectionMatrix;		// プロジェクション変換行列
+	D3DXMATRIX		mViewMatrix;					// ビューイング変換行列
+	D3DXMATRIX		mProjectionMatrix;		// プロジェクション変換行列
 
 	Camera();
 	~Camera();

@@ -14,11 +14,13 @@
 //*****************************************************************************
 Texture::Texture(string path)
 {
-	this->mPath = path;
 	this->mTex = nullptr;
 
+	// テクスチャの名前を取得
+	this->mName = path.substr(path.find_last_of("//") + 1, path.find_last_of(".")); // a:/bbb/ccc.out -> ccc
+	
 	// テクスチャを読み込み
-	loadingTexture();
+	loadingTexture(path);
 }
 
 //*****************************************************************************
@@ -36,17 +38,17 @@ Texture::~Texture()
 // テクスチャを読み込み
 //
 //*****************************************************************************
-HRESULT Texture::loadingTexture()
+HRESULT Texture::loadingTexture(string path)
 {
 	LPDIRECT3DDEVICE9	D3dDevice = getD3DDevice();
 
 	// テクスチャを読み込み
 	if (FAILED(D3DXCreateTextureFromFile(
 		D3dDevice,
-		mPath.data(),
+		path.data(),
 		&mTex)))
 	{
-		cout << "[Error] Loading <Texture> " << mPath << " ... fail!" << endl;	// コンソールにメッセージを出す
+		cout << "[Error] Loading <Texture> " << path << " ... fail!" << endl;	// コンソールにメッセージを出す
 		return E_FAIL;
 	}
 

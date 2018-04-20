@@ -46,7 +46,7 @@ void Material::loadingMaterial(aiMaterial* mat)
 		this->mDiffuse = D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b);
 		this->mSpecular = D3DXVECTOR3(specular.r, specular.g, specular.b);
 
-		cout << "      <Material Name> : [" << name.C_Str() << "]" << endl;
+		//cout << "      <Material Name> : [" << name.C_Str() << "]" << endl;
 	}
 	else
 	{
@@ -111,7 +111,7 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		{
 			// テクスチャを保存
 			this->mTextures.push_back(texture);
-			cout << "         <Texture Name> : [" << fileName.c_str() << "]" << endl;
+			// cout << "         <Texture Name> : [" << fileName.c_str() << "]" << endl;
 		}
 		
 	}

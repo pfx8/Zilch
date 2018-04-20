@@ -10,23 +10,22 @@
 
 #include "Component.h"
 #include "Transform.h"
+#include "Camera.h"
 #include "../Engine/Engine.h"
 
 class Billboard : public Component
 {
 private:
-	Transform			mTrans;				// ビルボード情報
-	Transform*			mCameraTrans;		// カメラ情報
+	Transform*			mTrans;				// ビルボード情報
 
-	void start() {};
-	void update() {};
+	void start();
+	void update();
 
 public:
-	GameObject*			mGameObject;					// 所属GameObjectの他のコンポーネントを取れるように
-	bool					mStart = false;				// スタートマック
+	GameObject*			mMainCamera;			// マインカメラ
 
 	Billboard();
-	virtual ~Billboard();
+	~Billboard();
 };
 
 #endif // !_BILLBOARD_H_

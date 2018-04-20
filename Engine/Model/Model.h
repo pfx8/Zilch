@@ -36,7 +36,6 @@ public:
 	vector<Bone*>					mBones;					// 骨データ
 	vector<D3DXMATRIX>				mTransforms;				// 各骨の変換行列
 
-
 	Model(MeshType type, string const &path);
 	~Model();
 

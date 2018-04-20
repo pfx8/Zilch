@@ -47,7 +47,7 @@ struct VertexBone
 
 	// 骨
 	unsigned int	boneID[NUM_BONES_PER_VEREX];		// 骨のID
-	float				weights[NUM_BONES_PER_VEREX];		// 骨の重み
+	float		weights[NUM_BONES_PER_VEREX];		// 骨の重み
 };
 
 //*****************************************************************************
@@ -77,14 +77,15 @@ private:
 	IDirect3DVertexDeclaration9*		mVertexDecl;			// 頂点シェーダー宣言
 
 	void createMesh(aiMesh *mesh, const aiScene *scene);										//	デフォルトメッシュを読み込み
-	void createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene);						// 骨付きメッシュを読み込み
-	HRESULT SetupMesh();																								// デフォルトメッシュをセットアップ
-	HRESULT SetupMeshWithBone();																			// 骨付きメッシュをセットアップ
+	void createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene);	// 骨付きメッシュを読み込み
+	HRESULT SetupMesh();																		// デフォルトメッシュをセットアップ
+	HRESULT SetupMeshWithBone();																// 骨付きメッシュをセットアップ
 
 	void createBoundingBox(D3DXVECTOR3 vertexPos, D3DXVECTOR3 &boxMax, D3DXVECTOR3 &boxMin);		// バウンディングボックスサイズを作り
 
 public:
 	// メッシュデータ
+	string							mName;					// メッシュの名前
 	vector<VertexBone>				mVertices;				// 頂点データ
 	vector<unsigned int>				mIndices;				// 頂点インデックスデータ
 	vector<Material*>					mMaterials;				// マテリアルデータ

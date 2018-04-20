@@ -26,6 +26,7 @@
     <ClCompile Include="Component\MeshRender.cpp" />
     <ClCompile Include="Component\PlayerController.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
+    <ClCompile Include="Component\UVAnimation.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\Console.cpp" />
     <ClCompile Include="Engine\DebugMessage.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="Component\MeshRender.h" />
     <ClInclude Include="Component\PlayerController.h" />
     <ClInclude Include="Component\Transform.h" />
+    <ClInclude Include="Component\UVAnimation.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\Console.h" />
     <ClInclude Include="Engine\DebugMessage.h" />

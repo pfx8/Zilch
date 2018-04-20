@@ -20,9 +20,9 @@
 class Material
 {
 private:
-	string							mName;					// マテリアルの名前
 
 public:
+	string				mName;					// マテリアルの名前
 	vector<Texture*>		mTextures;				// テクスチャ
 	D3DXVECTOR3			mAmbient;				// 環境光
 	D3DXVECTOR3			mDiffuse;				// 拡散反射光

@@ -7,24 +7,24 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-matrix rotMatrix;               // 回転行列
-matrix worldMatrix;             // ワールド変換行列
-matrix viewMatrix;              // ビューイング変換行列
-matrix projectionMatrix;        // プロジェクション変換行列
+matrix rotMatrix;         // 回転行列
+matrix worldMatrix;       // ワールド変換行列
+matrix viewMatrix;        // ビューイング変換行列
+matrix projectionMatrix;  // プロジェクション変換行列
 
-float3 lightDir = float3(-1.0f, 1.0f, 1.0f);   // ライト方向ベクトル
-float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);    // ライトカラー
+float3 lightDir = float3(-1.0f, 1.0f, 1.0f);         // ライト方向ベクトル
+float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);  // ライトカラー
 
-float outLineFactor = 0.3f;     // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-float outLineStr = 0.009f;      // outLineの太さをコントロール因子
+float outLineFactor = 0.3f;  // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
+float outLineStr = 0.009f;   // outLineの太さをコントロール因子
 
-float3 amibent; // 環境光
-float3 diffuse; // 拡散反射光
+float3 amibent;  // 環境光
+float3 diffuse;  // 拡散反射光
 float3 specular; // 鏡面反射光
 float shininess; // 光沢
 
-texture tex;               // テクスチャ
-sampler texSampler =       // サンプラー
+texture tex;          // テクスチャ
+sampler texSampler =  // サンプラー
 sampler_state
 {
     Texture = <tex>;
@@ -127,7 +127,7 @@ float4 modelPS(VSout vout) : COLOR
 
     // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
     // 外積の値がマイナスならばシャドウにする(0)
-    // maxx(x, y) xとy のうちの大きい方の値を選択。マイナスを防ぐように
+    // maxx(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐように
     float diffuse = max(0, dot(vout.nor, -lightDir));
 
     // シャドウと色を分離

@@ -30,6 +30,7 @@
     <ClCompile Include="Engine\Model\Animation.cpp" />
     <ClCompile Include="Engine\Model\AnimationChannel.cpp" />
     <ClCompile Include="Component\Billboard.cpp" />
+    <ClCompile Include="Component\UVAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -60,5 +61,6 @@
     <ClInclude Include="Engine\Model\Animation.h" />
     <ClInclude Include="Engine\Model\AnimationChannel.h" />
     <ClInclude Include="Component\Billboard.h" />
+    <ClInclude Include="Component\UVAnimation.h" />
   </ItemGroup>
 </Project>

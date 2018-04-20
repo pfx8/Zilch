@@ -21,25 +21,15 @@ class Texture
 	friend class Material;
 
 private:
-	string										mPath;		// テクスチャパス
 
 public:
+	string						mName;		// テクスチャ名前
 	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
 
 	Texture(string path);
 	~Texture();
 
-	HRESULT loadingTexture();		// テクスチャを読み込み
-
-	string getTexPath()
-	{
-		return this->mPath;
-	}
-
-	//void deleteTex()
-	//{
-	//	RELEASE_POINT(mTex);
-	//}
+	HRESULT loadingTexture(string path);		// テクスチャを読み込み
 };
 
 #endif // !_TEXTURE_H_

@@ -39,7 +39,7 @@ HRESULT Animation::loadAnimation(string const &path)
 	const aiScene* scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
 	this->mAiScene = scene;
 
-	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	if (!scene || !scene->mRootNode)
 	{
 		cout << "[Error] Assimp::" << import.GetErrorString() << endl;
 		return E_FAIL;
