@@ -62,10 +62,8 @@ void Scene::update()
 {
 	for (auto it : mGameObjectMap)
 	{
-		//cout << "<Test> : [" << it.first  << "]" << endl;
 		if (it.second->mActive == true)
 		{
-			//cout << "<Draw GameObject> : [" << it.first  << "]" << endl;
 			it.second->update();
 		}
 	}
@@ -80,10 +78,8 @@ void Scene::draw()
 {
 	for (auto it : mGameObjectMap)
 	{
-		//cout << "<Test> : [" << it.first  << "]" << endl;
 		if (it.second->mDraw == true)
 		{
-			//cout << "<Draw GameObject> : [" << it.first  << "]" << endl;
 			it.second->getComponent<MeshRender>("meshRender")->draw();
 		}
 	}

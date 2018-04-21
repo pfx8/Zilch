@@ -14,11 +14,13 @@ matrix projectionMatrix;  // プロジェクション変換行列
 
 matrix boneMatrices[120]; // 骨行列集合
 
-float3 lightDir = float3(-1.0f, 1.0f, 1.0f);         // ライト方向ベクトル
-float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);  // ライトカラー
+//float3 lightDir = float3(-1.0f, 1.0f, 1.0f);         // ライト方向ベクトル
+//float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);  // ライトカラー
+float3 lightDir; // ライト方向ベクトル
+float4 lightColor; // ライトカラー
 
-float outLineFactor = 0.3f;  // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-float outLineStr = 0.009f;   // outLineの太さをコントロール因子
+float outLineFactor = 0.1f;  // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
+float outLineStr = 0.01f;   // outLineの太さをコントロール因子
 
 float3 amibent;  // 環境光
 float3 diffuse;  // 拡散反射光
@@ -149,7 +151,7 @@ float4 modelPS(VSout vout) : COLOR
     float diffuse = max(0, dot(vout.nor, -lightDir));
 
     // シャドウと色を分離
-    if (diffuse > 0.15f)
+    if (diffuse > 0.1f)
     {
         //　diffuse
         color *= lightColor;
@@ -157,7 +159,7 @@ float4 modelPS(VSout vout) : COLOR
     else
     {
         // シャドウ
-        color *= lightColor * 0.93f;
+        color *= lightColor * 0.75f;
     }
     color.a = 1.0f;
 
@@ -172,23 +174,23 @@ float4 modelPS(VSout vout) : COLOR
 technique celShading
 {
     // outLine
-    //pass P0
-    //{
-    //    // アルファブレンティング
-    //    AlphaBlendEnable = TRUE;
-    //    // フラットシェーディング
-    //    ShadeMode = GOURAUD;
-    //    // Zバッファ
-    //    ZEnable = TRUE;
-    //    // 背面カリング
-    //    CullMode = CW; // ポリゴンの裏を表示
+    pass P0
+    {
+        // アルファブレンティング
+        AlphaBlendEnable = TRUE;
+        // フラットシェーディング
+        ShadeMode = GOURAUD;
+        // Zバッファ
+        ZEnable = TRUE;
+        // 背面カリング
+        CullMode = CW; // ポリゴンの裏を表示
         
-    //    VertexShader = compile vs_3_0 outLineVS();
-    //    PixelShader = compile ps_3_0 outLinePS();
-    //}
+        VertexShader = compile vs_3_0 outLineVS();
+        PixelShader = compile ps_3_0 outLinePS();
+    }
     
     // モデル
-    pass P0
+    pass P1
     {
         DestBlend = ONE;
         // アルファブレンティング

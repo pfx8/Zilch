@@ -158,13 +158,13 @@ void Model::draw(Shader* shader, Transform* trans, Camera* camera)
 {
 	D3DXMATRIX mat[120] = { };
 
-	unsigned int count = 0;
-	for (auto it : this->mBones)
-	{
-		mat[count] = it->mFinaTransform;
-		cout << "<Test><Bone><Fin> : " << mat[count]._11 << " " << mat[count]._12 << " " << mat[count]._13 << " " << endl;
-		count++;
-	}
+	//unsigned int count = 0;
+	//for (auto it : this->mBones)
+	//{
+	//	mat[count] = it->mFinaTransform;
+	//	cout << "<Test><Bone><Fin> : " << mat[count]._11 << " " << mat[count]._12 << " " << mat[count]._13 << " " << endl;
+	//	count++;
+	//}
 
 	// 骨の行列をシェーダーに渡す
 	shader->mEffect->SetMatrixArray("boneMatrices", mat, 120);

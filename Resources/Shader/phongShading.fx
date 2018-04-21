@@ -11,6 +11,9 @@ matrix worldMatrix;            // ワールド変換行列
 matrix viewMatrix;              // ビューイング変換行列
 matrix projectionMatrix;     // プロジェクション変換行列
 
+float3 lightDir; // ライト方向ベクトル
+float4 lightColor; // ライトカラー
+
 texture tex;                                   // テクスチャ
 sampler texSampler =                // サンプラー
 sampler_state

@@ -10,7 +10,6 @@
 
 #include "Scene.h"
 #include "../Engine/Shader.h"
-#include "../Engine/Light.h"
 #include "../Engine/Model/Mesh.h"
 
 //*****************************************************************************

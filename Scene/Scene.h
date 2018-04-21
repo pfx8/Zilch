@@ -14,9 +14,9 @@
 #include "../Component/MeshRender.h"
 #include "../Component/PlayerController.h"
 #include "../Component/Transform.h"
+#include "../Component/DirectionalLight.h"
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
-#include "../Engine/Light.h"
 #include "../Engine/DebugMessage.h"
 #include "../GameObject/GameObject.h"
 
@@ -34,7 +34,6 @@ public:
 	bool								mIsStart;
 
 	unordered_map<string, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
-	vector<Light*>														mLights;								// ライト集合
 
 	Scene();
 	~Scene();

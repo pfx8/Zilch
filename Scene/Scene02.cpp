@@ -36,14 +36,14 @@ void Scene02::start()
 	resource->loadModel(MT_default,"gridField", "Resources/Model/field.fbx");
 
 	// Hixo
-	resource->loadTexture("clothes", "Resources/Texture/Hixo/clothes.png");
-	resource->loadTexture("eye", "Resources/Texture/Hixo/eye.png");
-	resource->loadTexture("face", "Resources/Texture/Hixo/face.png");
-	resource->loadTexture("facial", "Resources/Texture/Hixo/facial.png");
-	resource->loadTexture("hair1", "Resources/Texture/Hixo/hair1.png");
-	resource->loadTexture("hair2", "Resources/Texture/Hixo/hair2.png");
-	resource->loadTexture("panties", "Resources/Texture/Hixo/panties.png");
-	resource->loadTexture("skin", "Resources/Texture/Hixo/skin.png");
+	resource->loadTexture("clothes", "Resources/Texture/Hixo2/clothes.png");
+	resource->loadTexture("eye", "Resources/Texture/Hixo2/eye.png");
+	resource->loadTexture("face", "Resources/Texture/Hixo2/face.png");
+	resource->loadTexture("facial", "Resources/Texture/Hixo2/facial.png");
+	resource->loadTexture("hair1", "Resources/Texture/Hixo2/hair1.png");
+	resource->loadTexture("hair2", "Resources/Texture/Hixo2/hair2.png");
+	resource->loadTexture("panties", "Resources/Texture/Hixo2/panties.png");
+	resource->loadTexture("skin", "Resources/Texture/Hixo2/skin.png");
 	//resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
 	resource->loadModel(MT_withBone, "Hixo", "Resources/Model/Hixo.fbx");
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
@@ -51,6 +51,15 @@ void Scene02::start()
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
 	resource->loadShader("celShading", "Resources/Shader/celShading.fx");
+	
+	// ライト
+	GameObject* directionalLight = new GameObject();
+	DirectionalLight* light = new DirectionalLight;
+	light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
+	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	light->mSunPos = light->mLightDirection * 10;
+	directionalLight->addComponent<DirectionalLight>("light", light);
+	this->addGameObject("directionalLight", directionalLight);
 
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
@@ -59,7 +68,7 @@ void Scene02::start()
 
 	// player
 	GameObject* player = new GameObject();
-	Transform* playerTrans = new Transform();											// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	Transform* playerTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	playerTrans->mPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	player->addComponent<Transform>("trans", playerTrans);
 	PlayerController* playerController = new PlayerController();
@@ -70,6 +79,8 @@ void Scene02::start()
 	MeshRender* playerMeshRender = new MeshRender();
 	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
 	playerMeshRender->mShader = resource->getShader("celShading");			// シェーダーを取得
+	playerMeshRender->mShader->mEffect->SetValue("lightDir", &light->mLightDirection, sizeof(light->mLightDirection));
+	playerMeshRender->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
 	player->addComponent<MeshRender>("meshRender", playerMeshRender);
 	this->addGameObject("player", player);
 
@@ -80,12 +91,14 @@ void Scene02::start()
 
 	// 床
 	GameObject* gridField = new GameObject();
-	Transform* gridFieldTrans = new Transform();																// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	Transform* gridFieldTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridFieldTrans->mScl = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->mModel = resource->getModel("gridField");						// リソースからモデルを取得
+	gridFieldMeshRender->mModel = resource->getModel("gridField");				// リソースからモデルを取得
 	gridFieldMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
+	gridFieldMeshRender->mShader->mEffect->SetValue("lightDir", &light->mLightDirection, sizeof(light->mLightDirection));
+	gridFieldMeshRender->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
 	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);
 }
