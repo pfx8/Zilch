@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Mesh::Mesh(MeshType type, aiMesh* mesh, vector<D3DXMATRIX>* transforms, const aiScene* scene)
+Mesh::Mesh(MeshType type, aiMesh* mesh, vector<Bone*>* bones, const aiScene* scene)
 {
 	// メッシュタイプを設定
 	this->mMeshType = type;
@@ -31,7 +31,7 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, vector<D3DXMATRIX>* transforms, const ai
 		SetupMesh();
 		break;
 	case MT_withBone:
-		createMeshWithBone(mesh, transforms, scene);
+		createMeshWithBone(mesh, bones, scene);
 		SetupMeshWithBone();
 		break;
 	}
@@ -43,12 +43,11 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, vector<D3DXMATRIX>* transforms, const ai
 // 骨付きメッシュを読み込み
 //
 //*****************************************************************************
-void Mesh::createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, const aiScene *scene)
+void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>* bones, const aiScene *scene)
 {
 	this->mName = mesh->mName.C_Str();
 
-	unsigned int	numBones = 0;		// 骨の数
-	unordered_map<string, Bone*>	boneMapping;		//	骨マップ
+	unsigned int	numBones = bones->size();		// 骨の順番
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -60,9 +59,6 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, cons
 		vertex.pos.x = mesh->mVertices[count].x;
 		vertex.pos.y = -mesh->mVertices[count].z;
 		vertex.pos.z = -mesh->mVertices[count].y; 
-		//vertex.pos.x = mesh->mVertices[count].x;
-		//vertex.pos.y = mesh->mVertices[count].y;
-		//vertex.pos.z = mesh->mVertices[count].z;
 
 		// 法線
 		vertex.nor.x = mesh->mNormals[count].x;
@@ -114,36 +110,35 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<D3DXMATRIX>* transforms, cons
 	}
 
 	// 骨処理
-	//cout << "      <Bone Num> " << mesh->mNumBones << endl;
 	for (unsigned int count = 0; count < mesh->mNumBones; count++)
 	{
 		unsigned int boneIndex = 0;
 		string boneName{ mesh->mBones[count]->mName.C_Str() };			// 骨の名前を取得
 
-		//cout << "      <Bone Name> [" << count << "] " << boneName << endl;
+		bool skip = false;
 
-		// 新しい骨ならば
-		if (boneMapping.find(boneName) == boneMapping.end())
+		// vector<Bone*>に骨を探す
+		for (auto it : *bones)
 		{
-			// 骨の番号を付き
+			if (it->mName == boneName)
+			{
+				// vector<Bone>から骨の番号を取得
+				boneIndex = it->mIndex;
+				skip = true;
+				break;
+			}
+		}
+
+		// 新しい骨ならば、vector<Bone*>に増加
+		if (skip == false)
+		{
+			// 骨に番号を付き
 			boneIndex = numBones;
 			numBones++;
-
 			// 骨データを保存
 			D3DXMATRIX offset(mesh->mBones[count]->mOffsetMatrix[0]);		// aiMatrixからD3DXMATRIXへ変更
-			Bone *bone = new Bone(boneIndex, offset);
-			// 2回読み込みを防ぐ
-			boneMapping[boneName] = bone;
-
-			// 骨にデファクト変換行列を作る
-			D3DXMATRIX matrix;
-			D3DXMatrixIdentity(&matrix);
-			transforms->push_back(matrix);
-		}
-		else
-		{
-			// 骨マップから骨の番後を取得
-			boneIndex = boneMapping[boneName]->mIndex;
+			Bone *bone = new Bone(boneIndex, offset, boneName);
+			bones->push_back(bone);
 		}
 
 		// 頂点に骨情報を入れる

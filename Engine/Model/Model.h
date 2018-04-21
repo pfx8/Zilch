@@ -24,11 +24,11 @@
 class Model
 {
 private:
-	enum MeshType					mMeshType;									// メッシュタイプ
-	unsigned int						mCurAnimation = 0;						// 現在のアニメーション番号
+	enum MeshType					mMeshType;				// メッシュタイプ
+	unsigned int						mCurAnimation = 0;		// 現在のアニメーション番号
 
-	HRESULT loadModel(string const &path);							// モデルを読み込み
-	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
+	HRESULT loadModel(string const &path);						// モデルを読み込み
+	void processNode(aiNode *node, const aiScene *scene);		// ノード処理
 
 public:
 	vector<Mesh*>					mMeshes;					// メッシュデータ

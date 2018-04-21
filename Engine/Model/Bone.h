@@ -22,6 +22,7 @@ private:
 
 public:
 	// 骨情報
+	string					mName;						// 骨の名前
 	unsigned int				mIndex;						// 骨自身の番号
 	D3DXMATRIX				mNodeTransform;				// 対応してノードの番号
 	D3DXMATRIX				mOffset;						// モデルのルートに対して変更行列
@@ -32,7 +33,7 @@ public:
 	D3DXVECTOR3				mSot;						// 角度の変更
 
 	Bone();
-	Bone(unsigned int index, D3DXMATRIX offset);
+	Bone(unsigned int index, D3DXMATRIX offset, string name);
 	~Bone();
 };
 

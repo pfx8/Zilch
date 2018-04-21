@@ -30,34 +30,47 @@ Model::Model(MeshType type, string const &path)
 	}
 
 	loadModel(path);
-	
+
 	// モデル構造をdebugウインドに出す
 	// mseh
-	unsigned int meshesNum = 1;
-	for (auto it : this->mMeshes)
+	//unsigned int meshesNum = 1;
+	//for (auto it : this->mMeshes)
+	//{
+	//	cout << "  |- <Mesh><No." << meshesNum << "> : [" << it->mName << "]" << endl;
+	//	meshesNum++;
+
+	//	// material
+	//	unsigned int materialsNum = 1;
+	//	for (auto it1 : it->mMaterials)
+	//	{
+	//		cout << "    |- <Material><No." << materialsNum << "> : [" << it1->mName << "]" << endl;
+	//		materialsNum++;
+
+	//		// texture
+	//		unsigned int texturesNum = 1;
+	//		for (auto it2 : it1->mTextures)
+	//		{
+	//			cout << "      |- <Texture><No." << texturesNum << "> : [" << it2->mName << "]" << endl;
+	//			texturesNum++;
+	//		}
+	//	}
+	//}
+
+	// 骨情報
+	unsigned int bonesNum = 1;
+	for (auto it : this->mBones)
 	{
-		cout << "  |- <Mesh><No." << meshesNum << "> : [" << it->mName << "]" << endl;
-		meshesNum++;
-
-		// material
-		unsigned int materialsNum = 1;
-		for (auto it1 : it->mMaterials)
-		{
-			cout << "    |- <Material><No." << materialsNum << "> : [" << it1->mName << "]" << endl;
-			materialsNum++;
-
-			// texture
-			unsigned int texturesNum = 1;
-			for (auto it2 : it1->mTextures)
-			{
-				cout << "      |- <Texture><No." << texturesNum << "> : [" << it2->mName << "]" << endl;
-				texturesNum++;
-			}
-		}
+		cout << "  |- <Bone><Index." << it->mIndex << "> : [" << it->mName << "]" << endl;
+		bonesNum++;
 	}
 
-	// bones
-	unsigned int bonesNum = 0;
+	// 骨の最終変更行列
+	/*unsigned int bonesTransNum = 1;
+	for (auto it : this->mTransforms)
+	{
+		cout << "  |- <BoneTransform><No." << bonesTransNum << ">" << endl;
+		bonesTransNum++;
+	}*/
 }
 
 //*****************************************************************************
@@ -104,7 +117,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, &this->mTransforms, scene));
+		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, &this->mBones, scene));
 	}
 
 	// ノードメッセージを保存

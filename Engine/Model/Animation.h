@@ -30,6 +30,7 @@ private:
 	void processNode(aiNode* node, const aiScene* scene);			// ノード処理
 	HRESULT loadAnimation(string const &path);						// アニメーションを読み込み
 	aiNodeAnim* findNodeAnim(aiAnimation* animation, string nodeName);		// 
+
 	void calcInterpolatedScl(aiVector3D& scl, float animationTime, aiNodeAnim* nodeAnim);
 	void calcInterpolatedRot(aiQuaternion& rot, float animationTime, aiNodeAnim* nodeAnim);
 	void calcInterpolatedPos(aiVector3D& pos, float animationTime, aiNodeAnim* nodeAnim);

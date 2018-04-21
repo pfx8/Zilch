@@ -22,10 +22,11 @@ Bone::Bone()
 // コンストラクタ
 //
 //*****************************************************************************
-Bone::Bone(unsigned int index, D3DXMATRIX offset)
+Bone::Bone(unsigned int index, D3DXMATRIX offset, string name)
 {
 	this->mIndex = index;
 	this->mOffset = offset;
+	this->mName = name;
 }
 
 //*****************************************************************************
