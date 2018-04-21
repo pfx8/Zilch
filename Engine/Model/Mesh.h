@@ -46,8 +46,11 @@ struct VertexBone
 	//D3DXVECTOR3 bitangent;
 
 	// çú
-	unsigned int	boneID[NUM_BONES_PER_VEREX];		// çúÇÃID
-	float		weights[NUM_BONES_PER_VEREX];		// çúÇÃèdÇ›
+	unsigned int	boneID[NUM_BONES_PER_VEREX] = {0};		// çúÇÃID
+	float		weights[NUM_BONES_PER_VEREX] = {0.0f};		// çúÇÃèdÇ›
+
+	// test data
+	unsigned int boneNum = 0;
 };
 
 //*****************************************************************************

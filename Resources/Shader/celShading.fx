@@ -12,6 +12,8 @@ matrix worldMatrix;       // ワールド変換行列
 matrix viewMatrix;        // ビューイング変換行列
 matrix projectionMatrix;  // プロジェクション変換行列
 
+matrix boneMatrices[120]; // 骨行列集合
+
 float3 lightDir = float3(-1.0f, 1.0f, 1.0f);         // ライト方向ベクトル
 float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);  // ライトカラー
 
@@ -100,13 +102,29 @@ float4 outLinePS(VSout vout) : COLOR
 //*****************************************************************************
 VSout modelVS(float3 pos : POSITION0,
              float3 nor : NORMAL0,
-             float2 coord : TEXCOORD0)
+             float2 coord : TEXCOORD0,
+             float4 weight : BLENDWEIGHT,
+             float4 bone : BLENDINDICES)
 {
     // 戻り値を初期化
     VSout vout = (VSout) 0;
 
+    //// 骨によって頂点位置を計算
+    //float4 blendVertex = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    //float4 blendWeight = weight;
+    //int4 blendBone = int4(bone);
+
+    //for (int count = 0; count < 4; count++)
+    //{
+    //    blendVertex += mul(float4(pos, 1.0f), boneMatrices[blendBone.x]) * blendWeight.x;
+    //    blendBone = blendBone.yzwx;
+    //    blendWeight = blendWeight.yzwx;
+    //}
+    //// 頂点変換
+    //vout.pos = mul(mul(mul(blendVertex, worldMatrix), viewMatrix), projectionMatrix);
+
     // 頂点変換
-    vout.pos = mul(mul(mul(float4(pos, 1.0), worldMatrix), viewMatrix), projectionMatrix);
+    vout.pos = mul(mul(mul(float4(pos, 1.0f), worldMatrix), viewMatrix), projectionMatrix);
     // 法線変更
     vout.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
     // UV座標変更
@@ -141,7 +159,7 @@ float4 modelPS(VSout vout) : COLOR
         // シャドウ
         color *= lightColor * 0.93f;
     }
-    //color.a = 1.0f;
+    color.a = 1.0f;
 
     return color;
 }
@@ -154,23 +172,23 @@ float4 modelPS(VSout vout) : COLOR
 technique celShading
 {
     // outLine
-    pass P0
-    {
-        // アルファブレンティング
-        AlphaBlendEnable = TRUE;
-        // フラットシェーディング
-        ShadeMode = GOURAUD;
-        // Zバッファ
-        ZEnable = TRUE;
-        // 背面カリング
-        CullMode = CW; // ポリゴンの裏を表示
+    //pass P0
+    //{
+    //    // アルファブレンティング
+    //    AlphaBlendEnable = TRUE;
+    //    // フラットシェーディング
+    //    ShadeMode = GOURAUD;
+    //    // Zバッファ
+    //    ZEnable = TRUE;
+    //    // 背面カリング
+    //    CullMode = CW; // ポリゴンの裏を表示
         
-        VertexShader = compile vs_3_0 outLineVS();
-        PixelShader = compile ps_3_0 outLinePS();
-    }
+    //    VertexShader = compile vs_3_0 outLineVS();
+    //    PixelShader = compile ps_3_0 outLinePS();
+    //}
     
     // モデル
-    pass P1
+    pass P0
     {
         DestBlend = ONE;
         // アルファブレンティング

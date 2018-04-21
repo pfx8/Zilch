@@ -149,7 +149,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		true);
 
 	// ウインドウの表示(InitDiretX()の後に呼ばないと駄目)
-	//ShowWindow(hWnd, nCmdShow);
+	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
 	// メッセージループ

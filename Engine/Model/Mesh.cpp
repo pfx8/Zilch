@@ -150,15 +150,28 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 			// 頂点に情報を入れる
 			for (unsigned int j = 0; j < NUM_BONES_PER_VEREX; j++)
 			{
-				if (mVertices.at(vertexID).weights[j] == 0)
+				if (mVertices.at(vertexID).weights[j] == 0.0f)
 				{
 					mVertices.at(vertexID).boneID[j] = boneIndex;
 					mVertices.at(vertexID).weights[j] = weight;
+
+					// test data
+					mVertices.at(vertexID).boneNum++;
+
 					break;
 				}
 			}
 		}
 	}
+
+	// test data
+	/*unsigned int maxBones = 0;
+	for (auto it : this->mVertices)
+	{
+		if (it.boneNum > maxBones)
+			maxBones = it.boneNum;
+	}
+	cout << "<test><maxBoneNum> : " << maxBones << endl;*/
 
 	// インデックス処理
 	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
@@ -312,6 +325,8 @@ HRESULT Mesh::SetupMeshWithBone()
 			{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
 			{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
 			{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+			{ 0, 32, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDWEIGHT, 0 },
+			{ 0, 48, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDINDICES, 0 },
 			D3DDECL_END()
 		};
 		pD3DDevice->CreateVertexDeclaration(Decl, &this->mVertexDecl);
