@@ -9,6 +9,7 @@
 #define _ANIMATION_H_
 
 #include "AnimationChannel.h"
+#include "Bone.h"
 #include "../Engine.h"
 
 //*****************************************************************************
@@ -37,15 +38,16 @@ private:
 	unsigned int FindScl(float animationTime, aiNodeAnim* nodeAnim);
 	unsigned int FindRot(float animationTime, aiNodeAnim* nodeAnim);
 	unsigned int FindPos(float animationTime, aiNodeAnim* nodeAnim);
-	void processAnimationTransforms(float animationTime, const aiNode* node, D3DXMATRIX& parentTransform);	// 時間によって骨の変換行列を計算処理
+	void processAnimationTransforms(float animationTime, const aiNode* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform);	// 時間によって骨の変換行列を計算処理
 
 public:
-	vector<AnimationChannel*>		mAnimationChannels;	// すべてのチャンネルデータ
+	vector<AnimationChannel*>		mAnimationChannels;		// すべてのチャンネルデータ
+	D3DXMATRIX					mGlobalInverseTransform;	// モデルの空間逆行列
 
 	Animation(string const &path);
 	~Animation();
 
-	void processBoneTransforms(float timeInSeconds, vector<D3DXMATRIX>& transforms);		// アニメーション更新
+	void processBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms);		// アニメーション更新
 };
 
 #endif // !_ANIMATION_H_

@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Mesh::Mesh(MeshType type, aiMesh* mesh, vector<Bone*>* bones, const aiScene* scene)
+Mesh::Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene)
 {
 	// メッシュタイプを設定
 	this->mMeshType = type;
@@ -43,11 +43,10 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, vector<Bone*>* bones, const aiScene* sce
 // 骨付きメッシュを読み込み
 //
 //*****************************************************************************
-void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>* bones, const aiScene *scene)
+void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene *scene)
 {
-	this->mName = mesh->mName.C_Str();
-
-	unsigned int	numBones = bones->size();		// 骨の順番
+	this->mName = mesh->mName.C_Str();		// メッシュの名前を取得
+	unsigned int	numBones = bones.size();		// 骨の順番を初期化
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -70,8 +69,6 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>* bones, const aiScene 
 		{
 			vertex.tex.x = mesh->mTextureCoords[0][count].x;
 			vertex.tex.y = mesh->mTextureCoords[0][count].y;
-			
-			//cout << "<Test><Texture> : " << "X " << vertex.tex.x << ", Y " << vertex.tex.y << endl;
 		}
 		else
 		{
@@ -118,8 +115,9 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>* bones, const aiScene 
 		bool skip = false;
 
 		// vector<Bone*>に骨を探す
-		for (auto it : *bones)
+		for (auto it : bones)
 		{
+			// もう読み込んだ骨ならば
 			if (it->mName == boneName)
 			{
 				// vector<Bone>から骨の番号を取得
@@ -138,12 +136,13 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>* bones, const aiScene 
 			// 骨データを保存
 			D3DXMATRIX offset(mesh->mBones[count]->mOffsetMatrix[0]);		// aiMatrixからD3DXMATRIXへ変更
 			Bone *bone = new Bone(boneIndex, offset, boneName);
-			bones->push_back(bone);
+			bones.push_back(bone);
 		}
 
 		// 頂点に骨情報を入れる
 		for (unsigned int i = 0; i < mesh->mBones[count]->mNumWeights; i++)
 		{
+
 			// 今の骨に対して各影響されてる頂点のIDと重みを取得
 			unsigned int vertexID = mesh->mBones[count]->mWeights[i].mVertexId;
 			float weight = mesh->mBones[count]->mWeights[i].mWeight;
@@ -161,14 +160,6 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>* bones, const aiScene 
 		}
 	}
 
-	// 読み込んだ骨をdeBugヴェインドに出す
-	/*unsigned int count = 0;
-	for (auto it : boneMapping)
-	{
-		cout << "      <Bone> : <No." << count << "> : [" << it.first << "]" << endl;
-		count++;
-	}
-*/
 	// インデックス処理
 	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
 	{
@@ -192,9 +183,6 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>* bones, const aiScene 
 		// メッシュのマテリアルに入れる
 		this->mMaterials.push_back(mat);
 	}
-
-	// test
-	//cout << "<Test><animation> : " << mesh->mNumAnimMeshes << endl;
 }
 
 //*****************************************************************************

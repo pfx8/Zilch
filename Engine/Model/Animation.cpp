@@ -45,6 +45,11 @@ HRESULT Animation::loadAnimation(string const &path)
 		return E_FAIL;
 	}
 
+
+	// グローバル空間逆行列を計算
+	this->mGlobalInverseTransform = scene->mRootNode->mTransformation[0];
+	D3DXMatrixInverse(&this->mGlobalInverseTransform, NULL, &this->mGlobalInverseTransform);
+
 	// aiAnimationから自作アニメーションまで変更
 	// 各アニメーションファイルに一つアニメーションしかない
 	if (scene->mNumAnimations == 1)
@@ -69,6 +74,8 @@ HRESULT Animation::loadAnimation(string const &path)
 //*****************************************************************************
 //
 // ノード処理
+//
+// アニメーションの情報を自分作ったAnimationChannelに入れる
 //
 //*****************************************************************************
 void Animation::processNode(aiNode* node, const aiScene* scene)
@@ -134,7 +141,7 @@ void Animation::processNode(aiNode* node, const aiScene* scene)
 // アニメーション更新
 //
 //*****************************************************************************
-void Animation::processBoneTransforms(float timeInSeconds, vector<D3DXMATRIX>& transforms)
+void Animation::processBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms)
 {
 	// 親行列を用意して正規化する
 	D3DXMATRIX matrix;
@@ -147,7 +154,7 @@ void Animation::processBoneTransforms(float timeInSeconds, vector<D3DXMATRIX>& t
 	float animationTime = fmodf(timeInSeconds * this->mTicksPerSecond, this->mDuration);
 
 	// 各骨を更新行列を計算
-	processAnimationTransforms(animationTime, this->mAiScene->mRootNode, matrix);
+	processAnimationTransforms(animationTime, this->mAiScene->mRootNode, bones, matrix);
 }
 
 //*****************************************************************************
@@ -155,7 +162,7 @@ void Animation::processBoneTransforms(float timeInSeconds, vector<D3DXMATRIX>& t
 // 時間によって骨の変換行列を計算処理
 //
 //*****************************************************************************
-void Animation::processAnimationTransforms(float animationTime, const aiNode* node, D3DXMATRIX& parentTransform)
+void Animation::processAnimationTransforms(float animationTime, const aiNode* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform)
 {
 	// ノードの名前を取得
 	string nodeName = node->mName.C_Str();
@@ -194,13 +201,19 @@ void Animation::processAnimationTransforms(float animationTime, const aiNode* no
 
 	D3DXMATRIX globalTransform = parentTransform * nodeTransform;
 
-	// ノードに
-
+	// 骨の最終変更行列を更新
+	for (auto& it : bones)
+	{
+		if (nodeName == it->mName)
+		{
+			it->mFinaTransform = this->mGlobalInverseTransform * globalTransform * it->mOffset;
+		}
+	}
 
 	// 子ノード処理
 	for (unsigned int count = 0; count < node->mNumChildren; count++)
 	{
-		processAnimationTransforms(animationTime, node->mChildren[count], globalTransform);
+		processAnimationTransforms(animationTime, node->mChildren[count], bones, globalTransform);
 	}
 }
 

@@ -57,12 +57,12 @@ Model::Model(MeshType type, string const &path)
 	//}
 
 	// 骨情報
-	unsigned int bonesNum = 1;
-	for (auto it : this->mBones)
-	{
-		cout << "  |- <Bone><Index." << it->mIndex << "> : [" << it->mName << "]" << endl;
-		bonesNum++;
-	}
+	//unsigned int bonesNum = 1;
+	//for (auto it : this->mBones)
+	//{
+	//	cout << "  |- <Bone><Index." << it->mIndex << "> : [" << it->mName << "]" << endl;
+	//	bonesNum++;
+	//}
 
 	// 骨の最終変更行列
 	/*unsigned int bonesTransNum = 1;
@@ -117,7 +117,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, &this->mBones, scene));
+		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, this->mBones, scene));
 	}
 
 	// ノードメッセージを保存
@@ -146,7 +146,7 @@ void Model::addAnimation(Animation* animation)
 //*****************************************************************************
 void Model::updateAnimation(float timeInSeconds)
 {
-	this->mAnimationes[this->mCurAnimation]->processBoneTransforms(timeInSeconds, this->mTransforms);
+	this->mAnimationes[this->mCurAnimation]->processBoneTransforms(timeInSeconds, this->mBones, this->mTransforms);
 }
 
 //*****************************************************************************

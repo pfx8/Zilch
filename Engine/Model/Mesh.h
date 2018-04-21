@@ -76,8 +76,8 @@ private:
 	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;		// 頂点インデックスバッファ
 	IDirect3DVertexDeclaration9*		mVertexDecl;			// 頂点シェーダー宣言
 
-	void createMesh(aiMesh *mesh, const aiScene *scene);										//	デフォルトメッシュを読み込み
-	void createMeshWithBone(aiMesh *mesh, vector<Bone*>* bones, const aiScene *scene);			// 骨付きメッシュを読み込み
+	void createMesh(aiMesh* mesh, const aiScene* scene);										//	デフォルトメッシュを読み込み
+	void createMeshWithBone(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);			// 骨付きメッシュを読み込み
 	HRESULT SetupMesh();																		// デフォルトメッシュをセットアップ
 	HRESULT SetupMeshWithBone();																// 骨付きメッシュをセットアップ
 
@@ -90,7 +90,7 @@ public:
 	vector<unsigned int>				mIndices;				// 頂点インデックスデータ
 	vector<Material*>					mMaterials;				// マテリアルデータ
 
-	Mesh(MeshType type, aiMesh *mesh, vector<Bone*>* bones, const aiScene *scene);		// メッシュの初期化
+	Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);		// メッシュの初期化
 	~Mesh();
 
 	void draw(Shader* shader, Transform* trans, Camera* camera);	// ドロー
