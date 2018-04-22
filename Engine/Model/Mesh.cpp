@@ -164,15 +164,6 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 		}
 	}
 
-	// test data
-	/*unsigned int maxBones = 0;
-	for (auto it : this->mVertices)
-	{
-		if (it.boneNum > maxBones)
-			maxBones = it.boneNum;
-	}
-	cout << "<test><maxBoneNum> : " << maxBones << endl;*/
-
 	// インデックス処理
 	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
 	{
@@ -507,7 +498,7 @@ void Mesh::draw(Shader* shader, Transform* trans, Camera* camera)
 			hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexBone));	
 			break;
 		}
-		hr = pD3DDevice->SetIndices(this->mIndexBuffer);																	// インデックスバッファを設定
+		hr = pD3DDevice->SetIndices(this->mIndexBuffer);		// インデックスバッファを設定
 		unsigned int vertexNums = mVertices.size();
 		unsigned int faceNums = mIndices.size() / 3;
 		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画

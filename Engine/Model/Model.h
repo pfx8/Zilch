@@ -24,7 +24,7 @@
 class Model
 {
 private:
-	enum MeshType					mMeshType;				// メッシュタイプ
+	enum MeshType						mMeshType;				// メッシュタイプ
 	unsigned int						mCurAnimation = 0;		// 現在のアニメーション番号
 
 	HRESULT loadModel(string const &path);						// モデルを読み込み
@@ -39,8 +39,8 @@ public:
 	Model(MeshType type, string const &path);
 	~Model();
 
-	void addAnimation(Animation* animation);		// アニメーションデータを読み込み
-	void updateAnimation(float timeInSeconds);	// アニメーション更新
+	void addAnimation(Animation* animation);						// アニメーションデータを読み込み
+	void updateAnimation(float timeInSeconds);						// アニメーション更新
 	void draw(Shader* shader, Transform* trans, Camera* camera);	// モデルを描画する
 };
 

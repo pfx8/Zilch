@@ -36,8 +36,8 @@ Animation::~Animation()
 HRESULT Animation::loadAnimation(string const &path)
 {
 	Assimp::Importer import;			// Assimpのインポートを作る
-	const aiScene* scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
-	this->mAiScene = scene;
+	const aiScene* scene = new aiScene();
+	scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
 
 	if (!scene || !scene->mRootNode)
 	{
@@ -45,19 +45,17 @@ HRESULT Animation::loadAnimation(string const &path)
 		return E_FAIL;
 	}
 
-
 	// グローバル空間逆行列を計算
 	this->mGlobalInverseTransform = scene->mRootNode->mTransformation[0];
 	D3DXMatrixInverse(&this->mGlobalInverseTransform, NULL, &this->mGlobalInverseTransform);
 
 	// aiAnimationから自作アニメーションまで変更
-	// 各アニメーションファイルに一つアニメーションしかない
+	// 各アニメーションファイルにアニメーションは一つしかない
 	if (scene->mNumAnimations == 1)
 	{
 		this->mName = scene->mAnimations[0]->mName.C_Str();
 		this->mDuration = scene->mAnimations[0]->mDuration;
 		this->mTicksPerSecond = scene->mAnimations[0]->mTicksPerSecond;
-		this->mNumChannels = scene->mAnimations[0]->mNumChannels;
 	}
 	else
 	{
@@ -65,23 +63,8 @@ HRESULT Animation::loadAnimation(string const &path)
 		return E_FAIL;
 	}
 
-	// ルートノードから処理を始める
-	processNode(scene->mRootNode, scene);
-
-	return S_OK;
-}
-
-//*****************************************************************************
-//
-// ノード処理
-//
-// アニメーションの情報を自分作ったAnimationChannelに入れる
-//
-//*****************************************************************************
-void Animation::processNode(aiNode* node, const aiScene* scene)
-{
-	// ノードの各アニメーションを処理
-	for (unsigned int count = 0; count < this->mNumChannels; count++)
+	// AnimationChannelを保存
+	for (unsigned int count = 0; count < scene->mAnimations[0]->mNumChannels; count++)
 	{
 		// まずはチャンネルを取得
 		aiNodeAnim* channel = scene->mAnimations[0]->mChannels[count];
@@ -114,6 +97,9 @@ void Animation::processNode(aiNode* node, const aiScene* scene)
 			quaternionKey.value.y = scene->mAnimations[0]->mChannels[count]->mRotationKeys[i].mValue.y;
 			quaternionKey.value.z = scene->mAnimations[0]->mChannels[count]->mRotationKeys[i].mValue.z;
 			quaternionKey.value.w = scene->mAnimations[0]->mChannels[count]->mRotationKeys[i].mValue.w;
+
+			// AnimationChannelに頂点データを入れる
+			animationChannel->mRotkeys.push_back(quaternionKey);
 		}
 
 		// 拡大縮小
@@ -134,14 +120,73 @@ void Animation::processNode(aiNode* node, const aiScene* scene)
 		// AnimationChannelを保存
 		mAnimationChannels.push_back(animationChannel);
 	}
+
+	// ルートノードから処理を始める
+	Node* node = new Node(scene->mRootNode->mName.C_Str());
+	node->mParent = nullptr;
+	processNode(node, scene->mRootNode, scene);
+
+	// test data
+	//unsigned int num = 0;
+	//cout << "<Animation><Node> : " << endl;
+	//drawN(*(this->mNode.end()-1), num);
+
+	return S_OK;
 }
 
 //*****************************************************************************
 //
-// アニメーション更新
+// 骨構造描画関数
 //
 //*****************************************************************************
-void Animation::processBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms)
+void Animation::drawN(Node* node, unsigned int num)
+{
+	string space;
+	for (unsigned count = 0; count < num; count++)
+	{
+		space += " ";
+	}
+
+	cout << space << "+[" << node->mName << "]" << endl;
+
+	for (auto it : node->mChildren)
+	{
+		drawN(it, num + 1);
+	}
+}
+
+//*****************************************************************************
+//
+// ノード処理
+//
+// アニメーションの情報を自分作ったAnimationChannelに入れる
+//
+//*****************************************************************************
+void Animation::processNode(Node* node, aiNode* aiNode, const aiScene* scene)
+{
+	// offset行列を保存
+	node->mTransform = aiNode->mTransformation[0];
+
+	// 子供ノードを処理
+	for (unsigned int count = 0; count < aiNode->mNumChildren; count++)
+	{
+		// 子供ノードを作る
+		Node* cNode = new Node(aiNode->mChildren[count]->mName.C_Str());
+		cNode->mParent = node;
+		node->mChildren.push_back(cNode);
+
+		processNode(cNode, aiNode->mChildren[count], scene);
+	}
+
+	this->mNode.push_back(node);
+}
+
+//*****************************************************************************
+//
+// アニメーションキーフレームによって骨の変更行列を更新
+//
+//*****************************************************************************
+void Animation::updateBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms)
 {
 	// 親行列を用意して正規化する
 	D3DXMATRIX matrix;
@@ -149,54 +194,70 @@ void Animation::processBoneTransforms(float timeInSeconds, vector<Bone*>& bones,
 
 	// 現在アニメーションの時間を計算
 	timeInSeconds = timeInSeconds - this->mLastStartTime;
+
 	// 現在アニメーションの時間とアニメーション全体の時間と剰余を計算
-	// その結果は今のアニメーションのフレームができた
+	// その結果は今のアニメーションのフレームができる
 	float animationTime = fmodf(timeInSeconds * this->mTicksPerSecond, this->mDuration);
 
-	// 各骨を更新行列を計算
-	processAnimationTransforms(animationTime, this->mAiScene->mRootNode, bones, matrix);
+	// 各骨を更新行列を計算、ルートノードから
+	processBoneTransforms(animationTime, *(this->mNode.end()-1), bones, matrix);
+
+	// test data
+	/*unsigned int count = 1;
+	for (auto it : bones)
+	{
+		cout << "<Test><Bones><No." << count << "> : " << it->mFinaTransform._11 << ", " << it->mFinaTransform._12 << endl;
+		count++;
+	}
+	cout << endl;*/
+
 }
 
 //*****************************************************************************
 //
-// 時間によって骨の変換行列を計算処理
+// キーフレームで各ノード(骨)の変換行列を計算処理
 //
 //*****************************************************************************
-void Animation::processAnimationTransforms(float animationTime, const aiNode* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform)
+void Animation::processBoneTransforms(float animationTime, Node* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform)
 {
-	// ノードの名前を取得
-	string nodeName = node->mName.C_Str();
-	// シーンのアニメーションを取得
-	aiAnimation* animation = this->mAiScene->mAnimations[0];
 	// ノードの変更行列を取得
-	D3DXMATRIX nodeTransform = node->mTransformation[0];
+	D3DXMATRIX nodeTransform = node->mTransform;
 
-	// 今のノードが骨ならば骨の変換行列処理をする
-	// そうではないと、ノード変更行列だけを計算
-	aiNodeAnim* nodeAnim = findNodeAnim(animation, nodeName);
+	// ノードが骨ならば、対応してるchannelを取得
+	AnimationChannel* channel = nullptr;
+	// このノードに骨があれば
+	for (auto it : this->mAnimationChannels)
+	{
+		if (node->mName == it->mBoneName)
+		{
+			channel = it;
+		}
+	}
 
-	if (nodeAnim)
+	// このノードに骨があれば、キーフレームによって骨の変更行列を計算
+	if (channel)
 	{
 		// スケーリングを補間し、スケーリング変換行列を生成
-		//aiVector3D scl;
-		//calcInterpolatedScl(scl, animationTime, nodeAnim);
-		//D3DXMATRIX sclMat;
+		D3DXVECTOR3 scl;
+		calcInterpolatedScl(scl, animationTime, channel);
+		D3DXMATRIX sclMat;
+		D3DXMatrixScaling(&sclMat, scl.x, scl.y, scl.z);
 
 		// 回転を補間して回転変換行列を生成
-		aiQuaternion rot;
-		calcInterpolatedRot(rot, animationTime, nodeAnim);
+		D3DXQUATERNION rot;
+		calcInterpolatedRot(rot, animationTime, channel);
 		// 四元数から行列に変更
-		D3DXMATRIX rotMat = rot.GetMatrix()[0];
+		D3DXMATRIX rotMat;
+		D3DXMatrixRotationQuaternion(&rotMat, &rot);
 
 		// 移動を補間し、移動変換行列を生成
-		aiVector3D pos;
-		calcInterpolatedPos(pos, animationTime, nodeAnim);
+		D3DXVECTOR3 pos;
+		calcInterpolatedPos(pos, animationTime, channel);
 		D3DXMATRIX posMat;
 		D3DXMatrixTranslation(&posMat, pos.x, pos.y, pos.z);
 
 		// ノードの最終変換行列を計算
-		D3DXMatrixMultiply(&nodeTransform, &posMat, &rotMat);
-		//nodeTransform = posMat * rotMat/* * sclMat*/;
+		nodeTransform = posMat * rotMat * sclMat;
 	}
 
 	D3DXMATRIX globalTransform = parentTransform * nodeTransform;
@@ -204,209 +265,186 @@ void Animation::processAnimationTransforms(float animationTime, const aiNode* no
 	// 骨の最終変更行列を更新
 	for (auto& it : bones)
 	{
-		if (nodeName == it->mName)
+		if (node->mName == it->mName)
 		{
 			it->mFinaTransform = this->mGlobalInverseTransform * globalTransform * it->mOffset;
 		}
 	}
 
-	// 子ノード処理
-	for (unsigned int count = 0; count < node->mNumChildren; count++)
+	// 次のノード処理
+	for (unsigned int count = 0; count < node->mChildren.size(); count++)
 	{
-		processAnimationTransforms(animationTime, node->mChildren[count], bones, globalTransform);
+		processBoneTransforms(animationTime, node->mChildren.at(count), bones, globalTransform);
 	}
 }
 
 //*****************************************************************************
 //
-// 
+// 拡大縮小行列計算
 //
 //*****************************************************************************
-aiNodeAnim* Animation::findNodeAnim(aiAnimation* animation, string nodeName)
-{
-	for (unsigned int count = 0; count < animation->mNumChannels; count++)
-	{
-		// ノードの名前が骨対応してるならばaiNodeAnimationを戻る
-		if (animation->mChannels[count]->mNodeName.C_Str() == nodeName)
-		{
-			return animation->mChannels[count];
-		}
-	}
-
-	// ノードの名前が骨対応してないならば
-	return nullptr;
-}
-
-//*****************************************************************************
-//
-// 
-//
-//*****************************************************************************
-void Animation::calcInterpolatedScl(aiVector3D& scl, float animationTime, aiNodeAnim* nodeAnim)
+void Animation::calcInterpolatedScl(D3DXVECTOR3& scl, float animationTime, AnimationChannel* channel)
 {
 	// キーフレームは一つになるのはアニメーションがないわけ、補間計算はいらない
-	if (nodeAnim->mNumScalingKeys == 1)
+	if (channel->mSclKeys.size() == 1)
 	{
-		scl = nodeAnim->mScalingKeys[0].mValue;
+		scl = channel->mSclKeys.at(0).value;
 		return;
 	}
 
 	// 現時点でキーフレームインデックスと次のフレームインデックスを取得
-	unsigned int scalingIndex = FindRot(animationTime, nodeAnim);
+	unsigned int scalingIndex = FindRot(animationTime, channel);
 	unsigned int nextScalingIndex = (scalingIndex + 1);
 
 	// もしアニメーションが終わったら
-	assert(nextScalingIndex < nodeAnim->mNumScalingKeys);
+	assert(nextScalingIndex < channel->mSclKeys.size());
 
 	// 補間時間と補間因子を計算
-	float deltaTime = nodeAnim->mScalingKeys[nextScalingIndex].mTime - nodeAnim->mScalingKeys[scalingIndex].mTime;
-	float factor = (animationTime - (float)nodeAnim->mScalingKeys[scalingIndex].mTime) / deltaTime;
+	float deltaTime = channel->mSclKeys.at(nextScalingIndex).time - channel->mSclKeys.at(scalingIndex).time;
+	float factor = (animationTime - channel->mSclKeys.at(scalingIndex).time) / deltaTime;
 
 	// もし補間因子が正解値ならば(ちゃんと補間できるかどうかの判断)
 	assert(factor >= 0.0f && factor <= 1.0f);
 
 	// 補間値を計算
-	const aiVector3D& startScaling = nodeAnim->mScalingKeys[scalingIndex].mValue;
-	const aiVector3D& endScaling = nodeAnim->mScalingKeys[nextScalingIndex].mValue;
-	aiVector3D temp = endScaling - startScaling;
+	D3DXVECTOR3 startScaling = channel->mSclKeys.at(scalingIndex).value;
+	D3DXVECTOR3 endScaling = channel->mSclKeys.at(nextScalingIndex).value;
+	D3DXVECTOR3 temp = endScaling - startScaling;
 	scl = startScaling + factor * temp;
 }
 
 //*****************************************************************************
 //
-// 
+// 今のキーフレーム番号を戻す(拡大縮小)
 //
 //*****************************************************************************
-void Animation::calcInterpolatedRot(aiQuaternion& rot, float animationTime, aiNodeAnim* nodeAnim)
+unsigned int Animation::FindScl(float animationTime, AnimationChannel* channel)
+{
+	unsigned int count = 0;
+	for (vector<VertexKey>::iterator it = channel->mSclKeys.begin(); it != (channel->mSclKeys.end() - 1); it++)
+	{
+		// フレームを確定そして戻す
+		if (animationTime < (it + 1)->time)
+		{
+			return count;
+		}
+		count++;
+	}
+
+	// アニメーションが終わったら0を戻る
+	return 0;
+}
+
+//*****************************************************************************
+//
+// 回転行列計算
+//
+//*****************************************************************************
+void Animation::calcInterpolatedRot(D3DXQUATERNION& rot, float animationTime, AnimationChannel* channel)
 {
 	// キーフレームは一つになるのはアニメーションがないわけ、補間計算はいらない
-	if (nodeAnim->mNumRotationKeys == 1) 
+	if (channel->mRotkeys.size() == 1) 
 	{
-		rot = nodeAnim->mRotationKeys[0].mValue;
+		rot = channel->mRotkeys.at(0).value;
 		return;
 	}
 
 	// 現時点でキーフレームインデックスと次のフレームインデックスを取得
-	unsigned int rotationIndex = FindRot(animationTime, nodeAnim);
+	unsigned int rotationIndex = FindRot(animationTime, channel);
 	unsigned int nextRotationIndex = (rotationIndex + 1);
 
 	// もしアニメーションが終わったら
-	assert(nextRotationIndex < nodeAnim->mNumRotationKeys);
+	assert(nextRotationIndex < channel->mRotkeys.size());
 
 	// 補間時間と補間因子を計算
-	float deltaTime = nodeAnim->mRotationKeys[nextRotationIndex].mTime - nodeAnim->mRotationKeys[rotationIndex].mTime;
-	float factor = (animationTime - (float)nodeAnim->mRotationKeys[rotationIndex].mTime) / deltaTime;
+	float deltaTime = channel->mRotkeys.at(nextRotationIndex).time - channel->mRotkeys.at(rotationIndex).time;
+	float factor = (animationTime - channel->mRotkeys.at(rotationIndex).time) / deltaTime;
 
 	// もし補間因子が正解値ならば(ちゃんと補間できるかどうかの判断)
 	assert(factor >= 0.0f && factor <= 1.0f);
 
 	// 補間四元数を計算
-	const aiQuaternion& startRotationQ = nodeAnim->mRotationKeys[rotationIndex].mValue;
-	const aiQuaternion& endRotationQ = nodeAnim->mRotationKeys[nextRotationIndex].mValue;
-	aiQuaternion::Interpolate(rot, startRotationQ, endRotationQ, factor);
+	const D3DXQUATERNION& startRotationQ = channel->mRotkeys.at(rotationIndex).value;
+	const D3DXQUATERNION& endRotationQ = channel->mRotkeys.at(nextRotationIndex).value;
+	D3DXQuaternionSlerp(&rot, &startRotationQ, &endRotationQ, factor);
 	
 	// 四元数を正規化
-	rot = rot.Normalize();
+	D3DXQuaternionNormalize(&rot, &rot);
 }
 
 //*****************************************************************************
 //
-// 
+// 今のキーフレーム番号を戻す(回転)
 //
 //*****************************************************************************
-void Animation::calcInterpolatedPos(aiVector3D& pos, float animationTime, aiNodeAnim* nodeAnim)
+unsigned int Animation::FindRot(float animationTime, AnimationChannel* channel)
+{
+	unsigned int count = 0;
+	for (vector<QuaternionKey>::iterator it = channel->mRotkeys.begin(); it != (channel->mRotkeys.end() - 1); it++)
+	{
+		// フレームを確定
+		if (animationTime < (it + 1)->time)
+		{
+			return count;
+		}
+		count++;
+	}
+
+	// アニメーションが終わったら0を戻る
+	return 0;
+}
+
+//*****************************************************************************
+//
+// 移動行列計算
+//
+//*****************************************************************************
+void Animation::calcInterpolatedPos(D3DXVECTOR3& pos, float animationTime, AnimationChannel* channel)
 {
 	// キーフレームは一つになるのはアニメーションがないわけ、補間計算はいらない
-	if (nodeAnim->mNumPositionKeys == 1)
+	if (channel->mPosKeys.size() == 1)
 	{
-		pos = nodeAnim->mPosKeys[0].mValue;
+		pos = channel->mPosKeys.at(0).value;
 		return;
 	}
 
 	// 現時点でキーフレームインデックスと次のフレームインデックスを取得
-	unsigned int positionIndex = FindRot(animationTime, nodeAnim);
+	unsigned int positionIndex = FindRot(animationTime, channel);
 	unsigned int nextPositionIndex = (positionIndex + 1);
 
 	// もしアニメーションが終わったら
-	assert(nextPositionIndex < nodeAnim->mNumPositionKeys);
+	assert(nextPositionIndex < channel->mPosKeys.size());
 
 	// 補間時間と補間因子を計算
-	float deltaTime = nodeAnim->mPosKeys[nextPositionIndex].mTime - nodeAnim->mPosKeys[positionIndex].mTime;
-	float factor = (animationTime - (float)nodeAnim->mPosKeys[positionIndex].mTime) / deltaTime;
+	float deltaTime = channel->mPosKeys.at(nextPositionIndex).time - channel->mPosKeys.at(positionIndex).time;
+	float factor = (animationTime - channel->mPosKeys.at(positionIndex).time) / deltaTime;
 
 	// もし補間因子が正解値ならば(ちゃんと補間できるかどうかの判断)
 	assert(factor >= 0.0f && factor <= 1.0f);
 
 	// 補間値を計算
-	const aiVector3D& startPosition = nodeAnim->mPosKeys[positionIndex].mValue;
-	const aiVector3D& endPosition = nodeAnim->mPosKeys[nextPositionIndex].mValue;
-	aiVector3D temp = endPosition - startPosition;
+	const D3DXVECTOR3& startPosition = channel->mPosKeys.at(positionIndex).value;
+	const D3DXVECTOR3& endPosition = channel->mPosKeys.at(nextPositionIndex).value;
+	D3DXVECTOR3 temp = endPosition - startPosition;
 	pos = startPosition + factor * temp;
 }
 
 //*****************************************************************************
 //
-// 
+// 今のキーフレーム番号を戻す(移動)
 //
 //*****************************************************************************
-unsigned int Animation::FindScl(float animationTime, aiNodeAnim* nodeAnim)
+unsigned int Animation::FindPos(float animationTime, AnimationChannel* channel)
 {
-	// もし拡大縮小キーフレームがあれば
-	assert(nodeAnim->mNumScalingKeys > 0);
-
-	for (unsigned count = 0; count < nodeAnim->mNumScalingKeys - 1; count++)
+	unsigned int count = 0;
+	for (vector<VertexKey>::iterator it = channel->mPosKeys.begin(); it != (channel->mPosKeys.end() - 1); it++)
 	{
-		if (animationTime < (float)nodeAnim->mScalingKeys[count + 1].mTime)
+		// フレームを確定
+		if (animationTime < (it + 1)->time)
 		{
-			// animationTimeに対応してキーフレームインデックスを戻す
 			return count;
 		}
-	}
-
-	// アニメーションが終わったら0を戻る
-	return 0;
-}
-
-//*****************************************************************************
-//
-// 
-//
-//*****************************************************************************
-unsigned int Animation::FindRot(float animationTime, aiNodeAnim* nodeAnim)
-{
-	// もし回転キーフレームがあれば
-	assert(nodeAnim->mNumRotationKeys > 0);
-
-	for (unsigned count = 0; count < nodeAnim->mNumRotationKeys - 1; count++) 
-	{
-		if (animationTime < (float)nodeAnim->mRotationKeys[count + 1].mTime) 
-		{
-			// animationTimeに対応してキーフレームインデックスを戻す
-			return count;
-		}
-	}
-
-	// アニメーションが終わったら0を戻る
-	return 0;
-}
-
-//*****************************************************************************
-//
-// 
-//
-//*****************************************************************************
-unsigned int Animation::FindPos(float animationTime, aiNodeAnim* nodeAnim)
-{
-	// もし移動キーフレームがあれば
-	assert(nodeAnim->mNumPositionKeys > 0);
-
-	for (unsigned count = 0; count < nodeAnim->mNumPositionKeys - 1; count++)
-	{
-		if (animationTime < (float)nodeAnim->mPosKeys[count + 1].mTime)
-		{
-			// animationTimeに対応してキーフレームインデックスを戻す
-			return count;
-		}
+		count++;
 	}
 
 	// アニメーションが終わったら0を戻る

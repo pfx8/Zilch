@@ -55,22 +55,6 @@ Model::Model(MeshType type, string const &path)
 	//		}
 	//	}
 	//}
-
-	// 骨情報
-	//unsigned int bonesNum = 1;
-	//for (auto it : this->mBones)
-	//{
-	//	cout << "  |- <Bone><Index." << it->mIndex << "> : [" << it->mName << "]" << endl;
-	//	bonesNum++;
-	//}
-
-	// 骨の最終変更行列
-	/*unsigned int bonesTransNum = 1;
-	for (auto it : this->mTransforms)
-	{
-		cout << "  |- <BoneTransform><No." << bonesTransNum << ">" << endl;
-		bonesTransNum++;
-	}*/
 }
 
 //*****************************************************************************
@@ -146,7 +130,7 @@ void Model::addAnimation(Animation* animation)
 //*****************************************************************************
 void Model::updateAnimation(float timeInSeconds)
 {
-	this->mAnimationes[this->mCurAnimation]->processBoneTransforms(timeInSeconds, this->mBones, this->mTransforms);
+	this->mAnimationes[this->mCurAnimation]->updateBoneTransforms(timeInSeconds, this->mBones, this->mTransforms);
 }
 
 //*****************************************************************************
@@ -156,18 +140,19 @@ void Model::updateAnimation(float timeInSeconds)
 //*****************************************************************************
 void Model::draw(Shader* shader, Transform* trans, Camera* camera)
 {
-	D3DXMATRIX mat[120] = { };
+	D3DXMATRIX mat[87] = { };
 
-	//unsigned int count = 0;
-	//for (auto it : this->mBones)
-	//{
-	//	mat[count] = it->mFinaTransform;
-	//	cout << "<Test><Bone><Fin> : " << mat[count]._11 << " " << mat[count]._12 << " " << mat[count]._13 << " " << endl;
-	//	count++;
-	//}
+	unsigned int count = 0;
+	for (auto it : this->mBones)
+	{
+		mat[count] = it->mFinaTransform;
+		//cout << "<Test><Mat> : " << it->mFinaTransform._11 << ", " << it->mFinaTransform._12 << ", " << it->mFinaTransform._13 << endl;
+		count++;
+	}
 
 	// 骨の行列をシェーダーに渡す
-	shader->mEffect->SetMatrixArray("boneMatrices", mat, 120);
+	HRESULT hr;
+	hr = shader->mEffect->SetMatrixArray("boneMatrices", mat, 87);
 
 	// 各メッシュを描画
 	for (auto it : mMeshes)

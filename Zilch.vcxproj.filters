@@ -31,6 +31,7 @@
     <ClCompile Include="Component\Billboard.cpp" />
     <ClCompile Include="Component\UVAnimation.cpp" />
     <ClCompile Include="Component\DirectionalLight.cpp" />
+    <ClCompile Include="Engine\Model\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -62,5 +63,6 @@
     <ClInclude Include="Component\Billboard.h" />
     <ClInclude Include="Component\UVAnimation.h" />
     <ClInclude Include="Component\DirectionalLight.h" />
+    <ClInclude Include="Engine\Model\Node.h" />
   </ItemGroup>
 </Project>

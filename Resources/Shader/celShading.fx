@@ -12,15 +12,13 @@ matrix worldMatrix;       // ワールド変換行列
 matrix viewMatrix;        // ビューイング変換行列
 matrix projectionMatrix;  // プロジェクション変換行列
 
-matrix boneMatrices[120]; // 骨行列集合
+matrix boneMatrices[87]; // 骨行列集合
 
-//float3 lightDir = float3(-1.0f, 1.0f, 1.0f);         // ライト方向ベクトル
-//float4 lightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);  // ライトカラー
-float3 lightDir; // ライト方向ベクトル
+float3 lightDir;   // ライト方向ベクトル
 float4 lightColor; // ライトカラー
 
 float outLineFactor = 0.1f;  // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-float outLineStr = 0.01f;   // outLineの太さをコントロール因子
+float outLineStr = 0.01f;    // outLineの太さをコントロール因子
 
 float3 amibent;  // 環境光
 float3 diffuse;  // 拡散反射光
@@ -57,8 +55,8 @@ struct VSout
 //
 //*****************************************************************************
 VSout outLineVS(float3 pos : POSITION0,
-               float3 nor : NORMAL0,
-               float2 coord : TEXCOORD0)
+                float3 nor : NORMAL0,
+                float2 coord : TEXCOORD0)
 {
     // 戻り値を初期化
     VSout vout = (VSout) 0;
@@ -103,10 +101,10 @@ float4 outLinePS(VSout vout) : COLOR
 //
 //*****************************************************************************
 VSout modelVS(float3 pos : POSITION0,
-             float3 nor : NORMAL0,
-             float2 coord : TEXCOORD0,
-             float4 weight : BLENDWEIGHT,
-             float4 bone : BLENDINDICES)
+              float3 nor : NORMAL0,
+              float2 coord : TEXCOORD0,
+              float4 weight : BLENDWEIGHT,
+              float4 bone : BLENDINDICES)
 {
     // 戻り値を初期化
     VSout vout = (VSout) 0;

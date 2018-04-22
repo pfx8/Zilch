@@ -10,6 +10,7 @@
 
 #include "AnimationChannel.h"
 #include "Bone.h"
+#include "Node.h"
 #include "../Engine.h"
 
 //*****************************************************************************
@@ -21,33 +22,34 @@ class Animation
 {
 	friend class Mesh;
 private:
-	const aiScene*			mAiScene;						// Assimpで読み込んだsceneポインタ
 	float					mLastStartTime = 0.0f;			// 前回アニメーションが終わった時間、最初はゲームスタートので0にする
 	string					mName;							// アニメーションの名前
 	float					mDuration;						// アニメーションの続き時間(単位はTicks)
-	float					mTicksPerSecond;					// Tricks/seconds
-	unsigned int				mNumChannels;					// 子供ノードのアニメーション数
+	float					mTicksPerSecond;				// Tricks/seconds
 
-	void processNode(aiNode* node, const aiScene* scene);			// ノード処理
+	void processNode(Node* node, aiNode* aiNode, const aiScene* scene);			// ノード処理
 	HRESULT loadAnimation(string const &path);						// アニメーションを読み込み
-	aiNodeAnim* findNodeAnim(aiAnimation* animation, string nodeName);		// 
 
-	void calcInterpolatedScl(aiVector3D& scl, float animationTime, aiNodeAnim* nodeAnim);
-	void calcInterpolatedRot(aiQuaternion& rot, float animationTime, aiNodeAnim* nodeAnim);
-	void calcInterpolatedPos(aiVector3D& pos, float animationTime, aiNodeAnim* nodeAnim);
-	unsigned int FindScl(float animationTime, aiNodeAnim* nodeAnim);
-	unsigned int FindRot(float animationTime, aiNodeAnim* nodeAnim);
-	unsigned int FindPos(float animationTime, aiNodeAnim* nodeAnim);
-	void processAnimationTransforms(float animationTime, const aiNode* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform);	// 時間によって骨の変換行列を計算処理
+	void calcInterpolatedScl(D3DXVECTOR3& scl, float animationTime, AnimationChannel* channel);
+	void calcInterpolatedRot(D3DXQUATERNION& rot, float animationTime, AnimationChannel* channel);
+	void calcInterpolatedPos(D3DXVECTOR3& pos, float animationTime, AnimationChannel* channel);
+	unsigned int FindScl(float animationTime, AnimationChannel* channel);
+	unsigned int FindRot(float animationTime, AnimationChannel* channel);
+	unsigned int FindPos(float animationTime, AnimationChannel* channel);
+	void processBoneTransforms(float animationTime, Node* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform);	// 時間によって骨の変換行列を計算処理
 
 public:
 	vector<AnimationChannel*>		mAnimationChannels;		// すべてのチャンネルデータ
-	D3DXMATRIX					mGlobalInverseTransform;	// モデルの空間逆行列
+	D3DXMATRIX						mGlobalInverseTransform;	// モデルの空間逆行列
+	vector<Node*>					mNode;					// ノードデータ
 
 	Animation(string const &path);
 	~Animation();
 
-	void processBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms);		// アニメーション更新
+	void updateBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms);		// アニメーションキーフレームによって骨の変更行列を更新
+
+	// test data
+	void drawN(Node* node, unsigned int num);
 };
 
 #endif // !_ANIMATION_H_
