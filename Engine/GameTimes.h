@@ -16,9 +16,9 @@ private:
 
 public:
 	// ゲームの始まりから時間を保存や計算
-	float mCurrentTime;					// 今の時間
-	float mDeltaTime;						// デルタ時間
-	float mLastTime = 0;					// 前の時間
+	float mCurrentTime = 0.0f;				// 今の時間
+	float mDeltaTime = 0.0f;					// デルタ時間
+	float mLastTime = 0.0F;					// 前の時間
 
 	GameTimes();
 	~GameTimes();

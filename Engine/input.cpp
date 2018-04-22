@@ -425,6 +425,7 @@ HRESULT InitializePad(void)			// パッド初期化
 		diprg.diph.dwHow		= DIPH_BYOFFSET; 
 		diprg.lMin				= RANGE_MIN;
 		diprg.lMax				= RANGE_MAX;
+
 		// X軸の範囲を設定
 		diprg.diph.dwObj		= DIJOFS_X; 
 		pGamePad[i]->SetProperty(DIPROP_RANGE, &diprg.diph);
@@ -433,6 +434,9 @@ HRESULT InitializePad(void)			// パッド初期化
 		pGamePad[i]->SetProperty(DIPROP_RANGE, &diprg.diph);
 		// Z軸の範囲を設定
 		diprg.diph.dwObj		= DIJOFS_Z;
+		pGamePad[i]->SetProperty(DIPROP_RANGE, &diprg.diph);
+		// Z回転の範囲を設定
+		diprg.diph.dwObj     = DIJOFS_RZ;
 		pGamePad[i]->SetProperty(DIPROP_RANGE, &diprg.diph);
 
 		// 各軸ごとに、無効のゾーン値を設定する。
@@ -443,6 +447,7 @@ HRESULT InitializePad(void)			// パッド初期化
 		dipdw.diph.dwHeaderSize	= sizeof(dipdw.diph);
 		dipdw.diph.dwHow		= DIPH_BYOFFSET;
 		dipdw.dwData			= DEADZONE;
+
 		//X軸の無効ゾーンを設定
 		dipdw.diph.dwObj		= DIJOFS_X;
 		pGamePad[i]->SetProperty( DIPROP_DEADZONE, &dipdw.diph);
@@ -451,6 +456,9 @@ HRESULT InitializePad(void)			// パッド初期化
 		pGamePad[i]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
 		//Z軸の無効ゾーンを設定
 		dipdw.diph.dwObj		= DIJOFS_Z;
+		pGamePad[i]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
+		//Z回転の無効ゾーンを設定
+		dipdw.diph.dwObj = DIJOFS_RZ;
 		pGamePad[i]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
 			
 		//ジョイスティック入力制御開始
