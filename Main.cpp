@@ -331,11 +331,6 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		return E_FAIL;
 	}
 
-	//gD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);												// Zバッファを使用
-	//gD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);						// αブレンドを行う
-	//gD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);			// αソースカラーの指定
-	//gD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);	// αデスティネーションカラーの指定
-
 	RELEASE_POINT(gD3D); // リリースLPDIRECT3D9
 
 	//*****************************************************************************
@@ -369,6 +364,20 @@ void Updata(HWND hWnd, int cmd)
 		// 面を塗りつぶす
 		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		cout << "[Information] <RenderState> : [SOLID]" << endl;	// コンソールにメッセージを出す
+	}
+
+	// スクリーンショット
+	if (GetKeyboardTrigger(DIK_F5))			// key F5
+	{
+		// バッファ画面を取得
+		LPDIRECT3DSURFACE9 backBuffer;
+		gD3DDevice->GetRenderTarget(0, &backBuffer);
+
+		// 保存
+		D3DXSaveSurfaceToFile("screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
+
+		// バッファをリリース
+		backBuffer->Release();
 	}
 
 	gGameTimes->update();			// ゲームタイムを更新
