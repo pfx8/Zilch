@@ -12,10 +12,14 @@ matrix worldMatrix;       // ワールド変換行列
 matrix viewMatrix;        // ビューイング変換行列
 matrix projectionMatrix;  // プロジェクション変換行列
 
-matrix boneMatrices[87]; // 骨行列集合
+matrix boneMatrices[87];  // 骨行列集合
 
-float3 lightDir;   // ライト方向ベクトル
+float3 lightPos;   // ライト位置
 float4 lightColor; // ライトカラー
+// ライト減衰プロパティ
+float lightConstant;
+float lightLinear;
+float lightQuadratic;
 
 float outLineFactor = 0.1f;  // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
 float outLineStr = 0.01f;    // outLineの太さをコントロール因子
@@ -47,6 +51,7 @@ struct VSout
     float4 pos : POSITION0;
     float3 nor : NORMAL0;
     float2 coord : TEXCOORD0;
+    float4 worldPos : TEXCOORD1;
 };
 
 //*****************************************************************************
@@ -75,7 +80,9 @@ VSout outLineVS(float3 pos : POSITION0,
     float3 outLinePos = pos + outLineDir * outLineStr;
 
     // 頂点変換
-    vout.pos = mul(mul(mul(float4(outLinePos, 1.0), worldMatrix), viewMatrix), projectionMatrix);
+    vout.worldPos = mul(float4(outLinePos, 1.0), worldMatrix);
+    vout.pos = mul(mul(vout.worldPos, viewMatrix), projectionMatrix);
+
     // 法線変更
     vout.nor = mul(float4(nor, 1.0), worldMatrix);
     // UV座標変更
@@ -122,7 +129,8 @@ VSout modelVS(float3 pos : POSITION0,
     //vout.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
 
     // 頂点変換
-    vout.pos = mul(mul(mul(float4(pos, 1.0f), worldMatrix), viewMatrix), projectionMatrix);
+    vout.worldPos = mul(float4(pos, 1.0), worldMatrix);
+    vout.pos = mul(mul(vout.worldPos, viewMatrix), projectionMatrix);
     // 法線変更
     vout.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
     // UV座標変更
@@ -139,33 +147,35 @@ VSout modelVS(float3 pos : POSITION0,
 float4 modelPS(VSout vout) : COLOR
 {
     // テクスチャによって色をつき
-    float4 color = tex2D(texSampler, vout.coord);
-
-    if (color.r + color.g + color.b == 0.0f)
-    {
-        color.a = 0.0f;
-        return color;
-    }
+    float4 texColor = tex2D(texSampler, vout.coord);
+    float4 lightDir = normalize(float4(lightPos, 1.0f) - vout.worldPos);
 
     // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
     // 外積の値がマイナスならばシャドウにする(0)
-    // maxx(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
-    float diffuse = max(0, dot(vout.nor, -lightDir));
-
+    // max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
+    float diffuse = max(0, dot(float4(vout.nor, 1.0f), -lightDir));
     // シャドウと色を分離
-    if (diffuse > 0.1f)
-    {
-        //　diffuse
-        color *= lightColor;
-    }
-    else
-    {
-        // シャドウ
-        color *= lightColor * 0.75f;
-    }
-    color.a = 1.0f;
+    //if (diffuse < 0.05f)
+    //{
+    //    //　diffuse
+    //    texColor *= 1.0f;
+    //}
+    //else
+    //{
+    //    // シャドウ
+    //    texColor *= 0.6f;
+    //}
 
-    return color;
+    // 減衰値を計算
+    float distance = length(float4(lightPos, 1.0f) - vout.worldPos);
+    float attenuation = 1.0 / (lightConstant + lightLinear * distance + lightQuadratic * (distance * distance));
+    float4 attColor = attenuation * lightColor;
+    texColor *= attenuation;
+
+    //return texColor;
+    //return lightDir;
+    //return float4(diffuse, diffuse, diffuse, diffuse);
+    return float4(attenuation, attenuation, attenuation, attenuation);
 }
 
 //*****************************************************************************

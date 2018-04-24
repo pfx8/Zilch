@@ -7,12 +7,16 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-matrix worldMatrix;            // ワールド変換行列
+matrix worldMatrix;             // ワールド変換行列
 matrix viewMatrix;              // ビューイング変換行列
-matrix projectionMatrix;     // プロジェクション変換行列
+matrix projectionMatrix;        // プロジェクション変換行列
 
-float3 lightDir; // ライト方向ベクトル
+float3 lightPos; // ライト位置
 float4 lightColor; // ライトカラー
+// ライト減衰プロパティ
+float lightConstant;
+float lightLinear;
+float lightQuadratic;
 
 texture tex;                                   // テクスチャ
 sampler texSampler =                // サンプラー
@@ -33,9 +37,10 @@ sampler_state
 //*****************************************************************************
 struct VSout
 {
-    float4 pos : POSITION0;
-    float4 nor : NORMAL0;
+    float4 pos : POSITION;
+    float3 nor : NORMAL;
     float2 coord : TEXCOORD0;
+    float4 worldPos : TEXCOORD1;
 };
 
 //*****************************************************************************
@@ -43,17 +48,18 @@ struct VSout
 // 頂点シェーダー処理
 //
 //*****************************************************************************
-VSout vertexShader(float3 pos : POSITION0,
-             float3 nor : NORMAL0,
-             float2 coord : TEXCOORD0)
+VSout vertexShader(float3 pos : POSITION,
+             float3 nor : NORMAL,
+             float2 coord : TEXCOORD)
 {
     // 戻り値を初期化
     VSout vout = (VSout) 0;
 
     // 頂点変換
-    vout.pos = mul(mul(mul(float4(pos, 1.0), worldMatrix), viewMatrix), projectionMatrix);
+    vout.worldPos = mul(float4(pos, 1.0), worldMatrix);
+    vout.pos = mul(mul(vout.worldPos, viewMatrix), projectionMatrix);
     // 法線変更
-    vout.nor = mul(float4(nor, 1.0), worldMatrix);
+    vout.nor = normalize(mul(float4(nor, 1.0), worldMatrix));
     // UV座標変更
     vout.coord = coord;
 
@@ -67,13 +73,22 @@ VSout vertexShader(float3 pos : POSITION0,
 //*****************************************************************************
 float4 pixelShader(VSout vout) : COLOR
 {
-    float4 color = float4(0.0, 0.0, 0.0, 0.0);
+    // ライト方向ベクトルを計算
+    float4 lightDir = normalize(float4(lightPos, 1.0f) - vout.worldPos);
+    // テクスチャからカラーを取得
+    float4 texColor = tex2D(texSampler, vout.coord);
+    float diffuse = max(0, dot(float4(vout.nor, 1.0f), -lightDir));
 
-    // カラーを計算
-    //color = float4(1.0, 0.0, 0.0, 1.0);
-    color = tex2D(texSampler, vout.coord);
+    // ライト減衰値を計算
+    float distance = length(float4(lightPos, 1.0f) - vout.worldPos);
+    float attenuation = 1.0 / (lightConstant + lightLinear * distance + lightQuadratic * distance * distance);
+    float4 attColor = attenuation * lightColor;
+    
 
-    return color;
+    //return lightDir;
+    //return texColor;
+    //return float4(diffuse, diffuse, diffuse, diffuse);
+    return float4(attenuation, attenuation, attenuation, attenuation);
 }
 
 //*****************************************************************************

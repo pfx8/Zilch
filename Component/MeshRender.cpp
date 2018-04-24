@@ -38,7 +38,7 @@ void MeshRender::start()
 	if (this->mIsDrawShadow == true)
 	{
 		// ライト位置を取得
-		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<Light>("light")->mPosition;
+		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<Light>("light")->mLightPos;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
 }
@@ -76,10 +76,17 @@ void MeshRender::drawShadowMap()
 void MeshRender::draw()
 {
 	// ライトを設定
-	D3DXVECTOR3 lightDir = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<Light>("light")->mLightDirection;
-	D3DXVECTOR4 lightColor = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<Light>("light")->mLightColor;
-	this->mShader->mEffect->SetValue("lightDir", &lightDir, sizeof(lightDir));
+	D3DXVECTOR3 lightPos = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<Light>("light")->mLightPos;
+	D3DXVECTOR4 lightColor = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<Light>("light")->mLightColor;
+	float constant = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<Light>("light")->mPointLight.constant;
+	float linear = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<Light>("light")->mPointLight.linear;
+	float quadratic = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<Light>("light")->mPointLight.quadratic;
+
+	this->mShader->mEffect->SetValue("lightPos", &lightPos, sizeof(lightPos));
 	this->mShader->mEffect->SetValue("lightColor", &lightColor, sizeof(lightColor));
+	this->mShader->mEffect->SetFloat("lightConstant", constant);
+	this->mShader->mEffect->SetFloat("lightLinear", linear);
+	this->mShader->mEffect->SetFloat("lightQuadratic", quadratic);
 
 	// モデルのワールド変換行列を取得
 	Transform* trans = this->mGameObject->getComponent<Transform>("trans");

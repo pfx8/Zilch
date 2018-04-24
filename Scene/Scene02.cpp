@@ -53,13 +53,18 @@ void Scene02::start()
 	resource->loadShader("shadowMap", "Resources/Shader/ShadowMap.fx");
 	
 	// ライト
-	GameObject* directionalLight = new GameObject();
+	GameObject* pointLight = new GameObject();
 	Light* light = new Light;
-	light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
+	//light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
 	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	light->mPosition = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	directionalLight->addComponent<Light>("light", light);
-	this->addGameObject("directionalLight", directionalLight);
+	light->mLightPos = D3DXVECTOR3(2.0f, 4.0f, 1.0f);
+	// ライト範囲は7ｍにする
+	// data by http://wiki.ogre3d.org/tiki-index.php?page=-Point+Light+Attenuation
+	light->mPointLight.constant = 1.0f;
+	light->mPointLight.linear = 0.9f;
+	light->mPointLight.quadratic = 0.032f;
+	pointLight->addComponent<Light>("light", light);
+	this->addGameObject("pointLight", pointLight);
 
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
@@ -98,8 +103,6 @@ void Scene02::start()
 	MeshRender* gridFieldMeshRender = new MeshRender();
 	gridFieldMeshRender->mModel = resource->getModel("gridField");			// リソースからモデルを取得
 	gridFieldMeshRender->mShader = resource->getShader("phongShading");		// シェーダーを取得
-	gridFieldMeshRender->mShader->mEffect->SetValue("lightDir", &light->mLightDirection, sizeof(light->mLightDirection));
-	gridFieldMeshRender->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
 	this->mMeshRenders.push_back(gridFieldMeshRender);						// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);
