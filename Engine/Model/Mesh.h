@@ -96,6 +96,7 @@ public:
 	Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);		// メッシュの初期化
 	~Mesh();
 
-	void draw(Shader* shader, Transform* trans, Camera* camera);	// ドロー
+	void draw(Shader* shader);										// メッシュのシャドウマップを描画
+	void draw(Shader* shader, Transform* trans, Camera* camera);	// メッシュを描画
 };
 #endif // !_MESH_H_

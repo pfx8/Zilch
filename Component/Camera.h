@@ -40,7 +40,7 @@ public:
 	Camera();
 	~Camera();
 
-	void start();														// 初期化
+	void start();													// 初期化
 	void update();													// 更新
 };
 #endif // !_CAMERA_H_

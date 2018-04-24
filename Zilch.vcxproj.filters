@@ -32,6 +32,7 @@
     <ClCompile Include="Component\UVAnimation.cpp" />
     <ClCompile Include="Component\DirectionalLight.cpp" />
     <ClCompile Include="Engine\Model\Node.cpp" />
+    <ClCompile Include="Engine\ShadowMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -64,5 +65,6 @@
     <ClInclude Include="Component\UVAnimation.h" />
     <ClInclude Include="Component\DirectionalLight.h" />
     <ClInclude Include="Engine\Model\Node.h" />
+    <ClInclude Include="Engine\ShadowMap.h" />
   </ItemGroup>
 </Project>

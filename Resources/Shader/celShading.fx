@@ -20,10 +20,10 @@ float4 lightColor; // ライトカラー
 float outLineFactor = 0.1f;  // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
 float outLineStr = 0.01f;    // outLineの太さをコントロール因子
 
-float3 amibent;  // 環境光
-float3 diffuse;  // 拡散反射光
-float3 specular; // 鏡面反射光
-float shininess; // 光沢
+float3 amibent;   // 環境光
+float3 diffuse;   // 拡散反射光
+float3 specular;  // 鏡面反射光
+float  shininess; // 光沢
 
 texture tex;          // テクスチャ
 sampler texSampler =  // サンプラー
@@ -104,24 +104,22 @@ VSout modelVS(float3 pos : POSITION0,
               float3 nor : NORMAL0,
               float2 coord : TEXCOORD0,
               float4 weight : BLENDWEIGHT,
-              float4 bone : BLENDINDICES)
+              float4 boneID : BLENDINDICES)
 {
     // 戻り値を初期化
     VSout vout = (VSout) 0;
 
     //// 骨によって頂点位置を計算
-    //float4 blendVertex = float4(0.0f, 0.0f, 0.0f, 0.0f);
-    //float4 blendWeight = weight;
-    //int4 blendBone = int4(bone);
+    //matrix boneTrans = boneMatrices[boneID[0]] * weight[0];
+    //boneTrans += boneMatrices[boneID[1]] * weight[1];
+    //boneTrans += boneMatrices[boneID[2]] * weight[2];
+    //boneTrans += boneMatrices[boneID[3]] * weight[3];
 
-    //for (int count = 0; count < 4; count++)
-    //{
-    //    blendVertex += mul(float4(pos, 1.0f), boneMatrices[blendBone.x]) * blendWeight.x;
-    //    blendBone = blendBone.yzwx;
-    //    blendWeight = blendWeight.yzwx;
-    //}
     //// 頂点変換
-    //vout.pos = mul(mul(mul(blendVertex, worldMatrix), viewMatrix), projectionMatrix);
+    //float4 blendPos = mul(boneTrans, float4(pos, 1.0));
+    //vout.pos = mul(mul(mul(blendPos, worldMatrix), viewMatrix), projectionMatrix);
+    //// 法線変更
+    //vout.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
 
     // 頂点変換
     vout.pos = mul(mul(mul(float4(pos, 1.0f), worldMatrix), viewMatrix), projectionMatrix);
@@ -143,9 +141,15 @@ float4 modelPS(VSout vout) : COLOR
     // テクスチャによって色をつき
     float4 color = tex2D(texSampler, vout.coord);
 
+    if (color.r + color.g + color.b == 0.0f)
+    {
+        color.a = 0.0f;
+        return color;
+    }
+
     // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
     // 外積の値がマイナスならばシャドウにする(0)
-    // maxx(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐように
+    // maxx(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
     float diffuse = max(0, dot(vout.nor, -lightDir));
 
     // シャドウと色を分離
@@ -175,9 +179,11 @@ technique celShading
     pass P0
     {
         // アルファブレンティング
-        AlphaBlendEnable = TRUE;
+        AlphaBlendEnable = FALSE;
         // フラットシェーディング
         ShadeMode = GOURAUD;
+        // マルチ・サンプリングの設定
+        MultiSampleAntialias = TRUE;
         // Zバッファ
         ZEnable = TRUE;
         // 背面カリング
@@ -190,9 +196,10 @@ technique celShading
     // モデル
     pass P1
     {
-        DestBlend = ONE;
         // アルファブレンティング
         AlphaBlendEnable = FALSE;
+        // マルチ・サンプリングの設定
+        MultiSampleAntialias = TRUE;
         // フラットシェーディング
         ShadeMode = GOURAUD;
         // Zバッファ

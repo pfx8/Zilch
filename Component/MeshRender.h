@@ -13,21 +13,28 @@
 #include "CameraController.h"
 #include "../Engine/Engine.h"
 #include "../Engine/Shader.h"
+#include "../Engine/ShadowMap.h"
 #include "../Engine/Model/Model.h"
 #include "../Scene/Scene.h"
 
 class MeshRender : public Component
 {
 private:
+	void start();			// 初期化
+	void update();			// 更新
 
 public:
+	bool				mIsDrawShadow;			// シャドウチェック
 	Model*				mModel;					// 描画するモデル
-	Shader*				mShader;					// 描画する用のシェーダー
+	Shader*				mShader;				// 描画する用のシェーダー
+	Shader*				mShadowMapShader;		// シャドウマップシェーダー
+	ShadowMap*			mShadowMap;				// シャドウマップ
 
 	MeshRender();
 	~MeshRender();
 
-	void draw();
+	void draw();					// メッシュを描画
+	void drawShadowMap();			// シャドウマップを描画
 };
 
 #endif // !_MESH_RENDER_H_

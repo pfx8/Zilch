@@ -33,7 +33,7 @@ private:
 
 	float		mRotateSpeedHorizonal = 2.0f;			// 水平移動スピード
 	float		mRotateSpeedVertical = 1.0f;				// 垂直移動スピード
-	float		mZoomSpeed = 2.0f;								// ゾーンスピード
+	float		mZoomSpeed = 0.05f;								// ゾーンスピード
 
 	D3DXVECTOR3			mOffsetFromTarget;			// カメラと目標の偏り
 

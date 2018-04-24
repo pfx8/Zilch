@@ -30,20 +30,22 @@ class Scene
 private:
 
 public:
-	DebugMessage*		message;				// メッセージ
-	bool								mIsStart;
+	DebugMessage*				mMessage;		// メッセージ
+	bool						mIsStart;		// スタートマーク
 
+	vector<MeshRender*>								mMeshRenders;			// メッシュレンダリング
 	unordered_map<string, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
 
 	Scene();
 	~Scene();
 
-	virtual void start() {};				// シーンのスタート
+	virtual void start() {};			// シーンのスタート
+
 	void update();						// シーンの更新
-	void draw();							// シーンの描画
+	void draw();						// シーンの描画
 	
 	void addGameObject(string name, GameObject* gameObject);		// シーンにGameObjectを増加
-	GameObject* getGameObject(string name);										// シーンからGameObjectを取得
+	GameObject* getGameObject(string name);							// シーンからGameObjectを取得
 };
 #endif // !_SCENE_H_
 

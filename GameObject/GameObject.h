@@ -16,17 +16,17 @@ class GameObject
 	friend class Scene;
 
 private:
-	vector<Component*>									mComponents;				// コンポーネントコンテナ
+	vector<Component*>						mComponents;		// コンポーネントコンテナ
 	unordered_map<string, Component*>		mComponentsMap;		// 名前つきのコンポーネントマップ
 
 	void start();
 	void update();
 
 public:
-	Scene*    mScene;									// シーンポインタ
-	bool			mDraw = false;						// 描画マーク
-	bool			mActive = true;						// 使ってるマーク
-	float		mLastActiveTime = 0;			// 前回更新した時間
+	Scene*			mScene;							// シーンポインタ
+	bool			mDraw = false;					// 描画マーク
+	bool			mActive = true;					// 使ってるマーク
+	float			mLastActiveTime = 0;			// 前回更新した時間
 
 	GameObject();
 	virtual ~GameObject();

@@ -35,7 +35,7 @@ Camera::~Camera()
 void Camera::start()
 {
 	this->mField = D3DXToRadian(45);
-	this->mRatio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;;
+	this->mRatio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;
 	this->mRangeStart = 0.1;
 	this->mRangeEnd = 1000;
 }

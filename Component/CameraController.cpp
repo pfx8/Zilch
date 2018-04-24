@@ -107,45 +107,34 @@ void CameraController::update()
 	// カメラを左右移動
 	if (GetKeyboardPress(DIK_J) == true || IsButtonPressed(0, RIGHT_STICK_LEFT))
 	{
-		rotation(0.0f, D3DXToRadian(1.0));
-		//cout << "<Key J> : [Left]" << endl;
+		rotation(0.0f, D3DXToRadian(this->mRotateSpeedHorizonal));
 	}
 	if (GetKeyboardPress(DIK_L) == true || IsButtonPressed(0, RIGHT_STICK_RIGHT))
 	{
-		rotation(0.0f, -D3DXToRadian(1.0f));
-		//cout << "<Key L> : [Right]" << endl;
+		rotation(0.0f, -D3DXToRadian(this->mRotateSpeedHorizonal));
 	}
 
 	// カメラを上下移動
 	if (GetKeyboardPress(DIK_I) == true || IsButtonPressed(0, RIGHT_STICK_UP))
 	{
-		rotation(-D3DXToRadian(1.0f), 0.0f);
-		//cout << "<Key I> : [UP]" << endl;
+		rotation(-D3DXToRadian(this->mRotateSpeedVertical), 0.0f);
 	}
 	if (GetKeyboardPress(DIK_K) == true || IsButtonPressed(0, RIGHT_STICK_DOWN))
 	{
-		rotation(D3DXToRadian(1.0f), 0.0f);
-		//cout << "<Key K> : [Down]" << endl;
+		rotation(D3DXToRadian(this->mRotateSpeedVertical), 0.0f);
 	}
 
 	// ズーム拡大
 	if (GetKeyboardPress(DIK_U) == true || IsButtonPressed(0, BUTTON_L1))
 	{
-		zoom(getGameTimes()->mDeltaTime * this->mZoomSpeed);
-		//cout << "<Key U> : [Zoom +]" << endl;
+		zoom(this->mZoomSpeed);
 	}
 	// ズーム縮小
 	if (GetKeyboardPress(DIK_O) == true || IsButtonPressed(0, BUTTON_R1))
 	{
-		zoom(-getGameTimes()->mDeltaTime * this->mZoomSpeed);
-		//cout << "<Key O> : [Zoom -]" << endl;
+		zoom(-this->mZoomSpeed);
 	}
 
 	// カメラを更新
 	mainCamera->mCameraPos = mainCamera->mTargetTrans->mPos + mOffsetFromTarget;
-
-	//debugMessage->setPosMessage("cameraFront", mainCamera->mCameraFront);
-	//debugMessage->setPosMessage("cameraRight", mainCamera->mCameraRight);
-	//debugMessage->setPosMessage("cameraUp", mainCamera->mCameraUp);
-	//debugMessage->setPosMessage("OffsetFromTarget", mOffsetFromTarget);
 }

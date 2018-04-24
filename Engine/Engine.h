@@ -37,6 +37,7 @@
 using namespace std;
 
 class GameTimes;
+class MeshRender;
 class Scene;
 class Component;
 class Texture;

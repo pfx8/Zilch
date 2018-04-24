@@ -462,6 +462,44 @@ HRESULT Mesh::SetupMesh()
 
 //*****************************************************************************
 //
+// メッシュのシャドウマップを描画
+//
+//*****************************************************************************
+void Mesh::draw(Shader* shader)
+{
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
+
+	// 描画
+	UINT passNum = 0;
+	shader->mEffect->Begin(&passNum, 0);
+	for (int count = 0; count < passNum; count++)
+	{
+		// 各パスを描画
+		shader->mEffect->BeginPass(count);
+
+		HRESULT hr;
+		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);		// 頂点宣言を設定
+		switch (this->mMeshType)										// 頂点バッファを設定
+		{
+		case MT_default:
+			hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(Vertex));
+			break;
+		case MT_withBone:
+			hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexBone));
+			break;
+		}
+		hr = pD3DDevice->SetIndices(this->mIndexBuffer);		// インデックスバッファを設定
+		unsigned int vertexNums = mVertices.size();
+		unsigned int faceNums = mIndices.size() / 3;
+		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画
+
+		shader->mEffect->EndPass();
+	}
+	shader->mEffect->End();
+}
+
+//*****************************************************************************
+//
 // メッシュをドロー
 //
 //*****************************************************************************

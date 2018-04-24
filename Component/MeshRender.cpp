@@ -29,11 +29,58 @@ MeshRender::~MeshRender()
 
 //*****************************************************************************
 //
-// ドロー
+// 初期化
+//
+//*****************************************************************************
+void MeshRender::start()
+{
+	// シャドーマップ
+	if (this->mIsDrawShadow == true)
+	{
+		// ライト位置を取得
+		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<DirectionalLight>("light")->mSunPos;
+		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
+	}
+}
+
+//*****************************************************************************
+//
+// 更新
+//
+//*****************************************************************************
+void MeshRender::update()
+{
+	// シャドーマップ
+	if (this->mIsDrawShadow == true)
+	{
+		this->mShadowMap->update();
+	}
+
+}
+
+//*****************************************************************************
+//
+// シャドウマップを描画
+//
+//*****************************************************************************
+void MeshRender::drawShadowMap()
+{
+	this->mShadowMap->draw(this->mModel);
+}
+
+//*****************************************************************************
+//
+// メッシュ描画
 //
 //*****************************************************************************
 void MeshRender::draw()
 {
+	// ライトを設定
+	D3DXVECTOR3 lightDir = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<DirectionalLight>("light")->mLightDirection;
+	D3DXVECTOR4 lightColor = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<DirectionalLight>("light")->mLightColor;
+	this->mShader->mEffect->SetValue("lightDir", &lightDir, sizeof(lightDir));
+	this->mShader->mEffect->SetValue("lightColor", &lightColor, sizeof(lightColor));
+
 	// モデルのワールド変換行列を取得
 	Transform* trans = this->mGameObject->getComponent<Transform>("trans");
 	// モデルのワールド変換行列と回転行列をシェーダーに渡る
@@ -46,5 +93,6 @@ void MeshRender::draw()
 	this->mShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
 	this->mShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
 
-	mModel->draw(this->mShader, trans, camera);
+	// モデルを描画
+	this->mModel->draw(this->mShader, trans, camera);
 }

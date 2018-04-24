@@ -14,7 +14,7 @@
 //*****************************************************************************
 Scene::Scene()
 {	
-	message = new DebugMessage;
+	mMessage = new DebugMessage;
 }
 
 //*****************************************************************************
@@ -24,7 +24,7 @@ Scene::Scene()
 //*****************************************************************************
 Scene::~Scene()
 {
-	RELEASE_CLASS_POINT(this->message);
+	RELEASE_CLASS_POINT(this->mMessage);
 }
 
 //*****************************************************************************
@@ -76,11 +76,28 @@ void Scene::update()
 //*****************************************************************************
 void Scene::draw()
 {
-	for (auto it : mGameObjectMap)
+	// バックバッファ＆Ｚバッファのクリア
+	//getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
+	////シャドウマップ
+	//for (auto it : mMeshRenders)
+	//{
+	//	if (it->mStart == true)
+	//	{
+	//		if (it->mIsDrawShadow == true)
+	//		{
+	//			it->drawShadowMap();
+	//		}
+	//	}
+	//}
+
+	// バックバッファ＆Ｚバッファのクリア
+	getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
+	// メッシュ
+	for (auto it : mMeshRenders)
 	{
-		if (it.second->mDraw == true)
+		if (it->mStart == true)
 		{
-			it.second->getComponent<MeshRender>("meshRender")->draw();
+			it->draw();
 		}
 	}
 }

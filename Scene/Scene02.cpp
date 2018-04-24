@@ -44,20 +44,20 @@ void Scene02::start()
 	resource->loadTexture("hair2", "Resources/Texture/Hixo2/hair2.png");
 	resource->loadTexture("panties", "Resources/Texture/Hixo2/panties.png");
 	resource->loadTexture("skin", "Resources/Texture/Hixo2/skin.png");
-	//resource->loadModel("Hixo", "Resources/Model/Shachiku_chan_Ver2.0.fbx");
 	resource->loadModel(MT_withBone, "Hixo", "Resources/Model/Hixo.fbx");
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
 	// shader
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
 	resource->loadShader("celShading", "Resources/Shader/celShading.fx");
+	resource->loadShader("shadowMap", "Resources/Shader/ShadowMap.fx");
 	
 	// ライト
 	GameObject* directionalLight = new GameObject();
 	DirectionalLight* light = new DirectionalLight;
 	light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
 	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	light->mSunPos = light->mLightDirection * 10;
+	light->mSunPos = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 	directionalLight->addComponent<DirectionalLight>("light", light);
 	this->addGameObject("directionalLight", directionalLight);
 
@@ -79,8 +79,9 @@ void Scene02::start()
 	MeshRender* playerMeshRender = new MeshRender();
 	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
 	playerMeshRender->mShader = resource->getShader("celShading");			// シェーダーを取得
-	playerMeshRender->mShader->mEffect->SetValue("lightDir", &light->mLightDirection, sizeof(light->mLightDirection));
-	playerMeshRender->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
+	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
+	playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
+	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
 	player->addComponent<MeshRender>("meshRender", playerMeshRender);
 	this->addGameObject("player", player);
 
@@ -91,14 +92,15 @@ void Scene02::start()
 
 	// 床
 	GameObject* gridField = new GameObject();
-	Transform* gridFieldTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	Transform* gridFieldTrans = new Transform();							// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridFieldTrans->mScl = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->mModel = resource->getModel("gridField");				// リソースからモデルを取得
-	gridFieldMeshRender->mShader = resource->getShader("phongShading");			// シェーダーを取得
+	gridFieldMeshRender->mModel = resource->getModel("gridField");			// リソースからモデルを取得
+	gridFieldMeshRender->mShader = resource->getShader("phongShading");		// シェーダーを取得
 	gridFieldMeshRender->mShader->mEffect->SetValue("lightDir", &light->mLightDirection, sizeof(light->mLightDirection));
 	gridFieldMeshRender->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
+	this->mMeshRenders.push_back(gridFieldMeshRender);						// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);
 }

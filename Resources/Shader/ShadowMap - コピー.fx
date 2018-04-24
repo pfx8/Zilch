@@ -155,8 +155,7 @@ float4 ShadowPixelShader(DrawWithShadowMap_VSOut In) : COLOR
 
     // saturate:指定された値を0～1の範囲にクランプします。
     // ライトの方向によって強度を計算する
-    float diffuseIntensity = saturate(dot(
-    , In.normal));
+    float diffuseIntensity = saturate(dot(lightDir, In.normal));
 
     // ライトのアンビエンドにより最終のカラーを求める
     float4 diffuse = diffuseIntensity * color + lightAmbient;
