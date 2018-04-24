@@ -57,8 +57,8 @@ void Scene02::start()
 	Light* light = new Light;
 	//light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
 	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	light->mLightPos = D3DXVECTOR3(2.0f, 4.0f, 1.0f);
-	// ライト範囲は7ｍにする
+	light->mLightPos = D3DXVECTOR3(0.0f, 4.0f, 0.0f);
+	// ライト範囲は50ｍにする
 	// data by http://wiki.ogre3d.org/tiki-index.php?page=-Point+Light+Attenuation
 	light->mPointLight.constant = 1.0f;
 	light->mPointLight.linear = 0.9f;
