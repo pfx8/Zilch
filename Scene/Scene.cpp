@@ -77,18 +77,18 @@ void Scene::update()
 void Scene::draw()
 {
 	// バックバッファ＆Ｚバッファのクリア
-	//getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
-	////シャドウマップ
-	//for (auto it : mMeshRenders)
-	//{
-	//	if (it->mStart == true)
-	//	{
-	//		if (it->mIsDrawShadow == true)
-	//		{
-	//			it->drawShadowMap();
-	//		}
-	//	}
-	//}
+	getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
+	//シャドウマップ
+	for (auto it : mMeshRenders)
+	{
+		if (it->mStart == true)
+		{
+			if (it->mIsDrawShadow == true)
+			{
+				it->drawShadowMap();
+			}
+		}
+	}
 
 	// バックバッファ＆Ｚバッファのクリア
 	getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);

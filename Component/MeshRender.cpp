@@ -38,7 +38,7 @@ void MeshRender::start()
 	if (this->mIsDrawShadow == true)
 	{
 		// ライト位置を取得
-		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<DirectionalLight>("light")->mSunPos;
+		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<Light>("light")->mPosition;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
 }
@@ -76,8 +76,8 @@ void MeshRender::drawShadowMap()
 void MeshRender::draw()
 {
 	// ライトを設定
-	D3DXVECTOR3 lightDir = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<DirectionalLight>("light")->mLightDirection;
-	D3DXVECTOR4 lightColor = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<DirectionalLight>("light")->mLightColor;
+	D3DXVECTOR3 lightDir = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<Light>("light")->mLightDirection;
+	D3DXVECTOR4 lightColor = this->mGameObject->mScene->getGameObject("directionalLight")->getComponent<Light>("light")->mLightColor;
 	this->mShader->mEffect->SetValue("lightDir", &lightDir, sizeof(lightDir));
 	this->mShader->mEffect->SetValue("lightColor", &lightColor, sizeof(lightColor));
 

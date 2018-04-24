@@ -14,7 +14,7 @@
 #include "../Component/MeshRender.h"
 #include "../Component/PlayerController.h"
 #include "../Component/Transform.h"
-#include "../Component/DirectionalLight.h"
+#include "../Component/Light.h"
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
 #include "../Engine/DebugMessage.h"

@@ -30,9 +30,9 @@
     <ClCompile Include="Engine\Model\AnimationChannel.cpp" />
     <ClCompile Include="Component\Billboard.cpp" />
     <ClCompile Include="Component\UVAnimation.cpp" />
-    <ClCompile Include="Component\DirectionalLight.cpp" />
     <ClCompile Include="Engine\Model\Node.cpp" />
     <ClCompile Include="Engine\ShadowMap.cpp" />
+    <ClCompile Include="Component\Light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -63,8 +63,8 @@
     <ClInclude Include="Engine\Model\AnimationChannel.h" />
     <ClInclude Include="Component\Billboard.h" />
     <ClInclude Include="Component\UVAnimation.h" />
-    <ClInclude Include="Component\DirectionalLight.h" />
     <ClInclude Include="Engine\Model\Node.h" />
     <ClInclude Include="Engine\ShadowMap.h" />
+    <ClInclude Include="Component\Light.h" />
   </ItemGroup>
 </Project>

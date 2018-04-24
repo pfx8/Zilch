@@ -54,11 +54,11 @@ void Scene02::start()
 	
 	// ライト
 	GameObject* directionalLight = new GameObject();
-	DirectionalLight* light = new DirectionalLight;
+	Light* light = new Light;
 	light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
 	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	light->mSunPos = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	directionalLight->addComponent<DirectionalLight>("light", light);
+	light->mPosition = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+	directionalLight->addComponent<Light>("light", light);
 	this->addGameObject("directionalLight", directionalLight);
 
 	// mainCamera
@@ -93,7 +93,7 @@ void Scene02::start()
 	// 床
 	GameObject* gridField = new GameObject();
 	Transform* gridFieldTrans = new Transform();							// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
-	gridFieldTrans->mScl = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
+	gridFieldTrans->mScl = D3DXVECTOR3(6.0f, 6.0f, 6.0f);
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
 	gridFieldMeshRender->mModel = resource->getModel("gridField");			// リソースからモデルを取得
