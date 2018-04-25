@@ -175,9 +175,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			{
 				dwExecLastTime = dwCurrentTime;			// 処理した時刻を保存
 
-				// ゲーム処理
-				updata(hWnd, nCmdShow);					// 更新処理
-				draw(hWnd);								// 描画処理
+				// ImGui用フレームを作り
+				ImGui_ImplDX9_NewFrame();
+				// 更新処理
+				updata(hWnd, nCmdShow);
+				// 描画処理
+				draw(hWnd);
 
 				dwFrameCount++;							// 処理回数のカウントを加算
 			}
@@ -409,9 +412,6 @@ void draw(HWND hWnd)
 //*****************************************************************************
 void drawImGui(void)
 {
-	// ImGuiを描画
-	ImGui_ImplDX9_NewFrame();
-
 	// 塗りつぶしモード変更
 	ImGui::Begin(u8"レンダリングモード選択", nullptr, ImGuiWindowFlags_NoResize);
 	if (ImGui::Button(u8"ワイヤフレーム"))
@@ -444,8 +444,11 @@ void drawImGui(void)
 	ImGui::End();
 
 	// FPSとタイム
-	ImGui::Begin(u8"ゲーム情報", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
+	ImGui::Begin(u8"ゲーム情報", nullptr, /*ImGuiWindowFlags_NoResize |*/ ImGuiWindowFlags_NoTitleBar);
 	ImGui::Text("Fps:%.1f, Time:%.3f", ImGui::GetIO().Framerate, ImGui::GetIO().DeltaTime);
+	// FPSをプロット図で出す
+	//const float my_values[] = { ImGui::GetIO().Framerate, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
+	//ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
 	ImGui::End();
 
 	// ImGuiを描画

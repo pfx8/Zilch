@@ -15,7 +15,7 @@
 Shader::Shader(string path)
 {
 	string name = path.substr(path.find_last_of("//") + 1, path.find_last_of("/n"));
-	cout << endl << "<Shader> : "  << name << endl;
+	cout << "<Shader> : "  << name;
 	loadEffectFile(path);
 }
 
@@ -63,7 +63,7 @@ HRESULT Shader::loadEffectFile(string path)
 		return E_FAIL;
 	}
 
-	cout << "[Information] Loading <Shader> " << path << " ... success!" << endl;
+	cout << " loading ... success!" << endl;
 
 	return S_OK;
 }

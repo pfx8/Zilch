@@ -126,32 +126,43 @@ HRESULT Animation::loadAnimation(string const &path)
 	node->mParent = nullptr;
 	processNode(node, scene->mRootNode, scene);
 
-	// test data
-	//unsigned int num = 0;
-	//cout << "<Animation><Node> : " << endl;
-	//drawN(*(this->mNode.end()-1), num);
+	// 骨ツリーをImGuiで出す
+	ImGui::SetNextWindowPos(ImVec2(40, 300), ImGuiSetCond_Appearing);
+	ImGui::Begin(u8"骨ツリー", nullptr, ImGuiWindowFlags_NoTitleBar);
+	ImGui::TextColored(ImVec4(1, 0, 0, 1), u8"骨ツリー");
+
+	unsigned int level = 0;
+	traverseBoneNode(*(this->mNode.end()-1), level);
+
+	ImGui::End();
 
 	return S_OK;
 }
 
 //*****************************************************************************
 //
-// 骨構造描画関数
+// 骨ノードをトラバース
 //
 //*****************************************************************************
-void Animation::drawN(Node* node, unsigned int num)
+void Animation::traverseBoneNode(Node* node, unsigned int level)
 {
 	string space;
-	for (unsigned count = 0; count < num; count++)
+
+	for (unsigned count = 0; count < level; count++)
 	{
+		if (count == level - 1)
+		{
+			space += "|";
+		}
 		space += "  ";
 	}
 
-	cout << space << "+[" << node->mName << "]" << endl;
+	//ImGui::Text("%s+[%s]", space.c_str(), node->mName.c_str());
+	//cout << space << "+ [" << node->mName << "]" << endl;
 
 	for (auto it : node->mChildren)
 	{
-		drawN(it, num + 1);
+		traverseBoneNode(it, level + 1);
 	}
 }
 

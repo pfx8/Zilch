@@ -39,17 +39,15 @@ private:
 	void processBoneTransforms(float animationTime, Node* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform);	// 時間によって骨の変換行列を計算処理
 
 public:
-	vector<AnimationChannel*>		mAnimationChannels;		// すべてのチャンネルデータ
+	vector<AnimationChannel*>		mAnimationChannels;			// すべてのチャンネルデータ
 	D3DXMATRIX						mGlobalInverseTransform;	// モデルの空間逆行列
-	vector<Node*>					mNode;					// ノードデータ
+	vector<Node*>					mNode;						// ノードデータ
 
 	Animation(string const &path);
 	~Animation();
 
 	void updateBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms);		// アニメーションキーフレームによって骨の変更行列を更新
-
-	// test data
-	void drawN(Node* node, unsigned int num);
+	void traverseBoneNode(Node* node, unsigned int level);	// 骨ノードをトラバース
 };
 
 #endif // !_ANIMATION_H_

@@ -22,10 +22,10 @@ Model::Model(MeshType type, string const &path)
 	switch (this->mMeshType)
 	{
 	case MT_default:
-		cout << endl << "<Model><default> : [" << fileName << "]" << endl;
+		cout << "<Model><default> : " << fileName;
 		break;
 	case MT_withBone:
-		cout << endl << "<Model><withBone> : [" << fileName << "]" << endl;
+		cout << "<Model><withBone> : " << fileName;
 		break;
 	}
 
@@ -90,6 +90,8 @@ HRESULT Model::loadModel(string const &path)
 	// ルートノードから処理を始める
 	processNode(scene->mRootNode, scene);
 
+	cout << " loading ... success!" << endl;
+
 	return S_OK;
 }
 
@@ -144,11 +146,66 @@ void Model::updateAnimation(float timeInSeconds)
 //*****************************************************************************
 void Model::draw(Shader* shader)
 {
+	drawImGui();
+
 	// 各メッシュのシャドウマップを描画
 	for (auto it : mMeshes)
 	{
 		it->draw(shader);
 	}
+}
+
+//*****************************************************************************
+//
+// モデルの情報をImGuiで出す
+//
+//*****************************************************************************
+void Model::drawImGui()
+{
+	// モデル情報ウインドを作り
+	ImGui::Begin(u8"モデル情報");
+
+	// ツリーノードの使う方法を設定
+	ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
+	// メッシュのグル―プを作るり
+	if (ImGui::TreeNode(u8"メッシュ"))
+	{
+		unsigned msehNum = 0;
+		unsigned int meshesNum = 1;
+		for (auto it : this->mMeshes)
+		{
+			ImGui::Text("<Mesh><No.%.2d> : %s", meshesNum, it->mName.c_str());
+			meshesNum++;
+
+			// material
+			unsigned int materialsNum = 1;
+			for (auto it1 : it->mMaterials)
+			{
+				ImGui::Text("   <Material><No.%.2d> : %s", materialsNum, it1->mName.c_str());
+				materialsNum++;
+
+				// texture
+				unsigned int texturesNum = 1;
+				for (auto it2 : it1->mTextures)
+				{
+					ImGui::Text("      <Texture><No.%.2d> : %s", texturesNum, it2->mName.c_str());
+					texturesNum++;
+				}
+			}
+		}
+		// グル―プツリーをポップ
+		ImGui::TreePop();
+	}
+
+	// ツリーノードの使う方法を設定
+	//ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
+	//// アニメーションのグル―プを作るり
+	//if (ImGui::TreeNode(u8"アニメーション"))
+	//{
+	//	unsigned int level = 0;
+	//}
+
+	ImGui::End();
 }
 
 //*****************************************************************************
