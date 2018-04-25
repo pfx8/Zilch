@@ -49,8 +49,6 @@ void Camera::update()
 {
 	// 世界ベクトルを取得
 	WorldVector worldVector;
-	// デバッグメッセージを取得
-	DebugMessage* debugMessage = getDebugMessage();
 
 	// 新しい向きベクトルを計算
 	D3DXVec3Normalize(&this->mCameraFront, &(this->mTargetTrans->mPos - this->mCameraPos));

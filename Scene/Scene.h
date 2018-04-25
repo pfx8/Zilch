@@ -14,10 +14,9 @@
 #include "../Component/MeshRender.h"
 #include "../Component/PlayerController.h"
 #include "../Component/Transform.h"
-#include "../Component/Light.h"
+#include "../Component/PointLight.h"
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
-#include "../Engine/DebugMessage.h"
 #include "../GameObject/GameObject.h"
 
 //*****************************************************************************
@@ -30,7 +29,6 @@ class Scene
 private:
 
 public:
-	DebugMessage*				mMessage;		// メッセージ
 	bool						mIsStart;		// スタートマーク
 
 	vector<MeshRender*>								mMeshRenders;			// メッシュレンダリング

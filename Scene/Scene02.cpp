@@ -15,7 +15,7 @@
 Scene02::Scene02()
 {
 	// シーン01
-	cout << "[Information] Scene02 <Project : Zilch> " << "[" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "]" << endl;
+	cout << "<Scene02>" << "<" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "> : [Project : Zilch] " << endl;
 }
 
 //*****************************************************************************
@@ -54,16 +54,16 @@ void Scene02::start()
 	
 	// ライト
 	GameObject* pointLight = new GameObject();
-	Light* light = new Light;
+	PointLight* light = new PointLight;
 	//light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
 	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	light->mLightPos = D3DXVECTOR3(0.0f, 4.0f, 0.0f);
 	// ライト範囲は50ｍにする
 	// data by http://wiki.ogre3d.org/tiki-index.php?page=-Point+Light+Attenuation
-	light->mPointLight.constant = 1.0f;
-	light->mPointLight.linear = 0.9f;
-	light->mPointLight.quadratic = 0.032f;
-	pointLight->addComponent<Light>("light", light);
+	light->mConstant = 1.0f;
+	light->mLinear = 0.9f;
+	light->mQuadratic = 0.032f;
+	pointLight->addComponent<PointLight>("light", light);
 	this->addGameObject("pointLight", pointLight);
 
 	// mainCamera

@@ -23,16 +23,16 @@
     <ClCompile Include="Component\Camera.cpp" />
     <ClCompile Include="Component\CameraController.cpp" />
     <ClCompile Include="Component\Component.cpp" />
-    <ClCompile Include="Component\Light.cpp" />
     <ClCompile Include="Component\MeshRender.cpp" />
     <ClCompile Include="Component\PlayerController.cpp" />
+    <ClCompile Include="Component\PointLight.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
     <ClCompile Include="Component\UVAnimation.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\Console.cpp" />
-    <ClCompile Include="Engine\DebugMessage.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\GameTimes.cpp" />
+    <ClCompile Include="Engine\GUI.cpp" />
     <ClCompile Include="Engine\input.cpp" />
     <ClCompile Include="Engine\Model\Animation.cpp" />
     <ClCompile Include="Engine\Model\AnimationChannel.cpp" />
@@ -47,6 +47,10 @@
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Engine\ShadowMap.cpp" />
     <ClCompile Include="Engine\SkyBox.cpp" />
+    <ClCompile Include="FrameWork\ImGui\imgui.cpp" />
+    <ClCompile Include="FrameWork\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="FrameWork\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="FrameWork\ImGui\imgui_impl_dx9.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
@@ -57,16 +61,16 @@
     <ClInclude Include="Component\Camera.h" />
     <ClInclude Include="Component\CameraController.h" />
     <ClInclude Include="Component\Component.h" />
-    <ClInclude Include="Component\Light.h" />
     <ClInclude Include="Component\MeshRender.h" />
     <ClInclude Include="Component\PlayerController.h" />
+    <ClInclude Include="Component\PointLight.h" />
     <ClInclude Include="Component\Transform.h" />
     <ClInclude Include="Component\UVAnimation.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\Console.h" />
-    <ClInclude Include="Engine\DebugMessage.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\GameTimes.h" />
+    <ClInclude Include="Engine\GUI.h" />
     <ClInclude Include="Engine\input.h" />
     <ClInclude Include="Engine\Model\Animation.h" />
     <ClInclude Include="Engine\Model\AnimationChannel.h" />
@@ -81,9 +85,18 @@
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Engine\ShadowMap.h" />
     <ClInclude Include="Engine\SkyBox.h" />
+    <ClInclude Include="FrameWork\ImGui\imgui.h" />
+    <ClInclude Include="FrameWork\ImGui\imgui_impl_dx9.h" />
+    <ClInclude Include="FrameWork\ImGui\imgui_internal.h" />
+    <ClInclude Include="FrameWork\ImGui\stb_rect_pack.h" />
+    <ClInclude Include="FrameWork\ImGui\stb_textedit.h" />
+    <ClInclude Include="FrameWork\ImGui\stb_truetype.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Scene02.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2AB0424F-91D9-4340-9DA8-563735476DFD}</ProjectGuid>
@@ -138,7 +151,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\WorkSpace\Zilch\FrameWork\assimp\include;C:\WorkSpace\Zilch\FrameWork\FMOD\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\WorkSpace\Zilch\FrameWork\ImGui;C:\WorkSpace\Zilch\FrameWork\assimp\include;C:\WorkSpace\Zilch\FrameWork\FMOD\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\WorkSpace\Zilch\FrameWork\FMOD\lib;C:\WorkSpace\Zilch\FrameWork\assimp\lib\x86;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

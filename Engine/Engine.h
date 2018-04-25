@@ -15,6 +15,11 @@
 // ヘッドファイル
 //
 //*****************************************************************************
+// ImGui
+#include "../FrameWork/ImGui/imgui.h"
+#include "../FrameWork/ImGui/imgui_impl_dx9.h"
+#include "../FrameWork/ImGui/imgui_internal.h"
+
 // DirectX9.0 and Windows
 #include <windows.h>
 #include <d3dx9.h>
@@ -29,7 +34,7 @@
 #include <map>
 #include <unordered_map>				// ペア関係だけで順番にする必要がないのでmapからunordered_mapに変更した
 
-//--------------Assimp--------------//
+// Assimp
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -46,7 +51,7 @@ class Bone;
 class Mesh;
 class Model;
 class Resources;
-class DebugMessage;
+class GUI;
 class SceneManager;
 
 //*****************************************************************************
@@ -60,7 +65,7 @@ class SceneManager;
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
 #pragma comment (lib, "winmm.lib")
-#pragma comment (lib, "fmod_vc.lib")	// fmod
+#pragma comment (lib, "fmod_vc.lib")				// fmod
 #pragma comment (lib, "assimp-vc140-mt.lib")		// assimp
 #endif
 
@@ -70,13 +75,13 @@ class SceneManager;
 //
 //*****************************************************************************
 #define CLASS_NAME							_T("D3d9Class")				// ウインドウのクラス名
-#define WINDOW_NAME						_T("Project : Zilch")		// ウインドウのキャプション名
-#define SCREEN_WIDTH						(1280)								// ウインドウの幅
-#define SCREEN_HEIGHT						(720)								// ウインドウの高さ
-#define NUM_BONES_PER_VEREX		(4)									// 頂点1個が影響される骨の最大数は4本
+#define WINDOW_NAME							_T("Project : Zilch")		// ウインドウのキャプション名
+#define SCREEN_WIDTH						(1280)						// ウインドウの幅
+#define SCREEN_HEIGHT						(720)						// ウインドウの高さ
+#define NUM_BONES_PER_VEREX					(4)							// 頂点1個が影響される骨の最大数は4本
 
-#define RELEASE_POINT(ptr)								{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
-#define RELEASE_CLASS_POINT(ptr)					{ if(ptr) { delete ptr; } }
+#define RELEASE_POINT(ptr)					{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
+#define RELEASE_CLASS_POINT(ptr)			{ if(ptr) { delete ptr; } }
 #define RELEASE_CLASS_ARRY_POINT(ptr)		{ if(ptr) { delete [] ptr;} }
 
 #define	FVF_DX_VERTEX_3D					(D3DFVF_XYZ | D3DFVF_DIFFUSE)
@@ -114,7 +119,7 @@ struct WorldVector
 LPDIRECT3DDEVICE9 getD3DDevice(void);
 Resources* getResources(void);
 GameTimes* getGameTimes(void);
-DebugMessage* getDebugMessage(void);
+GUI* getGUI(void);
 SceneManager* getSceneManager(void);
 
 #endif // !_ENGINE_H_

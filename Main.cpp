@@ -10,40 +10,44 @@
 #include "Engine/SceneManager.h"
 #include "Engine/input.h"
 #include "Engine/GameTimes.h"
-#include "Engine/DebugMessage.h"
+#include "Engine/GUI.h"
 
 //*****************************************************************************
 //
 // グローバル変数
 //
 //*****************************************************************************
-int										gFPS;										// FPSカウンタ
-LPDIRECT3D9						gD3D = nullptr;						// Direct3Dオブジェクト
-LPDIRECT3DDEVICE9		gD3DDevice = nullptr;			// Deviceオブジェクト(描画に必要)
+int								gFPS;						// FPSカウンタ
+LPDIRECT3D9						gD3D = nullptr;				// Direct3Dオブジェクト
+LPDIRECT3DDEVICE9				gD3DDevice = nullptr;		// Deviceオブジェクト(描画に必要)
 
-Console*								gConsole;								// コンソールウインド
-Resources*							gResources;							// リソース
-SceneManager*					gSceneManager;					// シンー管理
-GameTimes*						gGameTimes;							// ゲームタイム
-DebugMessage*				gDebugMessage;					// デバッグメッセージ
+// 自作クラス
+Console*						gConsole;					// コンソールウインド
+Resources*						gResources;					// リソース
+SceneManager*					gSceneManager;				// シンー管理
+GameTimes*						gGameTimes;					// ゲームタイム
+GUI*							gGUI;						// デバッグメッセージ
 
-WorldVector						gWorldVector;						// ゲーム世界の3軸
+// ゲーム世界の3軸
+WorldVector						gWorldVector;
+
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //*****************************************************************************
 //
 // プロトタイプ宣言
 //
 //*****************************************************************************
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
-
-void	Updata(HWND hWnd, int cmd);
-void	draw(HWND hWnd);
-void	Release(void);
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);					// ウインド
+HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);		// DirectX初期化
+HRESULT	initGame(HINSTANCE hInstance, HWND hWnd);						// ゲーム処理を初期化
+void	updata(HWND hWnd, int cmd);										// ウインド更新処理
+void	draw(HWND hWnd);												// ウインド描画処理
+void	release(void);													// ウインド終了処理
 
 //*****************************************************************************
 //
-// メイン関数
+// ウインドのメイン関数
 //
 //*****************************************************************************
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -86,8 +90,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	wcex.lpszClassName = CLASS_NAME;
 	wcex.hIconSm = NULL;
 
-	HWND		hWnd;		// ハンドル
-	MSG			msg;		// メッセージ
+	// ウインド用変数
+	HWND hWnd;	// ウインドのID
+	MSG	 msg;	// ウインドメッセージ
 
 	// ウィンドウクラスの登録
 	if (!RegisterClassEx(&wcex))
@@ -106,38 +111,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		hInstance,
 		NULL);
 
-	//*****************************************************************************
-	//
-	// 各初期化
-	//
-	//*****************************************************************************
-	// DirectXの初期化(ウィンドウを作成してから行う)
-	if (FAILED(InitDiretX(hInstance, hWnd, true)))
-	{
-		return E_FAIL;
-	}
-
-	// メッセージを出る為のコンソールを初期化
-	gConsole = new Console();
-	if (gConsole->isConsoleRun == false)
-	{
-		cout << "[Error] Set console ... fail!" << endl;	// エラーメッセージ
-		return E_FAIL;
-	}
-
-	// ゲーム時間
-	gGameTimes = new GameTimes();
-
-	// シンーマネジメント
-	gSceneManager = new SceneManager();
-	gSceneManager->start();
-
-	// リソース
-	gResources = new Resources();
-
-	// デバッグメッセージ
-	gDebugMessage = new DebugMessage();
-
 	//ヴインドウを中心に移動
 	RECT rect;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
@@ -148,9 +121,26 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		SCREEN_HEIGHT,
 		true);
 
+	//*****************************************************************************
+	//
+	// 各初期化
+	//
+	//*****************************************************************************
+	// DirectXの初期化(ウィンドウを作成してから行う)
+	if (FAILED(initDiretX(hInstance, hWnd, true)))
+	{
+		return E_FAIL;
+	}
+
 	// ウインドウの表示(InitDiretX()の後に呼ばないと駄目)
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
+
+	// ゲーム初期化
+	if (FAILED(initGame(hInstance, hWnd)))
+	{
+		return E_FAIL;
+	}
 
 	// メッセージループ
 	while(1)
@@ -171,28 +161,33 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		}
 		else 
 		{
-			dwCurrentTime = timeGetTime();	//1ミリ秒単位
+			dwCurrentTime = timeGetTime();				// 1ミリ秒単位
 
-			if ((dwCurrentTime - dwFPSLastTime) >= 500)	//0.5秒ごとに実行
+			if ((dwCurrentTime - dwFPSLastTime) >= 500)	// 0.5秒ごとに実行
 			{
-				gFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);	//FPSを計測
+				gFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);	// FPSを計測
 
-				dwFPSLastTime = dwCurrentTime;	//FPS計測時刻を保存
+				dwFPSLastTime = dwCurrentTime;			// FPS計測時刻を保存
 
-				dwFrameCount = 0;	//カウントをクリア
+				dwFrameCount = 0;						// カウントをクリア
 			}
 
-			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))	//1/60秒ごとに実行
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))	// 1/60秒ごとに実行
 			{
 				char str[256] = {};
 				sprintf(str, _T("Project : Zilch ... %d"), gFPS);
 				SetWindowText(hWnd, str);
+				dwExecLastTime = dwCurrentTime;			// 処理した時刻を保存
 
-				dwExecLastTime = dwCurrentTime;	//処理した時刻を保存
-				Updata(hWnd, nCmdShow);					// 更新処理
-				draw(hWnd);											// 描画処理
-				dwFrameCount++;								//処理回数のカウントを加算
-				if (dwFrameCount == 60)						// 60フレームを確定
+				// ImGuiのフレームを作る
+				ImGui_ImplDX9_NewFrame();
+
+				// ゲーム処理
+				updata(hWnd, nCmdShow);					// 更新処理
+				draw(hWnd);								// 描画処理
+
+				dwFrameCount++;							// 処理回数のカウントを加算
+				if (dwFrameCount == 60)					// 60フレームを確定
 					continue;
 			}
 		}
@@ -201,7 +196,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// ウィンドウクラスの登録を解除
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
-	Release();
+	release();
 
 	return (int)msg.wParam;
 }
@@ -213,6 +208,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 //*****************************************************************************
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+	{
+		return true;
+	}
+
 	switch( message )
 	{
 	case WM_DESTROY:
@@ -220,14 +220,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_PAINT:
-		draw(hWnd);
 		ValidateRect(hWnd, NULL);
 		break;
 
 	case WM_KEYDOWN:
 		switch(wParam)
 		{
-		case VK_ESCAPE:			// [ESC]キーが押された
+		case VK_ESCAPE:				// [ESC]キーが押された
 			DestroyWindow(hWnd);	// ウィンドウを破棄するよう指示する
 			break;
 		}
@@ -242,10 +241,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 //*****************************************************************************
 //
-// 初期化処理
+// DirectX初期化
 //
 //*****************************************************************************
-HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
+HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
 	D3DDISPLAYMODE d3ddm;
 
@@ -261,16 +260,16 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// 現在のディスプレイモードを取得
 	if (FAILED(gD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
-		cout << "[Error] Get displayer mode ... fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Get displayer mode ... fail!" << endl;		// エラーメッセージ
 		return E_FAIL;
 	}
 
 	// デバイスのプレゼンテーションパラメータの設定
 	D3DPRESENT_PARAMETERS d3dpp;
-	ZeroMemory(&d3dpp, sizeof(d3dpp));					// ワークをゼロクリア
+	ZeroMemory(&d3dpp, sizeof(d3dpp));								// ワークをゼロクリア
 
 
-	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE; // デフォルトで使わない
+	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE;		// デフォルトで使わない
 	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
 		0, D3DMULTISAMPLE_16_SAMPLES, NULL))
 	{
@@ -320,12 +319,12 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// デバイスの生成
 	// ディスプレイアダプタを表すためのデバイスを作成
 	// 描画と頂点処理をハードウェアで行なう
-	if (FAILED(gD3D->CreateDevice(D3DADAPTER_DEFAULT,							// ディスプレイアダプタ
-		D3DDEVTYPE_HAL,								// ディスプレイタイプ
-		hWnd,										// フォーカスするウインドウへのハンドル
-		vp,											// デバイス作成制御の組み合わせ
-		&d3dpp,										// デバイスのプレゼンテーションパラメータ
-		&gD3DDevice)))							// デバイスインターフェースへのポインタ
+	if (FAILED(gD3D->CreateDevice(D3DADAPTER_DEFAULT,		// ディスプレイアダプタ
+		D3DDEVTYPE_HAL,										// ディスプレイタイプ
+		hWnd,												// フォーカスするウインドウへのハンドル
+		vp,													// デバイス作成制御の組み合わせ
+		&d3dpp,												// デバイスのプレゼンテーションパラメータ
+		&gD3DDevice)))										// デバイスインターフェースへのポインタ
 	{
 		cout << "[Error] DirectX device initialization ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
@@ -333,12 +332,49 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	RELEASE_POINT(gD3D); // リリースLPDIRECT3D9
 
-	//*****************************************************************************
-	//
-	// input
-	//
-	//*****************************************************************************
+	return S_OK;
+}
+
+//*****************************************************************************
+//
+// ゲーム処理を初期化
+//
+//*****************************************************************************
+HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
+{
+	// input初期化
 	InitInput(hInstance, hWnd);
+
+	// メッセージを出る為のコンソールを初期化
+	gConsole = new Console();
+	if (gConsole->isConsoleRun == false)
+	{
+		cout << "[Error] Set console ... fail!" << endl;	// エラーメッセージ
+		return E_FAIL;
+	}
+
+	// ゲーム時間初期化
+	gGameTimes = new GameTimes();
+
+	// シンーマネジメント初期化
+	gSceneManager = new SceneManager();
+	gSceneManager->start();
+
+	// リソース初期化
+	gResources = new Resources();
+
+	// ImGuiを初期化
+	gGUI = new GUI(hInstance, hWnd);
+
+	ImGui::CreateContext();
+	// I/Oを取得
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui_ImplDX9_Init(hWnd, gD3DDevice);
+	// スタイルカラーを決める
+	ImGui::StyleColorsDark();
+	// デフォルトフォント
+	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UbuntuMono-R.ttf", 18.0f);
+	//IM_ASSERT(font != NULL);
 
 	return S_OK;
 }
@@ -348,7 +384,7 @@ HRESULT InitDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 // 更新処理
 //
 //*****************************************************************************
-void Updata(HWND hWnd, int cmd)
+void updata(HWND hWnd, int cmd)
 {
 	// システム変更
 	// 塗りつぶしモード
@@ -381,8 +417,22 @@ void Updata(HWND hWnd, int cmd)
 	}
 
 	gGameTimes->update();			// ゲームタイムを更新
-	UpdateInput();							// 入力更新
+	UpdateInput();					// 入力更新
 	gSceneManager->update();		// シンーを更新する
+
+	//gGUI->update();					// GUIを更新
+
+	// ウインドを作り
+	ImGui::Begin("Test");
+	ImGui::Text("Hello World!");
+	ImGui::End();
+
+	// ウインドの位置と属性を設定
+	ImGui::SetNextWindowPos(ImVec2(400, 20), ImGuiCond_FirstUseEver);
+	// ImGuiを出す
+	ImGui::ShowDemoWindow();
+
+	//ImGui::EndFrame();
 }
 
 //*****************************************************************************
@@ -393,7 +443,7 @@ void Updata(HWND hWnd, int cmd)
 void draw(HWND hWnd)
 {
 	// バックバッファ＆Ｚバッファのクリア
-	//gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
+	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(gD3DDevice->BeginScene()))
@@ -401,8 +451,12 @@ void draw(HWND hWnd)
 		// シーンを描画
 		gSceneManager->draw();
 
-		// デバッグメッセージを描画
-		//gDebugMessage->draw();
+		// GUIを描画
+		//gGUI->draw();
+
+		// ImGuiを描画
+		ImGui::Render();
+		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 
 		gD3DDevice->EndScene();
 	}
@@ -416,7 +470,7 @@ void draw(HWND hWnd)
 // 終了処理
 //
 //*****************************************************************************
-void Release(void)
+void release(void)
 {
 	RELEASE_POINT(gD3D);
 	RELEASE_POINT(gD3DDevice);
@@ -424,7 +478,7 @@ void Release(void)
 	RELEASE_CLASS_POINT(gSceneManager);
 	RELEASE_CLASS_POINT(gResources);
 	RELEASE_CLASS_POINT(gGameTimes);
-	RELEASE_CLASS_POINT(gDebugMessage);
+	RELEASE_CLASS_POINT(gGUI);
 	
 	// 入力処理の終了処理
 	UninitInput();
@@ -467,9 +521,9 @@ GameTimes* getGameTimes(void)
 // デバッグメッセージを取得
 //
 //*****************************************************************************
-DebugMessage* getDebugMessage(void)
+GUI* getGUI(void)
 {
-	return gDebugMessage;
+	return gGUI;
 }
 
 //*****************************************************************************

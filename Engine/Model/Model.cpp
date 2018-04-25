@@ -32,29 +32,29 @@ Model::Model(MeshType type, string const &path)
 	loadModel(path);
 
 	// モデル構造をdebugウインドに出す
-	// mseh
-	//unsigned int meshesNum = 1;
-	//for (auto it : this->mMeshes)
-	//{
-	//	cout << "  |- <Mesh><No." << meshesNum << "> : [" << it->mName << "]" << endl;
-	//	meshesNum++;
+	unsigned msehNum = 0;
+	unsigned int meshesNum = 1;
+	for (auto it : this->mMeshes)
+	{
+		cout << "  |- <Mesh><No." << meshesNum << "> : [" << it->mName << "]" << endl;
+		meshesNum++;
 
-	//	// material
-	//	unsigned int materialsNum = 1;
-	//	for (auto it1 : it->mMaterials)
-	//	{
-	//		cout << "    |- <Material><No." << materialsNum << "> : [" << it1->mName << "]" << endl;
-	//		materialsNum++;
+		// material
+		unsigned int materialsNum = 1;
+		for (auto it1 : it->mMaterials)
+		{
+			cout << "    |- <Material><No." << materialsNum << "> : [" << it1->mName << "]" << endl;
+			materialsNum++;
 
-	//		// texture
-	//		unsigned int texturesNum = 1;
-	//		for (auto it2 : it1->mTextures)
-	//		{
-	//			cout << "      |- <Texture><No." << texturesNum << "> : [" << it2->mName << "]" << endl;
-	//			texturesNum++;
-	//		}
-	//	}
-	//}
+			// texture
+			unsigned int texturesNum = 1;
+			for (auto it2 : it1->mTextures)
+			{
+				cout << "      |- <Texture><No." << texturesNum << "> : [" << it2->mName << "]" << endl;
+				texturesNum++;
+			}
+		}
+	}
 }
 
 //*****************************************************************************

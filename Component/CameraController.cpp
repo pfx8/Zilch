@@ -96,8 +96,6 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 //*****************************************************************************
 void CameraController::update()
 {
-	// デバッグメッセージを取得
-	DebugMessage* debugMessage = getDebugMessage();
 	// mainCameraを取得
 	Camera* mainCamera = mMainCamera->getComponent<Camera>("camera");
 

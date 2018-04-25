@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Engine\Console.cpp" />
-    <ClCompile Include="Engine\DebugMessage.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\input.cpp" />
     <ClCompile Include="Engine\SceneManager.cpp" />
@@ -32,11 +31,15 @@
     <ClCompile Include="Component\UVAnimation.cpp" />
     <ClCompile Include="Engine\Model\Node.cpp" />
     <ClCompile Include="Engine\ShadowMap.cpp" />
-    <ClCompile Include="Component\Light.cpp" />
+    <ClCompile Include="Component\PointLight.cpp" />
+    <ClCompile Include="Engine\GUI.cpp" />
+    <ClCompile Include="FrameWork\ImGui\imgui.cpp" />
+    <ClCompile Include="FrameWork\ImGui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="FrameWork\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="FrameWork\ImGui\imgui_demo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
-    <ClInclude Include="Engine\DebugMessage.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\input.h" />
     <ClInclude Include="Engine\SceneManager.h" />
@@ -65,6 +68,16 @@
     <ClInclude Include="Component\UVAnimation.h" />
     <ClInclude Include="Engine\Model\Node.h" />
     <ClInclude Include="Engine\ShadowMap.h" />
-    <ClInclude Include="Component\Light.h" />
+    <ClInclude Include="Component\PointLight.h" />
+    <ClInclude Include="Engine\GUI.h" />
+    <ClInclude Include="FrameWork\ImGui\imgui.h" />
+    <ClInclude Include="FrameWork\ImGui\imgui_impl_dx9.h" />
+    <ClInclude Include="FrameWork\ImGui\imgui_internal.h" />
+    <ClInclude Include="FrameWork\ImGui\stb_truetype.h" />
+    <ClInclude Include="FrameWork\ImGui\stb_textedit.h" />
+    <ClInclude Include="FrameWork\ImGui\stb_rect_pack.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
