@@ -51,7 +51,6 @@ class Bone;
 class Mesh;
 class Model;
 class Resources;
-class GUI;
 class SceneManager;
 
 //*****************************************************************************
@@ -119,7 +118,6 @@ struct WorldVector
 LPDIRECT3DDEVICE9 getD3DDevice(void);
 Resources* getResources(void);
 GameTimes* getGameTimes(void);
-GUI* getGUI(void);
 SceneManager* getSceneManager(void);
 
 #endif // !_ENGINE_H_

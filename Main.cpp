@@ -10,7 +10,6 @@
 #include "Engine/SceneManager.h"
 #include "Engine/input.h"
 #include "Engine/GameTimes.h"
-#include "Engine/GUI.h"
 
 //*****************************************************************************
 //
@@ -26,7 +25,6 @@ Console*						gConsole;					// コンソールウインド
 Resources*						gResources;					// リソース
 SceneManager*					gSceneManager;				// シンー管理
 GameTimes*						gGameTimes;					// ゲームタイム
-GUI*							gGUI;						// デバッグメッセージ
 
 // ゲーム世界の3軸
 WorldVector						gWorldVector;
@@ -44,6 +42,7 @@ HRESULT	initGame(HINSTANCE hInstance, HWND hWnd);						// ゲーム処理を初�
 void	updata(HWND hWnd, int cmd);										// ウインド更新処理
 void	draw(HWND hWnd);												// ウインド描画処理
 void	release(void);													// ウインド終了処理
+void	drawImGui(void);												// ImGui描画
 
 //*****************************************************************************
 //
@@ -63,11 +62,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	DWORD dwFPSLastTime;
 	DWORD dwCurrentTime;
 	DWORD dwFrameCount;
-
-	// フレームカウント初期化(*35)
-	timeBeginPeriod(1);		//分解能を設定
-	dwExecLastTime = dwFPSLastTime = timeGetTime();		//ミリ秒単位で取得 syutoku
-	dwCurrentTime = dwFrameCount = 0;
 
 	//*****************************************************************************
 	//
@@ -96,7 +90,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	// ウィンドウクラスの登録
 	if (!RegisterClassEx(&wcex))
-		return -1;
+		return E_FAIL;
 
 	// ウィンドウの作成
 	hWnd = CreateWindow(CLASS_NAME,
@@ -132,15 +126,20 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		return E_FAIL;
 	}
 
-	// ウインドウの表示(InitDiretX()の後に呼ばないと駄目)
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	// フレームカウント初期
+	timeBeginPeriod(1);									//分解能を設定
+	dwExecLastTime = dwFPSLastTime = timeGetTime();		//ミリ秒単位で取得
+	dwCurrentTime = dwFrameCount = 0;
 
 	// ゲーム初期化
 	if (FAILED(initGame(hInstance, hWnd)))
 	{
 		return E_FAIL;
 	}
+
+	// ウインドウの表示(InitDiretX()の後に呼ばないと駄目)
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 
 	// メッセージループ
 	while(1)
@@ -165,7 +164,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwFPSLastTime) >= 500)	// 0.5秒ごとに実行
 			{
-				gFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);	// FPSを計測
+				gFPS = dwFrameCount * 1000 / (dwCurrentTime - dwFPSLastTime);	// FPSを計測
 
 				dwFPSLastTime = dwCurrentTime;			// FPS計測時刻を保存
 
@@ -174,21 +173,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))	// 1/60秒ごとに実行
 			{
-				char str[256] = {};
-				sprintf(str, _T("Project : Zilch ... %d"), gFPS);
-				SetWindowText(hWnd, str);
 				dwExecLastTime = dwCurrentTime;			// 処理した時刻を保存
-
-				// ImGuiのフレームを作る
-				ImGui_ImplDX9_NewFrame();
 
 				// ゲーム処理
 				updata(hWnd, nCmdShow);					// 更新処理
 				draw(hWnd);								// 描画処理
 
 				dwFrameCount++;							// 処理回数のカウントを加算
-				if (dwFrameCount == 60)					// 60フレームを確定
-					continue;
 			}
 		}
 	}
@@ -196,7 +187,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// ウィンドウクラスの登録を解除
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
+	// ウインド終了処理
 	release();
+
+	// 分解能を戻す
+	timeEndPeriod(1);
 
 	return (int)msg.wParam;
 }
@@ -217,10 +212,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
-		break;
-
-	case WM_PAINT:
-		ValidateRect(hWnd, NULL);
 		break;
 
 	case WM_KEYDOWN:
@@ -267,7 +258,6 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// デバイスのプレゼンテーションパラメータの設定
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));								// ワークをゼロクリア
-
 
 	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE;		// デフォルトで使わない
 	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
@@ -330,8 +320,6 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		return E_FAIL;
 	}
 
-	RELEASE_POINT(gD3D); // リリースLPDIRECT3D9
-
 	return S_OK;
 }
 
@@ -364,8 +352,6 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	gResources = new Resources();
 
 	// ImGuiを初期化
-	gGUI = new GUI(hInstance, hWnd);
-
 	ImGui::CreateContext();
 	// I/Oを取得
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -373,9 +359,8 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	// スタイルカラーを決める
 	ImGui::StyleColorsDark();
 	// デフォルトフォント
-	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UbuntuMono-R.ttf", 18.0f);
-	//IM_ASSERT(font != NULL);
-
+	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+	
 	return S_OK;
 }
 
@@ -386,53 +371,9 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 //*****************************************************************************
 void updata(HWND hWnd, int cmd)
 {
-	// システム変更
-	// 塗りつぶしモード
-	if (GetKeyboardTrigger(DIK_F1))			// key F1
-	{
-		// ワイヤフレームを塗りつぶす
-		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		cout << "[Information] <RenderState> : [WIREFRAME]" << endl;	// コンソールにメッセージを出す
-	}
-
-	if (GetKeyboardTrigger(DIK_F2))			// key F2
-	{
-		// 面を塗りつぶす
-		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		cout << "[Information] <RenderState> : [SOLID]" << endl;	// コンソールにメッセージを出す
-	}
-
-	// スクリーンショット
-	if (GetKeyboardTrigger(DIK_F5))			// key F5
-	{
-		// バッファ画面を取得
-		LPDIRECT3DSURFACE9 backBuffer;
-		gD3DDevice->GetRenderTarget(0, &backBuffer);
-
-		// 保存
-		D3DXSaveSurfaceToFile("screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
-
-		// バッファをリリース
-		backBuffer->Release();
-	}
-
 	gGameTimes->update();			// ゲームタイムを更新
 	UpdateInput();					// 入力更新
 	gSceneManager->update();		// シンーを更新する
-
-	//gGUI->update();					// GUIを更新
-
-	// ウインドを作り
-	ImGui::Begin("Test");
-	ImGui::Text("Hello World!");
-	ImGui::End();
-
-	// ウインドの位置と属性を設定
-	ImGui::SetNextWindowPos(ImVec2(400, 20), ImGuiCond_FirstUseEver);
-	// ImGuiを出す
-	ImGui::ShowDemoWindow();
-
-	//ImGui::EndFrame();
 }
 
 //*****************************************************************************
@@ -443,7 +384,7 @@ void updata(HWND hWnd, int cmd)
 void draw(HWND hWnd)
 {
 	// バックバッファ＆Ｚバッファのクリア
-	gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
+	//gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
 
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(gD3DDevice->BeginScene()))
@@ -451,18 +392,65 @@ void draw(HWND hWnd)
 		// シーンを描画
 		gSceneManager->draw();
 
-		// GUIを描画
-		//gGUI->draw();
-
 		// ImGuiを描画
-		ImGui::Render();
-		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+		drawImGui();
 
 		gD3DDevice->EndScene();
 	}
 
 	// バックバッファとフロントバッファの入れ替え
 	gD3DDevice->Present(NULL, NULL, NULL, NULL);
+}
+
+//*****************************************************************************
+//
+// ImGui描画
+//
+//*****************************************************************************
+void drawImGui(void)
+{
+	// ImGuiを描画
+	ImGui_ImplDX9_NewFrame();
+
+	// 塗りつぶしモード変更
+	ImGui::Begin(u8"レンダリングモード選択", nullptr, ImGuiWindowFlags_NoResize);
+	if (ImGui::Button(u8"ワイヤフレーム"))
+	{
+		// ワイヤフレームを塗りつぶす
+		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	}
+	ImGui::SameLine();
+	if (ImGui::Button(u8"ポリゴン"))
+	{
+		// 面を塗りつぶす
+		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+	ImGui::End();
+
+	// スクリーンショット
+	ImGui::Begin(u8"スクリーンショット", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
+	if (ImGui::Button(u8"スクリーンショット"))
+	{
+		// バッファ画面を取得
+		LPDIRECT3DSURFACE9 backBuffer;
+		gD3DDevice->GetRenderTarget(0, &backBuffer);
+
+		// バッファサーフェイスを保存
+		D3DXSaveSurfaceToFile("screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
+
+		// バッファをリリース
+		backBuffer->Release();
+	}
+	ImGui::End();
+
+	// FPSとタイム
+	ImGui::Begin(u8"ゲーム情報", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
+	ImGui::Text("Fps:%.1f, Time:%.3f", ImGui::GetIO().Framerate, ImGui::GetIO().DeltaTime);
+	ImGui::End();
+
+	// ImGuiを描画
+	ImGui::Render();
+	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
 
 //*****************************************************************************
@@ -478,10 +466,16 @@ void release(void)
 	RELEASE_CLASS_POINT(gSceneManager);
 	RELEASE_CLASS_POINT(gResources);
 	RELEASE_CLASS_POINT(gGameTimes);
-	RELEASE_CLASS_POINT(gGUI);
+
+	// リリースLPDIRECT3D9
+	RELEASE_POINT(gD3D);
 	
 	// 入力処理の終了処理
 	UninitInput();
+
+	// ImGui終了処理
+	ImGui_ImplDX9_Shutdown();
+	ImGui::DestroyContext();
 }
 
 //*****************************************************************************
@@ -514,16 +508,6 @@ Resources* getResources(void)
 GameTimes* getGameTimes(void)
 {
 	return gGameTimes;
-}
-
-//*****************************************************************************
-//
-// デバッグメッセージを取得
-//
-//*****************************************************************************
-GUI* getGUI(void)
-{
-	return gGUI;
 }
 
 //*****************************************************************************

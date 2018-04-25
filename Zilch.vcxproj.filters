@@ -32,7 +32,6 @@
     <ClCompile Include="Engine\Model\Node.cpp" />
     <ClCompile Include="Engine\ShadowMap.cpp" />
     <ClCompile Include="Component\PointLight.cpp" />
-    <ClCompile Include="Engine\GUI.cpp" />
     <ClCompile Include="FrameWork\ImGui\imgui.cpp" />
     <ClCompile Include="FrameWork\ImGui\imgui_impl_dx9.cpp" />
     <ClCompile Include="FrameWork\ImGui\imgui_draw.cpp" />
@@ -69,15 +68,12 @@
     <ClInclude Include="Engine\Model\Node.h" />
     <ClInclude Include="Engine\ShadowMap.h" />
     <ClInclude Include="Component\PointLight.h" />
-    <ClInclude Include="Engine\GUI.h" />
     <ClInclude Include="FrameWork\ImGui\imgui.h" />
     <ClInclude Include="FrameWork\ImGui\imgui_impl_dx9.h" />
     <ClInclude Include="FrameWork\ImGui\imgui_internal.h" />
     <ClInclude Include="FrameWork\ImGui\stb_truetype.h" />
     <ClInclude Include="FrameWork\ImGui\stb_textedit.h" />
     <ClInclude Include="FrameWork\ImGui\stb_rect_pack.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ClInclude Include="FrameWork\ImGui\imconfig.h" />
   </ItemGroup>
 </Project>

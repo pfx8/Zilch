@@ -127,9 +127,9 @@ HRESULT Animation::loadAnimation(string const &path)
 	processNode(node, scene->mRootNode, scene);
 
 	// test data
-	unsigned int num = 0;
-	cout << "<Animation><Node> : " << endl;
-	drawN(*(this->mNode.end()-1), num);
+	//unsigned int num = 0;
+	//cout << "<Animation><Node> : " << endl;
+	//drawN(*(this->mNode.end()-1), num);
 
 	return S_OK;
 }
