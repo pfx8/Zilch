@@ -126,16 +126,6 @@ HRESULT Animation::loadAnimation(string const &path)
 	node->mParent = nullptr;
 	processNode(node, scene->mRootNode, scene);
 
-	// 骨ツリーをImGuiで出す
-	ImGui::SetNextWindowPos(ImVec2(40, 300), ImGuiSetCond_Appearing);
-	ImGui::Begin(u8"骨ツリー", nullptr, ImGuiWindowFlags_NoTitleBar);
-	ImGui::TextColored(ImVec4(1, 0, 0, 1), u8"骨ツリー");
-
-	unsigned int level = 0;
-	traverseBoneNode(*(this->mNode.end()-1), level);
-
-	ImGui::End();
-
 	return S_OK;
 }
 

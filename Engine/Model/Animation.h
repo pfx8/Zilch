@@ -21,6 +21,7 @@
 class Animation
 {
 	friend class Mesh;
+	friend class Model;
 private:
 	float					mLastStartTime = 0.0f;			// 前回アニメーションが終わった時間、最初はゲームスタートので0にする
 	string					mName;							// アニメーションの名前

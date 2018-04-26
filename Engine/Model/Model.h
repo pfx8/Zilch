@@ -43,6 +43,7 @@ public:
 	void updateAnimation(float timeInSeconds);						// アニメーション更新
 	void draw(Shader* shader);										// モデルのシャドウマップを描画
 	void draw(Shader* shader, Transform* trans, Camera* camera);	// モデルを描画
+	void traverseNode(Node* node, unsigned int level);				// ノードをトラバース
 	void drawImGui();												// モデルの情報をImGuiで出す
 };
 

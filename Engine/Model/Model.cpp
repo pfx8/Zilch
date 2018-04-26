@@ -166,7 +166,7 @@ void Model::drawImGui()
 	ImGui::Begin(u8"モデル情報");
 
 	// ツリーノードの使う方法を設定
-	ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
+	ImGui::SetNextTreeNodeOpen(false, ImGuiSetCond_Once);
 	// メッシュのグル―プを作るり
 	if (ImGui::TreeNode(u8"メッシュ"))
 	{
@@ -174,21 +174,21 @@ void Model::drawImGui()
 		unsigned int meshesNum = 1;
 		for (auto it : this->mMeshes)
 		{
-			ImGui::Text("<Mesh><No.%.2d> : %s", meshesNum, it->mName.c_str());
+			ImGui::Text("<Mesh><No.%.2d> : [%s]", meshesNum, it->mName.c_str());
 			meshesNum++;
 
 			// material
 			unsigned int materialsNum = 1;
 			for (auto it1 : it->mMaterials)
 			{
-				ImGui::Text("   <Material><No.%.2d> : %s", materialsNum, it1->mName.c_str());
+				ImGui::Text("   <Material><No.%.2d> : [%s]", materialsNum, it1->mName.c_str());
 				materialsNum++;
 
 				// texture
 				unsigned int texturesNum = 1;
 				for (auto it2 : it1->mTextures)
 				{
-					ImGui::Text("      <Texture><No.%.2d> : %s", texturesNum, it2->mName.c_str());
+					ImGui::Text("      <Texture><No.%.2d> : [%s]", texturesNum, it2->mName.c_str());
 					texturesNum++;
 				}
 			}
@@ -198,14 +198,41 @@ void Model::drawImGui()
 	}
 
 	// ツリーノードの使う方法を設定
-	//ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
-	//// アニメーションのグル―プを作るり
-	//if (ImGui::TreeNode(u8"アニメーション"))
-	//{
-	//	unsigned int level = 0;
-	//}
+	ImGui::SetNextTreeNodeOpen(false, ImGuiSetCond_Once);
+	// ------------------TODO---------------------
+	// 骨の情報をアニメーションからメッシュに移動
+	//--------------------------------------------
+	// 骨ツリーのグル―プを作るり
+	if (ImGui::TreeNode(u8"骨"))
+	{
+		unsigned int level = 0;
+		traverseNode(*(this->mAnimationes.at(0)->mNode.end() - 1), level);
+		ImGui::TreePop();
+	}
 
 	ImGui::End();
+}
+
+//*****************************************************************************
+//
+// ノードをトラバース
+//
+//*****************************************************************************
+void Model::traverseNode(Node* node, unsigned int level)
+{
+	string space;
+
+	for (unsigned count = 0; count < level; count++)
+	{
+		space += "  ";
+	}
+
+	ImGui::Text("%s + [%s]", space.c_str(), node->mName.c_str());
+
+	for (auto it : node->mChildren)
+	{
+		traverseNode(it, level + 1);
+	}
 }
 
 //*****************************************************************************
