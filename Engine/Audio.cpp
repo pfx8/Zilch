@@ -24,19 +24,22 @@ Audio::Audio()
 //*****************************************************************************
 HRESULT Audio::start()
 {
-	// システムを初期化、また初期化の結果をmResultに保存
-	this->mResult = FMOD::System_Create(&this->mSystem);
-	if (this->mResult != FMOD_OK)
+	// 結果変数
+	FMOD_RESULT result;
+
+	// FMODシステムを初期化
+	result = FMOD::System_Create(&this->mSystem);
+	if (result != FMOD_OK)
 	{
-		cout << "[Error] FMOD::System_Create ... " << FMOD_ErrorString(this->mResult);
+		cout << "[Error] FMOD::System_Create ... fail!" << endl << FMOD_ErrorString(result);
 		return E_FAIL;
 	}
 
 	// FMODを初期化
-	this->mResult = this->mSystem->init(16, FMOD_INIT_NORMAL, 0);
-	if (this->mResult != FMOD_OK)
+	result = this->mSystem->init(512, FMOD_INIT_NORMAL, 0);
+	if (result != FMOD_OK)
 	{
-		cout << "[Error] FMOD init ... " << FMOD_ErrorString(this->mResult);
+		cout << "[Error] FMOD init ... fail!" << endl << FMOD_ErrorString(result);
 		return E_FAIL;
 	}
 
@@ -58,16 +61,56 @@ Audio::~Audio()
 // オーディオをストリームとして読み込み
 //
 //*****************************************************************************
-HRESULT Audio::createStream(const string name, const string mPath, FMOD_MODE mode)
+HRESULT Audio::createStream(const string path, FMOD_MODE mode)
 {
-	/*FMOD::Sound* sound = new FMOD::Sound();
-	this->mSounds.insert(make_pair(name, sound));
-	this->mResult = this->mSystem->createStream(path.c_str(), mode, 0, &sound);
-	if (this->mResult != FMOD_OK)
+	FMOD_RESULT result;
+
+	// サウンドを読み込み
+	FMOD::Sound* sound;
+	result = this->mSystem->createStream(path.c_str(), mode, 0, &sound);
+	if (result != FMOD_OK)
 	{
-		cout << "[Error] FMOD system create stream ... " << FMOD_ErrorString(this->mResult);
+		cout << "[Error] FMOD system create stream ... " << FMOD_ErrorString(result);
 		return E_FAIL;
-	}*/
+	}
+
+	string fileName = path.substr(path.find_last_of("//") + 1, path.find_first_of("."));
+	// サウンドマップに入れる
+	this->mSoundsMap.insert(make_pair(fileName, sound));
 
 	return S_OK;
+}
+
+//*****************************************************************************
+//
+// プレーサウンド
+//
+//*****************************************************************************
+HRESULT Audio::playAudio(string name)
+{
+	FMOD_RESULT result;
+
+	// 名前からサウンドを取得
+	FMOD::Sound* sound;
+	if (this->mSoundsMap.find(name) != this->mSoundsMap.end())
+	{
+		sound = this->mSoundsMap[name];
+	}
+	else
+	{
+		return E_FAIL;
+	}
+
+	// プレーサウンド
+	//result = PlaySound(sound, )
+}
+
+//*****************************************************************************
+//
+// 更新FMOD
+//
+//*****************************************************************************
+void Audio::update()
+{
+
 }

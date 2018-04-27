@@ -29,6 +29,8 @@ float3 diffuse;   // 拡散反射光
 float3 specular;  // 鏡面反射光
 float  shininess; // 光沢
 
+int renderType;   // レンダリング選択
+
 texture tex;          // テクスチャ
 sampler texSampler =  // サンプラー
 sampler_state
@@ -168,14 +170,29 @@ float4 modelPS(VSout vout) : COLOR
 
     // 減衰値を計算
     float distance = length(float4(lightPos, 1.0f) - vout.worldPos);
-    float attenuation = 1.0 / (lightConstant + lightLinear * distance + lightQuadratic * (distance * distance));
+    float attenuation = 1.0f / (lightConstant + lightLinear * distance + lightQuadratic * (distance * distance));
     float4 attColor = attenuation * lightColor;
     texColor *= attenuation;
 
-    //return texColor;
-    //return lightDir;
-    //return float4(diffuse, diffuse, diffuse, diffuse);
-    return float4(attenuation, attenuation, attenuation, attenuation);
+    // 描画方法のを選択
+    if(renderType == 1)
+    {
+        // RT_DIFFUSE
+        return float4(attenuation, attenuation, attenuation, attenuation);
+    }
+    else if(renderType == 2)
+    {
+        // RT_NORMAL
+        return float4(vout.nor.x, vout.nor.y, vout.nor.z, 1.0f);
+    }
+    else if(renderType == 3)
+    {
+        // RT_TEXTURE
+        return texColor;
+    }
+
+    // RT_SHADING -- デフォルト
+    return texColor;
 }
 
 //*****************************************************************************

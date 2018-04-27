@@ -49,14 +49,14 @@ SceneManager::~SceneManager()
 //*****************************************************************************
 void SceneManager::update()
 {
-	if (mScenes[mCurrentScene]->mIsStart)
+	if (this->mCurrentScene->mIsStart)
 	{
-		mScenes[mCurrentScene]->update();
+		this->mCurrentScene->update();
 	}
 	else
 	{
-		mScenes[mCurrentScene]->start();
-		mScenes[mCurrentScene]->mIsStart = true;
+		this->mCurrentScene->start();
+		this->mCurrentScene->mIsStart = true;
 	}
 }
 
@@ -68,7 +68,7 @@ void SceneManager::update()
 void SceneManager::draw()
 {
 	// シーンを描画
-	mScenes[mCurrentScene]->draw();	
+	this->mCurrentScene->draw();
 }
 
 //*****************************************************************************
@@ -90,7 +90,7 @@ HRESULT SceneManager::setActiveScene(string name)
 {
 	if (mScenes.find(name) != mScenes.end())
 	{
-		mCurrentScene = name;
+		this->mCurrentScene = mScenes[name];
 
 		return S_OK;
 	}

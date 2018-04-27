@@ -31,9 +31,10 @@ private:
 	void processNode(aiNode *node, const aiScene *scene);		// ノード処理
 
 public:
+	string							mName;						// モデル名前
 	vector<Mesh*>					mMeshes;					// メッシュデータ
-	vector<Animation*>				mAnimationes;			// アニメーションデータ
-	vector<Bone*>					mBones;					// 骨データ
+	vector<Animation*>				mAnimationes;				// アニメーションデータ
+	vector<Bone*>					mBones;						// 骨データ
 	vector<D3DXMATRIX>				mTransforms;				// 各骨の変換行列
 
 	Model(MeshType type, string const &path);

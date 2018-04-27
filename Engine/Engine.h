@@ -35,9 +35,14 @@
 #include <unordered_map>				// ペア関係だけで順番にする必要がないのでmapからunordered_mapに変更した
 
 // Assimp
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "../FrameWork/assimp/include/assimp/Importer.hpp"
+#include "../FrameWork/assimp/include/assimp/scene.h"
+#include "../FrameWork/assimp/include/assimp/postprocess.h"
+
+
+// FMOD
+#include "../FrameWork/FMOD/include/fmod.hpp"
+#include "../FrameWork/FMOD/include/fmod_errors.h"
 
 using namespace std;
 
@@ -64,8 +69,8 @@ class SceneManager;
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
 #pragma comment (lib, "winmm.lib")
-#pragma comment (lib, "fmod_vc.lib")				// fmod
-#pragma comment (lib, "assimp-vc140-mt.lib")		// assimp
+#pragma comment (lib, "FrameWork/FMOD/lib/fmod_vc.lib")						// fmod
+#pragma comment (lib, "FrameWork/assimp/lib/x86/assimp-vc140-mt.lib")		// assimp
 #endif
 
 //*****************************************************************************

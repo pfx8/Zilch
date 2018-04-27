@@ -60,7 +60,32 @@ GameObject* Scene::getGameObject(string name)
 //*****************************************************************************
 void Scene::update()
 {
-	for (auto it : mGameObjectMap)
+	// シェーダーを選択
+	
+
+	// シーンのマルチレベルメニュー
+	ImGui::Begin(u8"Scene");
+	// ImGuiで各GameObjectを出す
+	for (auto it : this->mGameObjectMap)
+	{
+		if (ImGui::TreeNode(u8"%s", it.first.c_str()))
+		{
+			ImGui::Text("test");
+			// ImGuiで各GameObjectの各コンポーネントを出す
+			//for (auto it2 : it.second->mComponentsMap)
+			//{
+			//	if (ImGui::TreeNode(u8"%s", it2.first.c_str()))
+			//	{
+			//		ImGui::TreePop();
+			//	}
+			//}
+			ImGui::TreePop();
+		}
+	}
+	ImGui::End();
+
+	// 各GameObjectを更新
+	for (auto it : this->mGameObjectMap)
 	{
 		if (it.second->mActive == true)
 		{

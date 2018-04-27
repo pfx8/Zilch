@@ -18,6 +18,7 @@ Model::Model(MeshType type, string const &path)
 	this->mMeshType = type;
 	// モデルの名前を取得
 	string fileName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp c:/aaa/bbb/ccc.fbx -> ccc
+	this->mName = fileName;
 
 	switch (this->mMeshType)
 	{
@@ -30,35 +31,6 @@ Model::Model(MeshType type, string const &path)
 	}
 
 	loadModel(path);
-
-	// モデル構造をdebugウインドに出す
-	//unsigned msehNum = 0;
-	//unsigned int meshesNum = 1;
-	//for (auto it : this->mMeshes)
-	//{
-	//	cout << "  |- <Mesh><No." << meshesNum << "> : [" << it->mName << "]" << endl;
-	//	meshesNum++;
-
-	//	// material
-	//	unsigned int materialsNum = 1;
-	//	for (auto it1 : it->mMaterials)
-	//	{
-	//		cout << "    |- <Material><No." << materialsNum << "> : [" << it1->mName << "]" << endl;
-	//		materialsNum++;
-
-	//		// texture
-	//		unsigned int texturesNum = 1;
-	//		for (auto it2 : it1->mTextures)
-	//		{
-	//			cout << "      |- <Texture><No." << texturesNum << "> : [" << it2->mName << "]" << endl;
-	//			texturesNum++;
-	//		}
-	//	}
-	//}
-
-	// ImGuiでメッシュの構築を表示
-	//ImGui::Begin("Model");
-	//スクロール
 }
 
 //*****************************************************************************
@@ -164,6 +136,7 @@ void Model::drawImGui()
 {
 	// モデル情報ウインドを作り
 	ImGui::Begin(u8"モデル情報");
+	ImGui::TextColored(ImVec4(1, 1, 1, 1), "<Model> : [%s]", this->mName.c_str());
 
 	// ツリーノードの使う方法を設定
 	ImGui::SetNextTreeNodeOpen(false, ImGuiSetCond_Once);
@@ -199,11 +172,11 @@ void Model::drawImGui()
 
 	// ツリーノードの使う方法を設定
 	ImGui::SetNextTreeNodeOpen(false, ImGuiSetCond_Once);
-	// ------------------TODO---------------------
+	// ------------------Todo---------------------
 	// 骨の情報をアニメーションからメッシュに移動
 	//--------------------------------------------
 	// 骨ツリーのグル―プを作るり
-	if (ImGui::TreeNode(u8"骨"))
+	if (ImGui::TreeNode(u8"ボーン"))
 	{
 		unsigned int level = 0;
 		traverseNode(*(this->mAnimationes.at(0)->mNode.end() - 1), level);
@@ -227,7 +200,7 @@ void Model::traverseNode(Node* node, unsigned int level)
 		space += "  ";
 	}
 
-	ImGui::Text("%s + [%s]", space.c_str(), node->mName.c_str());
+	ImGui::Text("<Model>%s + [%s]", space.c_str(), node->mName.c_str());
 
 	for (auto it : node->mChildren)
 	{

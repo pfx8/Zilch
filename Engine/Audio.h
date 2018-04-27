@@ -10,24 +10,21 @@
 
 #include "Engine.h"
 
-//--------FMOD--------//
-#include <fmod.hpp>
-#include <fmod_errors.h>
-
 class Audio
 {
 private:
-	FMOD_RESULT mResult;
-	FMOD::System* mSystem;		// fmod.hppが必要
-	HRESULT start();
+	FMOD::System*							mSystem = nullptr;		// FMODマインシステム
+	FMOD::Channel*							mChannel = nullptr;		// FMODチャンネル
+	unordered_map<string, FMOD::Sound*>		mSoundsMap;				// サウンドマップ
 
-	unordered_map<string, FMOD::Sound> mSounds;		// すべてのオーディオをここに保存
+	HRESULT start();
 public:
 	Audio();
 	~Audio();
 
-	HRESULT createStream(const string name, const string mPath, FMOD_MODE mode);		// オーディオをストリームとして読み込み
-
+	HRESULT createStream(const string mPath, FMOD_MODE mode);		// オーディオをストリームとして読み込み
+	HRESULT playAudio(string name);									// プレーサウンド
+	void update();													// 更新FMOD
 };
 
 #endif // !_AUDIO_H_

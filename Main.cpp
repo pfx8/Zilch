@@ -16,9 +16,9 @@
 // グローバル変数
 //
 //*****************************************************************************
-int								gFPS;						// FPSカウンタ
 LPDIRECT3D9						gD3D = nullptr;				// Direct3Dオブジェクト
 LPDIRECT3DDEVICE9				gD3DDevice = nullptr;		// Deviceオブジェクト(描画に必要)
+D3DPRESENT_PARAMETERS			gD3Dpp;						// デバイスのプレゼンテーションパラメータ
 
 // 自作クラス
 Console*						gConsole;					// コンソールウインド
@@ -96,10 +96,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	hWnd = CreateWindow(CLASS_NAME,
 		WINDOW_NAME,
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT,																		// ウィンドウの左座標
-		CW_USEDEFAULT,																		// ウィンドウの上座標
-		SCREEN_WIDTH,																		// ウィンドウ横幅
-		SCREEN_HEIGHT,																		// ウィンドウ縦幅
+		CW_USEDEFAULT,																			// ウィンドウの左座標
+		CW_USEDEFAULT,																			// ウィンドウの上座標
+		SCREEN_WIDTH + GetSystemMetrics(SM_CXDLGFRAME) * 2,										// ウィンドウ横幅 + 左右ウインドの太さ
+		SCREEN_HEIGHT + GetSystemMetrics(SM_CXDLGFRAME) * 2 + GetSystemMetrics(SM_CYCAPTION),	// ウィンドウ縦幅 + 上下ウインドの太さ
 		NULL,
 		NULL,
 		hInstance,
@@ -164,10 +164,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if ((dwCurrentTime - dwFPSLastTime) >= 500)	// 0.5秒ごとに実行
 			{
-				gFPS = dwFrameCount * 1000 / (dwCurrentTime - dwFPSLastTime);	// FPSを計測
+				// ImGuiに任せった
+				//FPS = dwFrameCount * 1000 / (dwCurrentTime - dwFPSLastTime);	// FPSを計測
 
 				dwFPSLastTime = dwCurrentTime;			// FPS計測時刻を保存
-
 				dwFrameCount = 0;						// カウントをクリア
 			}
 
@@ -259,8 +259,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	}
 
 	// デバイスのプレゼンテーションパラメータの設定
-	D3DPRESENT_PARAMETERS d3dpp;
-	ZeroMemory(&d3dpp, sizeof(d3dpp));								// ワークをゼロクリア
+	ZeroMemory(&gD3Dpp, sizeof(gD3Dpp));								// ワークをゼロクリア
 
 	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE;		// デフォルトで使わない
 	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
@@ -269,32 +268,32 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		multiSampType = D3DMULTISAMPLE_16_SAMPLES; // 16倍
 	}
 
-	d3dpp.BackBufferWidth = SCREEN_WIDTH;				// ゲーム画面サイズ(幅)
-	d3dpp.BackBufferHeight = SCREEN_HEIGHT;				// ゲーム画面サイズ(高さ)
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;			// バックバッファのフォーマットは現在設定されているものを使う
-	d3dpp.BackBufferCount = 1;							// バックバッファの数
-	d3dpp.MultiSampleType = multiSampType;
-	d3dpp.MultiSampleQuality = 0;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;			// 映像信号に同期してフリップする
-	d3dpp.hDeviceWindow = hWnd;
-	d3dpp.Windowed = bWindow;							// ウィンドウモード
-	d3dpp.EnableAutoDepthStencil = TRUE;				// デプスバッファ（Ｚバッファ）とステンシルバッファを作成
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;		// デプスバッファとして16bitを使う
-	d3dpp.Flags = 0;
+	gD3Dpp.BackBufferWidth = SCREEN_WIDTH;				// ゲーム画面サイズ(幅)
+	gD3Dpp.BackBufferHeight = SCREEN_HEIGHT;				// ゲーム画面サイズ(高さ)
+	gD3Dpp.BackBufferFormat = D3DFMT_UNKNOWN;			// バックバッファのフォーマットは現在設定されているものを使う
+	gD3Dpp.BackBufferCount = 1;							// バックバッファの数
+	gD3Dpp.MultiSampleType = multiSampType;				// 
+	gD3Dpp.MultiSampleQuality = 0;						// 
+	gD3Dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;			// 映像信号に同期してフリップする
+	gD3Dpp.hDeviceWindow = hWnd;
+	gD3Dpp.Windowed = bWindow;							// ウィンドウモード
+	gD3Dpp.EnableAutoDepthStencil = TRUE;				// デプスバッファ（Ｚバッファ）とステンシルバッファを作成
+	gD3Dpp.AutoDepthStencilFormat = D3DFMT_D16;		// デプスバッファとして16bitを使う
+	gD3Dpp.Flags = 0;
 
 	if (bWindow)
 	{
 		// ウィンドウモード
 		// d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;					// バックバッファ
-		d3dpp.FullScreen_RefreshRateInHz = 0;								// リフレッシュレート
-		d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;	// インターバル
+		gD3Dpp.FullScreen_RefreshRateInHz = 0;								// リフレッシュレート
+		gD3Dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;	// インターバル
 	}
 	else
 	{
 		// フルスクリーンモード
 		// d3dpp.BackBufferFormat = D3DFMT_R5G6B5;					// バックバッファ
-		d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;		// リフレッシュレート
-		d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;		// インターバル
+		gD3Dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;		// リフレッシュレート
+		gD3Dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;		// インターバル
 	}
 
 	D3DCAPS9 caps; 
@@ -316,7 +315,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		D3DDEVTYPE_HAL,										// ディスプレイタイプ
 		hWnd,												// フォーカスするウインドウへのハンドル
 		vp,													// デバイス作成制御の組み合わせ
-		&d3dpp,												// デバイスのプレゼンテーションパラメータ
+		&gD3Dpp,												// デバイスのプレゼンテーションパラメータ
 		&gD3DDevice)))										// デバイスインターフェースへのポインタ
 	{
 		cout << "[Error] DirectX device initialization ... fail!" << endl;	// エラーメッセージ
@@ -363,7 +362,7 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	ImGui::StyleColorsDark();
 	// デフォルトフォント
 	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
-	
+
 	return S_OK;
 }
 
@@ -412,24 +411,38 @@ void draw(HWND hWnd)
 //*****************************************************************************
 void drawImGui(void)
 {
-	// 塗りつぶしモード変更
-	ImGui::Begin(u8"レンダリングモード選択", nullptr, ImGuiWindowFlags_NoResize);
-	if (ImGui::Button(u8"ワイヤフレーム"))
+	// デッバグウインド
+	ImGui::Begin(u8"デバッグウインド"/*, nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove*/);
+
+	// FPSとタイム
+	ImGui::Text("Fps:%.1f, Time:%.3fs", ImGui::GetIO().Framerate, gGameTimes->mCurrentTime);
+	// FPSをプロット図で出す
+	const float my_values[] = { ImGui::GetIO().Framerate, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
+	ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
+	ImGui::Separator();
+
+	// マウス位置
+	ImGui::Text(u8"マウス位置:"); ImGui::SameLine();
+	ImGui::Text("%f,%f", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+	ImGui::Separator();
+
+	// ワイヤフレームを塗りつぶす
+	ImGui::Text(u8"ワイヤフレームモード"); ImGui::SameLine();
+	if (ImGui::Button("WIREFRAME"))
 	{
-		// ワイヤフレームを塗りつぶす
 		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
-	ImGui::SameLine();
-	if (ImGui::Button(u8"ポリゴン"))
+	// 面を塗りつぶす
+	ImGui::Text(u8"ポリゴンモード      "); ImGui::SameLine();
+	if (ImGui::Button("SOLID"))
 	{
-		// 面を塗りつぶす
 		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
-	ImGui::End();
+	ImGui::Separator();
 
 	// スクリーンショット
-	ImGui::Begin(u8"スクリーンショット", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
-	if (ImGui::Button(u8"スクリーンショット"))
+	ImGui::Text(u8"スクリーンショット  "); ImGui::SameLine();
+	if (ImGui::Button("SCREENSHOT"))
 	{
 		// バッファ画面を取得
 		LPDIRECT3DSURFACE9 backBuffer;
@@ -441,14 +454,28 @@ void drawImGui(void)
 		// バッファをリリース
 		backBuffer->Release();
 	}
-	ImGui::End();
+	ImGui::Separator();
 
-	// FPSとタイム
-	ImGui::Begin(u8"ゲーム情報", nullptr, /*ImGuiWindowFlags_NoResize |*/ ImGuiWindowFlags_NoTitleBar);
-	ImGui::Text("Fps:%.1f, Time:%.3f", ImGui::GetIO().Framerate, ImGui::GetIO().DeltaTime);
-	// FPSをプロット図で出す
-	//const float my_values[] = { ImGui::GetIO().Framerate, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
-	//ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
+	// シェーダー変更
+	const char* shaderName[] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング"};
+	// chooseの選択を保存するためにstaticを使った
+	static int choose = 0;
+	ImGui::Combo(u8"レンダリングモード", &choose, shaderName, IM_ARRAYSIZE(shaderName));
+	switch (choose)
+	{
+	case 0:
+		gSceneManager->mCurrentScene->mShader->mRenderType = RT_DIFFUSE;
+		break;
+	case 1:
+		gSceneManager->mCurrentScene->mShader->mRenderType = RT_NORMAL;
+		break;
+	case 2:
+		gSceneManager->mCurrentScene->mShader->mRenderType = RT_TEXTURE;
+		break;
+	case 3:
+		gSceneManager->mCurrentScene->mShader->mRenderType = RT_SHADING;
+		break;
+	}
 	ImGui::End();
 
 	// ImGuiを描画

@@ -14,6 +14,7 @@
 class PointLight : public Component
 {
 private:
+	void update();
 
 public:
 	// ポイントライト減衰公式

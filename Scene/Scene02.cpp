@@ -51,7 +51,10 @@ void Scene02::start()
 	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
 	resource->loadShader("celShading", "Resources/Shader/celShading.fx");
 	resource->loadShader("shadowMap", "Resources/Shader/ShadowMap.fx");
-	
+
+	// シーンのデフォルトシェーダーを指定
+	this->mShader = resource->getShader("celShading");
+
 	// ライト
 	GameObject* pointLight = new GameObject();
 	PointLight* light = new PointLight;
@@ -83,7 +86,6 @@ void Scene02::start()
 	player->addComponent<CameraController>("cameraController", cameraController);
 	MeshRender* playerMeshRender = new MeshRender();
 	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
-	playerMeshRender->mShader = resource->getShader("celShading");			// シェーダーを取得
 	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
 	playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
@@ -102,7 +104,6 @@ void Scene02::start()
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
 	gridFieldMeshRender->mModel = resource->getModel("gridField");			// リソースからモデルを取得
-	gridFieldMeshRender->mShader = resource->getShader("phongShading");		// シェーダーを取得
 	this->mMeshRenders.push_back(gridFieldMeshRender);						// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);

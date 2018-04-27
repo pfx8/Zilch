@@ -17,6 +17,7 @@
 #include "../Component/PointLight.h"
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
+#include "../Engine/Shader.h"
 #include "../GameObject/GameObject.h"
 
 //*****************************************************************************
@@ -29,16 +30,15 @@ class Scene
 private:
 
 public:
-	bool						mIsStart;		// スタートマーク
-
-	vector<MeshRender*>								mMeshRenders;			// メッシュレンダリング
-	unordered_map<string, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
+	Shader*										mShader;				// 現在レンダリング用なシェーダー
+	bool										mIsStart;				// スタートマーク
+	vector<MeshRender*>							mMeshRenders;			// メッシュレンダリング
+	unordered_map<string, GameObject*>			mGameObjectMap;			// 取得するために作ったGameObjectのマップ
 
 	Scene();
 	~Scene();
 
 	virtual void start() {};			// シーンのスタート
-
 	void update();						// シーンの更新
 	void draw();						// シーンの描画
 	

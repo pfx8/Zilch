@@ -34,6 +34,9 @@ MeshRender::~MeshRender()
 //*****************************************************************************
 void MeshRender::start()
 {
+	// シーンからレンダリングシェーダーを取得
+	this->mShader = this->mGameObject->mScene->mShader;
+
 	// シャドーマップ
 	if (this->mIsDrawShadow == true)
 	{
@@ -99,6 +102,9 @@ void MeshRender::draw()
 	// カメラの行列をシェーダーに渡る
 	this->mShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
 	this->mShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
+
+	// レンダリングモードをシェーダーに渡す
+	this->mShader->mEffect->SetInt("renderType", this->mShader->mRenderType);
 
 	// モデルを描画
 	this->mModel->draw(this->mShader, trans, camera);

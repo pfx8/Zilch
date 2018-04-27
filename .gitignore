@@ -4,8 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 ## Ignore-file
-Resources/Model/
-Resources/Texture/
+Resources/
 Zilch.exe
 screenShot.bmp
 shadowMap.jpg
