@@ -459,7 +459,7 @@ void drawImGui(void)
 	// シェーダー変更
 	const char* shaderName[] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング"};
 	// chooseの選択を保存するためにstaticを使った
-	static int choose = 0;
+	static int choose = 1;
 	ImGui::Combo(u8"レンダリングモード", &choose, shaderName, IM_ARRAYSIZE(shaderName));
 	switch (choose)
 	{

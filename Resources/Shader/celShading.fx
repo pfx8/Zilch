@@ -152,6 +152,8 @@ float4 modelPS(VSout vout) : COLOR
     float4 texColor = tex2D(texSampler, vout.coord);
     float4 lightDir = normalize(float4(lightPos, 1.0f) - vout.worldPos);
 
+    float4 normal = float4(vout.nor.x, vout.nor.y, vout.nor.z, 1.0f);
+
     // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
     // 外積の値がマイナスならばシャドウにする(0)
     // max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
@@ -183,7 +185,7 @@ float4 modelPS(VSout vout) : COLOR
     else if(renderType == 2)
     {
         // RT_NORMAL
-        return float4(vout.nor.x, vout.nor.y, vout.nor.z, 1.0f);
+        return normal;
     }
     else if(renderType == 3)
     {

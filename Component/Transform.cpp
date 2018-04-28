@@ -42,13 +42,16 @@ void Transform::update()
 
 	// ƒXƒP[ƒ‹‚ð”½‰f
 	D3DXMatrixScaling(&mtxScl, mScl.x, mScl.y, mScl.z);
-	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxScl);
+	//D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxScl);
+	this->mWorldMatrix = this->mWorldMatrix * mtxScl;
 
 	// ‰ñ“]‚ð”½‰f
 	D3DXMatrixRotationYawPitchRoll(&this->mRotMatrix, mRot.y, mRot.x, mRot.z);
-	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &this->mRotMatrix);
+	//D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &this->mRotMatrix);
+	this->mWorldMatrix = this->mWorldMatrix * this->mRotMatrix;
 
 	// •½sˆÚ“®‚ð”½‰f
 	D3DXMatrixTranslation(&mtxTranslate, mPos.x, mPos.y, mPos.z);
-	D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxTranslate);
+	//D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxTranslate);
+	this->mWorldMatrix = this->mWorldMatrix * mtxTranslate;
 }

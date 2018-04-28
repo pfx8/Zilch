@@ -35,7 +35,7 @@ private:
 
 public:
 	ID3DXEffect*	mEffect;					// エフェクト
-	RenderMode		mRenderType = RT_TEXTURE;		// レンダリングモード
+	RenderMode		mRenderType;				// レンダリングモード
 
 	Shader(string path);
 	~Shader();
