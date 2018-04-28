@@ -18,7 +18,6 @@
 //*****************************************************************************
 LPDIRECT3D9						gD3D = nullptr;				// Direct3Dオブジェクト
 LPDIRECT3DDEVICE9				gD3DDevice = nullptr;		// Deviceオブジェクト(描画に必要)
-D3DPRESENT_PARAMETERS			gD3Dpp;						// デバイスのプレゼンテーションパラメータ
 
 // 自作クラス
 Console*						gConsole;					// コンソールウインド
@@ -92,28 +91,24 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	if (!RegisterClassEx(&wcex))
 		return E_FAIL;
 
+	// システム解像度を取得
+	RECT rect;
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
+	int x = (rect.right - rect.left - SCREEN_WIDTH) / 2;
+	int y = (rect.bottom - rect.top - SCREEN_HEIGHT) / 2;
+
 	// ウィンドウの作成
 	hWnd = CreateWindow(CLASS_NAME,
 		WINDOW_NAME,
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT,																			// ウィンドウの左座標
-		CW_USEDEFAULT,																			// ウィンドウの上座標
+		x,																			// ウィンドウの左座標
+		y,																			// ウィンドウの上座標
 		SCREEN_WIDTH + GetSystemMetrics(SM_CXDLGFRAME) * 2,										// ウィンドウ横幅 + 左右ウインドの太さ
 		SCREEN_HEIGHT + GetSystemMetrics(SM_CXDLGFRAME) * 2 + GetSystemMetrics(SM_CYCAPTION),	// ウィンドウ縦幅 + 上下ウインドの太さ
 		NULL,
 		NULL,
 		hInstance,
 		NULL);
-
-	//ヴインドウを中心に移動
-	RECT rect;
-	SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
-	MoveWindow(hWnd,
-		(rect.right - rect.left - SCREEN_WIDTH) / 2,
-		(rect.bottom - rect.top - SCREEN_HEIGHT) / 2,
-		SCREEN_WIDTH,
-		SCREEN_HEIGHT,
-		true);
 
 	//*****************************************************************************
 	//
@@ -258,6 +253,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		return E_FAIL;
 	}
 
+	D3DPRESENT_PARAMETERS			gD3Dpp;						// デバイスのプレゼンテーションパラメータ
 	// デバイスのプレゼンテーションパラメータの設定
 	ZeroMemory(&gD3Dpp, sizeof(gD3Dpp));								// ワークをゼロクリア
 
