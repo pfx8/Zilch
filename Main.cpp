@@ -10,6 +10,7 @@
 #include "Engine/SceneManager.h"
 #include "Engine/input.h"
 #include "Engine/GameTimes.h"
+#include "Engine/GUI.h"
 
 //*****************************************************************************
 //
@@ -25,17 +26,18 @@ Console*						gConsole;					// コンソールウインド
 Resources*						gResources;					// リソース
 SceneManager*					gSceneManager;				// シンー管理
 GameTimes*						gGameTimes;					// ゲームタイム
+GUI*							gGUI;						// ImGui
 
 // ゲーム世界の3軸
 WorldVector						gWorldVector;
-
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //*****************************************************************************
 //
 // プロトタイプ宣言
 //
 //*****************************************************************************
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);	// ImGui用
+
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);					// ウインド
 HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);		// DirectX初期化
 HRESULT	initGame(HINSTANCE hInstance, HWND hWnd);						// ゲーム処理を初期化
@@ -350,15 +352,17 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	// リソース初期化
 	gResources = new Resources();
 
-	// ImGuiを初期化
-	ImGui::CreateContext();
-	// I/Oを取得
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui_ImplDX9_Init(hWnd, gD3DDevice);
-	// スタイルカラーを決める
-	ImGui::StyleColorsDark();
-	// デフォルトフォント
-	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+	// GUIを初期化
+	//ImGui::CreateContext();
+	//// I/Oを取得
+	//ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//ImGui_ImplDX9_Init(hWnd, gD3DDevice);
+	//// スタイルカラーを決める
+	//ImGui::StyleColorsDark();
+	//// デフォルトフォント
+	//ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+	gGUI = new GUI();
+	gGUI->start(hWnd, gD3DDevice);
 
 	return S_OK;
 }
@@ -391,7 +395,7 @@ void draw(HWND hWnd)
 		// シーンを描画
 		gSceneManager->draw();
 
-		// ImGuiを描画
+		// メインGUIを描画
 		drawImGui();
 
 		gD3DDevice->EndScene();

@@ -32,6 +32,7 @@
     <ClCompile Include="Engine\Console.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\GameTimes.cpp" />
+    <ClCompile Include="Engine\GUI.cpp" />
     <ClCompile Include="Engine\input.cpp" />
     <ClCompile Include="Engine\Model\Animation.cpp" />
     <ClCompile Include="Engine\Model\AnimationChannel.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="Engine\Console.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\GameTimes.h" />
+    <ClInclude Include="Engine\GUI.h" />
     <ClInclude Include="Engine\input.h" />
     <ClInclude Include="Engine\Model\Animation.h" />
     <ClInclude Include="Engine\Model\AnimationChannel.h" />
