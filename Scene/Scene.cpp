@@ -91,6 +91,7 @@ void Scene::updateImgui()
 			{
 				// サブウインドを開く
 				open = true;
+				ImGui::OpenPopup("Settings");
 			}
 
 			if (open == true)

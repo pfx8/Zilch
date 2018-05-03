@@ -36,15 +36,17 @@ WorldVector						gWorldVector;
 // プロトタイプ宣言
 //
 //*****************************************************************************
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);	// ImGui用
-
+// ウィンド
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);					// ウインド
 HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);		// DirectX初期化
 HRESULT	initGame(HINSTANCE hInstance, HWND hWnd);						// ゲーム処理を初期化
 void	updata(HWND hWnd, int cmd);										// ウインド更新処理
 void	draw(HWND hWnd);												// ウインド描画処理
 void	release(void);													// ウインド終了処理
-void	drawImGui(void);												// ImGui描画
+
+// ImGui用プロシージャ
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);	
+void	drawImGui(void);		// ImGui描画
 
 //*****************************************************************************
 //
@@ -387,8 +389,8 @@ void draw(HWND hWnd)
 		// シーンを描画
 		gSceneManager->draw();
 
-		// メインGUIを描画
-		drawImGui();
+		// GUIを描画
+		gGUI->draw();
 
 		gD3DDevice->EndScene();
 	}
@@ -404,89 +406,7 @@ void draw(HWND hWnd)
 //*****************************************************************************
 void drawImGui(void)
 {
-	// デッバグウインド(メインウインド)
-	{
-		ImGui::Begin(u8"デバッグウインド"/*, nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove*/);
-
-		// FPSとタイム
-		{
-			ImGui::Text("Fps:%.1f, Time:%.3fs", ImGui::GetIO().Framerate, gGameTimes->mCurrentTime);
-			// FPSをプロット図で出す
-			const float my_values[] = { ImGui::GetIO().Framerate, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
-			ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
-			ImGui::Separator();
-		}
-
-		// マウス位置
-		{
-			ImGui::Text(u8"マウス位置:"); ImGui::SameLine();
-			ImGui::Text("%f,%f", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
-			ImGui::Separator();
-		}
-
-		// レンダリングモード
-		{
-			// ワイヤフレームを塗りつぶす
-			ImGui::Text(u8"ワイヤフレームモード"); ImGui::SameLine();
-			if (ImGui::Button("WIREFRAME"))
-			{
-				getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			}
-			// 面を塗りつぶす
-			ImGui::Text(u8"ポリゴンモード      "); ImGui::SameLine();
-			if (ImGui::Button("SOLID"))
-			{
-				getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-			}
-			ImGui::Separator();
-		}
-
-		// スクリーンショット
-		{
-			ImGui::Text(u8"スクリーンショット  "); ImGui::SameLine();
-			if (ImGui::Button("SCREENSHOT"))
-			{
-				// バッファ画面を取得
-				LPDIRECT3DSURFACE9 backBuffer;
-				gD3DDevice->GetRenderTarget(0, &backBuffer);
-
-				// バッファサーフェイスを保存
-				D3DXSaveSurfaceToFile("screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
-
-				// バッファをリリース
-				backBuffer->Release();
-			}
-			ImGui::Separator();
-		}
-
-		// シェーディング変更
-		{
-			const char* shaderName[] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング" };
-			// chooseの選択を保存するためにstaticを使った
-			static int choose = 1;
-			ImGui::Combo(u8"シェーディングモード", &choose, shaderName, IM_ARRAYSIZE(shaderName));
-			switch (choose)
-			{
-			case 0:
-				gSceneManager->mCurrentScene->mShader->mRenderType = RT_DIFFUSE;
-				break;
-			case 1:
-				gSceneManager->mCurrentScene->mShader->mRenderType = RT_NORMAL;
-				break;
-			case 2:
-				gSceneManager->mCurrentScene->mShader->mRenderType = RT_TEXTURE;
-				break;
-			case 3:
-				gSceneManager->mCurrentScene->mShader->mRenderType = RT_SHADING;
-				break;
-			}
-		}
-		ImGui::End();
-	}
-
-	// ImGuiを描画
-	ImGui::Render();
-	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+	
 }
 
 //*****************************************************************************

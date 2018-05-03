@@ -11,6 +11,8 @@
 #define _GUI_H_
 
 #include "Engine.h"
+#include "GameTimes.h"
+#include "SceneManager.h"
 
 //*****************************************************************************
 //
@@ -22,11 +24,15 @@ class GUI
 private:
 
 public:
-	bool		isWa;
+	bool		isWireframe;
+
 	GUI();
 	~GUI();
 
 	void start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice);		// ImGui初期化
+	void draw();											// ImGuiの描画処理
+	void systemGUI();										// システム操作GUI
+	void sceneGUI();										// シーンGUI
 };
 
 #endif // !_GUI_H_
