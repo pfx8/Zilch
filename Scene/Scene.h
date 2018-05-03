@@ -40,6 +40,7 @@ public:
 
 	virtual void start() {};			// シーンのスタート
 	void update();						// シーンの更新
+	void updateImgui();					// GUI更新
 	void draw();						// シーンの描画
 	
 	void addGameObject(string name, GameObject* gameObject);		// シーンにGameObjectを増加

@@ -22,11 +22,11 @@ LPDIRECT3DDEVICE9				gD3DDevice = nullptr;		// Deviceオブジェクト(描画�
 D3DPRESENT_PARAMETERS			gD3Dpp;						// デバイスのプレゼンテーションパラメータ
 
 // 自作クラス
-Console*						gConsole;					// コンソールウインド
-Resources*						gResources;					// リソース
-SceneManager*					gSceneManager;				// シンー管理
-GameTimes*						gGameTimes;					// ゲームタイム
-GUI*							gGUI;						// ImGui
+Console*						gConsole = nullptr;			// コンソールウインド
+Resources*						gResources = nullptr;		// リソース
+SceneManager*					gSceneManager = nullptr;	// シンー管理
+GameTimes*						gGameTimes = nullptr;		// ゲームタイム
+GUI*							gGUI = nullptr;				// ImGui
 
 // ゲーム世界の3軸
 WorldVector						gWorldVector;
@@ -353,14 +353,6 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	gResources = new Resources();
 
 	// GUIを初期化
-	//ImGui::CreateContext();
-	//// I/Oを取得
-	//ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//ImGui_ImplDX9_Init(hWnd, gD3DDevice);
-	//// スタイルカラーを決める
-	//ImGui::StyleColorsDark();
-	//// デフォルトフォント
-	//ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 	gGUI = new GUI();
 	gGUI->start(hWnd, gD3DDevice);
 
@@ -510,16 +502,13 @@ void release(void)
 	RELEASE_CLASS_POINT(gSceneManager);
 	RELEASE_CLASS_POINT(gResources);
 	RELEASE_CLASS_POINT(gGameTimes);
+	RELEASE_CLASS_POINT(gGUI);
 
 	// リリースLPDIRECT3D9
 	RELEASE_POINT(gD3D);
 	
 	// 入力処理の終了処理
 	UninitInput();
-
-	// ImGui終了処理
-	ImGui_ImplDX9_Shutdown();
-	ImGui::DestroyContext();
 }
 
 //*****************************************************************************

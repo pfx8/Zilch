@@ -24,17 +24,15 @@
 class CameraController : public Component
 {
 private:
-	float		mOffsetFromTargetMin = 5.0f;		// プレーヤーとカメラの偏り(半径)の最小値
-	float		mOffsetFromTargetMax = 9.0f;		// プレーヤーとカメラの偏り(半径)の最大値
+	D3DXVECTOR3				mOffsetFromTarget;								// カメラと目標の偏り
 
+	float		mOffsetFromTargetMin = 5.0f;								// プレーヤーとカメラの偏り(半径)の最小値
+	float		mOffsetFromTargetMax = 9.0f;								// プレーヤーとカメラの偏り(半径)の最大値
 	float		mVerticalRadiansMin = cosf(D3DXToRadian(65.0f));			// カメラの垂直角度の最小値
-	float		mVerticalRadiansMax = cosf(D3DXToRadian(15.0f));			// カメラの垂直角度の最大値
-
-	float		mRotateSpeedHorizonal = 2.0f;			// 水平移動スピード
-	float		mRotateSpeedVertical = 1.0f;				// 垂直移動スピード
-	float		mZoomSpeed = 0.05f;								// ゾーンスピード
-
-	D3DXVECTOR3			mOffsetFromTarget;			// カメラと目標の偏り
+	float		mVerticalRadiansMax = cosf(D3DXToRadian(-15.0f));			// カメラの垂直角度の最大値
+	float		mRotateSpeedHorizonal = 4.0f;								// 水平移動スピード
+	float		mRotateSpeedVertical = 2.0f;								// 垂直移動スピード
+	float		mZoomSpeed = 0.3f;											// ゾーンスピード
 
 public:
 	GameObject*				mMainCamera;					// マインカメラ
@@ -42,9 +40,10 @@ public:
 	CameraController();
 	~CameraController();
 
-	void start();														// 初期化
+	void start();													// 初期化
 	void update();													// 更新
-	void zoom(float distance);							// ズーム調整
+	void inputUpdate();												// 入力更新
+	void zoom(float distance);										// ズーム調整
 	void rotation(float verticalRadians, float horizonalRadians);	// 回転移動
 };
 #endif // !_CAMERA_H_

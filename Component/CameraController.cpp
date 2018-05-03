@@ -102,37 +102,48 @@ void CameraController::update()
 	// 目標からカメラまでの距離を計算
 	mOffsetFromTarget = mainCamera->mCameraPos - mainCamera->mTargetTrans->mPos;
 
+	// 入力更新
+	inputUpdate();
+
+	// カメラを更新
+	mainCamera->mCameraPos = mainCamera->mTargetTrans->mPos + mOffsetFromTarget;
+}
+
+//*****************************************************************************
+//
+// 入力更新
+//
+//*****************************************************************************
+void CameraController::inputUpdate()
+{
 	// カメラを左右移動
-	if (GetKeyboardPress(DIK_J) == true || IsButtonPressed(0, RIGHT_STICK_LEFT))
+	if ((IsMouseLeftPressed() && GetMouseX() > 0) || IsButtonPressed(0, RIGHT_STICK_LEFT))
 	{
 		rotation(0.0f, D3DXToRadian(this->mRotateSpeedHorizonal));
 	}
-	if (GetKeyboardPress(DIK_L) == true || IsButtonPressed(0, RIGHT_STICK_RIGHT))
+	if ((IsMouseLeftPressed() && GetMouseX() < 0) || IsButtonPressed(0, RIGHT_STICK_RIGHT))
 	{
 		rotation(0.0f, -D3DXToRadian(this->mRotateSpeedHorizonal));
 	}
 
 	// カメラを上下移動
-	if (GetKeyboardPress(DIK_I) == true || IsButtonPressed(0, RIGHT_STICK_UP))
+	if ((IsMouseLeftPressed() && GetMouseY() > 0) || IsButtonPressed(0, RIGHT_STICK_UP))
 	{
 		rotation(-D3DXToRadian(this->mRotateSpeedVertical), 0.0f);
 	}
-	if (GetKeyboardPress(DIK_K) == true || IsButtonPressed(0, RIGHT_STICK_DOWN))
+	if ((IsMouseLeftPressed() && GetMouseY() < 0) || IsButtonPressed(0, RIGHT_STICK_DOWN))
 	{
 		rotation(D3DXToRadian(this->mRotateSpeedVertical), 0.0f);
 	}
 
 	// ズーム拡大
-	if (GetKeyboardPress(DIK_U) == true || IsButtonPressed(0, BUTTON_L1))
+	if (GetMouseZ() > 0 || IsButtonPressed(0, BUTTON_L1))
 	{
 		zoom(this->mZoomSpeed);
 	}
 	// ズーム縮小
-	if (GetKeyboardPress(DIK_O) == true || IsButtonPressed(0, BUTTON_R1))
+	if (GetMouseZ() < 0 || IsButtonPressed(0, BUTTON_R1))
 	{
 		zoom(-this->mZoomSpeed);
 	}
-
-	// カメラを更新
-	mainCamera->mCameraPos = mainCamera->mTargetTrans->mPos + mOffsetFromTarget;
 }

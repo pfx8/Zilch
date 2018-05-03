@@ -32,11 +32,11 @@
     <ClCompile Include="Engine\Model\Node.cpp" />
     <ClCompile Include="Engine\ShadowMap.cpp" />
     <ClCompile Include="Component\PointLight.cpp" />
+    <ClCompile Include="Engine\GUI.cpp" />
     <ClCompile Include="FrameWork\ImGui\imgui.cpp" />
     <ClCompile Include="FrameWork\ImGui\imgui_demo.cpp" />
     <ClCompile Include="FrameWork\ImGui\imgui_draw.cpp" />
     <ClCompile Include="FrameWork\ImGui\imgui_impl_dx9.cpp" />
-    <ClCompile Include="Engine\GUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -69,6 +69,7 @@
     <ClInclude Include="Engine\Model\Node.h" />
     <ClInclude Include="Engine\ShadowMap.h" />
     <ClInclude Include="Component\PointLight.h" />
+    <ClInclude Include="Engine\GUI.h" />
     <ClInclude Include="FrameWork\assimp\include\assimp\Compiler\poppack1.h" />
     <ClInclude Include="FrameWork\assimp\include\assimp\Compiler\pstdint.h" />
     <ClInclude Include="FrameWork\assimp\include\assimp\Compiler\pushpack1.h" />
@@ -121,7 +122,6 @@
     <ClInclude Include="FrameWork\ImGui\stb_rect_pack.h" />
     <ClInclude Include="FrameWork\ImGui\stb_textedit.h" />
     <ClInclude Include="FrameWork\ImGui\stb_truetype.h" />
-    <ClInclude Include="Engine\GUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

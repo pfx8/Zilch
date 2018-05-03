@@ -20,11 +20,13 @@
 class GUI
 {
 private:
-	void start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice);		// ImGui‰Šú‰»
 
 public:
+	bool		isWa;
 	GUI();
 	~GUI();
+
+	void start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice);		// ImGui‰Šú‰»
 };
 
 #endif // !_GUI_H_
