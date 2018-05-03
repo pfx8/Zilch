@@ -32,9 +32,14 @@ Resources::~Resources()
 // Assimpでモデルを読み込み
 //
 //*****************************************************************************
-void Resources::loadModel(MeshType type, string name, string path)
+void Resources::createModel(string const path, MeshType type)
 {
-	mModels.insert({ name, new Model(type, path) }); // モデルを名前とデータをペアにする
+	// パスからファイルの名前を取得(拡張子抜き)
+	string name = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	name = name.substr(0, name.find_first_of("."));									// exp: ccc.fbx -> ccc
+
+	// モデルデータを保存
+	mModels.insert({ name, new Model(type, name, path) });
 }
 
 //*****************************************************************************
@@ -48,6 +53,7 @@ Model* Resources::getModel(string name)
 	{
 		return mModels[name];
 	}
+
 	cout << "[Error] <Model> Get " << name << " ... failed!" << endl;
 	return nullptr;
 }
@@ -57,9 +63,13 @@ Model* Resources::getModel(string name)
 // テクスチャを読み込み
 //
 //*****************************************************************************
-void Resources::loadTexture(string name, string path)
+void Resources::createTexture(string const path)
 {
-	mTextures.insert({ name, new Texture(path) });	
+	// パスからファイルの名前を取得(拡張子抜き)
+	string name = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	name = name.substr(0, name.find_first_of("."));									// exp: ccc.fbx -> ccc
+
+	mTextures.insert({ name, new Texture(name, path) });	
 }
 
 //*****************************************************************************
@@ -85,13 +95,19 @@ Texture* Resources::getTexture(string name)
 // one shader one technique
 //
 //*****************************************************************************
-void Resources::loadShader(string techniqueName, string path)
+void Resources::createShader(string const path)
 {
+	// パスからファイルの名前を取得(拡張子抜き)
+	string techniqueName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	techniqueName = techniqueName.substr(0, techniqueName.find_first_of("."));									// exp: ccc.fbx -> ccc
+
+	// シェーダーデータを作る
 	Shader* shader = new Shader(path);
 	
 	// techniqueを確定
 	shader->mEffect->SetTechnique((D3DXHANDLE)techniqueName.c_str());
 
+	// 選択Mapに入れる
 	mShaders.insert({ techniqueName, shader });
 }
 

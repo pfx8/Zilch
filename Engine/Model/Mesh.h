@@ -46,8 +46,8 @@ struct VertexBone
 	//D3DXVECTOR3 bitangent;
 
 	// œ
-	unsigned int	boneID[NUM_BONES_PER_VEREX] = {0};		// œ‚ÌID
-	float		weights[NUM_BONES_PER_VEREX] = {0.0f};		// œ‚Ìd‚İ
+	unsigned int	boneID[NUM_BONES_PER_VEREX] = {0};			// œ‚ÌID
+	float			weights[NUM_BONES_PER_VEREX] = {0.0f};		// œ‚Ìd‚İ
 
 	// test data
 	unsigned int boneNum = 0;
@@ -58,7 +58,7 @@ struct VertexBone
 //  —ñ‹“‘Ì’è‹`
 //
 //*****************************************************************************
-enum MeshType
+typedef enum MeshType
 {
 	MT_default,
 	MT_withBone,

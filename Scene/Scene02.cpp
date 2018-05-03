@@ -32,25 +32,25 @@ void Scene02::start()
 	//-----------------------
 
 	// 床
-	resource->loadTexture("grid", "Resources/Texture/grid.png");
-	resource->loadModel(MT_default,"gridField", "Resources/Model/field.fbx");
+	resource->createTexture("Resources/Texture/grid.png");
+	resource->createModel("Resources/Model/field.fbx", MT_default);
 
 	// Hixo
-	resource->loadTexture("clothes", "Resources/Texture/Hixo2/clothes.png");
-	resource->loadTexture("eye", "Resources/Texture/Hixo2/eye.png");
-	resource->loadTexture("face", "Resources/Texture/Hixo2/face.png");
-	resource->loadTexture("facial", "Resources/Texture/Hixo2/facial.png");
-	resource->loadTexture("hair1", "Resources/Texture/Hixo2/hair1.png");
-	resource->loadTexture("hair2", "Resources/Texture/Hixo2/hair2.png");
-	resource->loadTexture("panties", "Resources/Texture/Hixo2/panties.png");
-	resource->loadTexture("skin", "Resources/Texture/Hixo2/skin.png");
-	resource->loadModel(MT_withBone, "Hixo", "Resources/Model/Hixo.fbx");
+	resource->createTexture("Resources/Texture/Hixo2/clothes.png");
+	resource->createTexture("Resources/Texture/Hixo2/eye.png");
+	resource->createTexture("Resources/Texture/Hixo2/face.png");
+	resource->createTexture("Resources/Texture/Hixo2/facial.png");
+	resource->createTexture("Resources/Texture/Hixo2/hair1.png");
+	resource->createTexture("Resources/Texture/Hixo2/hair2.png");
+	resource->createTexture("Resources/Texture/Hixo2/panties.png");
+	resource->createTexture("Resources/Texture/Hixo2/skin.png");
+	resource->createModel("Resources/Model/Hixo.fbx", MT_withBone);
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
 	// shader
-	resource->loadShader("phongShading", "Resources/Shader/phongShading.fx");
-	resource->loadShader("celShading", "Resources/Shader/celShading.fx");
-	resource->loadShader("shadowMap", "Resources/Shader/ShadowMap.fx");
+	resource->createShader("Resources/Shader/phongShading.fx");
+	resource->createShader("Resources/Shader/celShading.fx");
+	resource->createShader("Resources/Shader/shadowMap.fx");
 
 	// シーンのデフォルトシェーダーを指定
 	this->mShader = resource->getShader("celShading");
@@ -103,7 +103,7 @@ void Scene02::start()
 	gridFieldTrans->mScl = D3DXVECTOR3(6.0f, 6.0f, 6.0f);
 	gridField->addComponent<Transform>("trans", gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->mModel = resource->getModel("gridField");			// リソースからモデルを取得
+	gridFieldMeshRender->mModel = resource->getModel("field");				// リソースからモデルを取得
 	this->mMeshRenders.push_back(gridFieldMeshRender);						// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);

@@ -39,7 +39,7 @@ public:
 	void systemGUI();										// システム操作GUI
 	void sceneGUI();										// シーンGUI
 	void createNewGameObjectGUI();							// 新しいGameObjectを作りメニュー
-	void drawEveryComponmentGUI();							// 各Componentサブメニューを描画
+	void drawEveryComponmentGUI();							// 各Componentのメニューを描画
 };
 
 #endif // !_GUI_H_

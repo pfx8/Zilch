@@ -12,24 +12,24 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(MeshType type, string const &path)
+Model::Model(MeshType type, string name, string const &path)
 {
-	// メッシュタイプを取得
+	// メッシュタイプを初期化
 	this->mMeshType = type;
-	// モデルの名前を取得
-	string fileName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp c:/aaa/bbb/ccc.fbx -> ccc
-	this->mName = fileName;
-
 	switch (this->mMeshType)
 	{
 	case MT_default:
-		cout << "<Model><default> : " << fileName;
+		cout << "<Model><default> : " << name;
 		break;
 	case MT_withBone:
-		cout << "<Model><withBone> : " << fileName;
+		cout << "<Model><withBone> : " << name;
 		break;
 	}
 
+	// モデルの名前を初期化
+	this->mName = name;
+
+	// Assimpでモデルを読み込み
 	loadModel(path);
 }
 

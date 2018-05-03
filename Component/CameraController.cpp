@@ -117,21 +117,21 @@ void CameraController::update()
 void CameraController::inputUpdate()
 {
 	// カメラを左右移動
-	if ((IsMouseLeftPressed() && GetMouseX() > 0) || IsButtonPressed(0, RIGHT_STICK_LEFT))
+	if ((IsMouseLeftPressed() && GetMouseX() > 10) || IsButtonPressed(0, RIGHT_STICK_LEFT))
 	{
 		rotation(0.0f, D3DXToRadian(this->mRotateSpeedHorizonal));
 	}
-	if ((IsMouseLeftPressed() && GetMouseX() < 0) || IsButtonPressed(0, RIGHT_STICK_RIGHT))
+	if ((IsMouseLeftPressed() && GetMouseX() < -10) || IsButtonPressed(0, RIGHT_STICK_RIGHT))
 	{
 		rotation(0.0f, -D3DXToRadian(this->mRotateSpeedHorizonal));
 	}
 
 	// カメラを上下移動
-	if ((IsMouseLeftPressed() && GetMouseY() > 0) || IsButtonPressed(0, RIGHT_STICK_UP))
+	if ((IsMouseLeftPressed() && GetMouseY() > 10) || IsButtonPressed(0, RIGHT_STICK_UP))
 	{
 		rotation(-D3DXToRadian(this->mRotateSpeedVertical), 0.0f);
 	}
-	if ((IsMouseLeftPressed() && GetMouseY() < 0) || IsButtonPressed(0, RIGHT_STICK_DOWN))
+	if ((IsMouseLeftPressed() && GetMouseY() < -10) || IsButtonPressed(0, RIGHT_STICK_DOWN))
 	{
 		rotation(D3DXToRadian(this->mRotateSpeedVertical), 0.0f);
 	}

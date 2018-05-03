@@ -37,7 +37,7 @@ public:
 	vector<Bone*>					mBones;						// 骨データ
 	vector<D3DXMATRIX>				mTransforms;				// 各骨の変換行列
 
-	Model(MeshType type, string const &path);
+	Model(MeshType type, string name, string const &path);
 	~Model();
 
 	void addAnimation(Animation* animation);						// アニメーションデータを読み込み

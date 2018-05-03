@@ -154,6 +154,8 @@ float4 psMain(VSout vout, uniform int rendertype) : COLOR
 //
 // レンダリングテクニック
 //
+// FXファイル名前と同じ
+//
 //*****************************************************************************
 technique render_without_light
 {

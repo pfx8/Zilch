@@ -12,12 +12,12 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Texture::Texture(string path)
+Texture::Texture(string name, string path)
 {
 	this->mTex = nullptr;
 
 	// テクスチャの名前を取得
-	this->mName = path.substr(path.find_last_of("//") + 1, path.find_last_of(".")); // a:/bbb/ccc.out -> ccc
+	this->mName = name;
 	
 	// テクスチャを読み込み
 	loadingTexture(path);

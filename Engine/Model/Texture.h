@@ -26,7 +26,7 @@ public:
 	string						mName;		// テクスチャ名前
 	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
 
-	Texture(string path);
+	Texture(string name, string path);
 	~Texture();
 
 	HRESULT loadingTexture(string path);		// テクスチャを読み込み
