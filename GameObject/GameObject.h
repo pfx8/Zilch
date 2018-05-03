@@ -19,6 +19,7 @@
 class GameObject
 {
 	friend class Scene;
+	friend class GUI;
 
 private:
 	vector<Component*>						mComponents;		// コンポーネントコンテナ

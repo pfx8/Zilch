@@ -33,14 +33,13 @@ public:
 	Shader*										mShader;				// 現在レンダリング用なシェーダー
 	bool										mIsStart;				// スタートマーク
 	vector<MeshRender*>							mMeshRenders;			// メッシュレンダリング
-	unordered_map<string, GameObject*>			mGameObjectMap;			// 取得するために作ったGameObjectのマップ
+	map<string, GameObject*>					mGameObjectMap;			// 取得するために作ったGameObjectのマップ、順番が必要なのでMAPにしてる
 
 	Scene();
 	~Scene();
 
 	virtual void start() {};			// シーンのスタート
 	void update();						// シーンの更新
-	void updateImgui();					// GUI更新
 	void draw();						// シーンの描画
 	
 	void addGameObject(string name, GameObject* gameObject);		// シーンにGameObjectを増加

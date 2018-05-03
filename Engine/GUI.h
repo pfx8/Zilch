@@ -13,6 +13,7 @@
 #include "Engine.h"
 #include "GameTimes.h"
 #include "SceneManager.h"
+#include "../GameObject/GameObject.h"
 
 //*****************************************************************************
 //
@@ -22,9 +23,13 @@
 class GUI
 {
 private:
+	const char*		mShadingMode[4] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング" };
+	int				mCurrentShadingMode;
+
+	char			mNewGameObjectName[20] = {""};
 
 public:
-	bool		isWireframe;
+	bool			mIsWireframe;
 
 	GUI();
 	~GUI();

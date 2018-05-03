@@ -45,6 +45,9 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	ImGui::StyleColorsDark();
 	// デフォルトフォント
 	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+
+	// レンダリングモードの初期化
+	this->mCurrentShadingMode = 0;	// デフォルトはディフューズで
 }
 
 //*****************************************************************************
@@ -129,11 +132,12 @@ void GUI::systemGUI()
 
 		// シェーディング変更
 		{
-			const char* shaderName[] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング" };
-			// chooseの選択を保存するためにstaticを使った
-			static int choose = 1;
-			ImGui::Combo(u8"シェーディングモード", &choose, shaderName, IM_ARRAYSIZE(shaderName));
-			switch (choose)
+			// コンボボックスの幅を設定
+			ImGui::PushItemWidth(160);
+
+			ImGui::Text(u8"シェーディングモード"); ImGui::SameLine();
+			ImGui::Combo(" ", &this->mCurrentShadingMode, mShadingMode, IM_ARRAYSIZE(mShadingMode));
+			switch (this->mCurrentShadingMode)
 			{
 			case 0:
 				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_DIFFUSE;
@@ -160,5 +164,62 @@ void GUI::systemGUI()
 //*****************************************************************************
 void GUI::sceneGUI()
 {
+	// シーンのマルチレベルメニュー
+	ImGui::Begin(u8"Scene");
+	{
+		// GameObjectを作りメニュ―
+		{
+			if (ImGui::Button("Create GameObject"))
+			{
+				// サブウインドを開く
+				ImGui::OpenPopup("Create GameObject");
+			}
 
+			// サブウインド
+			if (ImGui::BeginPopupModal("Create GameObject"))
+			{
+
+				ImGui::Text(u8"GameObject名前");
+				ImGui::InputText(" ", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
+
+				if (ImGui::Button(u8"作る"))
+				{
+					// 新しいGameObjectを作る
+					GameObject* gameObject = new GameObject();
+					getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
+
+					// サブウインドを閉める
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::SameLine();
+				if (ImGui::Button(u8"キャンセル"))
+				{
+					// サブウインドを閉める
+					ImGui::CloseCurrentPopup();
+				}
+				
+				ImGui::EndPopup();
+			}
+		}
+
+		// 各GameObjectを出す
+		{
+			for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
+			{
+				if (ImGui::TreeNode(u8"%s", it.first.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
+				{
+					// ImGuiで各GameObjectの各コンポーネントを出す
+					for (auto it2 : it.second->mComponentsMap)
+					{
+						if (ImGui::TreeNode(u8"%s", it2.first.c_str()))
+						{
+							ImGui::TreePop();
+						}
+					}
+					ImGui::TreePop();
+				}
+			}
+		}
+	}
+	ImGui::End();
 }

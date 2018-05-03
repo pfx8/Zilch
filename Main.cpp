@@ -45,8 +45,7 @@ void	draw(HWND hWnd);												// ウインド描画処理
 void	release(void);													// ウインド終了処理
 
 // ImGui用プロシージャ
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);	
-void	drawImGui(void);		// ImGui描画
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //*****************************************************************************
 //
@@ -340,7 +339,7 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	gConsole = new Console();
 	if (gConsole->isConsoleRun == false)
 	{
-		cout << "[Error] Set console ... fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Setup console ... fail!" << endl;	// エラーメッセージ
 		return E_FAIL;
 	}
 
@@ -397,16 +396,6 @@ void draw(HWND hWnd)
 
 	// バックバッファとフロントバッファの入れ替え
 	gD3DDevice->Present(NULL, NULL, NULL, NULL);
-}
-
-//*****************************************************************************
-//
-// ImGui描画
-//
-//*****************************************************************************
-void drawImGui(void)
-{
-	
 }
 
 //*****************************************************************************
