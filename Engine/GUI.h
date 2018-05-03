@@ -38,6 +38,8 @@ public:
 	void draw();											// ImGuiの描画処理
 	void systemGUI();										// システム操作GUI
 	void sceneGUI();										// シーンGUI
+	void createNewGameObjectGUI();							// 新しいGameObjectを作りメニュー
+	void drawEveryComponmentGUI();							// 各Componentサブメニューを描画
 };
 
 #endif // !_GUI_H_

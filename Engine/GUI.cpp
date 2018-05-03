@@ -167,59 +167,77 @@ void GUI::sceneGUI()
 	// シーンのマルチレベルメニュー
 	ImGui::Begin(u8"Scene");
 	{
-		// GameObjectを作りメニュ―
+		// GameObjectの作りメニュ―
+		createNewGameObjectGUI();
+
+		// 各GameObject
+		unsigned int IDs = 0;
+		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
 		{
-			if (ImGui::Button("Create GameObject"))
+			ImGui::PushID(IDs);
+			if (ImGui::TreeNode(u8"%s", it.first.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
-				// サブウインドを開く
-				ImGui::OpenPopup("Create GameObject");
-			}
-
-			// サブウインド
-			if (ImGui::BeginPopupModal("Create GameObject"))
-			{
-
-				ImGui::Text(u8"GameObject名前");
-				ImGui::InputText(" ", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
-
-				if (ImGui::Button(u8"作る"))
+				// GameObjectの各コンポーネントを出す
+				unsigned int ID2s = 0;
+				for (auto it2 : it.second->mComponentsMap)
 				{
-					// 新しいGameObjectを作る
-					GameObject* gameObject = new GameObject();
-					getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
-
-					// サブウインドを閉める
-					ImGui::CloseCurrentPopup();
-				}
-				ImGui::SameLine();
-				if (ImGui::Button(u8"キャンセル"))
-				{
-					// サブウインドを閉める
-					ImGui::CloseCurrentPopup();
-				}
-				
-				ImGui::EndPopup();
-			}
-		}
-
-		// 各GameObjectを出す
-		{
-			for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
-			{
-				if (ImGui::TreeNode(u8"%s", it.first.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
-				{
-					// ImGuiで各GameObjectの各コンポーネントを出す
-					for (auto it2 : it.second->mComponentsMap)
+					ImGui::PushID(ID2s);
+					if (ImGui::TreeNode(u8"%s", it2.first.c_str()))
 					{
-						if (ImGui::TreeNode(u8"%s", it2.first.c_str()))
-						{
-							ImGui::TreePop();
-						}
+						
+						ImGui::TreePop();
 					}
-					ImGui::TreePop();
+
+					ID2s++;
+					ImGui::PopID();
 				}
+				ImGui::TreePop();
 			}
+
+			IDs++;
+			ImGui::PopID();
 		}
+		
 	}
 	ImGui::End();
+}
+
+//*****************************************************************************
+//
+//  新しいGameObjectを作りメニュー
+//
+//*****************************************************************************
+void GUI::createNewGameObjectGUI()
+{
+	if (ImGui::Button("Create GameObject"))
+	{
+		// サブウインドを開く
+		ImGui::OpenPopup("Create GameObject");
+	}
+
+	// サブウインド
+	if (ImGui::BeginPopupModal("Create GameObject"))
+	{
+
+		ImGui::Text(u8"GameObject名前");
+		ImGui::InputText(" ", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
+
+		if (ImGui::Button(u8"作る"))
+		{
+			// 新しいGameObjectを作る
+			GameObject* gameObject = new GameObject();
+			getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
+
+			// サブウインドを閉める
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button(u8"キャンセル"))
+		{
+			// サブウインドを閉める
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
 }
