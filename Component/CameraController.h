@@ -36,6 +36,8 @@ private:
 	float		mZoomSpeed = 0.3f;											// ゾーンスピード
 	float		mMoveSpeed = 0.3f;											// カメラ移動スピード
 
+	int			mMouseIsMoving = 5;											// マウスの移動チェック量
+
 public:
 	GameObject*				mMainCamera;					// マインカメラ
 

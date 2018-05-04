@@ -39,7 +39,8 @@ public:
 	Camera();
 	~Camera();
 
-	void start();													// 初期化
-	void update();													// 更新
+	void start();								// 初期化
+	void update();								// 更新
+	void drawImGui();							// ImGuiでCameraのデータを出す
 };
 #endif // !_CAMERA_H_
