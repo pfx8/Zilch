@@ -45,7 +45,7 @@ void CameraController::start()
 void CameraController::zoom(float distance)
 {
 	// カメラを取得
-	Camera* mainCamera = mMainCamera->getComponent<Camera>("camera");
+	Camera* mainCamera = mMainCamera->getComponent<Camera>();
 
 	// 新しいoffset距離を計算、範囲を越えてなければoffsetを更新
 	D3DXVECTOR3 zoomDistance = mainCamera->mCameraFront * distance;
@@ -65,7 +65,7 @@ void CameraController::zoom(float distance)
 void CameraController::rotation(float verticalRadians, float horizonalRadians)
 {
 	// カメラを取得
-	Camera* mainCamera = mMainCamera->getComponent<Camera>("camera");
+	Camera* mainCamera = mMainCamera->getComponent<Camera>();
 	// ゲーム世界の3軸を取得
 	WorldVector worldVector;
 
@@ -97,7 +97,7 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 void CameraController::update()
 {
 	// mainCameraを取得
-	Camera* mainCamera = mMainCamera->getComponent<Camera>("camera");
+	Camera* mainCamera = mMainCamera->getComponent<Camera>();
 
 	// 目標からカメラまでの距離を計算
 	mOffsetFromTarget = mainCamera->mCameraPos - mainCamera->mTargetTrans->mPos;

@@ -159,6 +159,53 @@ void GUI::systemGUI()
 
 //*****************************************************************************
 //
+// シーンGUI
+//
+//*****************************************************************************
+void GUI::sceneGUI()
+{
+	// シーンのマルチレベルメニュー
+	ImGui::Begin(u8"Scene");
+	{
+		// GameObjectの作りメニュ―
+		createNewGameObjectGUI();
+
+		// 各GameObject
+		unsigned int IDs = 0;
+		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
+		{
+			ImGui::PushID(IDs);
+			if (ImGui::TreeNode(u8"%s", it.first.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
+			{
+				// GameObjectの各コンポーネントを出す
+				unsigned int ID2s = 0;
+				for (auto it2 : it.second->mComponentsMap)
+				{
+					ImGui::PushID(ID2s);
+					string name = it2.first.name();
+					name = name.substr(name.find_last_of(" ") + 1, name.size());
+					if (ImGui::TreeNode(u8"%s", name.c_str()))
+					{
+						drawEveryComponmentGUI(typeid(it2.second));
+						ImGui::TreePop();
+					}
+
+					ID2s++;
+					ImGui::PopID();
+				}
+				ImGui::TreePop();
+			}
+
+			IDs++;
+			ImGui::PopID();
+		}
+		
+	}
+	ImGui::End();
+}
+
+//*****************************************************************************
+//
 //  新しいGameObjectを作りメニュー
 //
 //*****************************************************************************
@@ -195,59 +242,4 @@ void GUI::createNewGameObjectGUI()
 
 		ImGui::EndPopup();
 	}
-}
-
-//*****************************************************************************
-//
-// シーンGUI
-//
-//*****************************************************************************
-void GUI::sceneGUI()
-{
-	// シーンのマルチレベルメニュー
-	ImGui::Begin(u8"Scene");
-	{
-		// GameObjectの作りメニュ―
-		createNewGameObjectGUI();
-
-		// 各GameObject
-		unsigned int IDs = 0;
-		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
-		{
-			ImGui::PushID(IDs);
-			if (ImGui::TreeNode(u8"%s", it.first.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
-			{
-				// GameObjectの各コンポーネントを出す
-				unsigned int ID2s = 0;
-				for (auto it2 : it.second->mComponentsMap)
-				{
-					ImGui::PushID(ID2s);
-					if (ImGui::TreeNode(u8"%s", it2.first.c_str()))
-					{
-						drawEveryComponmentGUI();
-						ImGui::TreePop();
-					}
-
-					ID2s++;
-					ImGui::PopID();
-				}
-				ImGui::TreePop();
-			}
-
-			IDs++;
-			ImGui::PopID();
-		}
-		
-	}
-	ImGui::End();
-}
-
-//*****************************************************************************
-//
-// 各Componentのメニューを描画
-//
-//*****************************************************************************
-void GUI::drawEveryComponmentGUI()
-{
-
 }

@@ -35,7 +35,7 @@ Billboard::~Billboard()
 void Billboard::start()
 {
 	// ビルボードの変換行列を取得
-	this->mTrans = this->mGameObject->getComponent<Transform>("trans");	
+	this->mTrans = this->mGameObject->getComponent<Transform>();	
 }
 
 //*****************************************************************************
@@ -46,7 +46,7 @@ void Billboard::start()
 void Billboard::update()
 {
 	// カメラからビルボードまでの方向ベクトルを計算
-	D3DXVECTOR3 cameraPos = this->mMainCamera->getComponent<Transform>("trans")->mPos;
+	D3DXVECTOR3 cameraPos = this->mMainCamera->getComponent<Transform>()->mPos;
 	D3DXVECTOR3 cameraDir = cameraPos - this->mTrans->mPos;
 	
 	// Y軸には関係ないのでｍここでY軸の数値を捨てて、正規化して方向ベクトルができる
@@ -54,7 +54,7 @@ void Billboard::update()
 	D3DXVec3Normalize(&cameraDir, &cameraDir);
 
 	// カメラのビューイング行列を取得
-	D3DXMATRIX viewMatrix = mMainCamera->getComponent<Camera>("camera")->mViewMatrix;
+	D3DXMATRIX viewMatrix = mMainCamera->getComponent<Camera>()->mViewMatrix;
 	// ビルボード行列を作る
 	D3DXMATRIX billboardMatrix;
 	D3DXMatrixIdentity(&billboardMatrix);

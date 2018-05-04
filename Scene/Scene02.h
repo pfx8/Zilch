@@ -11,6 +11,7 @@
 #include "Scene.h"
 #include "../Engine/Shader.h"
 #include "../Engine/Model/Mesh.h"
+#include "../GameObject/GameObject.h"
 
 //*****************************************************************************
 //

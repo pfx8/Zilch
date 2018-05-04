@@ -35,7 +35,7 @@ Scene::~Scene()
 void Scene::addGameObject(string name, GameObject* gameObject)
 {
 	gameObject->mScene = this;
-	mGameObjectMap.insert({ name, gameObject });
+	this->mGameObjectMap.insert({ name, gameObject });
 }
 
 //*****************************************************************************
@@ -45,9 +45,9 @@ void Scene::addGameObject(string name, GameObject* gameObject)
 //*****************************************************************************
 GameObject* Scene::getGameObject(string name)
 {
-	if (mGameObjectMap.find(name) != mGameObjectMap.end())
+	if (this->mGameObjectMap.find(name) != this->mGameObjectMap.end())
 	{
-		return mGameObjectMap[name];
+		return this->mGameObjectMap[name];
 	}
 	cout << "[Error] <GameObject> Get " << name << " failed!" << endl;
 	return nullptr;

@@ -29,6 +29,8 @@ public:
 
 	Component();
 	virtual ~Component();
+
+	virtual drawImGui() {};								// ImGui‚Åcomponent‚Ìƒf[ƒ^‚ğ•`‰æ
 };
 
 #endif // !_COMPONENT_H_

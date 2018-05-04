@@ -66,7 +66,7 @@ void Scene02::start()
 	light->mConstant = 1.0f;
 	light->mLinear = 0.9f;
 	light->mQuadratic = 0.032f;
-	pointLight->addComponent<PointLight>("light", light);
+	pointLight->addComponent<PointLight>(light);
 	this->addGameObject("pointLight", pointLight);
 
 	// mainCamera
@@ -78,34 +78,34 @@ void Scene02::start()
 	GameObject* player = new GameObject();
 	Transform* playerTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	playerTrans->mPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	player->addComponent<Transform>("trans", playerTrans);
+	player->addComponent<Transform>(playerTrans);
 	PlayerController* playerController = new PlayerController();
-	player->addComponent<PlayerController>("playerController", playerController);
+	player->addComponent<PlayerController>(playerController);
 	CameraController* cameraController = new CameraController();
 	cameraController->mMainCamera = mainCamera;
-	player->addComponent<CameraController>("cameraController", cameraController);
+	player->addComponent<CameraController>(cameraController);
 	MeshRender* playerMeshRender = new MeshRender();
 	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
 	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
 	playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
-	player->addComponent<MeshRender>("meshRender", playerMeshRender);
+	player->addComponent<MeshRender>(playerMeshRender);
 	this->addGameObject("player", player);
 
 	// mainCamera
 	camera->mTargetTrans = playerTrans;
-	mainCamera->addComponent<Camera>("camera", camera);
+	mainCamera->addComponent<Camera>(camera);
 	this->addGameObject("mainCamera", mainCamera);
 
 	// 床
 	GameObject* gridField = new GameObject();
 	Transform* gridFieldTrans = new Transform();							// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridFieldTrans->mScl = D3DXVECTOR3(6.0f, 6.0f, 6.0f);
-	gridField->addComponent<Transform>("trans", gridFieldTrans);
+	gridField->addComponent<Transform>(gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
 	gridFieldMeshRender->mModel = resource->getModel("field");				// リソースからモデルを取得
 	this->mMeshRenders.push_back(gridFieldMeshRender);						// MeshRenderをシーンに追加
-	gridField->addComponent<MeshRender>("meshRender", gridFieldMeshRender);
+	gridField->addComponent<MeshRender>(gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);
 }
 

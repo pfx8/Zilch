@@ -33,7 +33,7 @@ public:
 	Shader*										mShader;				// 現在レンダリング用なシェーダー
 	bool										mIsStart;				// スタートマーク
 	vector<MeshRender*>							mMeshRenders;			// メッシュレンダリング
-	map<string, GameObject*>					mGameObjectMap;			// 取得するために作ったGameObjectのマップ、順番が必要なのでMAPにしてる
+	map<string, GameObject*>					mGameObjectMap;			// 取得するために作ったGameObjectのマップ
 
 	Scene();
 	~Scene();

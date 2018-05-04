@@ -34,7 +34,7 @@ public:
 	Model* getModel(string name);									// モデルの名前によって取得
 	void createTexture(string const path);							// テクスチャデータを作る
 	Texture* getTexture(string name);								// テクスチャの名前によって取得
-	void createShader(string const path);		// シェーダーデータを作る
+	void createShader(string const path);							// シェーダーデータを作る
 	Shader* getShader(string techniqueName);						// シェーダーの名前によって取得
 };
 

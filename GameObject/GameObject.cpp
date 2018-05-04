@@ -44,16 +44,16 @@ void GameObject::start()
 //*****************************************************************************
 void GameObject::update()
 {
-	for (auto it : mComponents)
+	for (auto it : this->mComponentsMap)
 	{
-		if (it->mStart == true)
+		if (it.second->mStart == true)
 		{
-			it->update();
+			it.second->update();
 		}
 		else
 		{
-			it->start();
-			it->mStart = true;
+			it.second->start();
+			it.second->mStart = true;
 		}
 	}
 }

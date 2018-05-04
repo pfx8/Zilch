@@ -32,6 +32,7 @@ public:
 	Transform();
 	virtual ~Transform();
 
+	void drawImGui();
 };
 
 #endif // !_TRANSFORM_H_

@@ -22,8 +22,8 @@ class GameObject
 	friend class GUI;
 
 private:
-	vector<Component*>						mComponents;		// コンポーネントコンテナ
-	unordered_map<string, Component*>		mComponentsMap;		// 名前つきのコンポーネントマップ
+	// typeid(classPoint)を利用して各componentのtype_indexを取得、そしてマップに保存
+	map<type_index, Component*>		mComponentsMap;
 
 	void start();
 	void update();
@@ -37,40 +37,48 @@ public:
 	GameObject();
 	virtual ~GameObject();
 
-	// 任意コンポーネントを追加できるようにテンプレートを使った
-	// ここのtypenameはComponentクラスまたそれの継承クラス
-	template<typename T> void addComponent(string name, T* t)
+	//*****************************************************************************
+	//
+	// 任意ComponentをGameObjectに入れる
+	//
+	// ここの<typename T>はComponentクラスの継承クラス
+	//
+	//*****************************************************************************
+	template<typename T> void GameObject::addComponent(T* component)
 	{
 		// 添付したいコンポーネントの中に所属GameObjectのポインタを入れる
-		t->mGameObject = this;
+		component->mGameObject = this;
 
-		if (name == "meshRender")
+		// MeshRenderがあればGameObjectを描画
+		if (typeid(T) == typeid(MeshRender))
 		{
 			this->mDraw = true;
 		}
 
-		mComponents.push_back(t);
-		mComponentsMap.insert({ name, t });
+		mComponentsMap.insert({ typeid(T), component });
 	}
 
-	// 名前によってコンポーネント取得
-	// ここのtypenameはComponentクラスまたそれの継承クラス
-	template<typename T> T* getComponent(string name)
+	//*****************************************************************************
+	//
+	// クラスタイプによってComponentを戻る
+	//
+	// ここの<typename T>はComponentの継承クラス
+	//
+	// <説明> dynamic_cast<type*>(e)
+	// typeは必ずクラス型、eは必ずポインタ(nullptrはダメ)
+	// eは必ずtypeクラス型かtypeの継承クラス型
+	// そしてベースクラスの中にポリモーフィックな型が必要
+	// <戻り値> eのクラス型のポインタ
+	//
+	//*****************************************************************************
+	template<typename T> T* GameObject::getComponent()
 	{
-		if (mComponentsMap.find(name) != mComponentsMap.end())
+		if (this->mComponentsMap.find(typeid(T)) != this->mComponentsMap.end())
 		{
-			//------------------------------------------------------------
-			// dynamic_cast<type*>(e)
-			// typeは必ずクラス型、eは必ずポインタ(nullptrはダメ)
-			//
-			// 重要 : eは必ずtypeクラス型かtypeの継承クラス型
-			//
-			// 戻り値 : eのクラス型のポインタ
-			//------------------------------------------------------------
-			return dynamic_cast<T*>(mComponentsMap[name]);
+			return dynamic_cast<T*>(this->mComponentsMap[typeid(T)]);
 		}
 
-		cout << "[Error] <Component> Get " << name << " failed!" << endl;
+		cout << "[Error] <Component> Get " << typeid(T).name() << " failed!" << endl;
 		return nullptr;
 	}
 };

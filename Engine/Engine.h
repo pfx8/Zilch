@@ -33,6 +33,7 @@
 #include <vector>
 #include <map>
 #include <unordered_map>				// ペア関係だけで順番にする必要がないのでmapからunordered_mapに変更した
+#include <typeindex>					// typeid()のため
 
 // Assimp
 #include "../FrameWork/assimp/include/assimp/Importer.hpp"
@@ -51,6 +52,7 @@ using namespace std;
 // クラス宣言
 //
 //*****************************************************************************
+class GameObject;
 class GUI;
 class GameTimes;
 class MeshRender;

@@ -83,6 +83,7 @@ Texture* Resources::getTexture(string name)
 	{
 		return mTextures[name];
 	}
+
 	cout << "[Error] <Texture> Get " << name << " ... failed!" << endl;
 	return nullptr;
 }
@@ -122,6 +123,7 @@ Shader* Resources::getShader(string techniqueName)
 	{
 		return mShaders[techniqueName];
 	}
+
 	cout << "[Error] <Shader> Get technique " << techniqueName << " ... failed!" << endl;
 	return nullptr;
 }

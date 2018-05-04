@@ -13,6 +13,7 @@
 #include "../Engine/Engine.h"
 #include "../Engine/input.h"
 #include "../Engine/GameTimes.h"
+#include "../GameObject/GameObject.h"
 
 //*****************************************************************************
 //
