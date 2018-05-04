@@ -17,6 +17,9 @@ Shader::Shader(string path)
 	string name = path.substr(path.find_last_of("//") + 1, path.find_last_of("/n"));
 	cout << "<Shader> : "  << name;
 	loadEffectFile(path);
+
+	// デフォルトシェーディングモードを設定
+	this->mRenderType = RT_TEXTURE;
 }
 
 //*****************************************************************************

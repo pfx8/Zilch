@@ -45,9 +45,6 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	ImGui::StyleColorsDark();
 	// デフォルトフォント
 	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
-
-	// レンダリングモードの初期化
-	this->mCurrentShadingMode = 0;	// デフォルトはディフューズで
 }
 
 //*****************************************************************************
@@ -128,30 +125,6 @@ void GUI::systemGUI()
 				backBuffer->Release();
 			}
 			ImGui::Separator();
-		}
-
-		// シェーディング変更
-		{
-			// コンボボックスの幅を設定
-			ImGui::PushItemWidth(160);
-
-			ImGui::Text(u8"シェーディングモード"); ImGui::SameLine();
-			ImGui::Combo(" ", &this->mCurrentShadingMode, mShadingMode, IM_ARRAYSIZE(mShadingMode));
-			switch (this->mCurrentShadingMode)
-			{
-			case 0:
-				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_DIFFUSE;
-				break;
-			case 1:
-				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_NORMAL;
-				break;
-			case 2:
-				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_TEXTURE;
-				break;
-			case 3:
-				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_SHADING;
-				break;
-			}
 		}
 		ImGui::End();
 	}

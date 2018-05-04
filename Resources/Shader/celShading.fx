@@ -177,17 +177,17 @@ float4 modelPS(VSout vout) : COLOR
     texColor *= attenuation;
 
     // •`‰æ•û–@‚Ì‚ð‘I‘ð
-    if(renderType == 1)
+    if(renderType == 0)
     {
         // RT_DIFFUSE
         return float4(attenuation, attenuation, attenuation, attenuation);
     }
-    else if(renderType == 2)
+    else if(renderType == 1)
     {
         // RT_NORMAL
         return normal;
     }
-    else if(renderType == 3)
+    else if(renderType == 2)
     {
         // RT_TEXTURE
         return texColor;

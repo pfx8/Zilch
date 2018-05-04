@@ -34,7 +34,7 @@ MeshRender::~MeshRender()
 //*****************************************************************************
 void MeshRender::start()
 {
-	// シーンからレンダリングシェーダーを取得
+	// デフォルトシェーダーを取得
 	this->mShader = this->mGameObject->mScene->mShader;
 
 	// シャドーマップ
@@ -44,6 +44,9 @@ void MeshRender::start()
 		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<PointLight>()->mLightPos;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
+
+	// デフォルトシェーディングモードを設定
+	this->mCurrentShadingMode = this->mShader->mRenderType;
 }
 
 //*****************************************************************************
@@ -108,4 +111,33 @@ void MeshRender::draw()
 
 	// モデルを描画
 	this->mModel->draw(this->mShader, trans, camera);
+}
+
+//*****************************************************************************
+//
+// ImGuiでMeshRenderのデータを出す
+//
+//*****************************************************************************
+void MeshRender::drawImGui()
+{
+	// コンボボックスの幅を設定
+	ImGui::PushItemWidth(160);
+
+	ImGui::Text(u8"シェーディングモード");
+	ImGui::Combo(" ", &this->mCurrentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
+	switch (this->mCurrentShadingMode)
+	{
+	case 0:
+		this->mShader->mRenderType = RT_DIFFUSE;
+		break;
+	case 1:
+		this->mShader->mRenderType = RT_NORMAL;
+		break;
+	case 2:
+		this->mShader->mRenderType = RT_TEXTURE;
+		break;
+	case 3:
+		this->mShader->mRenderType = RT_SHADING;
+		break;
+	}
 }

@@ -26,8 +26,10 @@
 class MeshRender : public Component
 {
 private:
-	Shader*				mShader;				// 描画する用のシェーダー(byシーン)
+	const char*			mShadingMode[4] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング" };
 
+	Shader*				mShader;				// 描画する用のシェーダー(byシーン)
+	int					mCurrentShadingMode;	// シェーディングモード
 	void start();								// 初期化
 	void update();								// 更新
 
@@ -42,6 +44,7 @@ public:
 
 	void draw();								// メッシュを描画
 	void drawShadowMap();						// シャドウマップを描画
+	void drawImGui();							// ImGuiでMeshRenderのデータを出す
 };
 
 #endif // !_MESH_RENDER_H_

@@ -66,10 +66,13 @@ void Transform::drawImGui()
 	ImGui::Text(u8"ƒXƒP[ƒ‹(X,Y,Z)");
 	float* v1[3] = { &this->mScl.x, &this->mScl.y, &this->mScl.z };
 	ImGui::InputFloat3("Scl", *v1);
+	ImGui::Separator();
 
-	ImGui::Text(u8"‰ñ“](X,Y,Z)");
-	float* v2[3] = { &this->mRot.x, &this->mRot.y, &this->mRot.z };
-	ImGui::InputFloat3("Rot", *v2);
+	ImGui::Text(u8"‰ñ“]");
+	ImGui::SliderFloat("X", &this->mRot.x, -1.0f, 1.0f);
+	ImGui::SliderFloat("Y", &this->mRot.y, -1.0f, 1.0f);
+	ImGui::SliderFloat("Z", &this->mRot.z, -1.0f, 1.0f);
+	ImGui::Separator();
 
 	ImGui::Text(u8"ˆÊ’u(X,Y,Z)");
 	float* v3[3] = { &this->mPos.x, &this->mPos.y, &this->mPos.z };
