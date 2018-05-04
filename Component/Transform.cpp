@@ -55,3 +55,23 @@ void Transform::update()
 	//D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxTranslate);
 	this->mWorldMatrix = this->mWorldMatrix * mtxTranslate;
 }
+
+//*****************************************************************************
+//
+// ImGuiでTransformのデータを出す
+//
+//*****************************************************************************
+void Transform::drawImGui()
+{
+	ImGui::Text(u8"スケール(X,Y,Z)");
+	float* v1[3] = { &this->mScl.x, &this->mScl.y, &this->mScl.z };
+	ImGui::InputFloat3("Scl", *v1);
+
+	ImGui::Text(u8"回転(X,Y,Z)");
+	float* v2[3] = { &this->mRot.x, &this->mRot.y, &this->mRot.z };
+	ImGui::InputFloat3("Rot", *v2);
+
+	ImGui::Text(u8"位置(X,Y,Z)");
+	float* v3[3] = { &this->mPos.x, &this->mPos.y, &this->mPos.z };
+	ImGui::InputFloat3("Tran", *v3);
+}

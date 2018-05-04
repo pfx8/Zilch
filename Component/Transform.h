@@ -32,7 +32,7 @@ public:
 	Transform();
 	virtual ~Transform();
 
-	void drawImGui();
+	void drawImGui();						// ImGuiでTransformのデータを出す
 };
 
 #endif // !_TRANSFORM_H_

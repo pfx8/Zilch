@@ -183,10 +183,10 @@ void GUI::sceneGUI()
 				{
 					ImGui::PushID(ID2s);
 					string name = it2.first.name();
-					name = name.substr(name.find_last_of(" ") + 1, name.size());
+					name = name.substr(name.find_last_of(" ") + 1, name.size());		// exp: class xxx -> xxx
 					if (ImGui::TreeNode(u8"%s", name.c_str()))
 					{
-						drawEveryComponmentGUI(typeid(it2.second));
+						it2.second->drawImGui();
 						ImGui::TreePop();
 					}
 

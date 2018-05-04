@@ -30,7 +30,7 @@ public:
 	Component();
 	virtual ~Component();
 
-	virtual drawImGui() {};								// ImGuiでcomponentのデータを描画
+	virtual void drawImGui() {};						// ImGuiでcomponentのデータを出す
 };
 
 #endif // !_COMPONENT_H_
