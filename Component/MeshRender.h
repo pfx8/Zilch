@@ -45,6 +45,7 @@ public:
 	void draw();								// メッシュを描画
 	void drawShadowMap();						// シャドウマップを描画
 	void drawImGui();							// ImGuiでMeshRenderのデータを出す
+	void modelInformationGUI();					// モデル情報ウインド
 };
 
 #endif // !_MESH_RENDER_H_

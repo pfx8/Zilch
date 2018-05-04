@@ -111,6 +111,26 @@ void CameraController::update()
 
 //*****************************************************************************
 //
+// 位置移動
+//
+//*****************************************************************************
+void CameraController::move(float distance, bool isVertical)
+{
+	// カメラを取得
+	Camera* mainCamera = mMainCamera->getComponent<Camera>();
+
+	if (isVertical)
+	{
+		mainCamera->mCameraPos.z += distance;
+	}
+	else
+	{
+		mainCamera->mCameraPos.x += distance;
+	}
+}
+
+//*****************************************************************************
+//
 // 入力更新
 //
 //*****************************************************************************
@@ -146,4 +166,35 @@ void CameraController::inputUpdate()
 	{
 		zoom(-this->mZoomSpeed);
 	}
+
+	// カメラ移動(前)
+	if (GetKeyboardPress(DIK_W) || IsButtonPressed(0, LEFT_STICK_UP))
+	{
+		move(this->mMoveSpeed, false);
+	}
+	// カメラ移動(後)
+	if (GetKeyboardPress(DIK_S) || IsButtonPressed(0, LEFT_STICK_DOWN))
+	{
+		move(-this->mMoveSpeed, false);
+	}
+	// カメラ移動(左)
+	if (GetKeyboardPress(DIK_A) || IsButtonPressed(0, LEFT_STICK_LEFT))
+	{
+		move(this->mMoveSpeed, true);
+	}
+	// カメラ移動(右)
+	if (GetKeyboardPress(DIK_D) || IsButtonPressed(0, LEFT_STICK_RIGHT))
+	{
+		move(-this->mMoveSpeed, true);
+	}
+}
+
+//*****************************************************************************
+//
+// ImGuiでCameraControllerのデータを出す
+//
+//*****************************************************************************
+void CameraController::drawImGui()
+{
+	ImGui::TextColored(ImVec4(1, 0, 0, 0), "詳しいはプログラムを見てください");
 }

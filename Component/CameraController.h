@@ -34,6 +34,7 @@ private:
 	float		mRotateSpeedHorizonal = 4.0f;								// 水平移動スピード
 	float		mRotateSpeedVertical = 2.0f;								// 垂直移動スピード
 	float		mZoomSpeed = 0.3f;											// ゾーンスピード
+	float		mMoveSpeed = 0.3f;											// カメラ移動スピード
 
 public:
 	GameObject*				mMainCamera;					// マインカメラ
@@ -46,5 +47,7 @@ public:
 	void inputUpdate();												// 入力更新
 	void zoom(float distance);										// ズーム調整
 	void rotation(float verticalRadians, float horizonalRadians);	// 回転移動
+	void move(float distance, bool isVertical);						// 位置移動
+	void drawImGui();												// ImGuiでCameraControllerのデータを出す
 };
 #endif // !_CAMERA_H_

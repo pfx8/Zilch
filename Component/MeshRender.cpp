@@ -120,24 +120,51 @@ void MeshRender::draw()
 //*****************************************************************************
 void MeshRender::drawImGui()
 {
-	// コンボボックスの幅を設定
-	ImGui::PushItemWidth(160);
-
-	ImGui::Text(u8"シェーディングモード");
-	ImGui::Combo(" ", &this->mCurrentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
-	switch (this->mCurrentShadingMode)
+	// レンダリングモードを選択
 	{
-	case 0:
-		this->mShader->mRenderType = RT_DIFFUSE;
-		break;
-	case 1:
-		this->mShader->mRenderType = RT_NORMAL;
-		break;
-	case 2:
-		this->mShader->mRenderType = RT_TEXTURE;
-		break;
-	case 3:
-		this->mShader->mRenderType = RT_SHADING;
-		break;
+		// コンボボックスの幅を設定
+		ImGui::PushItemWidth(160);
+
+		ImGui::Text(u8"シェーディングモード");
+		ImGui::Combo(" ", &this->mCurrentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
+		switch (this->mCurrentShadingMode)
+		{
+		case 0:
+			this->mShader->mRenderType = RT_DIFFUSE;
+			break;
+		case 1:
+			this->mShader->mRenderType = RT_NORMAL;
+			break;
+		case 2:
+			this->mShader->mRenderType = RT_TEXTURE;
+			break;
+		case 3:
+			this->mShader->mRenderType = RT_SHADING;
+			break;
+		}
+	}
+	ImGui::Separator();
+
+	// モデル情報ウインド
+	modelInformationGUI();
+}
+
+//*****************************************************************************
+//
+// モデル情報ウインド
+//
+//*****************************************************************************
+void MeshRender::modelInformationGUI()
+{
+	if (ImGui::Button(u8"モデル情報"))
+	{
+		ImGui::OpenPopup(u8"モデル情報");
+	}
+
+	// サブウインド
+	if (ImGui::BeginPopupModal(u8"モデル情報"))
+	{
+
+		ImGui::EndPopup();
 	}
 }
