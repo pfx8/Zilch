@@ -47,6 +47,10 @@ void Scene02::start()
 	resource->createModel("Resources/Model/Hixo.fbx", MT_withBone);
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
+	// Hand -- bone testing
+	resource->createTexture("Resources/Texture/Hand/HAND_C.jpg");
+	resource->createModel("Resources/Model/Hand.fbx", MT_withBone);
+
 	// shader
 	resource->createShader("Resources/Shader/phongShading.fx");
 	resource->createShader("Resources/Shader/celShading.fx");
@@ -79,8 +83,6 @@ void Scene02::start()
 	Transform* playerTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	playerTrans->mPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	player->addComponent<Transform>(playerTrans);
-	PlayerController* playerController = new PlayerController();
-	player->addComponent<PlayerController>(playerController);
 	CameraController* cameraController = new CameraController();
 	cameraController->mMainCamera = mainCamera;
 	player->addComponent<CameraController>(cameraController);
@@ -107,6 +109,18 @@ void Scene02::start()
 	this->mMeshRenders.push_back(gridFieldMeshRender);						// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>(gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);
+
+	// Hand -- bone testing
+	GameObject* hand = new GameObject();
+	Transform* handTrans = new Transform();									// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	handTrans->mPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	hand->addComponent<Transform>(handTrans);
+	hand->addComponent<CameraController>(cameraController);
+	MeshRender* handMeshRender = new MeshRender();
+	handMeshRender->mModel = resource->getModel("Hand");					// リソースからモデルを取得
+	this->mMeshRenders.push_back(handMeshRender);							// MeshRenderをシーンに追加
+	hand->addComponent<MeshRender>(handMeshRender);
+	this->addGameObject("hand", hand);
 }
 
 //*****************************************************************************

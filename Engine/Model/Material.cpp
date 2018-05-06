@@ -103,16 +103,17 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		Resources* resource = getResources();
 		Texture* texture = resource->getTexture(fileName.c_str());
 			
-		if (texture->mTex == nullptr)
-		{
-			cout << "[Error] Add <Texture> " << fileName.c_str() << " in <Material> ... failed!" << endl;
-		}
-		else
-		{
-			// テクスチャを保存
-			this->mTextures.push_back(texture);
-			// cout << "         <Texture Name> : [" << fileName.c_str() << "]" << endl;
-		}
-		
+		//if (texture->mTex == nullptr)
+		//{
+		//	cout << "[Error] Get <Texture> " << fileName.c_str() << " in <Material> ... failed!" << endl;
+		//}
+		//else
+		//{
+		//	// テクスチャを保存
+		//	this->mTextures.push_back(texture);
+		//}
+
+		// テクスチャを保存
+		this->mTextures.push_back(texture);
 	}
 }

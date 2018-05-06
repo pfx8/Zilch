@@ -42,8 +42,8 @@ public:
 
 	void addAnimation(Animation* animation);						// アニメーションデータを読み込み
 	void updateAnimation(float timeInSeconds);						// アニメーション更新
-	void draw(Shader* shader);										// モデルのシャドウマップを描画
-	void draw(Shader* shader, Transform* trans, Camera* camera);	// モデルを描画
+	void drawShadow(Shader* shader);								// モデルのシャドウマップを描画
+	void drawModel(Shader* shader);									// モデルを描画
 	void traverseNode(Node* node, unsigned int level);				// 骨ノードをトラバース
 };
 

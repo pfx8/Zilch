@@ -110,7 +110,7 @@ void MeshRender::draw()
 	this->mShader->mEffect->SetInt("renderType", this->mShader->mRenderType);
 
 	// ƒ‚ƒfƒ‹‚ð•`‰æ
-	this->mModel->draw(this->mShader, trans, camera);
+	this->mModel->drawModel(this->mShader);
 }
 
 //*****************************************************************************

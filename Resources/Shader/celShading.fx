@@ -174,7 +174,7 @@ float4 modelPS(VSout vout) : COLOR
     float distance = length(float4(lightPos, 1.0f) - vout.worldPos);
     float attenuation = 1.0f / (lightConstant + lightLinear * distance + lightQuadratic * (distance * distance));
     float4 attColor = attenuation * lightColor;
-    texColor *= attenuation;
+    float4 texColorFin = texColor * attenuation;
 
     // 描画方法のを選択
     if(renderType == 0)
@@ -194,7 +194,7 @@ float4 modelPS(VSout vout) : COLOR
     }
 
     // RT_SHADING -- デフォルト
-    return texColor;
+    return texColorFin;
 }
 
 //*****************************************************************************

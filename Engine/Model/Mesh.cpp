@@ -465,7 +465,7 @@ HRESULT Mesh::SetupMesh()
 // メッシュのシャドウマップを描画
 //
 //*****************************************************************************
-void Mesh::draw(Shader* shader)
+void Mesh::drawShadow(Shader* shader)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
@@ -503,7 +503,7 @@ void Mesh::draw(Shader* shader)
 // メッシュをドロー
 //
 //*****************************************************************************
-void Mesh::draw(Shader* shader, Transform* trans, Camera* camera)
+void Mesh::drawModel(Shader* shader)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 

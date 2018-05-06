@@ -81,7 +81,7 @@ void ShadowMap::draw(Model* model)
 
 	// シャドウマップを描画
 	this->mShader->mEffect->SetMatrix("worldViewProjectionShadow", &this->mShadowWVP);
-	model->draw(this->mShader);
+	model->drawShadow(this->mShader);
 
 	// 保存シャドウマップ
 	if (GetKeyboardTrigger(DIK_F6))			// key F6

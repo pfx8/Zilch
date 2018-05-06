@@ -113,20 +113,6 @@ void Model::updateAnimation(float timeInSeconds)
 
 //*****************************************************************************
 //
-// モデルのシャドウマップを描画
-//
-//*****************************************************************************
-void Model::draw(Shader* shader)
-{
-	// 各メッシュのシャドウマップを描画
-	for (auto it : mMeshes)
-	{
-		it->draw(shader);
-	}
-}
-
-//*****************************************************************************
-//
 // ノードをトラバース
 //
 //*****************************************************************************
@@ -152,7 +138,7 @@ void Model::traverseNode(Node* node, unsigned int level)
 // モデルを描画
 //
 //*****************************************************************************
-void Model::draw(Shader* shader, Transform* trans, Camera* camera)
+void Model::drawModel(Shader* shader)
 {
 	D3DXMATRIX mat[87] = { };
 
@@ -171,6 +157,20 @@ void Model::draw(Shader* shader, Transform* trans, Camera* camera)
 	// 各メッシュを描画
 	for (auto it : mMeshes)
 	{
-		it->draw(shader, trans, camera);
+		it->drawModel(shader);
+	}
+}
+
+//*****************************************************************************
+//
+// モデルのシャドウマップを描画
+//
+//*****************************************************************************
+void Model::drawShadow(Shader* shader)
+{
+	// 各メッシュのシャドウマップを描画
+	for (auto it : mMeshes)
+	{
+		it->drawShadow(shader);
 	}
 }
