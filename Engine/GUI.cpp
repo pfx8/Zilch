@@ -45,6 +45,8 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	ImGui::StyleColorsDark();
 	// デフォルトフォント
 	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+
+	this->mIsWireframe = false;
 }
 
 //*****************************************************************************
@@ -74,11 +76,22 @@ void GUI::draw()
 
 	// シーンGUI
 	sceneGUI();
-	
 
 	// ImGuiを描画
-	ImGui::Render();
-	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+	if (this->mIsWireframe)
+	{
+		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+		ImGui::Render();
+		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+
+		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	}
+	else
+	{
+		ImGui::Render();
+		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+	}
 }
 
 //*****************************************************************************
@@ -115,12 +128,14 @@ void GUI::systemGUI()
 			if (ImGui::Button("WIREFRAME"))
 			{
 				getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+				this->mIsWireframe = true;
 			}
 			// 面を塗りつぶす
 			ImGui::Text(u8"ポリゴンモード      "); ImGui::SameLine();
 			if (ImGui::Button("SOLID"))
 			{
 				getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+				this->mIsWireframe = false;
 			}
 			ImGui::Separator();
 		}
