@@ -83,6 +83,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 	}
 
 	// ノードメッセージを保存
+	cout << scene->mNumAnimations << endl;
 
 	// 子供ノードを同じように処理する
 	for (unsigned int count = 0; count < node->mNumChildren; count++)

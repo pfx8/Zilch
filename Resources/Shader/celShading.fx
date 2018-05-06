@@ -72,7 +72,6 @@ VSout outLineVS(float3 pos : POSITION0,
     // まずは頂点の方向ベクトルを計算
     float3 outLineDir = normalize(pos);
     // 頂点の方向ベクトルと法線ベクトルの外積を計算
-    // 
     float D = dot(outLineDir, nor);
     outLineDir *= sign(D);
     // outLineの最終方向を計算

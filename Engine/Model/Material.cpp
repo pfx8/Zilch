@@ -81,7 +81,7 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 {
 	for (unsigned int count = 0; count < mat->GetTextureCount(type); count++)
 	{
-		aiString str;																// モデルから読み込まれたテクスチャファイルの名前
+		aiString str;										// モデルから読み込まれたテクスチャファイルの名前
 		mat->getTexture(type, count, &str);					// テクスチャパスを読み込み
 
 		//////////////////////////////////////////////////暫定対策//////////////////////////////////////////////////
@@ -103,17 +103,14 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		Resources* resource = getResources();
 		Texture* texture = resource->getTexture(fileName.c_str());
 			
-		//if (texture->mTex == nullptr)
-		//{
-		//	cout << "[Error] Get <Texture> " << fileName.c_str() << " in <Material> ... failed!" << endl;
-		//}
-		//else
-		//{
-		//	// テクスチャを保存
-		//	this->mTextures.push_back(texture);
-		//}
-
-		// テクスチャを保存
-		this->mTextures.push_back(texture);
+		if (texture->mTex == nullptr)
+		{
+			cout << "[Error] Get <Texture> " << fileName.c_str() << " in <Material> ... failed!" << endl;
+		}
+		else
+		{
+			// テクスチャを保存
+			this->mTextures.push_back(texture);
+		}
 	}
 }

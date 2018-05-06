@@ -30,6 +30,7 @@ private:
 
 	Shader*				mShader;				// 描画する用のシェーダー(byシーン)
 	int					mCurrentShadingMode;	// シェーディングモード
+
 	void start();								// 初期化
 	void update();								// 更新
 
