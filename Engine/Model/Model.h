@@ -24,13 +24,13 @@
 class Model
 {
 private:
-	enum MeshType						mMeshType;					// メッシュタイプ
-	unsigned int						mCurAnimation = 0;			// 現在のアニメーション番号
-
 	HRESULT loadModel(string const &path);							// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
 
 public:
+	enum MeshType					mMeshType;						// メッシュタイプ
+	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号
+
 	string							mName;							// モデル名前
 	vector<Mesh*>					mMeshes;						// メッシュデータ
 	vector<Animation*>				mAnimationes;					// アニメーションデータ
@@ -44,8 +44,7 @@ public:
 	void updateAnimation(float timeInSeconds);						// アニメーション更新
 	void draw(Shader* shader);										// モデルのシャドウマップを描画
 	void draw(Shader* shader, Transform* trans, Camera* camera);	// モデルを描画
-	void traverseNode(Node* node, unsigned int level);				// ノードをトラバース
-	void drawImGui();												// モデルの情報をImGuiで出す
+	void traverseNode(Node* node, unsigned int level);				// 骨ノードをトラバース
 };
 
 #endif // !_MODEL_H_

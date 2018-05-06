@@ -19,7 +19,6 @@
 class PointLight : public Component
 {
 private:
-	void update();
 
 public:
 	// ポイントライト減衰公式
@@ -38,6 +37,8 @@ public:
 
 	PointLight();
 	virtual ~PointLight();
+
+	void drawImGui();						// ImGuiでPointLightのデータを出す
 };
 
 #endif // !_PONIT_LIGHT_H_

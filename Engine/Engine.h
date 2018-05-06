@@ -54,9 +54,9 @@ using namespace std;
 //*****************************************************************************
 class GameObject;
 class GUI;
+class Scene;
 class GameTimes;
 class MeshRender;
-class Scene;
 class Component;
 class Texture;
 class Material;
@@ -103,12 +103,12 @@ class SceneManager;
 // —ñ‹“‘Ì’è‹`
 //
 //*****************************************************************************
-enum RenderStatus
-{
-	RS_withoutLight,
-	RS_withLight,
-	RS_withNormalMap,
-};
+//enum RenderStatus
+//{
+//	RS_withoutLight,
+//	RS_withLight,
+//	RS_withNormalMap,
+//};
 
 //*****************************************************************************
 //

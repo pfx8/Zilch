@@ -29,15 +29,12 @@ PointLight::~PointLight()
 
 //*****************************************************************************
 //
-// ライト更新
+// ImGuiでPointLightのデータを出す
 //
 //*****************************************************************************
-void PointLight::update()
+void PointLight::drawImGui()
 {
-	// ライト属性
-	ImGui::Begin("Light");
-	ImGui::Text("PointLight");
+	ImGui::Text(u8"ポイントライト");
 	float* v[3] = { &this->mLightPos.x, &this->mLightPos.y, &this->mLightPos.z };
-	ImGui::InputFloat3("position", *v);
-	ImGui::End();
+	ImGui::InputFloat3("pos", *v);
 }

@@ -169,7 +169,7 @@ void GUI::systemGUI()
 void GUI::sceneGUI()
 {
 	// シーンのマルチレベルメニュー
-	ImGui::Begin(u8"Scene");
+	ImGui::Begin(u8"Scene"/*, nullptr, ImGuiWindowFlags_NoResize*/);
 	{
 		// GameObjectの作りメニュ―
 		createNewGameObjectGUI();

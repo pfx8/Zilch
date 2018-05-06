@@ -99,4 +99,5 @@ public:
 	void draw(Shader* shader);										// メッシュのシャドウマップを描画
 	void draw(Shader* shader, Transform* trans, Camera* camera);	// メッシュを描画
 };
+
 #endif // !_MESH_H_

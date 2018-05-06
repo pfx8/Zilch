@@ -143,28 +143,50 @@ void MeshRender::drawImGui()
 			break;
 		}
 	}
-	ImGui::Separator();
 
-	// モデル情報ウインド
+	// モデル情報
 	modelInformationGUI();
 }
 
 //*****************************************************************************
 //
-// モデル情報ウインド
+// モデル情報
 //
 //*****************************************************************************
 void MeshRender::modelInformationGUI()
 {
-	if (ImGui::Button(u8"モデル情報"))
+	if (ImGui::TreeNode(u8"モデル"))
 	{
-		ImGui::OpenPopup(u8"モデル情報");
-	}
+		// メッシュ情報
+		for (auto it : this->mModel->mMeshes)
+		{
+			ImGui::Text("<Mesh> : %s", it->mName.c_str());
 
-	// サブウインド
-	if (ImGui::BeginPopupModal(u8"モデル情報"))
-	{
+			// material
+			for (auto it1 : it->mMaterials)
+			{
+				ImGui::Text("  <Material> : %s", it1->mName.c_str());
 
-		ImGui::EndPopup();
+				// texture
+				for (auto it2 : it1->mTextures)
+				{
+					ImGui::Text("    <Texture>: %s", it2->mName.c_str());
+				}
+			}
+		}
+
+		// 骨情報
+		if (this->mModel->mMeshType == MT_withBone)
+		{
+			if (ImGui::TreeNode(u8"ボーン"))
+			{
+				unsigned int level = 0;
+				this->mModel->traverseNode(*(this->mModel->mAnimationes.at(0)->mNode.end() - 1), level);
+
+				ImGui::TreePop();
+			}
+		}
+
+		ImGui::TreePop();
 	}
 }
