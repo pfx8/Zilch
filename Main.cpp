@@ -103,7 +103,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	int y = (rect.bottom - rect.top - SCREEN_HEIGHT) / 2;
 
 	// ウィンドウの作成
-	hWnd = CreateWindow(CLASS_NAME,
+	hWnd = CreateWindowEx
+		(0,
+		CLASS_NAME,
 		WINDOW_NAME,
 		WS_OVERLAPPEDWINDOW,
 		x,																			// ウィンドウの左座標
@@ -356,6 +358,9 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	// GUIを初期化
 	gGUI = new GUI();
 	gGUI->start(hWnd, gD3DDevice);
+
+	// test
+	cout << GetSystemMetrics(SM_CXDLGFRAME) * 2 << endl;
 
 	return S_OK;
 }

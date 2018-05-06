@@ -82,8 +82,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, this->mBones, scene));
 	}
 
-	// ノードメッセージを保存
-	cout << scene->mNumAnimations << endl;
+	// もしアニメーションがあれば
 
 	// 子供ノードを同じように処理する
 	for (unsigned int count = 0; count < node->mNumChildren; count++)

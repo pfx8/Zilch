@@ -71,6 +71,10 @@ bool GUI::IsAnyImguiFocused()
 //*****************************************************************************
 void GUI::draw()
 {
+	// ImGuiバッファサイズを確定
+	ImGui::GetIO().DisplaySize.x = SCREEN_WIDTH;
+	ImGui::GetIO().DisplaySize.y = SCREEN_HEIGHT;
+
 	//システム操作GUI
 	systemGUI();
 

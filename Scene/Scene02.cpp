@@ -86,12 +86,12 @@ void Scene02::start()
 	CameraController* cameraController = new CameraController();
 	cameraController->mMainCamera = mainCamera;
 	player->addComponent<CameraController>(cameraController);
-	MeshRender* playerMeshRender = new MeshRender();
-	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
-	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
-	playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
-	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
-	player->addComponent<MeshRender>(playerMeshRender);
+	//MeshRender* playerMeshRender = new MeshRender();
+	//playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
+	//playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
+	//playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
+	//this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
+	//player->addComponent<MeshRender>(playerMeshRender);
 	this->addGameObject("player", player);
 
 	// mainCamera
