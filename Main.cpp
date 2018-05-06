@@ -367,8 +367,13 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 //*****************************************************************************
 void updata(HWND hWnd, int cmd)
 {
+	if (gGUI->IsAnyImguiFocused() == false)
+	{
+		// ImGuiを操作してない時だけアプリケーションの操作を更新
+		UpdateInput();				// 入力更新
+	}
+
 	gGameTimes->update();			// ゲームタイムを更新
-	UpdateInput();					// 入力更新
 	gSceneManager->update();		// シンーを更新する
 }
 

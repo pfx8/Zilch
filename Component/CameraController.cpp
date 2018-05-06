@@ -157,12 +157,12 @@ void CameraController::inputUpdate()
 	}
 
 	// ズーム拡大
-	if (GetMouseZ() > 0 || IsButtonPressed(0, BUTTON_L1))
+	if (GetMouseZ() > this->mMouseIsMoving || IsButtonPressed(0, BUTTON_L1))
 	{
 		zoom(this->mZoomSpeed);
 	}
 	// ズーム縮小
-	if (GetMouseZ() < 0 || IsButtonPressed(0, BUTTON_R1))
+	if (GetMouseZ() < -this->mMouseIsMoving || IsButtonPressed(0, BUTTON_R1))
 	{
 		zoom(-this->mZoomSpeed);
 	}
