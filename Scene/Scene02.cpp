@@ -62,17 +62,19 @@ void Scene02::start()
 
 	// ライト
 	GameObject* pointLight = new GameObject();
-	PointLight* light = new PointLight;
+	Light* light = new Light;
+	// ライトタイプを指定
+	light->mLightType = LT_point;
 	//light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
 	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	light->mLightPos = D3DXVECTOR3(0.0f, 4.0f, 0.0f);
 	// ライト範囲は50ｍにする
 	// data by http://wiki.ogre3d.org/tiki-index.php?page=-Point+Light+Attenuation
-	light->mConstant = 1.0f;
-	light->mLinear = 0.9f;
-	light->mQuadratic = 0.032f;
-	pointLight->addComponent<PointLight>(light);
-	this->addGameObject("pointLight", pointLight);
+	light->mPointLight.constant = 1.0f;
+	light->mPointLight.linear = 0.9f;
+	light->mPointLight.quadratic = 0.032f;
+	pointLight->addComponent<Light>(light);
+	this->addGameObject("light", pointLight);
 
 	// mainCamera
 	GameObject* mainCamera = new GameObject();
@@ -81,7 +83,7 @@ void Scene02::start()
 
 	// player
 	GameObject* player = new GameObject();
-	Transform* playerTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	Transform* playerTrans = new Transform();									// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	player->addComponent<Transform>(playerTrans);
 	CameraController* cameraController = new CameraController();
 	cameraController->mMainCamera = mainCamera;

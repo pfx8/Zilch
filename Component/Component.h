@@ -19,6 +19,7 @@
 class Component
 {
 	friend class GameObject;
+
 private:
 	virtual void start() {};
 	virtual void update() {};

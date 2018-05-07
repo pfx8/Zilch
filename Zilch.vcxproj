@@ -23,9 +23,9 @@
     <ClCompile Include="Component\Camera.cpp" />
     <ClCompile Include="Component\CameraController.cpp" />
     <ClCompile Include="Component\Component.cpp" />
+    <ClCompile Include="Component\Light.cpp" />
     <ClCompile Include="Component\MeshRender.cpp" />
     <ClCompile Include="Component\PlayerController.cpp" />
-    <ClCompile Include="Component\PointLight.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
     <ClCompile Include="Component\UVAnimation.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
@@ -61,9 +61,9 @@
     <ClInclude Include="Component\Camera.h" />
     <ClInclude Include="Component\CameraController.h" />
     <ClInclude Include="Component\Component.h" />
+    <ClInclude Include="Component\Light.h" />
     <ClInclude Include="Component\MeshRender.h" />
     <ClInclude Include="Component\PlayerController.h" />
-    <ClInclude Include="Component\PointLight.h" />
     <ClInclude Include="Component\Transform.h" />
     <ClInclude Include="Component\UVAnimation.h" />
     <ClInclude Include="Engine\Audio.h" />

@@ -1,18 +1,18 @@
 //*****************************************************************************
 //
-// ポイントライト処理 [PointLight.cpp]
+// ライト処理 [Light.cpp]
 //
 // Author : リョウ　カンシン
 //
 //*****************************************************************************
-#include "PointLight.h"
+#include "Light.h"
 
 //*****************************************************************************
 //
 // コンストラクタ
 //
 //*****************************************************************************
-PointLight::PointLight()
+Light::Light()
 {
 
 }
@@ -22,9 +22,19 @@ PointLight::PointLight()
 // デストラクタ
 //
 //*****************************************************************************
-PointLight::~PointLight()
+Light::~Light()
 {
 
+}
+
+//*****************************************************************************
+//
+// 初期化
+//
+//*****************************************************************************
+void Light::start()
+{
+	this->mCurrentLightType = this->mLightType;
 }
 
 //*****************************************************************************
@@ -32,9 +42,15 @@ PointLight::~PointLight()
 // ImGuiでPointLightのデータを出す
 //
 //*****************************************************************************
-void PointLight::drawImGui()
+void Light::drawImGui()
 {
 	ImGui::Text(u8"ポイントライト");
-	float* v[3] = { &this->mLightPos.x, &this->mLightPos.y, &this->mLightPos.z };
-	ImGui::InputFloat3("pos", *v);
+	float* v1[3] = { &this->mLightPos.x, &this->mLightPos.y, &this->mLightPos.z };
+	ImGui::InputFloat3("pos", *v1);
+	ImGui::Separator();
+
+	ImGui::Text(u8"ポイントライト減衰パラメータ");
+	ImGui::InputFloat("Constant", &this->mPointLight.constant);
+	ImGui::InputFloat("Linear", &this->mPointLight.linear);
+	ImGui::InputFloat("Quadratic", &this->mPointLight.quadratic);
 }
