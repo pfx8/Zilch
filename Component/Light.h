@@ -16,6 +16,11 @@
 // 各ライト構造体
 //
 //*****************************************************************************
+struct DirectionLight
+{
+	D3DXVECTOR3			direction;
+};
+
 struct PointLight
 {
 	// ポイントライト減衰公式
@@ -37,11 +42,10 @@ struct PointLight
 //*****************************************************************************
 enum LightType
 {
-	LT_point,
 	LT_direction,
+	LT_point,
 	LT_flash,
 };
-
 
 //*****************************************************************************
 //
@@ -52,6 +56,7 @@ class Light : public Component
 {
 private:
 	int					mCurrentLightType;
+	const char*			mLight[3] = { u8"指向性ライト", u8"ポイントライト", u8"フラッシュライト"};
 
 	void start();		// 初期化
 
@@ -61,11 +66,13 @@ public:
 	D3DXVECTOR4			mLightColor;		// ライトのカラー
 
 	PointLight			mPointLight;		// ポイントライト
+	DirectionLight		mDirectionLight;	// 方向ライト
 
 	Light();
 	virtual ~Light();
 
 	void drawImGui();						// ImGuiでPointLightのデータを出す
+	void lightControllerImGui();			// 各ライトの調整ImGui
 };
 
 #endif // !_LIGHT_H_

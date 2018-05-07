@@ -8,6 +8,7 @@
 //
 //*****************************************************************************
 #include "publicValue.fx"
+#include "lightingProcess.fx"
 #include "outLine.fx"
 
 //*****************************************************************************
@@ -77,14 +78,8 @@ float4 modelPS(outputVS oVS) : COLOR
 {
     // テクスチャによって色をつき
     float4 texColor = tex2D(texSampler, oVS.coord);
-    float4 lightDir = normalize(float4(lightPos, 1.0f) - oVS.worldPos);
 
-    float4 normal = float4(oVS.nor.x, oVS.nor.y, oVS.nor.z, 1.0f);
-
-    // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
-    // 外積の値がマイナスならばシャドウにする(0)
-    // max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
-    float diffuse = max(0, dot(float4(oVS.nor, 1.0f), -lightDir));
+    float diffuse = diffuseProcess(oVS.worldPos, oVS.nor);
     // シャドウと色を分離
     //if (diffuse < 0.05f)
     //{
@@ -98,10 +93,15 @@ float4 modelPS(outputVS oVS) : COLOR
     //}
 
     // 減衰値を計算
-    float distance = length(float4(lightPos, 1.0f) - oVS.worldPos);
-    float attenuation = 1.0f / (lightConstant + lightLinear * distance + lightQuadratic * (distance * distance));
+    float attenuation = attenuationProcess(oVS.worldPos);
+    // ライト色を計算
     float4 attColor = attenuation * lightColor;
-    float4 texColorFin = texColor * attenuation;
+
+    // 法線の各分量を色として出す
+    float4 normal = float4(oVS.nor.x, oVS.nor.y, oVS.nor.z, 1.0f);
+
+    // 最終シェーディング
+    float4 finalShading = texColor * attenuation;
 
     // 描画方法のを選択
     if(renderType == 0)
@@ -121,7 +121,7 @@ float4 modelPS(outputVS oVS) : COLOR
     }
 
     // RT_SHADING -- デフォルト
-    return texColorFin;
+    return finalShading;
 }
 
 //*****************************************************************************
