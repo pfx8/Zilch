@@ -198,11 +198,9 @@ void Mesh::createMesh(aiMesh *mesh, const aiScene *scene)
 {
 	// メッシュ名前を保存
 	this->mName = mesh->mName.C_Str();
-	//cout << "   <Mesh Name> : [" << mesh->mName.C_Str() << "]" << endl;
 
-
-	unsigned int	numBones = 0;		// 骨の数
-	unordered_map<string, Bone>		boneMapping;		//	骨マップ
+	unsigned int numBones = 0;		// 骨の数
+	unordered_map<string, Bone> boneMapping;		// 骨マップ
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -220,16 +218,16 @@ void Mesh::createMesh(aiMesh *mesh, const aiScene *scene)
 
 		// 法線
 		vertex.nor.x = mesh->mNormals[count].x;
-		vertex.nor.y = mesh->mNormals[count].y;
-		vertex.nor.z = mesh->mNormals[count].z;
+		vertex.nor.y = -mesh->mNormals[count].z;
+		vertex.nor.z = -mesh->mNormals[count].y;
+		//vertex.nor.y = mesh->mNormals[count].y;
+		//vertex.nor.z = mesh->mNormals[count].z;
 
 		// UV座標
 		if (mesh->mTextureCoords[0])	// テクスチャ0から(Maxは8で)
 		{
 			vertex.tex.x = mesh->mTextureCoords[0][count].x;
 			vertex.tex.y = mesh->mTextureCoords[0][count].y;
-
-			//cout << "<Test><Texture> : " << "X " << vertex.tex.x << ", Y " << vertex.tex.y << endl;
 		}
 		else
 		{
@@ -345,8 +343,6 @@ HRESULT Mesh::SetupMeshWithBone()
 		//vertices[count].tangent = it.tangent;
 		//vertices[count].bitangent = it.bitangent;
 
-		//cout << "<Test><Vertex> : [pos" << count <<"] " << it.pos.x << " " << it.pos.y << " " << it.pos.z << endl;
-
 		count++;
 	}
 
@@ -370,8 +366,6 @@ HRESULT Mesh::SetupMeshWithBone()
 	{
 		vertexIndex[count] = it;
 
-		//cout << "<Test><Index> : " << it << endl;
-	
 		count++;
 	}
 
@@ -424,8 +418,6 @@ HRESULT Mesh::SetupMesh()
 		//vertices[count].tangent = it.tangent;
 		//vertices[count].bitangent = it.bitangent;
 
-		//cout << "<Test><Vertex> : [pos" << count <<"] " << it.pos.x << " " << it.pos.y << " " << it.pos.z << endl;
-
 		count++;
 	}
 
@@ -448,8 +440,6 @@ HRESULT Mesh::SetupMesh()
 	for (auto it : this->mIndices)
 	{
 		vertexIndex[count] = it;
-
-		//cout << "<Test><Index> : " << it << endl;
 
 		count++;
 	}

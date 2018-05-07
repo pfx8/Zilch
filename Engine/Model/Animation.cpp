@@ -147,9 +147,6 @@ void Animation::traverseBoneNode(Node* node, unsigned int level)
 		space += "  ";
 	}
 
-	//ImGui::Text("%s+[%s]", space.c_str(), node->mName.c_str());
-	//cout << space << "+ [" << node->mName << "]" << endl;
-
 	for (auto it : node->mChildren)
 	{
 		traverseBoneNode(it, level + 1);

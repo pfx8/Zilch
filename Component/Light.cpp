@@ -44,6 +44,10 @@ void Light::start()
 //*****************************************************************************
 void Light::drawImGui()
 {
+	// ライトカラー
+	ImGui::ColorEdit4(u8"ライトカラー", this->mLightColor);
+	ImGui::Separator();
+
 	// コンボボックスの幅を設定
 	ImGui::PushItemWidth(160);
 	ImGui::Text(u8"ライトタイプ");
@@ -78,6 +82,11 @@ void Light::lightControllerImGui()
 	switch (this->mLightType)
 	{
 	case LT_direction:
+		ImGui::Text(u8"ポイントライト減衰パラメータ");
+		ImGui::SliderFloat("X", &this->mDirectionLight.direction.x, -1.0f, 1.0f);
+		ImGui::SliderFloat("Y", &this->mDirectionLight.direction.y, -1.0f, 1.0f);
+		ImGui::SliderFloat("Z", &this->mDirectionLight.direction.z, -1.0f, 1.0f);
+
 		break;
 	case LT_point:
 		ImGui::Text(u8"ライト位置");
@@ -88,7 +97,7 @@ void Light::lightControllerImGui()
 		ImGui::InputFloat("Constant", &this->mPointLight.constant);
 		ImGui::InputFloat("Linear", &this->mPointLight.linear);
 		ImGui::InputFloat("Quadratic", &this->mPointLight.quadratic);
-		ImGui::Separator();
+
 		break;
 	case LT_flash:
 		break;

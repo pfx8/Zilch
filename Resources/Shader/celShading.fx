@@ -76,38 +76,41 @@ outputVS modelVS(inputVSWithBone iVS)
 //*****************************************************************************
 float4 modelPS(outputVS oVS) : COLOR
 {
+    float4 ambient;
+    float4 diffuse;
+    float4 specular;
+
+    float4 lightDiffuse;
+
     // テクスチャによって色をつき
     float4 texColor = tex2D(texSampler, oVS.coord);
-
-    float diffuse = diffuseProcess(oVS.worldPos, oVS.nor);
-    // シャドウと色を分離
-    //if (diffuse < 0.05f)
-    //{
-    //    //　diffuse
-    //    texColor *= 1.0f;
-    //}
-    //else
-    //{
-    //    // シャドウ
-    //    texColor *= 0.6f;
-    //}
-
-    // 減衰値を計算
-    float attenuation = attenuationProcess(oVS.worldPos);
-    // ライト色を計算
-    float4 attColor = attenuation * lightColor;
-
     // 法線の各分量を色として出す
     float4 normal = float4(oVS.nor.x, oVS.nor.y, oVS.nor.z, 1.0f);
 
-    // 最終シェーディング
-    float4 finalShading = texColor * attenuation;
+    if (lightType == 0)
+    {
+        // 指向性ライト
+        lightDiffuse = diffuseProcess(oVS.worldPos, oVS.nor) * lightColor;
+        diffuse = diffuseProcess(oVS.worldPos, oVS.nor) * texColor;
+    }
+    else if (lightType == 1)
+    {
+        // ポイントライト
+        lightDiffuse = attenuationProcess(oVS.worldPos) * lightColor;
+        diffuse = attenuationProcess(oVS.worldPos) * texColor;
+
+    }
+    else if (lightType == 2)
+    {
+        // フラッシュライト
+
+    }
 
     // 描画方法のを選択
     if(renderType == 0)
     {
         // RT_DIFFUSE
-        return float4(attenuation, attenuation, attenuation, attenuation);
+        return lightDiffuse;
     }
     else if(renderType == 1)
     {
@@ -121,7 +124,7 @@ float4 modelPS(outputVS oVS) : COLOR
     }
 
     // RT_SHADING -- デフォルト
-    return finalShading;
+    return diffuse;
 }
 
 //*****************************************************************************

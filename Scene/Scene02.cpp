@@ -14,7 +14,7 @@
 //*****************************************************************************
 Scene02::Scene02()
 {
-	// シーン01
+	// シーンの情報
 	cout << "<Scene02>" << "<" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "> : [Project : Zilch] " << endl;
 }
 
@@ -48,9 +48,9 @@ void Scene02::start()
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
 	// Flag -- bone testing
-	resource->createTexture("Resources/Texture/flag/heart.png");
-	resource->createTexture("Resources/Texture/flag/wood.jpg");
-	resource->createModel("Resources/Model/flag.fbx", MT_withBone);
+	//resource->createTexture("Resources/Texture/flag/heart.png");
+	//resource->createTexture("Resources/Texture/flag/wood.jpg");
+	//resource->createModel("Resources/Model/flag.fbx", MT_withBone);
 
 	// shader
 	resource->createShader("Resources/Shader/phongShading.fx");
@@ -88,12 +88,12 @@ void Scene02::start()
 	CameraController* cameraController = new CameraController();
 	cameraController->mMainCamera = mainCamera;
 	player->addComponent<CameraController>(cameraController);
-	//MeshRender* playerMeshRender = new MeshRender();
-	//playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
-	//playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
-	//playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
-	//this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
-	//player->addComponent<MeshRender>(playerMeshRender);
+	MeshRender* playerMeshRender = new MeshRender();
+	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
+	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
+	playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
+	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
+	player->addComponent<MeshRender>(playerMeshRender);
 	this->addGameObject("player", player);
 
 	// mainCamera
@@ -113,14 +113,14 @@ void Scene02::start()
 	this->addGameObject("gridField", gridField);
 
 	// Flag -- bone testing
-	GameObject* flag = new GameObject();
-	Transform* flagTrans = new Transform();									// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
-	flag->addComponent<Transform>(flagTrans);
-	MeshRender* flagMeshRender = new MeshRender();
-	flagMeshRender->mModel = resource->getModel("flag");					// リソースからモデルを取得
-	this->mMeshRenders.push_back(flagMeshRender);							// MeshRenderをシーンに追加
-	flag->addComponent<MeshRender>(flagMeshRender);
-	this->addGameObject("flag", flag);
+	//GameObject* flag = new GameObject();
+	//Transform* flagTrans = new Transform();									// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	//flag->addComponent<Transform>(flagTrans);
+	//MeshRender* flagMeshRender = new MeshRender();
+	//flagMeshRender->mModel = resource->getModel("flag");					// リソースからモデルを取得
+	//this->mMeshRenders.push_back(flagMeshRender);							// MeshRenderをシーンに追加
+	//flag->addComponent<MeshRender>(flagMeshRender);
+	//this->addGameObject("flag", flag);
 }
 
 //*****************************************************************************

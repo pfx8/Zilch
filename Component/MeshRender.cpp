@@ -41,7 +41,7 @@ void MeshRender::start()
 	if (this->mIsDrawShadow == true)
 	{
 		// ライト位置を取得
-		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<Light>()->mLightPos;
+		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>()->mLightPos;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
 }
@@ -78,18 +78,33 @@ void MeshRender::drawShadowMap()
 //*****************************************************************************
 void MeshRender::draw()
 {
-	// ライトを設定
-	D3DXVECTOR3 lightPos = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>()->mLightPos;
-	D3DXVECTOR4 lightColor = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>()->mLightColor;
-	float constant = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>()->mPointLight.constant;
-	float linear = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>()->mPointLight.linear;
-	float quadratic = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>()->mPointLight.quadratic;
+	// ライトを取得
+	Light* light = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>();
+	// ライトタイプをシェーダーに渡す
+	this->mShader->mEffect->SetInt("lightType", light->mLightType);
 
-	this->mShader->mEffect->SetValue("lightPos", &lightPos, sizeof(lightPos));
-	this->mShader->mEffect->SetValue("lightColor", &lightColor, sizeof(lightColor));
-	this->mShader->mEffect->SetFloat("lightConstant", constant);
-	this->mShader->mEffect->SetFloat("lightLinear", linear);
-	this->mShader->mEffect->SetFloat("lightQuadratic", quadratic);
+	// ライトタイプによってシェーダーに変数を渡す
+	switch (light->mLightType)
+	{
+	case LT_direction:
+		// ライト方向をシェーダーに渡す
+		this->mShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
+
+		break;
+	case LT_point:
+		// ライト位置をシェーダーに渡す
+		this->mShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
+		this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
+
+		// 減衰値公式変数をシェーダーに渡す
+		this->mShader->mEffect->SetFloat("lightConstant", light->mPointLight.constant);
+		this->mShader->mEffect->SetFloat("lightLinear", light->mPointLight.linear);
+		this->mShader->mEffect->SetFloat("lightQuadratic", light->mPointLight.quadratic);
+
+		break;
+	case LT_flash:
+		break;
+	}
 
 	// モデルのワールド変換行列を取得
 	Transform* trans = this->mGameObject->getComponent<Transform>();

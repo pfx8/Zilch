@@ -11,6 +11,7 @@
 #include "Component.h"
 #include "Camera.h"
 #include "CameraController.h"
+#include "Light.h"
 #include "../Engine/Engine.h"
 #include "../Engine/Shader.h"
 #include "../Engine/ShadowMap.h"

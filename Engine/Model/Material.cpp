@@ -45,8 +45,6 @@ void Material::loadingMaterial(aiMaterial* mat)
 		this->mAmbient = D3DXVECTOR3(ambient.r, ambient.g, ambient.b);
 		this->mDiffuse = D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b);
 		this->mSpecular = D3DXVECTOR3(specular.r, specular.g, specular.b);
-
-		//cout << "      <Material Name> : [" << name.C_Str() << "]" << endl;
 	}
 	else
 	{
@@ -59,7 +57,6 @@ void Material::loadingMaterial(aiMaterial* mat)
 
 	// テクスチャを読み込み
 	addTextureFromResources(mat, aiTextureType_DIFFUSE);
-	//addTextureFromResources(mat, aiTextureType_HEIGHT); // normalMap
 }
 
 //*****************************************************************************
@@ -81,23 +78,20 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 {
 	for (unsigned int count = 0; count < mat->GetTextureCount(type); count++)
 	{
-		aiString str;										// モデルから読み込まれたテクスチャファイルの名前
-		mat->getTexture(type, count, &str);					// テクスチャパスを読み込み
+		// モデルから読み込まれたテクスチャファイルの名前
+		aiString str;
+		// テクスチャパスを読み込み
+		mat->getTexture(type, count, &str);
 
-		//////////////////////////////////////////////////暫定対策//////////////////////////////////////////////////
 		// テクスチャ名前を保存
 		string fileName = str.C_Str();
 
-		//cout << "<Test1> : " << fileName << endl;
 		// 絶対パスならば、モデルの名前とテクスチャを取得
-		if (fileName.find("\\") != string::npos)							// exp : c:\aaa\bbb\ccc.png -> ccc.png
+		if (fileName.find("\\") != string::npos)
 		{
-			fileName = fileName.substr(fileName.find_last_of("\\")+1, fileName.find_last_of("."));
-			//cout << "<Test2> : " << fileName << endl;
+			fileName = fileName.substr(fileName.find_last_of("\\")+1, fileName.find_last_of("."));	// exp : c:\aaa\bbb\ccc.png -> ccc.png
 		}
-		fileName = fileName.substr(0, fileName.find_first_of("."));		// exp : xxx.png -> xxx
-		//cout << "<Test3> : " << fileName << endl;
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		fileName = fileName.substr(0, fileName.find_first_of("."));									// exp : xxx.png -> xxx
 
 		// テクスチャまだ読み込まなっかたら読み込む
 		Resources* resource = getResources();

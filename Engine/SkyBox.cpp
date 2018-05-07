@@ -96,8 +96,6 @@ HRESULT SkyBox::InitSkyBox(float length)
 			//{ D3DXVECTOR3(-length / 2, length / 2,  length / 2), D3DXVECTOR2(1.0f, 0.0f) },
 			//{ D3DXVECTOR3( length / 2, length / 2, -length / 2), D3DXVECTOR2(0.8f, 1.0f) },
 			//{ D3DXVECTOR3(-length / 2, length / 2, -length / 2), D3DXVECTOR2(1.0f, 1.0f) },
-
-
 		};
 
 		VOID* vertexBuffer;	// 頂点バッファポインタ作成
