@@ -196,5 +196,5 @@ void CameraController::inputUpdate()
 //*****************************************************************************
 void CameraController::drawImGui()
 {
-	ImGui::TextColored(ImVec4(1, 0, 0, 0), "詳しいはプログラムを見てください");
+	ImGui::TextColored(ImVec4(1, 0, 0, 1), u8"詳しいはプログラムを見てください");
 }

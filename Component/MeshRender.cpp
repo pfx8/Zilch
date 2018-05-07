@@ -44,9 +44,6 @@ void MeshRender::start()
 		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject("pointLight")->getComponent<PointLight>()->mLightPos;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
-
-	// デフォルトシェーディングモードを設定
-	this->mCurrentShadingMode = this->mShader->mRenderType;
 }
 
 //*****************************************************************************
@@ -119,41 +116,6 @@ void MeshRender::draw()
 //
 //*****************************************************************************
 void MeshRender::drawImGui()
-{
-	// レンダリングモードを選択
-	{
-		// コンボボックスの幅を設定
-		ImGui::PushItemWidth(160);
-
-		ImGui::Text(u8"シェーディングモード");
-		ImGui::Combo(" ", &this->mCurrentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
-		switch (this->mCurrentShadingMode)
-		{
-		case 0:
-			this->mShader->mRenderType = RT_DIFFUSE;
-			break;
-		case 1:
-			this->mShader->mRenderType = RT_NORMAL;
-			break;
-		case 2:
-			this->mShader->mRenderType = RT_TEXTURE;
-			break;
-		case 3:
-			this->mShader->mRenderType = RT_SHADING;
-			break;
-		}
-	}
-
-	// モデル情報
-	modelInformationGUI();
-}
-
-//*****************************************************************************
-//
-// モデル情報
-//
-//*****************************************************************************
-void MeshRender::modelInformationGUI()
 {
 	if (ImGui::TreeNode(u8"モデル"))
 	{

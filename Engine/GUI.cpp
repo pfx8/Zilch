@@ -161,6 +161,33 @@ void GUI::systemGUI()
 			}
 			ImGui::Separator();
 		}
+
+		// レンダリングモードを選択
+		{
+			// 今ののレンダリングモード(デフォルトはテクスチャ)
+			static int	currentShadingMode = 2;
+
+			// コンボボックスの幅を設定
+			ImGui::PushItemWidth(160);
+			ImGui::Text(u8"レンダリングモード");
+			ImGui::Combo(" ", &currentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
+			switch (currentShadingMode)
+			{
+			case 0:
+				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_DIFFUSE;
+				break;
+			case 1:
+				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_NORMAL;
+				break;
+			case 2:
+				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_TEXTURE;
+				break;
+			case 3:
+				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_SHADING;
+				break;
+			}
+		}
+
 		ImGui::End();
 	}
 }

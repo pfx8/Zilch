@@ -23,10 +23,11 @@
 class GUI
 {
 private:
-	char			mNewGameObjectName[20] = {""};			// 最大19文字
+	char				mNewGameObjectName[20] = {""};			// 最大19文字
+	const char*			mShadingMode[4] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング" };
 
 public:
-	bool			mIsWireframe;
+	bool				mIsWireframe;
 
 	GUI();
 	~GUI();
