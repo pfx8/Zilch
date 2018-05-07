@@ -35,6 +35,13 @@ struct PointLight
 	float				quadratic;			// 二次で強度を減少させる
 };
 
+struct SpotLight
+{
+	D3DXVECTOR3			direction;
+	float				cutOff;				// スポットベクトルとライトベクトルのコサイン値
+	bool				isSmooth;			// スムースチェック
+};
+
 //*****************************************************************************
 //
 // 列挙体
@@ -44,7 +51,7 @@ enum LightType
 {
 	LT_direction,
 	LT_point,
-	LT_flash,
+	LT_spot,
 };
 
 //*****************************************************************************
@@ -56,7 +63,7 @@ class Light : public Component
 {
 private:
 	int					mCurrentLightType;
-	const char*			mLight[3] = { u8"指向性ライト", u8"ポイントライト", u8"フラッシュライト"};
+	const char*			mLight[3] = { u8"指向性ライト", u8"ポイントライト", u8"スポットライト"};
 
 	void start();		// 初期化
 
@@ -67,6 +74,7 @@ public:
 
 	PointLight			mPointLight;		// ポイントライト
 	DirectionLight		mDirectionLight;	// 方向ライト
+	SpotLight			mSpotLight;			// スポットライト
 
 	Light();
 	virtual ~Light();

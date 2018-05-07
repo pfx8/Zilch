@@ -87,6 +87,9 @@ void MeshRender::draw()
 	switch (light->mLightType)
 	{
 	case LT_direction:
+		// ライトカラーをシェーダーに渡す
+		this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
+
 		// ライト方向をシェーダーに渡す
 		this->mShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
 
@@ -94,6 +97,8 @@ void MeshRender::draw()
 	case LT_point:
 		// ライト位置をシェーダーに渡す
 		this->mShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
+
+		// ライトカラーをシェーダーに渡す
 		this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
 
 		// 減衰値公式変数をシェーダーに渡す
@@ -102,7 +107,19 @@ void MeshRender::draw()
 		this->mShader->mEffect->SetFloat("lightQuadratic", light->mPointLight.quadratic);
 
 		break;
-	case LT_flash:
+	case LT_spot:
+		// ライト位置をシェーダーに渡す
+		this->mShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
+
+		// ライトカラーをシェーダーに渡す
+		this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
+
+		// ライト方向をシェーダーに渡す
+		this->mShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
+
+		// コサイン値をシェーダーに渡す
+		this->mShader->mEffect->SetFloat("cutOff", light->mSpotLight.cutOff);
+
 		break;
 	}
 

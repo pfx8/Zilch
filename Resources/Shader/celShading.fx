@@ -76,6 +76,9 @@ outputVS modelVS(inputVSWithBone iVS)
 //*****************************************************************************
 float4 modelPS(outputVS oVS) : COLOR
 {
+    // ライトベクトルを計算
+    float4 lightDir = normalize(float4(lightPos, 1.0f) - oVS.worldPos);
+
     float4 ambient;
     float4 diffuse;
     float4 specular;
@@ -90,8 +93,8 @@ float4 modelPS(outputVS oVS) : COLOR
     if (lightType == 0)
     {
         // 指向性ライト
-        lightDiffuse = diffuseProcess(oVS.worldPos, oVS.nor) * lightColor;
-        diffuse = diffuseProcess(oVS.worldPos, oVS.nor) * texColor;
+        lightDiffuse = diffuseProcess(lightDir, oVS.nor) * lightColor;
+        diffuse = diffuseProcess(lightDir, oVS.nor) * texColor;
     }
     else if (lightType == 1)
     {
@@ -102,8 +105,18 @@ float4 modelPS(outputVS oVS) : COLOR
     }
     else if (lightType == 2)
     {
-        // フラッシュライト
-
+        // スポットライト
+        float theta = dot(lightDir, float4(normalize(-direction), 1.0));
+        if(theta > cutOff)
+        {
+            lightDiffuse = diffuseProcess(lightDir, oVS.nor) * lightColor;
+            diffuse = diffuseProcess(lightDir, oVS.nor) * texColor;
+        }
+        else
+        {
+            lightDiffuse = float4(1, 1, 1, 1);
+            diffuse = float4(1, 1, 1, 1);
+        }
     }
 
     // 描画方法のを選択

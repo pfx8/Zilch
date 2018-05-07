@@ -61,7 +61,7 @@ void Light::drawImGui()
 		this->mLightType = LT_point;
 		break;
 	case 2:
-		this->mLightType = LT_flash;
+		this->mLightType = LT_spot;
 		break;
 	}
 
@@ -82,7 +82,7 @@ void Light::lightControllerImGui()
 	switch (this->mLightType)
 	{
 	case LT_direction:
-		ImGui::Text(u8"ポイントライト減衰パラメータ");
+		ImGui::Text(u8"ライト方向");
 		ImGui::SliderFloat("X", &this->mDirectionLight.direction.x, -1.0f, 1.0f);
 		ImGui::SliderFloat("Y", &this->mDirectionLight.direction.y, -1.0f, 1.0f);
 		ImGui::SliderFloat("Z", &this->mDirectionLight.direction.z, -1.0f, 1.0f);
@@ -99,7 +99,16 @@ void Light::lightControllerImGui()
 		ImGui::InputFloat("Quadratic", &this->mPointLight.quadratic);
 
 		break;
-	case LT_flash:
+	case LT_spot:
+		ImGui::Text(u8"ライト方向");
+		ImGui::SliderFloat("X", &this->mDirectionLight.direction.x, -1.0f, 1.0f);
+		ImGui::SliderFloat("Y", &this->mDirectionLight.direction.y, -1.0f, 1.0f);
+		ImGui::SliderFloat("Z", &this->mDirectionLight.direction.z, -1.0f, 1.0f);
+		ImGui::Separator();
+
+		ImGui::Text(u8"スポットベクトルとライトベクトルのコサイン");
+		ImGui::SliderFloat("cos", &this->mSpotLight.cutOff, -1.0f, 1.0f);
+
 		break;
 	}
 }
