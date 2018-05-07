@@ -7,33 +7,29 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-matrix rotMatrix;         // 回転行列
-matrix worldMatrix;       // ワールド変換行列
-matrix viewMatrix;        // ビューイング変換行列
-matrix projectionMatrix;  // プロジェクション変換行列
+#include "publicValue.fx"
 
-matrix boneMatrices[87];  // 骨行列集合
+//*****************************************************************************
+//
+// グローバル変数
+//
+//*****************************************************************************
+// 骨行列集合
+matrix boneMatrices[87];
 
-float3 lightPos;   // ライト位置
-float4 lightColor; // ライトカラー
-// ライト減衰プロパティ
-float lightConstant;
-float lightLinear;
-float lightQuadratic;
+// outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
+float outLineFactor = 0.1f;
+// outLineの太さをコントロール因子
+float outLineStr = 0.01f;
 
-float outLineFactor = 0.1f;  // outLineを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-float outLineStr = 0.01f;    // outLineの太さをコントロール因子
+// レンダリング選択
+int renderType;
 
-float3 amibent;   // 環境光
-float3 diffuse;   // 拡散反射光
-float3 specular;  // 鏡面反射光
-float  shininess; // 光沢
-
-int renderType;   // レンダリング選択
-
-texture tex;          // テクスチャ
-sampler texSampler =  // サンプラー
-sampler_state
+// ディフューズテクスチャサンプラー
+// テクスチャ
+texture tex;
+// サンプラー
+sampler texSampler = sampler_state
 {
     Texture = <tex>;
     MipFilter = LINEAR;
@@ -45,51 +41,36 @@ sampler_state
 
 //*****************************************************************************
 //
-// プロトタイプ宣言
-//
-//*****************************************************************************
-struct VSout
-{
-    float4 pos : POSITION0;
-    float3 nor : NORMAL0;
-    float2 coord : TEXCOORD0;
-    float4 worldPos : TEXCOORD1;
-};
-
-//*****************************************************************************
-//
 // outLine頂点シェーダー処理
 //
 //*****************************************************************************
-VSout outLineVS(float3 pos : POSITION0,
-                float3 nor : NORMAL0,
-                float2 coord : TEXCOORD0)
+outputVS outLineVS(inputVS iVS)
 {
     // 戻り値を初期化
-    VSout vout = (VSout) 0;
+    outputVS oVS = (outputVS) 0;
 
     // outLine方向ベクトルを計算
     // まずは頂点の方向ベクトルを計算
-    float3 outLineDir = normalize(pos);
+    float3 outLineDir = normalize(iVS.pos);
     // 頂点の方向ベクトルと法線ベクトルの外積を計算
-    float D = dot(outLineDir, nor);
+    float D = dot(outLineDir, iVS.nor);
     outLineDir *= sign(D);
     // outLineの最終方向を計算
-    outLineDir = outLineDir * outLineFactor + nor * (1 - outLineFactor);
+    outLineDir = outLineDir * outLineFactor + iVS.nor * (1 - outLineFactor);
 
     // 頂点 + outLine方向ベクト * outLine太さ因数 = outLine頂点の場所
-    float3 outLinePos = pos + outLineDir * outLineStr;
+    float3 outLinePos = iVS.pos + outLineDir * outLineStr;
 
     // 頂点変換
-    vout.worldPos = mul(float4(outLinePos, 1.0), worldMatrix);
-    vout.pos = mul(mul(vout.worldPos, viewMatrix), projectionMatrix);
+    oVS.worldPos = mul(float4(outLinePos, 1.0), worldMatrix);
+    oVS.pos = mul(mul(oVS.worldPos, viewMatrix), projectionMatrix);
 
     // 法線変更
-    vout.nor = mul(float4(nor, 1.0), worldMatrix);
+    oVS.nor = mul(float4(iVS.nor, 1.0), worldMatrix);
     // UV座標変更
-    vout.coord = coord;
+    oVS.coord = iVS.coord;
 
-    return vout;
+    return oVS;
 }
 
 //*****************************************************************************
@@ -97,7 +78,7 @@ VSout outLineVS(float3 pos : POSITION0,
 // outLineピクセルシェーダー処理
 //
 //*****************************************************************************
-float4 outLinePS(VSout vout) : COLOR
+float4 outLinePS(outputVS oVS) : COLOR
 {
     // outLineカラーを設定
     return float4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -108,14 +89,15 @@ float4 outLinePS(VSout vout) : COLOR
 // モデル頂点シェーダー処理
 //
 //*****************************************************************************
-VSout modelVS(float3 pos : POSITION0,
-              float3 nor : NORMAL0,
-              float2 coord : TEXCOORD0,
-              float4 weight : BLENDWEIGHT,
-              float4 boneID : BLENDINDICES)
+//outputVS modelVS(float3 pos : POSITION0,
+//              float3 nor : NORMAL0,
+//              float2 coord : TEXCOORD0,
+//              float4 weight : BLENDWEIGHT,
+//              float4 boneID : BLENDINDICES)
+outputVS modelVS(inputVSWithBone iVS)
 {
     // 戻り値を初期化
-    VSout vout = (VSout) 0;
+    outputVS oVS = (outputVS) 0;
 
     //// 骨によって頂点位置を計算
     //matrix boneTrans = boneMatrices[boneID[0]] * weight[0];
@@ -125,19 +107,19 @@ VSout modelVS(float3 pos : POSITION0,
 
     //// 頂点変換
     //float4 blendPos = mul(boneTrans, float4(pos, 1.0));
-    //vout.pos = mul(mul(mul(blendPos, worldMatrix), viewMatrix), projectionMatrix);
+    //oVS.pos = mul(mul(mul(blendPos, worldMatrix), viewMatrix), projectionMatrix);
     //// 法線変更
-    //vout.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
+    //oVS.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
 
     // 頂点変換
-    vout.worldPos = mul(float4(pos, 1.0), worldMatrix);
-    vout.pos = mul(mul(vout.worldPos, viewMatrix), projectionMatrix);
+    oVS.worldPos = mul(float4(iVS.pos, 1.0), worldMatrix);
+    oVS.pos = mul(mul(oVS.worldPos, viewMatrix), projectionMatrix);
     // 法線変更
-    vout.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
+    oVS.nor = normalize(mul(float4(iVS.nor, 1.0), rotMatrix));
     // UV座標変更
-    vout.coord = coord;
+    oVS.coord = iVS.coord;
 
-    return vout;
+    return oVS;
 }
 
 //*****************************************************************************
@@ -145,18 +127,18 @@ VSout modelVS(float3 pos : POSITION0,
 // モデルピクセルシェーダー処理
 //
 //*****************************************************************************
-float4 modelPS(VSout vout) : COLOR
+float4 modelPS(outputVS oVS) : COLOR
 {
     // テクスチャによって色をつき
-    float4 texColor = tex2D(texSampler, vout.coord);
-    float4 lightDir = normalize(float4(lightPos, 1.0f) - vout.worldPos);
+    float4 texColor = tex2D(texSampler, oVS.coord);
+    float4 lightDir = normalize(float4(lightPos, 1.0f) - oVS.worldPos);
 
-    float4 normal = float4(vout.nor.x, vout.nor.y, vout.nor.z, 1.0f);
+    float4 normal = float4(oVS.nor.x, oVS.nor.y, oVS.nor.z, 1.0f);
 
     // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
     // 外積の値がマイナスならばシャドウにする(0)
     // max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
-    float diffuse = max(0, dot(float4(vout.nor, 1.0f), -lightDir));
+    float diffuse = max(0, dot(float4(oVS.nor, 1.0f), -lightDir));
     // シャドウと色を分離
     //if (diffuse < 0.05f)
     //{
@@ -170,7 +152,7 @@ float4 modelPS(VSout vout) : COLOR
     //}
 
     // 減衰値を計算
-    float distance = length(float4(lightPos, 1.0f) - vout.worldPos);
+    float distance = length(float4(lightPos, 1.0f) - oVS.worldPos);
     float attenuation = 1.0f / (lightConstant + lightLinear * distance + lightQuadratic * (distance * distance));
     float4 attColor = attenuation * lightColor;
     float4 texColorFin = texColor * attenuation;
