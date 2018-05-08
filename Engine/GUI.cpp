@@ -112,9 +112,6 @@ void GUI::systemGUI()
 		// FPSとタイム
 		{
 			ImGui::Text("Fps:%.1f, Time:%.3fs", ImGui::GetIO().Framerate, getGameTimes()->mCurrentTime);
-			// FPSをプロット図で出す
-			const float my_values[] = { ImGui::GetIO().Framerate, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
-			ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
 			ImGui::Separator();
 		}
 

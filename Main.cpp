@@ -129,8 +129,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 	// フレームカウント初期
-	timeBeginPeriod(1);									//分解能を設定
-	dwExecLastTime = dwFPSLastTime = timeGetTime();		//ミリ秒単位で取得
+	timeBeginPeriod(1);									// 分解能を設定
+	dwExecLastTime = dwFPSLastTime = timeGetTime();		// ミリ秒単位で取得
 	dwCurrentTime = dwFrameCount = 0;
 
 	// ゲーム初期化
@@ -146,7 +146,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// メッセージループ
 	while(1)
 	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))	//イベントと先生が呼んだ。
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT)
 			{
@@ -162,20 +162,26 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		}
 		else 
 		{
-			dwCurrentTime = timeGetTime();				// 1ミリ秒単位
+			// 1ミリ秒単位
+			dwCurrentTime = timeGetTime();
 
-			if ((dwCurrentTime - dwFPSLastTime) >= 500)	// 0.5秒ごとに実行
+			// 0.5秒ごとに実行
+			if ((dwCurrentTime - dwFPSLastTime) >= 500)
 			{
-				// ImGuiに任せった
-				//FPS = dwFrameCount * 1000 / (dwCurrentTime - dwFPSLastTime);	// FPSを計測
+				// FPSを計測(ImGuiに任せった)
+				//FPS = dwFrameCount * 1000 / (dwCurrentTime - dwFPSLastTime);
 
-				dwFPSLastTime = dwCurrentTime;			// FPS計測時刻を保存
-				dwFrameCount = 0;						// カウントをクリア
+				// FPS計測時刻を保存
+				dwFPSLastTime = dwCurrentTime;
+				// カウントをクリア
+				dwFrameCount = 0;
 			}
 
-			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))	// 1/60秒ごとに実行
+			// 1/60秒ごとに実行
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
 			{
-				dwExecLastTime = dwCurrentTime;			// 処理した時刻を保存
+				// 処理した時刻を保存
+				dwExecLastTime = dwCurrentTime;
 
 				// ImGui用フレームを作り
 				ImGui_ImplDX9_NewFrame();
@@ -184,7 +190,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				// 描画処理
 				draw(hWnd);
 
-				dwFrameCount++;							// 処理回数のカウントを加算
+				// 処理回数のカウントを加算
+				dwFrameCount++;
 			}
 		}
 	}
@@ -341,7 +348,8 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	gConsole = new Console();
 	if (gConsole->isConsoleRun == false)
 	{
-		cout << "[Error] Setup console ... fail!" << endl;	// エラーメッセージ
+		// エラーメッセージ
+		cout << "[Error] Setup console ... fail!" << endl;
 		return E_FAIL;
 	}
 
@@ -359,9 +367,6 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	gGUI = new GUI();
 	gGUI->start(hWnd, gD3DDevice);
 
-	// test
-	cout << GetSystemMetrics(SM_CXDLGFRAME) * 2 << endl;
-
 	return S_OK;
 }
 
@@ -372,14 +377,18 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 //*****************************************************************************
 void updata(HWND hWnd, int cmd)
 {
+	// ImGuiを操作してない時だけアプリケーションの操作を更新
 	if (gGUI->IsAnyImguiFocused() == false)
 	{
-		// ImGuiを操作してない時だけアプリケーションの操作を更新
-		UpdateInput();				// 入力更新
+		// 入力更新
+		UpdateInput();
 	}
 
-	gGameTimes->update();			// ゲームタイムを更新
-	gSceneManager->update();		// シンーを更新する
+	// ゲームタイムを更新
+	gGameTimes->update();
+
+	// シンーを更新する
+	gSceneManager->update();
 }
 
 //*****************************************************************************
@@ -389,9 +398,6 @@ void updata(HWND hWnd, int cmd)
 //*****************************************************************************
 void draw(HWND hWnd)
 {
-	// バックバッファ＆Ｚバッファのクリア
-	//gD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(155, 255, 255, 255), 1.0f, 0);
-
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(gD3DDevice->BeginScene()))
 	{
