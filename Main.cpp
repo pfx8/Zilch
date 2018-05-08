@@ -220,7 +220,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		return true;
 	}
 
-	switch( message )
+	switch(message)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -256,21 +256,24 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	if (gD3D == nullptr)
 	{
-		cout << "[Error] DirectX initialization ... fail!" << endl;	// エラーメッセージ
+		cout << "[Error] DirectX initialization ... fail!" << endl;
 		return E_FAIL;
 	}
 
 	// 現在のディスプレイモードを取得
 	if (FAILED(gD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
-		cout << "[Error] Get displayer mode ... fail!" << endl;		// エラーメッセージ
+		cout << "[Error] Get displayer mode ... fail!" << endl;
 		return E_FAIL;
 	}
 
 	// デバイスのプレゼンテーションパラメータの設定
-	ZeroMemory(&gD3Dpp, sizeof(gD3Dpp));								// ワークをゼロクリア
+	// ワークをゼロクリア
+	ZeroMemory(&gD3Dpp, sizeof(gD3Dpp));
 
-	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE;		// デフォルトで使わない
+	// デフォルトで使わない
+	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE;
+	// このデバイスでマルチサンプリング テクニックを利用できるかどうかを調べる
 	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
 		0, D3DMULTISAMPLE_16_SAMPLES, NULL))
 	{
@@ -278,30 +281,28 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	}
 
 	gD3Dpp.BackBufferWidth = SCREEN_WIDTH;				// ゲーム画面サイズ(幅)
-	gD3Dpp.BackBufferHeight = SCREEN_HEIGHT;				// ゲーム画面サイズ(高さ)
+	gD3Dpp.BackBufferHeight = SCREEN_HEIGHT;			// ゲーム画面サイズ(高さ)
 	gD3Dpp.BackBufferFormat = D3DFMT_UNKNOWN;			// バックバッファのフォーマットは現在設定されているものを使う
 	gD3Dpp.BackBufferCount = 1;							// バックバッファの数
-	gD3Dpp.MultiSampleType = multiSampType;				// 
-	gD3Dpp.MultiSampleQuality = 0;						// 
+	gD3Dpp.MultiSampleType = multiSampType;				// デバイスが適用できるフルシーン マルチサンプリングのレベルを定義
+	gD3Dpp.MultiSampleQuality = 0;						// 品質レベルを設定
 	gD3Dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;			// 映像信号に同期してフリップする
-	gD3Dpp.hDeviceWindow = hWnd;
+	gD3Dpp.hDeviceWindow = hWnd;						// ウインドHWND
 	gD3Dpp.Windowed = bWindow;							// ウィンドウモード
 	gD3Dpp.EnableAutoDepthStencil = TRUE;				// デプスバッファ（Ｚバッファ）とステンシルバッファを作成
-	gD3Dpp.AutoDepthStencilFormat = D3DFMT_D16;		// デプスバッファとして16bitを使う
+	gD3Dpp.AutoDepthStencilFormat = D3DFMT_D16;			// デプスバッファとして16bitを使う
 	gD3Dpp.Flags = 0;
 
 	if (bWindow)
 	{
 		// ウィンドウモード
-		// d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;					// バックバッファ
-		gD3Dpp.FullScreen_RefreshRateInHz = 0;								// リフレッシュレート
+		gD3Dpp.FullScreen_RefreshRateInHz = 0;							// リフレッシュレート
 		gD3Dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;	// インターバル
 	}
 	else
 	{
 		// フルスクリーンモード
-		// d3dpp.BackBufferFormat = D3DFMT_R5G6B5;					// バックバッファ
-		gD3Dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;		// リフレッシュレート
+		gD3Dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;	// リフレッシュレート
 		gD3Dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;		// インターバル
 	}
 
@@ -309,13 +310,21 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	int vp = 0;
 	if (FAILED(gD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
-		cout << "[Error] Get directX device ... fail!" << endl;	// エラーメッセージ
+		cout << "[Error] Get directX device ... fail!" << endl;
 		return E_FAIL;
 	}
+
+	// 頂点処理モードを選択
 	if (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
-		vp = D3DCREATE_HARDWARE_VERTEXPROCESSING;	// ハードウェアで頂点を処理する
+	{
+		// ハードウェアで頂点を処理する
+		vp = D3DCREATE_HARDWARE_VERTEXPROCESSING;
+	}
 	else
-		vp = D3DCREATE_SOFTWARE_VERTEXPROCESSING;	// ソフトウェアで頂点を処理する
+	{
+		// ソフトウェアで頂点を処理する
+		vp = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+	}
 
 	// デバイスの生成
 	// ディスプレイアダプタを表すためのデバイスを作成
@@ -327,7 +336,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		&gD3Dpp,											// デバイスのプレゼンテーションパラメータ
 		&gD3DDevice)))										// デバイスインターフェースへのポインタ
 	{
-		cout << "[Error] DirectX device initialization ... fail!" << endl;	// エラーメッセージ
+		cout << "[Error] DirectX device initialization ... fail!" << endl;
 		return E_FAIL;
 	}
 
@@ -348,7 +357,6 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	gConsole = new Console();
 	if (gConsole->isConsoleRun == false)
 	{
-		// エラーメッセージ
 		cout << "[Error] Setup console ... fail!" << endl;
 		return E_FAIL;
 	}

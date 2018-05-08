@@ -27,7 +27,7 @@ public:
 	GameTimes();
 	~GameTimes();
 
-	void update();					// 時間を更新
+	void update();						// 時間を更新
 };
 
 #endif // !_GAME_TIMES_H_
