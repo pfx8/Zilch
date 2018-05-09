@@ -178,7 +178,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			}
 
 			// 1/60秒ごとに実行
-			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60.0f))
 			{
 				// 処理した時刻を保存
 				dwExecLastTime = dwCurrentTime;

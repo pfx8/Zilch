@@ -22,6 +22,9 @@ matrix boneMatrices[87];
 // レンダリング選択
 int renderType;
 
+// カラーランプ選択
+int colorRamp;
+
 // ディフューズテクスチャサンプラー
 // テクスチャ
 texture tex;
@@ -107,6 +110,7 @@ float4 modelPS(outputVS oVS) : COLOR
     {
         // スポットライト
         float theta = dot(lightDir, float4(normalize(-direction), 1.0));
+
         if(theta > cutOff)
         {
             lightDiffuse = diffuseProcess(lightDir, oVS.nor) * lightColor;
@@ -114,8 +118,8 @@ float4 modelPS(outputVS oVS) : COLOR
         }
         else
         {
-            lightDiffuse = float4(1, 1, 1, 1);
-            diffuse = float4(1, 1, 1, 1);
+            lightDiffuse = float4(0, 0, 0, 1);
+            diffuse = float4(0, 0, 0, 1);
         }
     }
 

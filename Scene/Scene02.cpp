@@ -36,14 +36,14 @@ void Scene02::start()
 	resource->createModel("Resources/Model/field.fbx", MT_default);
 
 	// Hixo
-	resource->createTexture("Resources/Texture/Hixo2/clothes.png");
-	resource->createTexture("Resources/Texture/Hixo2/eye.png");
-	resource->createTexture("Resources/Texture/Hixo2/face.png");
-	resource->createTexture("Resources/Texture/Hixo2/facial.png");
-	resource->createTexture("Resources/Texture/Hixo2/hair1.png");
-	resource->createTexture("Resources/Texture/Hixo2/hair2.png");
-	resource->createTexture("Resources/Texture/Hixo2/panties.png");
-	resource->createTexture("Resources/Texture/Hixo2/skin.png");
+	resource->createTexture("Resources/Texture/Hixo/clothes.png");
+	resource->createTexture("Resources/Texture/Hixo/eye.png");
+	resource->createTexture("Resources/Texture/Hixo/face.png");
+	resource->createTexture("Resources/Texture/Hixo/facial.png");
+	resource->createTexture("Resources/Texture/Hixo/hair1.png");
+	resource->createTexture("Resources/Texture/Hixo/hair2.png");
+	resource->createTexture("Resources/Texture/Hixo/panties.png");
+	resource->createTexture("Resources/Texture/Hixo/skin.png");
 	resource->createModel("Resources/Model/Hixo.fbx", MT_withBone);
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
@@ -106,10 +106,10 @@ void Scene02::start()
 	Transform* gridFieldTrans = new Transform();							// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridFieldTrans->mScl = D3DXVECTOR3(6.0f, 6.0f, 6.0f);
 	gridField->addComponent<Transform>(gridFieldTrans);
-	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->mModel = resource->getModel("field");				// リソースからモデルを取得
-	this->mMeshRenders.push_back(gridFieldMeshRender);						// MeshRenderをシーンに追加
-	gridField->addComponent<MeshRender>(gridFieldMeshRender);
+	//MeshRender* gridFieldMeshRender = new MeshRender();
+	//gridFieldMeshRender->mModel = resource->getModel("field");				// リソースからモデルを取得
+	//this->mMeshRenders.push_back(gridFieldMeshRender);						// MeshRenderをシーンに追加
+	//gridField->addComponent<MeshRender>(gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);
 
 	// Flag -- bone testing

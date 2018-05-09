@@ -162,12 +162,12 @@ void GUI::systemGUI()
 		// レンダリングモードを選択
 		{
 			// 今ののレンダリングモード(デフォルトはテクスチャ)
-			static int	currentShadingMode = 2;
+			static int currentShadingMode = 2;
 
 			// コンボボックスの幅を設定
 			ImGui::PushItemWidth(160);
 			ImGui::Text(u8"レンダリングモード");
-			ImGui::Combo(" ", &currentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
+			ImGui::Combo("RenderMode", &currentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
 			switch (currentShadingMode)
 			{
 			case 0:
@@ -181,6 +181,27 @@ void GUI::systemGUI()
 				break;
 			case 3:
 				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_SHADING;
+				break;
+			}
+			ImGui::Separator();
+		}
+
+		// カラーラップ選択
+		{
+			// 今ののレンダリングモード(デフォルトはテクスチャ)
+			static int currentColorRamp = 0;
+
+			// コンボボックスの幅を設定
+			ImGui::PushItemWidth(160);
+			ImGui::Text(u8"カラーランプモード");
+			ImGui::Combo("ColorRamp", &currentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
+			switch (currentColorRamp)
+			{
+			case 0:
+				getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_LINEAR;
+				break;
+			case 1:
+				getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_CONSTANT;
 				break;
 			}
 		}

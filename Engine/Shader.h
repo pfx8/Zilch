@@ -18,10 +18,15 @@
 enum RenderMode
 {
 	RT_DIFFUSE,			// ディフューズ
-	RT_NORMAL,				// 法線
-	RT_TEXTURE,				// テクスチャ
+	RT_NORMAL,			// 法線
+	RT_TEXTURE,			// テクスチャ
+	RT_SHADING,			// シェーディング
+};
 
-	RT_SHADING,				// シェーディング
+enum ColorRamp
+{
+	CR_LINEAR,			// リニア
+	CR_CONSTANT,		// 一定
 };
 
 //*****************************************************************************
@@ -36,6 +41,7 @@ private:
 public:
 	ID3DXEffect*	mEffect;					// エフェクト
 	RenderMode		mRenderType;				// レンダリングモード
+	ColorRamp		mColorRamp;					// カラーランプモード
 
 	Shader(string path);
 	~Shader();

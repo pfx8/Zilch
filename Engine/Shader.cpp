@@ -20,6 +20,9 @@ Shader::Shader(string path)
 
 	// デフォルトシェーディングモードを設定
 	this->mRenderType = RT_TEXTURE;
+
+	// カラーランプモードを設定
+	this->mColorRamp = CR_LINEAR;
 }
 
 //*****************************************************************************

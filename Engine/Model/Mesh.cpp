@@ -208,20 +208,23 @@ void Mesh::createMesh(aiMesh *mesh, const aiScene *scene)
 		VertexBone vertex;
 
 		// 位置
-		// blender座標とDX座標が違うので、Y軸とZ軸を交換
+		// XYZ座標系からXZY座標系に変更
 		vertex.pos.x = mesh->mVertices[count].x;
 		vertex.pos.y = -mesh->mVertices[count].z;
-		vertex.pos.z = -mesh->mVertices[count].y;
-		//vertex.pos.x = mesh->mVertices[count].x;
+		vertex.pos.z = mesh->mVertices[count].y;
 		//vertex.pos.y = mesh->mVertices[count].y;
 		//vertex.pos.z = mesh->mVertices[count].z;
 
 		// 法線
+		// XYZ座標系からXZY座標系に変更
 		vertex.nor.x = mesh->mNormals[count].x;
 		vertex.nor.y = -mesh->mNormals[count].z;
-		vertex.nor.z = -mesh->mNormals[count].y;
+		vertex.nor.z = mesh->mNormals[count].y;
 		//vertex.nor.y = mesh->mNormals[count].y;
 		//vertex.nor.z = mesh->mNormals[count].z;
+
+		cout << endl << vertex.nor.y << endl;
+		cout << vertex.nor.z << endl;
 
 		// UV座標
 		if (mesh->mTextureCoords[0])	// テクスチャ0から(Maxは8で)

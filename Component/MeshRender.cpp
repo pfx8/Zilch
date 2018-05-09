@@ -134,9 +134,13 @@ void MeshRender::draw()
 	// カメラの行列をシェーダーに渡る
 	this->mShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
 	this->mShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
+	this->mShader->mEffect->SetValue("cameraPos", &camera->mCameraPos, sizeof(camera->mCameraPos));
 
 	// レンダリングモードをシェーダーに渡す
 	this->mShader->mEffect->SetInt("renderType", this->mShader->mRenderType);
+
+	// カラーランプモードをシェーダーに渡す
+	this->mShader->mEffect->SetInt("colorRamp", this->mShader->mColorRamp);
 
 	// モデルを描画
 	this->mModel->drawModel(this->mShader);
