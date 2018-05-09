@@ -53,12 +53,11 @@ void Scene02::start()
 	//resource->createModel("Resources/Model/flag.fbx", MT_withBone);
 
 	// shader
-	resource->createShader("Resources/Shader/phongShading.fx");
-	resource->createShader("Resources/Shader/celShading.fx");
+	resource->createShader("Resources/Shader/mainShader.fx");
 	resource->createShader("Resources/Shader/shadowMap.fx");
 
 	// シーンのデフォルトシェーダーを指定
-	this->mShader = resource->getShader("celShading");
+	this->mShader = resource->getShader("mainShader");
 
 	// ライト
 	GameObject* pointLight = new GameObject();

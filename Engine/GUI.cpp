@@ -171,16 +171,16 @@ void GUI::systemGUI()
 			switch (currentShadingMode)
 			{
 			case 0:
-				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_DIFFUSE;
+				getSceneManager()->mCurrentScene->mShader->mRenderMode = RT_DIFFUSE;
 				break;
 			case 1:
-				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_NORMAL;
+				getSceneManager()->mCurrentScene->mShader->mRenderMode = RT_NORMAL;
 				break;
 			case 2:
-				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_TEXTURE;
+				getSceneManager()->mCurrentScene->mShader->mRenderMode = RT_TEXTURE;
 				break;
 			case 3:
-				getSceneManager()->mCurrentScene->mShader->mRenderType = RT_SHADING;
+				getSceneManager()->mCurrentScene->mShader->mRenderMode = RT_SHADING;
 				break;
 			}
 			ImGui::Separator();
@@ -201,6 +201,10 @@ void GUI::systemGUI()
 				getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_LINEAR;
 				break;
 			case 1:
+				ImGui::Text(u8"カラーセグメント");
+				ImGui::SliderFloat("Level1", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.x, 0.0f, 1.0f);
+				ImGui::SliderFloat("Level2", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.y, 0.0f, 1.0f);
+				ImGui::SliderFloat("Level3", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.z, 0.0f, 1.0f);
 				getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_CONSTANT;
 				break;
 			}

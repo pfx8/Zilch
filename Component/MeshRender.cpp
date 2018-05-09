@@ -137,10 +137,15 @@ void MeshRender::draw()
 	this->mShader->mEffect->SetValue("cameraPos", &camera->mCameraPos, sizeof(camera->mCameraPos));
 
 	// レンダリングモードをシェーダーに渡す
-	this->mShader->mEffect->SetInt("renderType", this->mShader->mRenderType);
+	this->mShader->mEffect->SetInt("renderMode", this->mShader->mRenderMode);
 
 	// カラーランプモードをシェーダーに渡す
 	this->mShader->mEffect->SetInt("colorRamp", this->mShader->mColorRamp);
+	// セグメント値をシェーダーに渡す
+	if (this->mShader->mColorRamp == CR_CONSTANT)
+	{
+		this->mShader->mEffect->SetValue("colorRampSegment", &this->mShader->mColorRampSegment, sizeof(this->mShader->mColorRampSegment));
+	}
 
 	// モデルを描画
 	this->mModel->drawModel(this->mShader);

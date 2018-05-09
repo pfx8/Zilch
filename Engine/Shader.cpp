@@ -19,10 +19,13 @@ Shader::Shader(string path)
 	loadEffectFile(path);
 
 	// デフォルトシェーディングモードを設定
-	this->mRenderType = RT_TEXTURE;
+	this->mRenderMode = RT_TEXTURE;
 
 	// カラーランプモードを設定
 	this->mColorRamp = CR_LINEAR;
+
+	// セグメントを設定
+	this->mColorRampSegment = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
 //*****************************************************************************
