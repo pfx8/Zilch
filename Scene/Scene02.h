@@ -9,9 +9,8 @@
 #define _SCENE02_H_
 
 #include "Scene.h"
-#include "../Engine/Shader.h"
-#include "../Engine/Model/Mesh.h"
-#include "../GameObject/GameObject.h"
+
+#include "Engine/Model/Mesh.h"
 
 //*****************************************************************************
 //

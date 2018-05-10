@@ -10,7 +10,8 @@
 
 #include "Component.h"
 #include "Transform.h"
-#include "../Engine/Engine.h"
+
+#include "Engine/Engine.h"
 
 //*****************************************************************************
 //
@@ -20,10 +21,10 @@
 class Camera : public Component
 {
 private:
-	float mField;											// ビューイングの視野角
-	float mRatio;											// アスペクト比
-	float mRangeStart;								// NearZ値
-	float mRangeEnd;									// FarZ値
+	float			mField;						// ビューイングの視野角
+	float			mRatio;						// アスペクト比
+	float			mRangeStart;				// NearZ値
+	float			mRangeEnd;					// FarZ値
 
 public:
 	D3DXVECTOR3		mCameraPos;					// カメラの位置
@@ -33,8 +34,8 @@ public:
 	D3DXVECTOR3		mCameraRight;				// カメラの右方向ベクトル
 	D3DXVECTOR3		mCameraUp;					// カメラの上方向ベクトル
 
-	D3DXMATRIX		mViewMatrix;					// ビューイング変換行列
-	D3DXMATRIX		mProjectionMatrix;		// プロジェクション変換行列
+	D3DXMATRIX		mViewMatrix;				// ビューイング変換行列
+	D3DXMATRIX		mProjectionMatrix;			// プロジェクション変換行列
 
 	Camera();
 	~Camera();

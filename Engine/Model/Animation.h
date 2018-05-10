@@ -11,7 +11,8 @@
 #include "AnimationChannel.h"
 #include "Bone.h"
 #include "Node.h"
-#include "../Engine.h"
+
+#include "Engine/Engine.h"
 
 //*****************************************************************************
 //
@@ -23,13 +24,13 @@ class Animation
 	friend class Mesh;
 	friend class Model;
 private:
-	float					mLastStartTime = 0.0f;			// 前回アニメーションが終わった時間、最初はゲームスタートので0にする
-	string					mName;							// アニメーションの名前
-	float					mDuration;						// アニメーションの続き時間(単位はTicks)
-	float					mTicksPerSecond;				// Tricks/seconds
+	float					mLastStartTime {0.0f};							// 前回アニメーションが終わった時間、最初はゲームスタートので0にする
+	string					mName;											// アニメーションの名前
+	float					mDuration;										// アニメーションの続き時間(単位はTicks)
+	float					mTicksPerSecond;								// Tricks/seconds
 
-	void processNode(Node* node, aiNode* aiNode, const aiScene* scene);			// ノード処理
-	HRESULT loadAnimation(string const &path);						// アニメーションを読み込み
+	void processNode(Node* node, aiNode* aiNode, const aiScene* scene);		// ノード処理
+	HRESULT loadAnimation(string const &path);								// アニメーションを読み込み
 
 	void calcInterpolatedScl(D3DXVECTOR3& scl, float animationTime, AnimationChannel* channel);
 	void calcInterpolatedRot(D3DXQUATERNION& rot, float animationTime, AnimationChannel* channel);
@@ -48,7 +49,7 @@ public:
 	~Animation();
 
 	void updateBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms);		// アニメーションキーフレームによって骨の変更行列を更新
-	void traverseBoneNode(Node* node, unsigned int level);	// 骨ノードをトラバース
+	void traverseBoneNode(Node* node, unsigned int level);														// 骨ノードをトラバース
 };
 
 #endif // !_ANIMATION_H_

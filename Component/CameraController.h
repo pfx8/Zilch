@@ -10,10 +10,14 @@
 
 #include "Transform.h"
 #include "Camera.h"
-#include "../Engine/Engine.h"
-#include "../Engine/input.h"
-#include "../Engine/GameTimes.h"
-#include "../GameObject/GameObject.h"
+
+#include "Engine/Engine.h"
+#include "Engine/input.h"
+#include "Engine/GameTimes.h"
+
+#include "GameObject/GameObject.h"
+
+#include "Scene/Scene.h"
 
 //*****************************************************************************
 //
@@ -25,21 +29,21 @@
 class CameraController : public Component
 {
 private:
-	D3DXVECTOR3				mOffsetFromTarget;								// カメラと目標の偏り
+	float		mOffsetFromTargetMin  {5.0f};								// プレーヤーとカメラの偏り(半径)の最小値
+	float		mOffsetFromTargetMax  {9.0f};								// プレーヤーとカメラの偏り(半径)の最大値
+	float		mVerticalRadiansMin   {cosf(D3DXToRadian(65.0f))};			// カメラの垂直角度の最小値
+	float		mVerticalRadiansMax   {cosf(D3DXToRadian(-15.0f))};			// カメラの垂直角度の最大値
+	float		mRotateSpeedHorizonal {4.0f};								// 水平移動スピード
+	float		mRotateSpeedVertical  {2.0f};								// 垂直移動スピード
+	float		mZoomSpeed            {0.3f};								// ゾーンスピード
+	float		mMoveSpeed            {0.3f};								// カメラ移動スピード
 
-	float		mOffsetFromTargetMin = 5.0f;								// プレーヤーとカメラの偏り(半径)の最小値
-	float		mOffsetFromTargetMax = 9.0f;								// プレーヤーとカメラの偏り(半径)の最大値
-	float		mVerticalRadiansMin = cosf(D3DXToRadian(65.0f));			// カメラの垂直角度の最小値
-	float		mVerticalRadiansMax = cosf(D3DXToRadian(-15.0f));			// カメラの垂直角度の最大値
-	float		mRotateSpeedHorizonal = 4.0f;								// 水平移動スピード
-	float		mRotateSpeedVertical = 2.0f;								// 垂直移動スピード
-	float		mZoomSpeed = 0.3f;											// ゾーンスピード
-	float		mMoveSpeed = 0.3f;											// カメラ移動スピード
+	int			mMouseIsMoving        {5};									// マウスの移動チェック量
 
-	int			mMouseIsMoving = 5;											// マウスの移動チェック量
+	D3DXVECTOR3				mOffsetFromTarget;				// カメラと目標の偏り
 
 public:
-	GameObject*				mMainCamera;					// マインカメラ
+	Camera*					mMainCamera;					// メインカメラ
 
 	CameraController();
 	~CameraController();

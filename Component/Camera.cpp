@@ -36,8 +36,8 @@ void Camera::start()
 {
 	this->mField = D3DXToRadian(45);
 	this->mRatio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;
-	this->mRangeStart = 0.1;
-	this->mRangeEnd = 1000;
+	this->mRangeStart = 0.1f;
+	this->mRangeEnd = 1000.0f;
 }
 
 //*****************************************************************************
@@ -73,27 +73,27 @@ void Camera::update()
 void Camera::drawImGui()
 {
 	ImGui::Text(u8"カメラ位置");
-	float* v1[3] = { &this->mCameraPos.x, &this->mCameraPos.y, &this->mCameraPos.z };
+	float* v1[3] {&this->mCameraPos.x, &this->mCameraPos.y, &this->mCameraPos.z};
 	ImGui::InputFloat3("Pos", *v1);
 	ImGui::Separator();
 
 	ImGui::Text(u8"カメラ注視点(モデル位置に設定してる)");
-	float* v2[3] = { &this->mTargetTrans->mPos.x, &this->mTargetTrans->mPos.y, &this->mTargetTrans->mPos.z };
+	float* v2[3] {&this->mTargetTrans->mPos.x, &this->mTargetTrans->mPos.y, &this->mTargetTrans->mPos.z};
 	ImGui::InputFloat3("Look", *v2);
 	ImGui::Separator();
 
 	ImGui::Text(u8"注視方向ベクトル");
-	float* v3[3] = { &this->mCameraFront.x, &this->mCameraFront.y, &this->mCameraFront.z };
+	float* v3[3] {&this->mCameraFront.x, &this->mCameraFront.y, &this->mCameraFront.z};
 	ImGui::DragFloat3("lookV", *v3);
 	ImGui::Separator();
 
 	ImGui::Text(u8"右方向ベクトル");
-	float* v4[3] = { &this->mCameraRight.x, &this->mCameraRight.y, &this->mCameraRight.z };
+	float* v4[3] {&this->mCameraRight.x, &this->mCameraRight.y, &this->mCameraRight.z};
 	ImGui::DragFloat3("rightV", *v4);
 	ImGui::Separator();
 
 	ImGui::Text(u8"上方向ベクトル");
-	float* v5[3] = { &this->mCameraUp.x, &this->mCameraUp.y, &this->mCameraUp.z };
+	float* v5[3] { &this->mCameraUp.x, &this->mCameraUp.y, &this->mCameraUp.z };
 	ImGui::DragFloat3("upV", *v5);
 	ImGui::Separator();
 }

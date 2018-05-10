@@ -34,9 +34,9 @@ void Material::loadingMaterial(aiMaterial* mat)
 	// マテリアルがあれば、マテリアル属性を取得
 	if (this->mName != "DefaultMaterial")
 	{
-		aiColor3D ambient(0.0f, 0.0f, 0.0f);
-		aiColor3D diffuse(0.0f, 0.0f, 0.0f);
-		aiColor3D specular(0.0f, 0.0f, 0.0f);
+		aiColor3D ambient { 0.0f, 0.0f, 0.0f };
+		aiColor3D diffuse { 0.0f, 0.0f, 0.0f };
+		aiColor3D specular { 0.0f, 0.0f, 0.0f };
 
 		mat->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
 		mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
@@ -84,7 +84,7 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		mat->getTexture(type, count, &str);
 
 		// テクスチャ名前を保存
-		string fileName = str.C_Str();
+		string fileName {str.C_Str()};
 
 		// 絶対パスならば、モデルの名前とテクスチャを取得
 		if (fileName.find("\\") != string::npos)
@@ -94,8 +94,8 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		fileName = fileName.substr(0, fileName.find_first_of("."));									// exp : xxx.png -> xxx
 
 		// テクスチャまだ読み込まなっかたら読み込む
-		Resources* resource = getResources();
-		Texture* texture = resource->getTexture(fileName.c_str());
+		Resources* resource {getResources()};
+		Texture* texture {resource->getTexture(fileName.c_str())};
 			
 		if (texture->mTex == nullptr)
 		{

@@ -9,7 +9,8 @@
 #define _LIGHT_H_
 
 #include "Component.h"
-#include "../Engine/Engine.h"
+
+#include "Engine/Engine.h"
 
 //*****************************************************************************
 //
@@ -63,7 +64,7 @@ class Light : public Component
 {
 private:
 	int					mCurrentLightType;
-	const char*			mLight[3] = { u8"指向性ライト", u8"ポイントライト", u8"スポットライト"};
+	const char*			mLight[3] {u8"指向性ライト", u8"ポイントライト", u8"スポットライト"};
 
 	void start();		// 初期化
 

@@ -10,9 +10,11 @@
 
 #include "Component.h"
 #include "MeshRender.h"
-#include "../Engine/Engine.h"
-#include "../Engine/input.h"
-#include "../GameObject/GameObject.h"
+
+#include "Engine/Engine.h"
+#include "Engine/input.h"
+
+#include "GameObject/GameObject.h"
 
 //*****************************************************************************
 //

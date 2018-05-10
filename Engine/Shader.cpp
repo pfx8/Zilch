@@ -14,7 +14,7 @@
 //*****************************************************************************
 Shader::Shader(string path)
 {
-	string name = path.substr(path.find_last_of("//") + 1, path.find_last_of("/n"));
+	string name {path.substr(path.find_last_of("//") + 1, path.find_last_of("/n"))};
 	cout << "<Shader> : "  << name;
 	loadEffectFile(path);
 
@@ -45,7 +45,7 @@ Shader::~Shader()
 //*****************************************************************************
 HRESULT Shader::loadEffectFile(string path)
 {
-	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
+	LPDIRECT3DDEVICE9 pD3DDevice{getD3DDevice()};
 
 	D3DCAPS9 caps;
 	pD3DDevice->GetDeviceCaps(&caps);
@@ -54,7 +54,7 @@ HRESULT Shader::loadEffectFile(string path)
 		cout << "[Error] Don't support pixel shader!" << endl;
 	}
 
-	ID3DXBuffer* errorBuffer = nullptr	;		// エラーバッファ
+	ID3DXBuffer* errorBuffer {nullptr};		// エラーバッファ
 	D3DXCreateEffectFromFile(pD3DDevice,
 						path.c_str(),	// エフェクトファイルの名前
 						0,

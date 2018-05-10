@@ -8,7 +8,7 @@
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
 
-#include "../Engine.h"
+#include "Engine/Engine.h"
 
 //*****************************************************************************
 //
@@ -29,7 +29,7 @@ public:
 	Texture(string name, string path);
 	~Texture();
 
-	HRESULT loadingTexture(string path);		// テクスチャを読み込み
+	HRESULT loadingTexture(string path);	// テクスチャを読み込み
 };
 
 #endif // !_TEXTURE_H_

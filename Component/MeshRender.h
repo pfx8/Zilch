@@ -12,12 +12,15 @@
 #include "Camera.h"
 #include "CameraController.h"
 #include "Light.h"
-#include "../Engine/Engine.h"
-#include "../Engine/Shader.h"
-#include "../Engine/ShadowMap.h"
-#include "../Engine/Model/Model.h"
-#include "../GameObject/GameObject.h"
-#include "../Scene/Scene.h"
+
+#include "Engine/Engine.h"
+#include "Engine/Shader.h"
+#include "Engine/ShadowMap.h"
+#include "Engine/Model/Model.h"
+
+#include "GameObject/GameObject.h"
+
+#include "Scene/Scene.h"
 
 //*****************************************************************************
 //

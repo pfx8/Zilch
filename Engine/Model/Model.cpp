@@ -51,7 +51,7 @@ Model::~Model()
 HRESULT Model::loadModel(string const &path)
 {
 	Assimp::Importer import;			// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
+	const aiScene *scene {import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded)};
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -75,17 +75,17 @@ HRESULT Model::loadModel(string const &path)
 void Model::processNode(aiNode *node, const aiScene *scene)
 {
 	// もし今のノードにメッシュがあれば処理する
-	for (unsigned int count = 0; count < node->mNumMeshes; count++)
+	for (unsigned int count {0}; count < node->mNumMeshes; count++)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
-		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
+		aiMesh* aiMesh {scene->mMeshes[node->mMeshes[count]]};
 		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, this->mBones, scene));
 	}
 
 	// もしアニメーションがあれば
 
 	// 子供ノードを同じように処理する
-	for (unsigned int count = 0; count < node->mNumChildren; count++)
+	for (unsigned int count {0}; count < node->mNumChildren; count++)
 	{
 		processNode(node->mChildren[count], scene);
 	}
@@ -120,7 +120,7 @@ void Model::traverseNode(Node* node, unsigned int level)
 {
 	string space;
 
-	for (unsigned count = 0; count < level; count++)
+	for (unsigned count {0}; count < level; count++)
 	{
 		space += "  ";
 	}
@@ -140,9 +140,9 @@ void Model::traverseNode(Node* node, unsigned int level)
 //*****************************************************************************
 void Model::drawModel(Shader* shader)
 {
-	D3DXMATRIX mat[87] = { };
+	D3DXMATRIX mat[87] { };
 
-	unsigned int count = 0;
+	unsigned int count {0};
 	for (auto it : this->mBones)
 	{
 		mat[count] = it->mFinaTransform;

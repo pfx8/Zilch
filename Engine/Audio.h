@@ -18,8 +18,8 @@
 class Audio
 {
 private:
-	FMOD::System*							mSystem = nullptr;		// FMODマインシステム
-	FMOD::Channel*							mChannel = nullptr;		// FMODチャンネル
+	FMOD::System*							mSystem{nullptr};		// FMODマインシステム
+	FMOD::Channel*							mChannel{nullptr};		// FMODチャンネル
 	unordered_map<string, FMOD::Sound*>		mSoundsMap;				// サウンドマップ
 
 	HRESULT start();

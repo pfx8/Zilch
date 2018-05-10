@@ -74,7 +74,7 @@ HRESULT Audio::createStream(const string path, FMOD_MODE mode)
 		return E_FAIL;
 	}
 
-	string fileName = path.substr(path.find_last_of("//") + 1, path.find_first_of("."));
+	string fileName {path.substr(path.find_last_of("//") + 1, path.find_first_of("."))};
 	// サウンドマップに入れる
 	this->mSoundsMap.insert(make_pair(fileName, sound));
 

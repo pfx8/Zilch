@@ -14,7 +14,7 @@
 //*****************************************************************************
 Console::Console()
 {
-	this->isConsoleRun = AllocConsole();	// コンソールを初期化
+	this->mIsConsoleRun = AllocConsole();	// コンソールを初期化
 	SetConsoleTitle(_T("console"));			// コンソールのタイトルを設定する
 	freopen("CONIN$", "r", stdin);			// コンソールにinput,outputを指定
 	freopen("CONOUT$", "w", stdout);
@@ -28,7 +28,7 @@ Console::Console()
 //*****************************************************************************
 Console::~Console()
 {
-	this->isConsoleRun = FreeConsole() & 1;
+	this->mIsConsoleRun = FreeConsole() & 1;
 }
 
 //*****************************************************************************

@@ -11,10 +11,10 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Animation.h"
-#include "../Engine.h"
-#include "../Shader.h"
-#include "../../Component/Camera.h"
-#include "../../Component/Transform.h"
+#include "Engine/Engine.h"
+#include "Engine/Shader.h"
+#include "Component/Camera.h"
+#include "Component/Transform.h"
 
 //*****************************************************************************
 //
@@ -29,7 +29,7 @@ private:
 
 public:
 	enum MeshType					mMeshType;						// メッシュタイプ
-	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号
+	unsigned int					mCurAnimation{0};				// 現在のアニメーション番号
 
 	string							mName;							// モデル名前
 	vector<Mesh*>					mMeshes;						// メッシュデータ

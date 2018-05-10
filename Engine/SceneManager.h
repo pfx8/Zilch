@@ -10,8 +10,9 @@
 
 #include "Engine.h"
 #include "input.h"
-#include "..\Scene\Scene.h"
-#include "..\Scene\Scene02.h"
+
+#include "Scene/Scene.h"
+#include "Scene/Scene02.h"
 
 //*****************************************************************************
 //
@@ -30,11 +31,11 @@ public:
 	~SceneManager();
 
 	void start();				// 最初のシーンを初期化
-	void update();			// シーンを更新
-	void draw();			// シーンを描画
+	void update();				// シーンを更新
+	void draw();				// シーンを描画
 
 	void addScene(string name, Scene* scene);		// シーンを増加
-	HRESULT setActiveScene(string name);				// これから実行するシーンを選択
+	HRESULT setActiveScene(string name);			// これから実行するシーンを選択
 }; 
 
 #endif // !_SCENE_MANAGER_H_

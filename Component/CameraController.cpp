@@ -34,7 +34,7 @@ CameraController::~CameraController()
 //*****************************************************************************
 void CameraController::start()
 {
-
+	this->mMainCamera = this->mGameObject->mScene->getGameObject("mainCamera")->getComponent<Camera>();
 }
 
 //*****************************************************************************
@@ -44,13 +44,10 @@ void CameraController::start()
 //*****************************************************************************
 void CameraController::zoom(float distance)
 {
-	// カメラを取得
-	Camera* mainCamera = mMainCamera->getComponent<Camera>();
-
 	// 新しいoffset距離を計算、範囲を越えてなければoffsetを更新
-	D3DXVECTOR3 zoomDistance = mainCamera->mCameraFront * distance;
-	D3DXVECTOR3 newOffset = mOffsetFromTarget + zoomDistance;
-	float newOffsetDistance = D3DXVec3Length(&newOffset);
+	D3DXVECTOR3 zoomDistance {this->mMainCamera->mCameraFront * distance};
+	D3DXVECTOR3 newOffset {this->mOffsetFromTarget + zoomDistance};
+	float newOffsetDistance {D3DXVec3Length(&newOffset) };
 	if (newOffsetDistance >= this->mOffsetFromTargetMin && newOffsetDistance <= this->mOffsetFromTargetMax)
 	{
 		this->mOffsetFromTarget = newOffset;
@@ -64,25 +61,23 @@ void CameraController::zoom(float distance)
 //*****************************************************************************
 void CameraController::rotation(float verticalRadians, float horizonalRadians)
 {
-	// カメラを取得
-	Camera* mainCamera = mMainCamera->getComponent<Camera>();
 	// ゲーム世界の3軸を取得
 	WorldVector worldVector;
 
 	// 水平移動
 	D3DXMATRIX horizonalMatrix;
-	D3DXMatrixRotationAxis(&horizonalMatrix, &worldVector.worldUp, horizonalRadians);								// 回転行列を作る(世界のY軸に中心して回転)
+	D3DXMatrixRotationAxis(&horizonalMatrix, &worldVector.worldUp, horizonalRadians);					// 回転行列を作る(世界のY軸に中心して回転)
 	D3DXVec3TransformCoord(&this->mOffsetFromTarget, &this->mOffsetFromTarget, &horizonalMatrix);		// 新しいoffset座標を計算する
 
 	// 垂直移動
 	D3DXMATRIX verticalMatrix;
-	D3DXMatrixRotationAxis(&verticalMatrix, &mainCamera->mCameraRight, verticalRadians);						// 回転行列を作る(カメラの右軸に中心して回転)
+	D3DXMatrixRotationAxis(&verticalMatrix, &this->mMainCamera->mCameraRight, verticalRadians);			// 回転行列を作る(カメラの右軸に中心して回転)
 	D3DXVECTOR3 newOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVec3TransformCoord(&newOffset, &this->mOffsetFromTarget, &verticalMatrix);									// 新しいoffset座標を計算する
+	D3DXVec3TransformCoord(&newOffset, &this->mOffsetFromTarget, &verticalMatrix);						// 新しいoffset座標を計算する
 
-	D3DXVECTOR3 newOffsetNormalize = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVec3Normalize(&newOffsetNormalize, &newOffset);																					// ベクトルを正規化
-	float radianToWorldUp = D3DXVec3Dot(&newOffsetNormalize, &worldVector.worldUp);								// カメラと世界のUpベクトルの角度を外積で計算
+	D3DXVECTOR3 newOffsetNormalize {D3DXVECTOR3(0.0f, 0.0f, 0.0f)};
+	D3DXVec3Normalize(&newOffsetNormalize, &newOffset);													// ベクトルを正規化
+	float radianToWorldUp { D3DXVec3Dot(&newOffsetNormalize, &worldVector.worldUp) };					// カメラと世界のUpベクトルの角度を外積で計算
 	if (radianToWorldUp <= this->mVerticalRadiansMax && radianToWorldUp > this->mVerticalRadiansMin)	// カメラの垂直角度が範囲内ならば
 	{
 		this->mOffsetFromTarget = newOffset;
@@ -96,17 +91,14 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 //*****************************************************************************
 void CameraController::update()
 {
-	// mainCameraを取得
-	Camera* mainCamera = mMainCamera->getComponent<Camera>();
-
 	// 目標からカメラまでの距離を計算
-	mOffsetFromTarget = mainCamera->mCameraPos - mainCamera->mTargetTrans->mPos;
+	this->mOffsetFromTarget = this->mMainCamera->mCameraPos - this->mMainCamera->mTargetTrans->mPos;
 
 	// 入力更新
 	inputUpdate();
 
 	// カメラを更新
-	mainCamera->mCameraPos = mainCamera->mTargetTrans->mPos + mOffsetFromTarget;
+	this->mMainCamera->mCameraPos = this->mMainCamera->mTargetTrans->mPos + this->mOffsetFromTarget;
 }
 
 //*****************************************************************************
@@ -116,16 +108,13 @@ void CameraController::update()
 //*****************************************************************************
 void CameraController::move(float distance, bool isVertical)
 {
-	// カメラを取得
-	Camera* mainCamera = mMainCamera->getComponent<Camera>();
-
 	if (isVertical)
 	{
-		mainCamera->mCameraPos.z += distance;
+		this->mMainCamera->mCameraPos.z += distance;
 	}
 	else
 	{
-		mainCamera->mCameraPos.x += distance;
+		this->mMainCamera->mCameraPos.x += distance;
 	}
 }
 

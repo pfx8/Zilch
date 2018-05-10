@@ -17,16 +17,16 @@
 // グローバル変数
 //
 //*****************************************************************************
-LPDIRECT3D9						gD3D = nullptr;				// Direct3Dオブジェクト
-LPDIRECT3DDEVICE9				gD3DDevice = nullptr;		// Deviceオブジェクト(描画に必要)
+LPDIRECT3D9						gD3D {nullptr};				// Direct3Dオブジェクト
+LPDIRECT3DDEVICE9				gD3DDevice {nullptr};		// Deviceオブジェクト(描画に必要)
 D3DPRESENT_PARAMETERS			gD3Dpp;						// デバイスのプレゼンテーションパラメータ
 
 // 自作クラス
-Console*						gConsole = nullptr;			// コンソールウインド
-Resources*						gResources = nullptr;		// リソース
-SceneManager*					gSceneManager = nullptr;	// シンー管理
-GameTimes*						gGameTimes = nullptr;		// ゲームタイム
-GUI*							gGUI = nullptr;				// ImGui
+Console*						gConsole {nullptr};			// コンソールウインド
+Resources*						gResources {nullptr};		// リソース
+SceneManager*					gSceneManager {nullptr};	// シンー管理
+GameTimes*						gGameTimes {nullptr};		// ゲームタイム
+GUI*							gGUI {nullptr};				// ImGui
 
 // ゲーム世界の3軸
 WorldVector						gWorldVector;
@@ -99,8 +99,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	RECT rect;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
 	// どんな解像度でもウインドを中心にする
-	int x = (rect.right - rect.left - SCREEN_WIDTH) / 2;
-	int y = (rect.bottom - rect.top - SCREEN_HEIGHT) / 2;
+	int x {(rect.right - rect.left - SCREEN_WIDTH) / 2};
+	int y {(rect.bottom - rect.top - SCREEN_HEIGHT) / 2};
 
 	// ウィンドウの作成
 	hWnd = CreateWindowEx
@@ -272,7 +272,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	ZeroMemory(&gD3Dpp, sizeof(gD3Dpp));
 
 	// デフォルトで使わない
-	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE;
+	D3DMULTISAMPLE_TYPE multiSampType {D3DMULTISAMPLE_NONE};
 	// このデバイスでマルチサンプリング テクニックを利用できるかどうかを調べる
 	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
 		0, D3DMULTISAMPLE_16_SAMPLES, NULL))
@@ -307,7 +307,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	}
 
 	D3DCAPS9 caps; 
-	int vp = 0;
+	int vp {0};
 	if (FAILED(gD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
 		cout << "[Error] Get directX device ... fail!" << endl;
@@ -355,7 +355,7 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 
 	// メッセージを出る為のコンソールを初期化
 	gConsole = new Console();
-	if (gConsole->isConsoleRun == false)
+	if (gConsole->mIsConsoleRun == false)
 	{
 		cout << "[Error] Setup console ... fail!" << endl;
 		return E_FAIL;

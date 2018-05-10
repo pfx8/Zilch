@@ -12,12 +12,12 @@
 // マクロ定義
 //
 //*****************************************************************************
-#define	NUM_KEY_MAX			256				// 最大キーボードのキー数
+#define	NUM_KEY_MAX			(256)				// 最大キーボードのキー数
 
 // ゲームパッド設定
-#define DEADZONE			2500			// 各軸の25%を無効ゾーンとする
-#define RANGE_MAX			1000			// 有効範囲の最大値
-#define RANGE_MIN			-1000			// 有効範囲の最小値
+#define DEADZONE			(2500)				// 各軸の25%を無効ゾーンとする
+#define RANGE_MAX			(1000)				// 有効範囲の最大値
+#define RANGE_MIN			(-1000)				// 有効範囲の最小値
 
 //*****************************************************************************
 //
@@ -42,26 +42,26 @@ void UninitPad(void);				// ゲームパッド終了処理
 // グローバル変数
 //
 //*****************************************************************************
-LPDIRECTINPUT8				gD3DInput = NULL;					// IDirectInput8インターフェースへのポインタ
+LPDIRECTINPUT8				gD3DInput {nullptr};					// IDirectInput8インターフェースへのポインタ
 
 // キーボード用
-LPDIRECTINPUTDEVICE8		gDeviceKeyboard = NULL;				// IDirectInputDevice8インターフェースへのポインタ(キーボード)
-BYTE						gKeyState[NUM_KEY_MAX];				// キーボードの状態を受け取るワーク
-BYTE						gKeyStateTrigger[NUM_KEY_MAX];		// キーボードの状態を受け取るワーク
-BYTE						gKeyStateRepeat[NUM_KEY_MAX];		// キーボードの状態を受け取るワーク
-BYTE						gKeyStateRelease[NUM_KEY_MAX];		// キーボードの状態を受け取るワーク
-int							gKeyStateRepeatCnt[NUM_KEY_MAX];	// キーボードのリピートカウンタ
+LPDIRECTINPUTDEVICE8		gDeviceKeyboard {nullptr};				// IDirectInputDevice8インターフェースへのポインタ(キーボード)
+BYTE						gKeyState[NUM_KEY_MAX];					// キーボードの状態を受け取るワーク
+BYTE						gKeyStateTrigger[NUM_KEY_MAX];			// キーボードの状態を受け取るワーク
+BYTE						gKeyStateRepeat[NUM_KEY_MAX];			// キーボードの状態を受け取るワーク
+BYTE						gKeyStateRelease[NUM_KEY_MAX];			// キーボードの状態を受け取るワーク
+int							gKeyStateRepeatCnt[NUM_KEY_MAX];		// キーボードのリピートカウンタ
 
 // マウス用
-static LPDIRECTINPUTDEVICE8 gDeviceMouse = NULL;				// マウスポインタ
-static DIMOUSESTATE2		gMouseState;						// マウスのダイレクトな状態
-static DIMOUSESTATE2		gMouseTrigger;						// 押された瞬間だけON
+static LPDIRECTINPUTDEVICE8 gDeviceMouse {nullptr};					// マウスポインタ
+static DIMOUSESTATE2		gMouseState;							// マウスのダイレクトな状態
+static DIMOUSESTATE2		gMouseTrigger;							// 押された瞬間だけON
 
 // ゲームパッド用
-static LPDIRECTINPUTDEVICE8	gDeviceGamePad[GAMEPADMAX] = {NULL,NULL,NULL,NULL};	// パッドデバイス
-static DWORD				gGamePadState[GAMEPADMAX];							// パッド情報（複数対応）
-static DWORD				gGamePadTrigger[GAMEPADMAX];						// 押された瞬間だけON
-static int					gGamePadCount = 0;									// 検出したパッドの数
+static LPDIRECTINPUTDEVICE8	gDeviceGamePad[GAMEPADMAX] {nullptr, nullptr, nullptr, nullptr};	// パッドデバイス
+static DWORD				gGamePadState[GAMEPADMAX];											// パッド情報（複数対応）
+static DWORD				gGamePadTrigger[GAMEPADMAX];										// 押された瞬間だけON
+static int					gGamePadCount {0};													// 検出したパッドの数
 
 //*****************************************************************************
 //
@@ -193,7 +193,7 @@ HRESULT UpdateKeyboard(void)
 	hr = gDeviceKeyboard->GetDeviceState(sizeof(gKeyState), gKeyState);
 	if(SUCCEEDED(hr))
 	{
-		for(int cnt = 0; cnt < NUM_KEY_MAX; cnt++)
+		for (unsigned int cnt {0}; cnt < NUM_KEY_MAX; cnt++)
 		{
 			gKeyStateTrigger[cnt] = (keyStateOld[cnt] ^ gKeyState[cnt]) & gKeyState[cnt];
 			gKeyStateRelease[cnt] = (keyStateOld[cnt] ^ gKeyState[cnt]) & ~gKeyState[cnt];
@@ -338,7 +338,7 @@ HRESULT UpdateMouse()
 		gMouseTrigger.lZ = gMouseState.lZ;
 
 		// マウスのボタン状態
-		for (int i = 0; i<8; i++)
+		for (unsigned int i {0}; i < 8; i++)
 		{
 			gMouseTrigger.rgbButtons[i] = ((lastMouseState.rgbButtons[i] ^
 				gMouseState.rgbButtons[i]) & gMouseState.rgbButtons[i]);
@@ -467,14 +467,15 @@ long GetMouseZ(void)
 //*****************************************************************************
 HRESULT InitializePad(void)
 {
-	HRESULT		hr;
+	HRESULT hr;
 
+	// ゲームパッド数を設定
 	gGamePadCount = 0;
 	// ジョイパッドを探す
 	gD3DInput->EnumDevices(DI8DEVCLASS_GAMECTRL, (LPDIENUMDEVICESCALLBACK)SearchGamePadCallback, NULL, DIEDFL_ATTACHEDONLY);
 	// セットしたコールバック関数が、パッドを発見した数だけ呼ばれる。
 
-	for (unsigned int i = 0; i < gGamePadCount; i++)
+	for (unsigned int i {0}; i < gGamePadCount; i++)
 	{
 		// ジョイスティック用のデータ・フォーマットを設定
 		hr = gDeviceGamePad[i]->SetDataFormat(&c_dfDIJoystick);
@@ -562,10 +563,10 @@ BOOL CALLBACK SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID)
 //*****************************************************************************
 void UpdatePad(void)
 {
-	HRESULT			hr;
-	DIJOYSTATE2		dijs;
+	HRESULT hr;
+	DIJOYSTATE2 dijs;
 
-	for (unsigned int i = 0; i < gGamePadCount; i++)
+	for (unsigned int i {0}; i < gGamePadCount; i++)
 	{
 		DWORD lastPadState;
 		lastPadState = gGamePadState[i];
@@ -649,7 +650,7 @@ void UpdatePad(void)
 //*****************************************************************************
 void UninitPad(void)
 {
-	for (unsigned int i = 0; i < GAMEPADMAX; i++)
+	for (unsigned int i {0}; i < GAMEPADMAX; i++)
 	{
 		if ( gDeviceGamePad[i] )
 		{

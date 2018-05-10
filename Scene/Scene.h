@@ -8,17 +8,19 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
-#include "../Component/Camera.h"
-#include "../Component/CameraController.h"
-#include "../Component/Component.h"
-#include "../Component/MeshRender.h"
-#include "../Component/PlayerController.h"
-#include "../Component/Transform.h"
-#include "../Component/Light.h"
-#include "../Engine/Engine.h"
-#include "../Engine/input.h"
-#include "../Engine/Shader.h"
-#include "../GameObject/GameObject.h"
+#include "Component/Camera.h"
+#include "Component/CameraController.h"
+#include "Component/Component.h"
+#include "Component/MeshRender.h"
+#include "Component/PlayerController.h"
+#include "Component/Transform.h"
+#include "Component/Light.h"
+
+#include "Engine/Engine.h"
+#include "Engine/input.h"
+#include "Engine/Shader.h"
+
+#include "GameObject/GameObject.h"
 
 //*****************************************************************************
 //
@@ -30,17 +32,17 @@ class Scene
 private:
 
 public:
-	Shader*										mShader;				// 現在レンダリング用なシェーダー
-	bool										mIsStart;				// スタートマーク
-	vector<MeshRender*>							mMeshRenders;			// メッシュレンダリング
-	map<string, GameObject*>					mGameObjectMap;			// 取得するために作ったGameObjectのマップ
+	Shader*									mShader;				// 現在レンダリング用なシェーダー
+	bool									mIsStart;				// スタートマーク
+	vector<MeshRender*>						mMeshRenders;			// メッシュレンダリング
+	map<string, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
 
 	Scene();
 	~Scene();
 
-	virtual void start() {};			// シーンのスタート
-	void update();						// シーンの更新
-	void draw();						// シーンの描画
+	virtual void start() {};		// シーンのスタート
+	void update();					// シーンの更新
+	void draw();					// シーンの描画
 	
 	void addGameObject(string name, GameObject* gameObject);		// シーンにGameObjectを増加
 	GameObject* getGameObject(string name);							// シーンからGameObjectを取得

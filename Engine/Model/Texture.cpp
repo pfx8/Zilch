@@ -40,7 +40,7 @@ Texture::~Texture()
 //*****************************************************************************
 HRESULT Texture::loadingTexture(string path)
 {
-	LPDIRECT3DDEVICE9	D3dDevice = getD3DDevice();
+	LPDIRECT3DDEVICE9 D3dDevice {getD3DDevice()};
 
 	// テクスチャを読み込み
 	if (FAILED(D3DXCreateTextureFromFile(

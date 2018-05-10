@@ -16,9 +16,9 @@
 //
 //*****************************************************************************
 // ImGui
-#include "../FrameWork/ImGui/imgui.h"
-#include "../FrameWork/ImGui/imgui_impl_dx9.h"
-#include "../FrameWork/ImGui/imgui_internal.h"
+#include "FrameWork/ImGui/imgui.h"
+#include "FrameWork/ImGui/imgui_impl_dx9.h"
+#include "FrameWork/ImGui/imgui_internal.h"
 
 // DirectX9.0 and Windows
 #include <windows.h>
@@ -36,14 +36,14 @@
 #include <typeindex>					// typeid()ÇÃÇΩÇﬂ
 
 // Assimp
-#include "../FrameWork/assimp/include/assimp/Importer.hpp"
-#include "../FrameWork/assimp/include/assimp/scene.h"
-#include "../FrameWork/assimp/include/assimp/postprocess.h"
+#include "FrameWork/assimp/include/assimp/Importer.hpp"
+#include "FrameWork/assimp/include/assimp/scene.h"
+#include "FrameWork/assimp/include/assimp/postprocess.h"
 
 
 // FMOD
-#include "../FrameWork/FMOD/include/fmod.hpp"
-#include "../FrameWork/FMOD/include/fmod_errors.h"
+#include "FrameWork/FMOD/include/fmod.hpp"
+#include "FrameWork/FMOD/include/fmod_errors.h"
 
 using namespace std;
 
@@ -106,9 +106,9 @@ class SceneManager;
 struct WorldVector
 {
 	// ÉQÅ[ÉÄê¢äEÇÃ3é≤
-	D3DXVECTOR3			worldLook = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-	D3DXVECTOR3			worldUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	D3DXVECTOR3			worldRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	D3DXVECTOR3			worldLook {D3DXVECTOR3(0.0f, 0.0f, 1.0f)};
+	D3DXVECTOR3			worldUp {D3DXVECTOR3(0.0f, 1.0f, 0.0f)};
+	D3DXVECTOR3			worldRight {D3DXVECTOR3(1.0f, 0.0f, 0.0f)};
 };
 
 //*****************************************************************************

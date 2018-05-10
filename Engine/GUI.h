@@ -13,7 +13,8 @@
 #include "Engine.h"
 #include "GameTimes.h"
 #include "SceneManager.h"
-#include "../GameObject/GameObject.h"
+
+#include "GameObject/GameObject.h"
 
 //*****************************************************************************
 //
@@ -24,10 +25,10 @@ class GUI
 {
 private:
 	bool				mIsWireframe;							// ワイヤフレームチェック
-	char				mNewGameObjectName[20] = {""};			// 最大19文字
+	char				mNewGameObjectName[20] {" "};			// 最大19文字
 
-	const char*			mColorRamp[2] = { u8"リニア", u8"一定" };
-	const char*			mShadingMode[4] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング" };
+	const char*			mColorRamp[2] {u8"リニア", u8"一定"};
+	const char*			mShadingMode[4] {u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング"};
 
 public:
 

@@ -20,9 +20,9 @@ class GameTimes
 private:
 
 public:
-	float mCurrentTime = 0.0f;			// 今の時間(ミリ秒)
-	float mDeltaTime = 0.0f;			// デルタ時間(ミリ秒)
-	float mLastTime = 0.0f;				// 前の時間(ミリ秒)
+	float mCurrentTime {0.0f};			// 今の時間(ミリ秒)
+	float mDeltaTime {0.0f};			// デルタ時間(ミリ秒)
+	float mLastTime {0.0f};				// 前の時間(ミリ秒)
 
 	GameTimes();
 	~GameTimes();

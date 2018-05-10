@@ -64,7 +64,7 @@ void Transform::update()
 void Transform::drawImGui()
 {
 	ImGui::Text(u8"スケール(X,Y,Z)");
-	float* v1[3] = { &this->mScl.x, &this->mScl.y, &this->mScl.z };
+	float* v1[3] {&this->mScl.x, &this->mScl.y, &this->mScl.z};
 	ImGui::InputFloat3("Scl", *v1);
 	ImGui::Separator();
 
@@ -75,6 +75,6 @@ void Transform::drawImGui()
 	ImGui::Separator();
 
 	ImGui::Text(u8"位置(X,Y,Z)");
-	float* v3[3] = { &this->mPos.x, &this->mPos.y, &this->mPos.z };
-	ImGui::InputFloat3("Tran", *v3);
+	float* v2[3] {&this->mPos.x, &this->mPos.y, &this->mPos.z};
+	ImGui::InputFloat3("Tran", *v2);
 }

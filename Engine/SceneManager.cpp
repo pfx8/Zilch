@@ -25,7 +25,7 @@ SceneManager::SceneManager()
 void SceneManager::start()
 {
 	// 各シーンのポイントを初期化
-	Scene02* zilch = new Scene02();
+	Scene02* zilch {new Scene02()};
 	addScene("zilch", zilch);
 
 	// 最初のシーンを選択

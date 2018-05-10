@@ -9,8 +9,9 @@
 #define _MATERIAL_H_
 
 #include "Texture.h"
-#include "../Engine.h"
-#include "../Resources.h"
+
+#include "Engine/Engine.h"
+#include "Engine/Resources.h"
 
 //*****************************************************************************
 //
@@ -23,7 +24,7 @@ private:
 
 public:
 	string				mName;					// マテリアルの名前
-	vector<Texture*>		mTextures;				// テクスチャ
+	vector<Texture*>	mTextures;				// テクスチャ
 	D3DXVECTOR3			mAmbient;				// 環境光
 	D3DXVECTOR3			mDiffuse;				// 拡散反射光
 	D3DXVECTOR3			mSpecular;				// 鏡面反射光

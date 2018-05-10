@@ -8,7 +8,7 @@
 #ifndef _ANIMATION_CHANNEL_H_
 #define _ANIMATION_CHANNEL_H_
 
-#include "../Engine.h"
+#include "Engine/Engine.h"
 
 //*****************************************************************************
 //
@@ -36,10 +36,10 @@ class AnimationChannel
 private:
 
 public:
-	string									mBoneName;										// 骨の名前
-	vector<VertexKey>			mPosKeys;											// 頂点座標
-	vector<QuaternionKey>	mRotkeys;											// 回転四元数
-	vector<VertexKey>			mSclKeys;											// 拡大縮小データ
+	string						mBoneName;				// 骨の名前
+	vector<VertexKey>			mPosKeys;				// 頂点座標
+	vector<QuaternionKey>		mRotkeys;				// 回転四元数
+	vector<VertexKey>			mSclKeys;				// 拡大縮小データ
 
 	AnimationChannel();
 	~AnimationChannel();

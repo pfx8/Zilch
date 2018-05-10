@@ -12,10 +12,13 @@
 
 #include "Material.h"
 #include "Bone.h"
-#include "../Engine.h"
-#include "../Shader.h"
-#include "../../Component/Camera.h"
-#include "../../Component/Transform.h"
+
+#include "Component/Camera.h"
+#include "Component/Transform.h"
+
+#include "Engine/Engine.h"
+#include "Engine/Shader.h"
+
 
 //*****************************************************************************
 //
@@ -46,11 +49,11 @@ struct VertexBone
 	//D3DXVECTOR3 bitangent;
 
 	// çú
-	unsigned int	boneID[NUM_BONES_PER_VEREX] = {0};			// çúÇÃID
-	float			weights[NUM_BONES_PER_VEREX] = {0.0f};		// çúÇÃèdÇ›
+	unsigned int	boneID[NUM_BONES_PER_VEREX] { 0, 0, 0, };					// çúÇÃID
+	float			weights[NUM_BONES_PER_VEREX] { 0.0f, 0.0f, 0.0f, 0.0f};		// çúÇÃèdÇ›
 
 	// test data
-	unsigned int boneNum = 0;
+	unsigned int boneNum { 0 };
 };
 
 //*****************************************************************************

@@ -9,7 +9,8 @@
 #define _UVANIMATION_H_
 
 #include "Component.h"
-#include "../Engine/Engine.h"
+
+#include "Engine/Engine.h"
 
 //*****************************************************************************
 //

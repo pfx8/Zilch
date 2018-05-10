@@ -34,7 +34,5 @@ PlayerController::~PlayerController()
 //*****************************************************************************
 void PlayerController::update()
 {
-	// アニメーションを更新
-	float deltaTime = getGameTimes()->mDeltaTime;
-	this->mGameObject->getComponent<MeshRender>()->mModel->updateAnimation(deltaTime);
+
 }
