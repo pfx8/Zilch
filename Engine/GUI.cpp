@@ -49,6 +49,9 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 
 	// レンダリングモード設定
 	this->mIsWireframe = false;
+
+	// 
+	this->mIsAddingModel = false;
 }
 
 //*****************************************************************************
@@ -56,7 +59,7 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 // ImGuiとアプリケーションの操作分離
 //
 //*****************************************************************************
-bool GUI::IsAnyImguiFocused()
+bool GUI::isAnyImGuiFocused()
 {
 	if (ImGui::IsAnyWindowFocused())
 	{
@@ -82,6 +85,12 @@ void GUI::draw()
 
 	// シーンGUI
 	sceneGUI();
+
+	// モデル読み込み
+	if (this->mIsAddingModel == true)
+	{
+		addModelImGui();
+	}
 
 	// ImGuiを描画
 	if (this->mIsWireframe)
@@ -276,7 +285,7 @@ void GUI::createNewGameObjectGUI()
 		ImGui::OpenPopup("Create GameObject");
 	}
 
-	// サブウインド
+	// サブウインド設定
 	if (ImGui::BeginPopupModal("Create GameObject"))
 	{
 
@@ -301,4 +310,19 @@ void GUI::createNewGameObjectGUI()
 
 		ImGui::EndPopup();
 	}
+}
+
+//*****************************************************************************
+//
+// モデル追加GUI
+//
+//*****************************************************************************
+void GUI::addModelImGui()
+{
+	ImGui::Begin(u8"インポート");
+
+	ImGui::End();
+
+
+	//this->mIsAddingModel = false;
 }

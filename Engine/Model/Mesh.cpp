@@ -57,13 +57,13 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 		// 位置
 		// blender座標とDX座標が違うので、Y軸とZ軸を交換
 		vertex.pos.x = mesh->mVertices[count].x;
-		vertex.pos.y = -mesh->mVertices[count].z;
+		vertex.pos.y = mesh->mVertices[count].z;
 		vertex.pos.z = mesh->mVertices[count].y; 
 
 		// 法線
 		vertex.nor.x = mesh->mNormals[count].x;
-		vertex.nor.y = mesh->mNormals[count].y;
-		vertex.nor.z = mesh->mNormals[count].z;
+		vertex.nor.y = mesh->mNormals[count].z;
+		vertex.nor.z = -mesh->mNormals[count].y;
 
 		// UV座標
 		if (mesh->mTextureCoords[0])	// テクスチャ0から(Maxは8で)

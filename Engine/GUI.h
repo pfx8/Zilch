@@ -31,6 +31,7 @@ private:
 	const char*			mShadingMode[4] {u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング"};
 
 public:
+	bool				mIsAddingModel;						// モデル読み込んでるをチェック
 
 	GUI();
 	~GUI();
@@ -42,7 +43,8 @@ public:
 	void sceneGUI();										// シーンGUI
 	void createNewGameObjectGUI();							// 新しいGameObjectを作りメニュー
 	
-	bool IsAnyImguiFocused();								// ImGuiとアプリケーションの操作分離
+	bool isAnyImGuiFocused();								// ImGuiとアプリケーションの操作分離
+	void addModelImGui();									// モデル追加GUI
 };
 
 #endif // !_GUI_H_

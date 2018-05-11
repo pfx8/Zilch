@@ -31,6 +31,10 @@ GUI*							gGUI {nullptr};				// ImGui
 // ゲーム世界の3軸
 WorldVector						gWorldVector;
 
+// 読み込みできるファイル拡張子集合
+// 詳しいは https://github.com/assimp/assimp
+vector<string> modelFileExtension = { "x","fbx","obj","3ds" };
+
 //*****************************************************************************
 //
 // プロトタイプ宣言
@@ -43,6 +47,11 @@ HRESULT	initGame(HINSTANCE hInstance, HWND hWnd);						// ゲーム処理を初�
 void	updata(HWND hWnd, int cmd);										// ウインド更新処理
 void	draw(HWND hWnd);												// ウインド描画処理
 void	release(void);													// ウインド終了処理
+
+// ドロップ処理
+void onDropFiles(HWND hwnd, HDROP hDropInfo);							// ドロップファイル処理
+void enumerateFiles();													// ファイルの列挙処理
+void isModelFile(string name);											// モデルファイルかどうかを判断
 
 // ImGui用プロシージャ
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -99,12 +108,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	RECT rect;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
 	// どんな解像度でもウインドを中心にする
-	int x {(rect.right - rect.left - SCREEN_WIDTH) / 2};
-	int y {(rect.bottom - rect.top - SCREEN_HEIGHT) / 2};
+	int x = (rect.right - rect.left - SCREEN_WIDTH) / 2;
+	int y = (rect.bottom - rect.top - SCREEN_HEIGHT) / 2;
 
 	// ウィンドウの作成
 	hWnd = CreateWindowEx
-		(0,
+		(WS_EX_ACCEPTFILES,															// ドロップファイルを受け入れることを指定
 		CLASS_NAME,
 		WINDOW_NAME,
 		WS_OVERLAPPEDWINDOW,
@@ -233,6 +242,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			DestroyWindow(hWnd);	// ウィンドウを破棄するよう指示する
 			break;
 		}
+		break;
+
+	case WM_DROPFILES:
+		onDropFiles(hWnd, (HDROP)wParam);	// ドロップファイル処理
 		break;
 
 	default:
@@ -380,13 +393,127 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 
 //*****************************************************************************
 //
+// ドロップファイル処理
+//
+//*****************************************************************************
+void onDropFiles(HWND hwnd, HDROP hDropInfo)
+{
+	// ドロップされたファイル数を取得
+	unsigned int fileCount {DragQueryFile(hDropInfo, (UINT)-1, NULL, 0)};
+	// ドロップされたファイル名前
+	TCHAR fileName[_MAX_PATH] {_T("")};
+	// ドロップされたファイル情報
+	DWORD attribute;
+
+	// ドロップされたファイルとフォルダを取得
+	for (unsigned int i = 0; i < fileCount; i++)
+	{
+		// ドロップされたファイル名を取得
+		DragQueryFile(hDropInfo, i, fileName, sizeof(fileName));
+		// ドロップされたファイルの情報を取得
+		attribute = GetFileAttributes(fileName);
+
+		// フォルダならば
+		if (attribute & FILE_ATTRIBUTE_DIRECTORY)
+		{
+			// 新しいディレクトリを設定
+			SetCurrentDirectory(fileName);
+			// 新しいディレクトリによってファイルを列挙処理
+			enumerateFiles();
+		}
+		// ファイルならば
+		else
+		{
+			cout << "<Drop File> " << fileName << endl;
+		}
+	}
+
+	// チェックファイル内容
+	isModelFile(fileName);
+
+	// ドロップ終了
+	DragFinish(hDropInfo);
+}
+
+//*****************************************************************************
+//
+// ファイルの列挙処理
+//
+//*****************************************************************************
+void enumerateFiles()
+{
+	// WIN32ファイルデータ
+	WIN32_FIND_DATA findFileData;
+	// 設定されたディレクトリにより検索ハンドルを指定
+	// findFileDataにファイルの情報を入れる
+	HANDLE find = FindFirstFile(_T("*.*"), &findFileData);
+
+	if (find != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			// ディレクトリかどうかをチェック
+			if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			{
+				//  親ディレクトリを無視
+				if (_tcscmp(findFileData.cFileName, _T(".")) && _tcscmp(findFileData.cFileName, _T("..")))
+				{
+					// 新しいディレクトリを設定
+					SetCurrentDirectory(findFileData.cFileName);
+					enumerateFiles();
+					SetCurrentDirectory(_T(".."));
+				}
+			}
+			// ファイルならば
+			else
+			{
+				string filePath;
+				TCHAR directory[MAX_PATH];
+
+				// 現在のディレクトリを取得
+				GetCurrentDirectory(MAX_PATH, directory);
+				filePath = directory;
+				// ドロップされたオブジェクトのパスを取得
+				filePath += findFileData.cFileName;
+
+				cout << "<Drop File> " << filePath << endl;
+			}
+		} while (FindNextFile(find, &findFileData));		// ディレクトリの下またファイルがあれば
+	}
+
+	FindClose(find);
+}
+
+//*****************************************************************************
+//
+// モデルファイルかどうかを判断
+//
+//*****************************************************************************
+void isModelFile(string name)
+{
+	string fileFormat = name.substr(name.find_last_of(".") + 1, name.size());
+
+	cout << "<test> " << fileFormat << endl;
+
+	for (auto it : modelFileExtension)
+	{
+		if (it == fileFormat)
+		{
+			gGUI->mIsAddingModel = true;
+			break;
+		}
+	}
+}
+
+//*****************************************************************************
+//
 // 更新処理
 //
 //*****************************************************************************
 void updata(HWND hWnd, int cmd)
 {
 	// ImGuiを操作してない時だけアプリケーションの操作を更新
-	if (gGUI->IsAnyImguiFocused() == false)
+	if (gGUI->isAnyImGuiFocused() == false)
 	{
 		// 入力更新
 		UpdateInput();
