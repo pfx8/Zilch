@@ -27,6 +27,8 @@ private:
 	float			mRangeEnd;					// FarZ値
 
 public:
+	bool			mIsVerticalLimited;			// カメラ垂直角度制限されたかどうかをチェック
+
 	D3DXVECTOR3		mCameraPos;					// カメラの位置
 	Transform*		mTargetTrans;				// 目標Transformを保存
 

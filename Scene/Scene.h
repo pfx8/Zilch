@@ -32,6 +32,8 @@ class Scene
 private:
 
 public:
+	Camera*									mSystemCamera;			// システムカメラ
+	Camera*									mCurrentCamera;			// 使っているカメラ
 	Shader*									mShader;				// 現在レンダリング用なシェーダー
 	bool									mIsStart;				// スタートマーク
 	vector<MeshRender*>						mMeshRenders;			// メッシュレンダリング

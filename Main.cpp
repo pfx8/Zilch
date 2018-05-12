@@ -269,6 +269,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	if (gD3D == nullptr)
 	{
+		// Debugウインドへ
 		cout << "[Error] DirectX initialization ... fail!" << endl;
 		return E_FAIL;
 	}
@@ -276,6 +277,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// 現在のディスプレイモードを取得
 	if (FAILED(gD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
+		// Debugウインドへ
 		cout << "[Error] Get displayer mode ... fail!" << endl;
 		return E_FAIL;
 	}
@@ -323,6 +325,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	int vp = 0;
 	if (FAILED(gD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
+		// Debugウインドへ
 		cout << "[Error] Get directX device ... fail!" << endl;
 		return E_FAIL;
 	}
@@ -349,6 +352,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		&gD3Dpp,											// デバイスのプレゼンテーションパラメータ
 		&gD3DDevice)))										// デバイスインターフェースへのポインタ
 	{
+		// Debugウインドへ
 		cout << "[Error] DirectX device initialization ... fail!" << endl;
 		return E_FAIL;
 	}
@@ -363,16 +367,17 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //*****************************************************************************
 HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 {
-	// input初期化
-	InitInput(hInstance, hWnd);
-
 	// メッセージを出る為のコンソールを初期化
 	gConsole = new Console();
 	if (gConsole->mIsConsoleRun == false)
 	{
+		// Debugウインドへ
 		cout << "[Error] Setup console ... fail!" << endl;
 		return E_FAIL;
 	}
+
+	// input初期化
+	InitInput(hInstance, hWnd);
 
 	// ゲーム時間初期化
 	gGameTimes = new GameTimes();

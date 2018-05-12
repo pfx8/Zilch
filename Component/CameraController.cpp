@@ -34,7 +34,7 @@ CameraController::~CameraController()
 //*****************************************************************************
 void CameraController::start()
 {
-	this->mMainCamera = this->mGameObject->mScene->getGameObject("mainCamera")->getComponent<Camera>();
+	this->mSceneCurrentCamera = this->mGameObject->mScene->mCurrentCamera;
 }
 
 //*****************************************************************************
@@ -45,7 +45,7 @@ void CameraController::start()
 void CameraController::zoom(float distance)
 {
 	// 新しいoffset距離を計算、範囲を越えてなければoffsetを更新
-	D3DXVECTOR3 zoomDistance = this->mMainCamera->mCameraFront * distance;
+	D3DXVECTOR3 zoomDistance = this->mSceneCurrentCamera->mCameraFront * distance;
 	D3DXVECTOR3 newOffset = this->mOffsetFromTarget + zoomDistance;
 	float newOffsetDistance = D3DXVec3Length(&newOffset);
 	if (newOffsetDistance >= this->mOffsetFromTargetMin && newOffsetDistance <= this->mOffsetFromTargetMax)
@@ -71,14 +71,23 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 
 	// 垂直移動
 	D3DXMATRIX verticalMatrix;
-	D3DXMatrixRotationAxis(&verticalMatrix, &this->mMainCamera->mCameraRight, verticalRadians);			// 回転行列を作る(カメラの右軸に中心して回転)
+	D3DXMatrixRotationAxis(&verticalMatrix, &this->mSceneCurrentCamera->mCameraRight, verticalRadians);	// 回転行列を作る(カメラの右軸に中心して回転)
 	D3DXVECTOR3 newOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVec3TransformCoord(&newOffset, &this->mOffsetFromTarget, &verticalMatrix);						// 新しいoffset座標を計算する
 
 	D3DXVECTOR3 newOffsetNormalize = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVec3Normalize(&newOffsetNormalize, &newOffset);													// ベクトルを正規化
 	float radianToWorldUp { D3DXVec3Dot(&newOffsetNormalize, &worldVector.worldUp) };					// カメラと世界のUpベクトルの角度を外積で計算
-	if (radianToWorldUp <= this->mVerticalRadiansMax && radianToWorldUp > this->mVerticalRadiansMin)	// カメラの垂直角度が範囲内ならば
+
+	if (this->mSceneCurrentCamera->mIsVerticalLimited == true)
+	{	
+		// カメラの垂直角度が範囲内ならば
+		if (radianToWorldUp <= this->mVerticalRadiansMax && radianToWorldUp > this->mVerticalRadiansMin)
+		{
+			this->mOffsetFromTarget = newOffset;
+		}
+	}
+	else
 	{
 		this->mOffsetFromTarget = newOffset;
 	}
@@ -92,13 +101,13 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 void CameraController::update()
 {
 	// 目標からカメラまでの距離を計算
-	this->mOffsetFromTarget = this->mMainCamera->mCameraPos - this->mMainCamera->mTargetTrans->mPos;
+	this->mOffsetFromTarget = this->mSceneCurrentCamera->mCameraPos - this->mSceneCurrentCamera->mTargetTrans->mPos;
 
 	// 入力更新
 	inputUpdate();
 
 	// カメラを更新
-	this->mMainCamera->mCameraPos = this->mMainCamera->mTargetTrans->mPos + this->mOffsetFromTarget;
+	this->mSceneCurrentCamera->mCameraPos = this->mSceneCurrentCamera->mTargetTrans->mPos + this->mOffsetFromTarget;
 }
 
 //*****************************************************************************
@@ -110,11 +119,11 @@ void CameraController::move(float distance, bool isVertical)
 {
 	if (isVertical)
 	{
-		this->mMainCamera->mCameraPos.z += distance;
+		this->mSceneCurrentCamera->mCameraPos.z += distance;
 	}
 	else
 	{
-		this->mMainCamera->mCameraPos.x += distance;
+		this->mSceneCurrentCamera->mCameraPos.x += distance;
 	}
 }
 

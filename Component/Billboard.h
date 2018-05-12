@@ -24,13 +24,13 @@
 class Billboard : public Component
 {
 private:
-	Transform*			mTrans;				// ビルボード情報
+	Transform*			mTrans;						// ビルボード情報
 
 	void start();
 	void update();
 
 public:
-	GameObject*			mMainCamera;			// マインカメラ
+	GameObject*			mSceneCurrentCamera;		// マインカメラ
 
 	Billboard();
 	~Billboard();

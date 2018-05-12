@@ -166,6 +166,9 @@ HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 	// キーボードへのアクセス権を獲得(入力制御開始)
 	gDeviceKeyboard->Acquire();
 
+	// Debugウインドへ
+	cout << "<System>: Keyboard ... OK!" << endl;
+
 	return S_OK;
 }
 
@@ -321,6 +324,10 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	
 	// アクセス権を得る
 	gDeviceMouse->Acquire();
+
+	// Debugウインドへ
+	cout << "<System>: Mouse ... OK!" << endl;
+
 	return hr;
 }
 
@@ -482,12 +489,15 @@ HRESULT InitializePad(void)
 	gD3DInput->EnumDevices(DI8DEVCLASS_GAMECTRL, (LPDIENUMDEVICESCALLBACK)SearchGamePadCallback, NULL, DIEDFL_ATTACHEDONLY);
 	// セットしたコールバック関数が、パッドを発見した数だけ呼ばれる。
 
-	for (unsigned int i = 0; i < gGamePadCount; i++)
+	for (unsigned int count = 0; count < gGamePadCount; count++)
 	{
 		// ジョイスティック用のデータ・フォーマットを設定
-		hr = gDeviceGamePad[i]->SetDataFormat(&c_dfDIJoystick);
-		if ( FAILED(hr) )
-			return false; // データフォーマットの設定に失敗
+		hr = gDeviceGamePad[count]->SetDataFormat(&c_dfDIJoystick);
+		// データフォーマットの設定に失敗
+		if (FAILED(hr))
+		{
+			return false;
+		}
 
 		// モードを設定（フォアグラウンド＆非排他モード）
 		//result = pGamePad[i]->SetCooperativeLevel(hWindow, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
@@ -508,16 +518,16 @@ HRESULT InitializePad(void)
 
 		// X軸の範囲を設定
 		diprg.diph.dwObj		= DIJOFS_X; 
-		gDeviceGamePad[i]->SetProperty(DIPROP_RANGE, &diprg.diph);
+		gDeviceGamePad[count]->SetProperty(DIPROP_RANGE, &diprg.diph);
 		// Y軸の範囲を設定
 		diprg.diph.dwObj		= DIJOFS_Y;
-		gDeviceGamePad[i]->SetProperty(DIPROP_RANGE, &diprg.diph);
+		gDeviceGamePad[count]->SetProperty(DIPROP_RANGE, &diprg.diph);
 		// Z軸の範囲を設定
 		diprg.diph.dwObj		= DIJOFS_Z;
-		gDeviceGamePad[i]->SetProperty(DIPROP_RANGE, &diprg.diph);
+		gDeviceGamePad[count]->SetProperty(DIPROP_RANGE, &diprg.diph);
 		// Z回転の範囲を設定
 		diprg.diph.dwObj     = DIJOFS_RZ;
-		gDeviceGamePad[i]->SetProperty(DIPROP_RANGE, &diprg.diph);
+		gDeviceGamePad[count]->SetProperty(DIPROP_RANGE, &diprg.diph);
 
 		// 各軸ごとに、無効のゾーン値を設定する。
 		// 無効ゾーンとは、中央からの微少なジョイスティックの動きを無視する範囲のこと。
@@ -530,21 +540,24 @@ HRESULT InitializePad(void)
 
 		//X軸の無効ゾーンを設定
 		dipdw.diph.dwObj		= DIJOFS_X;
-		gDeviceGamePad[i]->SetProperty( DIPROP_DEADZONE, &dipdw.diph);
+		gDeviceGamePad[count]->SetProperty( DIPROP_DEADZONE, &dipdw.diph);
 		//Y軸の無効ゾーンを設定
 		dipdw.diph.dwObj		= DIJOFS_Y;
-		gDeviceGamePad[i]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
+		gDeviceGamePad[count]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
 		//Z軸の無効ゾーンを設定
 		dipdw.diph.dwObj		= DIJOFS_Z;
-		gDeviceGamePad[i]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
+		gDeviceGamePad[count]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
 		//Z回転の無効ゾーンを設定
 		dipdw.diph.dwObj = DIJOFS_RZ;
-		gDeviceGamePad[i]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
+		gDeviceGamePad[count]->SetProperty(DIPROP_DEADZONE, &dipdw.diph);
 			
 		//ジョイスティック入力制御開始
-		gDeviceGamePad[i]->Acquire();
+		gDeviceGamePad[count]->Acquire();
+
+		// Debugウインドへ
+		cout << "<System>: GamePad[" << count << "] ... OK!" << endl;
 	}
-		
+
 	return true;
 }
 

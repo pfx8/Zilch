@@ -232,10 +232,10 @@ void Mesh::createMesh(aiMesh* mesh, const aiScene* scene)
 		// 位置
 		// XYZ座標系からXZY座標系に変更
 		vertex.pos.x = mesh->mVertices[count].x;
-		vertex.pos.y = -mesh->mVertices[count].z;
-		vertex.pos.z = mesh->mVertices[count].y;
-		//vertex.pos.y = mesh->mVertices[count].y;
-		//vertex.pos.z = mesh->mVertices[count].z;
+		//vertex.pos.y = -mesh->mVertices[count].z;
+		//vertex.pos.z = mesh->mVertices[count].y;
+		vertex.pos.y = mesh->mVertices[count].y;
+		vertex.pos.z = mesh->mVertices[count].z;
 
 		// 法線
 		// XYZ座標系からXZY座標系に変更

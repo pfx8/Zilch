@@ -41,7 +41,7 @@ private:
 	D3DXVECTOR3			mOffsetFromTarget;											// カメラと目標の偏り
 
 public:
-	Camera*				mMainCamera;								// メインカメラ
+	Camera*				mSceneCurrentCamera;										// メインカメラ
 
 	CameraController();
 	~CameraController();

@@ -74,11 +74,6 @@ void Scene02::start()
 	pointLight->addComponent<Light>(light);
 	this->addGameObject("light", pointLight);
 
-	// mainCamera
-	GameObject* mainCamera = new GameObject();
-	Camera* camera = new Camera();
-	camera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, 5.0f);
-
 	// player
 	GameObject* player = new GameObject();
 	Transform* playerTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
@@ -93,10 +88,15 @@ void Scene02::start()
 	player->addComponent<MeshRender>(playerMeshRender);
 	this->addGameObject("player", player);
 
-	// mainCamera
-	camera->mTargetTrans = playerTrans;
-	mainCamera->addComponent<Camera>(camera);
-	this->addGameObject("mainCamera", mainCamera);
+	// システムカメラ設定
+	this->mSystemCamera = new Camera();
+	this->mSystemCamera->start();
+	this->mSystemCamera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, 5.0f);
+	this->mSystemCamera->mTargetTrans = playerTrans;
+	this->mSystemCamera->mIsVerticalLimited = false;
+
+	// シーンカメラを設定(デフォルトはシステムカメラ);
+	this->mCurrentCamera = this->mSystemCamera;
 
 	// 床
 	GameObject* gridField = new GameObject();
@@ -127,5 +127,7 @@ void Scene02::start()
 //*****************************************************************************
 Scene02::~Scene02()
 {
-
+	RELEASE_CLASS_POINT(this->mSystemCamera);
+	RELEASE_CLASS_POINT(this->mCurrentCamera);
+	RELEASE_CLASS_POINT(this->mShader);
 }

@@ -159,18 +159,55 @@ void GUI::systemGUI()
 
 		// スクリーンショット
 		{
-			ImGui::Text(u8"スクリーンショット  "); ImGui::SameLine();
-			if (ImGui::Button("SCREENSHOT"))
+			//ImGui::Text(u8"スクリーンショット  "); ImGui::SameLine();
+			//if (ImGui::Button("SCREENSHOT"))
+			//{
+			//	// バッファ画面を取得
+			//	LPDIRECT3DSURFACE9 backBuffer;
+			//	getD3DDevice()->GetRenderTarget(0, &backBuffer);
+
+			//	// バッファサーフェイスを保存
+			//	D3DXSaveSurfaceToFile("screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
+
+			//	// バッファをリリース
+			//	backBuffer->Release();
+			//}
+			//ImGui::Separator();
+		}
+
+		// システムカメラ
+		{
+			// シーンのカメラを取得
+			Camera* camera = getSceneManager()->mCurrentScene->mCurrentCamera;
+
+			if(ImGui::TreeNode(u8"システムカメラ"))
 			{
-				// バッファ画面を取得
-				LPDIRECT3DSURFACE9 backBuffer;
-				getD3DDevice()->GetRenderTarget(0, &backBuffer);
+				ImGui::Text(u8"カメラ位置");
+				float* v1[3] = { &camera->mCameraPos.x, &camera->mCameraPos.y, &camera->mCameraPos.z };
+				ImGui::InputFloat3("Pos", *v1);
+				ImGui::Separator();
 
-				// バッファサーフェイスを保存
-				D3DXSaveSurfaceToFile("screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
+				ImGui::Text(u8"カメラ注視点(モデル位置に設定してる)");
+				float* v2[3] = { &camera->mTargetTrans->mPos.x, &camera->mTargetTrans->mPos.y, &camera->mTargetTrans->mPos.z };
+				ImGui::InputFloat3("Look", *v2);
+				ImGui::Separator();
 
-				// バッファをリリース
-				backBuffer->Release();
+				ImGui::Text(u8"注視方向ベクトル");
+				float* v3[3] = { &camera->mCameraFront.x, &camera->mCameraFront.y, &camera->mCameraFront.z };
+				ImGui::DragFloat3("lookV", *v3);
+				ImGui::Separator();
+
+				ImGui::Text(u8"右方向ベクトル");
+				float* v4[3] = { &camera->mCameraRight.x, &camera->mCameraRight.y, &camera->mCameraRight.z };
+				ImGui::DragFloat3("rightV", *v4);
+				ImGui::Separator();
+
+				ImGui::Text(u8"上方向ベクトル");
+				float* v5[3] = { &camera->mCameraUp.x, &camera->mCameraUp.y, &camera->mCameraUp.z };
+				ImGui::DragFloat3("upV", *v5);
+				ImGui::Separator();
+
+				ImGui::TreePop();
 			}
 			ImGui::Separator();
 		}

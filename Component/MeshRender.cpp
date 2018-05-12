@@ -133,7 +133,7 @@ void MeshRender::draw()
 	this->mShader->mEffect->SetMatrix("rotMatrix", &trans->mRotMatrix);
 
 	// カメラ情報を取得
-	Camera* camera = this->mGameObject->mScene->getGameObject("mainCamera")->getComponent<Camera>();
+	Camera* camera = this->mGameObject->mScene->mCurrentCamera;
 	// カメラの行列をシェーダーに渡る
 	this->mShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
 	this->mShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
