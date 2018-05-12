@@ -31,6 +31,7 @@ HRESULT Audio::start()
 	result = FMOD::System_Create(&this->mSystem);
 	if (result != FMOD_OK)
 	{
+		// Debugウインドへ
 		cout << "[Error] FMOD::System_Create ... fail!" << endl << FMOD_ErrorString(result);
 		return E_FAIL;
 	}
@@ -39,6 +40,7 @@ HRESULT Audio::start()
 	result = this->mSystem->init(512, FMOD_INIT_NORMAL, 0);
 	if (result != FMOD_OK)
 	{
+		// Debugウインドへ
 		cout << "[Error] FMOD init ... fail!" << endl << FMOD_ErrorString(result);
 		return E_FAIL;
 	}
@@ -70,6 +72,7 @@ HRESULT Audio::createStream(const string path, FMOD_MODE mode)
 	result = this->mSystem->createStream(path.c_str(), mode, 0, &sound);
 	if (result != FMOD_OK)
 	{
+		// Debugウインドへ
 		cout << "[Error] FMOD system create stream ... " << FMOD_ErrorString(result);
 		return E_FAIL;
 	}

@@ -95,6 +95,8 @@ HRESULT SceneManager::setActiveScene(string name)
 		return S_OK;
 	}
 
+	// Debugウインドへ
 	cout << "[Error] <Scene> Set " << name << " ... failed!" << endl;
+
 	return E_FAIL;
 }

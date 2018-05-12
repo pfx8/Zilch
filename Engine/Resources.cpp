@@ -54,7 +54,9 @@ Model* Resources::getModel(string name)
 		return mModels[name];
 	}
 
+	// Debugウインドへ
 	cout << "[Error] <Model> Get " << name << " ... failed!" << endl;
+
 	return nullptr;
 }
 
@@ -84,7 +86,9 @@ Texture* Resources::getTexture(string name)
 		return mTextures[name];
 	}
 
+	// Debugウインドへ
 	cout << "[Error] <Texture> Get " << name << " ... failed!" << endl;
+
 	return nullptr;
 }
 
@@ -124,6 +128,8 @@ Shader* Resources::getShader(string techniqueName)
 		return mShaders[techniqueName];
 	}
 
+	// Debugウインドへ
 	cout << "[Error] <Shader> Get technique " << techniqueName << " ... failed!" << endl;
+
 	return nullptr;
 }

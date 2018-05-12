@@ -15,7 +15,9 @@
 Shader::Shader(string path)
 {
 	string name = path.substr(path.find_last_of("//") + 1, path.find_last_of("/n"));
+	// Debugウインドへ
 	cout << "<Shader> : "  << name;
+
 	loadEffectFile(path);
 
 	// デフォルトシェーディングモードを設定
@@ -51,6 +53,7 @@ HRESULT Shader::loadEffectFile(string path)
 	pD3DDevice->GetDeviceCaps(&caps);
 	if (caps.PixelShaderVersion < D3DPS_VERSION(1, 1))	// ピクセル機能チェック
 	{
+		// Debugウインドへ
 		cout << "[Error] Don't support pixel shader!" << endl;
 	}
 
@@ -66,12 +69,14 @@ HRESULT Shader::loadEffectFile(string path)
 
 	if (errorBuffer)	// エラーをチェック
 	{
+		// Debugウインドへ
 		cout << "[Error] Loading <Shader> " << path  << " ... fail!" << endl;	// エラーメッセージ
 		cout << "[Information] " << (char*)errorBuffer->GetBufferPointer() << endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
+	// Debugウインドへ
 	cout << " loading ... success!" << endl;
 
 	return S_OK;

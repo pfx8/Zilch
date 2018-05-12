@@ -140,6 +140,7 @@ HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 	hr = gD3DInput->CreateDevice(GUID_SysKeyboard, &gDeviceKeyboard, NULL);
 	if(FAILED(hr) || gDeviceKeyboard == NULL)
 	{
+		// Debugウインドへ
 		cout << "<Warning>: No keyboard!" << endl;
 		return hr;
 	}
@@ -148,6 +149,7 @@ HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 	hr = gDeviceKeyboard->SetDataFormat(&c_dfDIKeyboard);
 	if(FAILED(hr))
 	{
+		// Debugウインドへ
 		cout << "<Warning>: Can't setup keyboard!" << endl;
 		return hr;
 	}
@@ -156,6 +158,7 @@ HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 	hr = gDeviceKeyboard->SetCooperativeLevel(hWnd, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
 	if(FAILED(hr))
 	{
+		// Debugウインドへ
 		cout << "<Warning>: Keyboard mode error!" << endl;
 		return hr;
 	}
@@ -276,6 +279,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	hr = gD3DInput->CreateDevice(GUID_SysMouse,&gDeviceMouse,NULL);
 	if(FAILED(hr) || gDeviceMouse==NULL)
 	{
+		// Debugウインドへ
 		cout << "<Warning>: No mouse!" << endl;
 		return hr;
 	}
@@ -284,6 +288,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	hr = gDeviceMouse->SetDataFormat(&c_dfDIMouse2);
 	if(FAILED(hr))
 	{
+		// Debugウインドへ
 		cout << "<Warning>: Can't setup mouse!" << endl;
 		return hr;
 	}
@@ -292,6 +297,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	hr = gDeviceMouse->SetCooperativeLevel(hWindow, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
 	if(FAILED(hr))
 	{
+		// Debugウインドへ
 		cout << "<Warning>: Mouse mode error!" << endl;
 		return hr;
 	}
@@ -308,6 +314,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	hr = gDeviceMouse->SetProperty(DIPROP_AXISMODE,&prop.diph);
 	if(FAILED(hr))
 	{
+		// Debugウインドへ
 		cout << "<Warning>: Mouse property error!" << endl;
 		return hr;	
 	}

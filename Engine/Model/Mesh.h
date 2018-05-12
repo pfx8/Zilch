@@ -99,6 +99,7 @@ public:
 	Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);		// メッシュの初期化
 	~Mesh();
 
+	void checkBone(aiMesh* mesh);							// 骨をチェック
 	void drawShadow(Shader* shader);						// メッシュのシャドウマップを描画
 	void drawModel(Shader* shader);							// メッシュを描画
 };

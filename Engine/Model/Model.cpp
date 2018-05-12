@@ -19,9 +19,11 @@ Model::Model(MeshType type, string name, string const &path)
 	switch (this->mMeshType)
 	{
 	case MT_default:
+		// Debugウインドへ
 		cout << "<Model><default> : " << name;
 		break;
 	case MT_withBone:
+		// Debugウインドへ
 		cout << "<Model><withBone> : " << name;
 		break;
 	}
@@ -50,21 +52,37 @@ Model::~Model()
 //*****************************************************************************
 HRESULT Model::loadModel(string const &path)
 {
-	Assimp::Importer import;			// Assimpのインポートを作る
-	const aiScene *scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
+	// Assimpのインポートを作る
+	Assimp::Importer import;
+	// Assimpシーンを作る
+	const aiScene* scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
+		// Debugウインドへ
 		cout << "[Error] Assimp::" << import.GetErrorString() << endl;
 		return E_FAIL;
 	}
 
+	checkAnimation(scene);
+
 	// ルートノードから処理を始める
 	processNode(scene->mRootNode, scene);
 
+	// Debugウインドへ
 	cout << " loading ... success!" << endl;
 
 	return S_OK;
+}
+
+//*****************************************************************************
+//
+// 骨あるかどうかをチェック
+//
+//*****************************************************************************
+void Model::checkBone(aiMesh* mesh)
+{
+
 }
 
 //*****************************************************************************
@@ -80,15 +98,29 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
 		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, this->mBones, scene));
-	}
 
-	// もしアニメーションがあれば
-	
+		// 骨チェック
+		createBone(aiMesh);
+	}
 
 	// 子供ノードを同じように処理する
 	for (unsigned int count = 0; count < node->mNumChildren; count++)
 	{
 		processNode(node->mChildren[count], scene);
+	}
+}
+
+//*****************************************************************************
+//
+// モデルはアニメーションを含めてるかどうかをチェック
+//
+//*****************************************************************************
+void Model::checkAnimation(const aiScene* scene)
+{
+	if (scene->mNumAnimations != 0)
+	{
+		// アニメーションを解析して保存
+
 	}
 }
 
@@ -110,6 +142,24 @@ void Model::addAnimation(Animation* animation)
 void Model::updateAnimation(float timeInSeconds)
 {
 	this->mAnimationes[this->mCurAnimation]->updateBoneTransforms(timeInSeconds, this->mBones, this->mTransforms);
+}
+
+//*****************************************************************************
+//
+// 骨データを解析して保存
+//
+//*****************************************************************************
+void Model::createBone(aiMesh* mesh)
+{
+	if (mesh->mNumBones != 0 || (mesh->mNumBones == 0 && this->mMeshType == MT_default))
+	{
+		this->mMeshType = MT_withBone;
+	}
+
+	for (unsigned int count = 0; count < mesh->mNumBones; count++)
+	{
+		
+	}
 }
 
 //*****************************************************************************

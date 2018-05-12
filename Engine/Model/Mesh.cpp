@@ -44,10 +44,12 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* sce
 // 骨付きメッシュを読み込み
 //
 //*****************************************************************************
-void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene *scene)
+void Mesh::createMeshWithBone(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 {
-	this->mName = mesh->mName.C_Str();			// メッシュの名前を取得
-	unsigned int numBones = bones.size();		// 骨の順番を初期化
+	this->mName = mesh->mName.C_Str();
+	unsigned int numBones = bones.size();
+
+	checkBone(mesh);
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -192,6 +194,24 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 
 //*****************************************************************************
 //
+// 骨をチェック
+
+//
+//*****************************************************************************
+void Mesh::checkBone(aiMesh* mesh)
+{
+	if (mesh->mNumBones != 0)
+	{
+		this->mMeshType = MT_withBone;
+	}
+	else
+	{
+		this->mMeshType = MT_default;
+	}
+}
+
+//*****************************************************************************
+//
 // デフォルトメッシュを読み込み
 //
 //*****************************************************************************
@@ -199,9 +219,10 @@ void Mesh::createMesh(aiMesh* mesh, const aiScene* scene)
 {
 	// メッシュ名前を保存
 	this->mName = mesh->mName.C_Str();
-
-	unsigned int numBones = 0;					// 骨の数
-	unordered_map<string, Bone> boneMapping;		// 骨マップ
+	// 骨の数
+	unsigned int numBones = 0;
+	// 骨マップ
+	unordered_map<string, Bone> boneMapping;
 
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
@@ -328,7 +349,8 @@ HRESULT Mesh::SetupMeshWithBone()
 	// 頂点バッファ作成
 	if (FAILED(pD3DDevice->CreateVertexBuffer(mVertices.size() * sizeof(VertexBone), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->mVertexBuffer, NULL)))
 	{
-		cout << "[Error] <Mesh> Make vertex buffer ... fail!" << endl;	// エラーメッセージ
+		// Debugウインドへ
+		cout << "[Error] <Mesh> Make vertex buffer ... fail!" << endl;
 		return E_FAIL;
 	}
 		
@@ -356,7 +378,8 @@ HRESULT Mesh::SetupMeshWithBone()
 	// 頂点インデックスバッファ作成
 	if (FAILED(pD3DDevice->CreateIndexBuffer(this->mIndices.size() * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->mIndexBuffer, NULL)))
 	{
-		cout << "[Error] <Mesh> Make index buffer ... fail!" << endl;	// エラーメッセージ
+		// Debugウインドへ
+		cout << "[Error] <Mesh> Make index buffer ... fail!" << endl;
 		return E_FAIL;
 	}
 
@@ -403,7 +426,8 @@ HRESULT Mesh::SetupMesh()
 	// 頂点バッファ作成
 	if (FAILED(pD3DDevice->CreateVertexBuffer(mVertices.size() * sizeof(Vertex), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->mVertexBuffer, NULL)))
 	{
-		cout << "[Error] <Mesh> Make vertex buffer ... fail!" << endl;	// エラーメッセージ
+		// Debugウインドへ
+		cout << "[Error] <Mesh> Make vertex buffer ... fail!" << endl;
 		return E_FAIL;
 	}
 
@@ -431,7 +455,8 @@ HRESULT Mesh::SetupMesh()
 	// 頂点インデックスバッファ作成
 	if (FAILED(pD3DDevice->CreateIndexBuffer(this->mIndices.size() * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->mIndexBuffer, NULL)))
 	{
-		cout << "[Error] <Mesh> Make index buffer ... fail!" << endl;	// エラーメッセージ
+		// Debugウインドへ
+		cout << "[Error] <Mesh> Make index buffer ... fail!" << endl;
 		return E_FAIL;
 	}
 

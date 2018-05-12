@@ -52,6 +52,7 @@ void Material::loadingMaterial(aiMaterial* mat)
 		this->mDiffuse = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		this->mSpecular = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
+		// Debugウインドへ
 		cout << "[Warning] No Material" << endl;
 	}
 
@@ -99,6 +100,7 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 			
 		if (texture->mTex == nullptr)
 		{
+			// Debugウインドへ
 			cout << "[Error] Get <Texture> " << fileName.c_str() << " in <Material> ... failed!" << endl;
 		}
 		else

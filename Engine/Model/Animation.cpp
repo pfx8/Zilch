@@ -41,6 +41,7 @@ HRESULT Animation::loadAnimation(string const &path)
 
 	if (!scene || !scene->mRootNode)
 	{
+		// Debugウインドへ
 		cout << "[Error] Assimp::" << import.GetErrorString() << endl;
 		return E_FAIL;
 	}
@@ -59,6 +60,7 @@ HRESULT Animation::loadAnimation(string const &path)
 	}
 	else
 	{
+		// Debugウインドへ
 		cout << "[Error] Dosen't have animations " << endl;
 		return E_FAIL;
 	}

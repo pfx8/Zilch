@@ -410,9 +410,6 @@ bool GUI::isGameObjectNameRight(string name)
 		// ƒV[ƒ“‚ÉŠù‚É‚±‚Ì–¼‘O‚ÌGameObject‚ª‘¶İ‚·‚ê‚Î
 		if (it.first == name)
 		{
-			cout << "<test1> " << it.first << endl;
-			cout << "<test2> " << name << endl;
-
 			return false;
 		}
 	}
