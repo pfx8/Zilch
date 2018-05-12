@@ -51,7 +51,7 @@ void release(void);														// ウインド終了処理
 // ドロップ処理
 void onDropFiles(HWND hwnd, HDROP hDropInfo);							// ドロップファイル処理
 void enumerateFiles();													// ファイルの列挙処理
-void isModelFile(string path);											// モデルファイルかどうかを判断
+bool isModelFile(string path);											// モデルファイルかどうかを判断
 
 // ImGui用プロシージャ
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -270,7 +270,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	if (gD3D == nullptr)
 	{
 		// Debugウインドへ
-		cout << "[Error] DirectX initialization ... fail!" << endl;
+		cout << "<Error> DirectX initialization ... failed!" << endl;
 		return E_FAIL;
 	}
 
@@ -278,7 +278,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	if (FAILED(gD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
 		// Debugウインドへ
-		cout << "[Error] Get displayer mode ... fail!" << endl;
+		cout << "<Error> Get displayer mode ... failed!" << endl;
 		return E_FAIL;
 	}
 
@@ -326,7 +326,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	if (FAILED(gD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
 		// Debugウインドへ
-		cout << "[Error] Get directX device ... fail!" << endl;
+		cout << "<Error> Get directX device ... failed!" << endl;
 		return E_FAIL;
 	}
 
@@ -353,7 +353,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		&gD3DDevice)))										// デバイスインターフェースへのポインタ
 	{
 		// Debugウインドへ
-		cout << "[Error] DirectX device initialization ... fail!" << endl;
+		cout << "<Error> DirectX device initialization ... failed!" << endl;
 		return E_FAIL;
 	}
 
@@ -372,7 +372,7 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 	if (gConsole->mIsConsoleRun == false)
 	{
 		// Debugウインドへ
-		cout << "[Error] Setup console ... fail!" << endl;
+		cout << "<Error> Setup console ... failed!" << endl;
 		return E_FAIL;
 	}
 
@@ -434,7 +434,7 @@ void onDropFiles(HWND hwnd, HDROP hDropInfo)
 	}
 
 	// チェックファイル内容
-	isModelFile(filePath);
+	gGUI->mIsModelFile = isModelFile(filePath);
 
 	// ドロップ終了
 	DragFinish(hDropInfo);
@@ -492,12 +492,9 @@ void enumerateFiles()
 // モデルファイルかどうかを判断
 //
 //*****************************************************************************
-void isModelFile(string path)
+bool isModelFile(string path)
 {
 	string fileFormat = path.substr(path.find_last_of(".") + 1, path.size());
-
-	cout << "<test> " << path << endl;
-	cout << "<test> " << fileFormat << endl;
 
 	for (auto it : modelFileExtension)
 	{
@@ -505,12 +502,15 @@ void isModelFile(string path)
 		{
 			gGUI->mIsAddingModel = true;
 			gGUI->mAddingFilePath = path;
-			break;
+			
+			// Debugウィンドへ
+			cout << "<System> importer open!" << endl;
+
+			return true;
 		}
 	}
 
-	// 対象外
-	gGUI->mIsDropFileError = true;
+	return false;
 }
 
 //*****************************************************************************

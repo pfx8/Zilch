@@ -32,7 +32,7 @@ private:
 
 public:
 	bool				mIsAddingModel;							// モデル読み込んでるをチェック
-	bool				mIsDropFileError;						// ドロップされたファイルが対象外エラー
+	bool				mIsModelFile;							// ドロップされたファイルが対象外エラー
 	string				mAddingFilePath = {" "};				// ドロップされたファイルのパスを保存
 
 	GUI();

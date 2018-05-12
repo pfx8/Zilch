@@ -14,9 +14,6 @@
 //*****************************************************************************
 Model::Model(string name, string const &path)
 {
-	// Debugウインドへ
-	cout << "<Model> : " << name;
-
 	// モデルの名前を初期化
 	this->mName = name;
 
@@ -49,17 +46,18 @@ HRESULT Model::loadModel(string const &path)
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		// Debugウインドへ
-		cout << "[Error] Assimp::" << import.GetErrorString() << endl;
+		cout << "<Error> Assimp::" << import.GetErrorString() << endl;
 		return E_FAIL;
 	}
 
+	// アニメーションをチェック
 	checkAnimation(scene);
 
 	// ルートノードから処理を始める
 	processNode(scene->mRootNode, scene);
 
 	// Debugウインドへ
-	cout << " loading ... success!" << endl;
+	cout << "<Scene> loading " << path << " ... successed!" << endl;
 
 	return S_OK;
 }

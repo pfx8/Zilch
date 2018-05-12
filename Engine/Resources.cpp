@@ -55,7 +55,7 @@ Model* Resources::getModel(string name)
 	}
 
 	// Debugウインドへ
-	cout << "[Error] <Model> Get " << name << " ... failed!" << endl;
+	cout << "<Error> get " << name << " ... failed!" << endl;
 
 	return nullptr;
 }
@@ -68,8 +68,8 @@ Model* Resources::getModel(string name)
 void Resources::createTexture(string const path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	string name = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
-	name = name.substr(0, name.find_first_of("."));									// exp: ccc.fbx -> ccc
+	string name = path.substr(path.find_last_of("\\") + 1, path.find_first_of("."));	// exp: c:\aaa\bbb\ccc.fbx -> ccc.x
+	name = name.substr(0, name.find_first_of("."));										// exp: ccc.fbx -> ccc
 
 	mTextures.insert({ name, new Texture(name, path) });	
 }
@@ -87,7 +87,7 @@ Texture* Resources::getTexture(string name)
 	}
 
 	// Debugウインドへ
-	cout << "[Error] <Texture> Get " << name << " ... failed!" << endl;
+	cout << "<Error> get " << name << " ... failed!" << endl;
 
 	return nullptr;
 }
@@ -129,7 +129,7 @@ Shader* Resources::getShader(string techniqueName)
 	}
 
 	// Debugウインドへ
-	cout << "[Error] <Shader> Get technique " << techniqueName << " ... failed!" << endl;
+	cout << "<Error> get technique " << techniqueName << " ... failed!" << endl;
 
 	return nullptr;
 }

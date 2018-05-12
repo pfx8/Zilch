@@ -32,12 +32,15 @@ class Scene
 private:
 
 public:
-	Camera*									mSystemCamera;			// システムカメラ
-	Camera*									mCurrentCamera;			// 使っているカメラ
-	Shader*									mShader;				// 現在レンダリング用なシェーダー
+	string									mName;					// シーンの名前
+
 	bool									mIsStart;				// スタートマーク
 	vector<MeshRender*>						mMeshRenders;			// メッシュレンダリング
 	map<string, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
+
+	Camera*									mSystemCamera;			// システムカメラ
+	Camera*									mCurrentCamera;			// 使っているカメラ
+	Shader*									mShader;				// 現在レンダリング用なシェーダー
 
 	Scene();
 	~Scene();

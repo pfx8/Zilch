@@ -14,7 +14,7 @@
 //*****************************************************************************
 Scene::Scene()
 {	
-
+	
 }
 
 //*****************************************************************************
@@ -49,7 +49,7 @@ GameObject* Scene::getGameObject(string name)
 	{
 		return this->mGameObjectMap[name];
 	}
-	cout << "[Error] <GameObject> Get " << name << " failed!" << endl;
+	cout << "<Error> [GameObject] Get " << name << " failed!" << endl;
 
 	return nullptr;
 }

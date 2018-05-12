@@ -50,7 +50,6 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	// 各チェックを初期化
 	this->mIsWireframe = false;
 	this->mIsAddingModel = false;
-	this->mIsDropFileError = false;
 }
 
 //*****************************************************************************
@@ -92,7 +91,7 @@ void GUI::draw()
 	}
 
 	// ドロップされたファイルが対象外
-	if (this->mIsDropFileError == true)
+	if (this->mIsModelFile == false)
 	{
 		dropFileErrorGUI();
 	}
@@ -371,7 +370,8 @@ void GUI::addModelImGui()
 	ImGui::Text(u8"モデルファイルパス");
 	ImGui::Text(u8"%s", this->mAddingFilePath.c_str());
 
-	static int errorType = 0;	//エラータイプ 0 -- default、1 -- Error1、2 -- Error2
+	// エラータイプ 0 -- default、1 -- Error1、2 -- Error2
+	static int errorType = 0;
 
 	// チェックGameObject名前
 	if (ImGui::Button(u8"インポート"))
@@ -432,6 +432,22 @@ void GUI::addModelImGui()
 		ImGui::EndPopup();
 	}
 
+	// キャンセル
+	ImGui::SameLine();
+	if (ImGui::Button(u8"キャンセル"))
+	{
+		// mNewGameObjectName初期化
+		*this->mNewGameObjectName = { NULL };
+
+		this->mIsAddingModel = false;
+	}
+
+	if (this->mIsAddingModel == false)
+	{
+		// モデル追加GUIを閉める
+		ImGui::CloseCurrentPopup();
+	}
+
 	ImGui::End();
 }
 
@@ -465,7 +481,7 @@ void GUI::dropFileErrorGUI()
 	ImGui::Text(u8"ドロップされたファイルはモデルファイルではありません！");
 	if (ImGui::Button(u8"はい"))
 	{
-		this->mIsDropFileError = false;
+		this->mIsModelFile = false;
 	}
 	ImGui::End();
 }

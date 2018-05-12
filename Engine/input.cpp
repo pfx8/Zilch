@@ -141,7 +141,7 @@ HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 	if(FAILED(hr) || gDeviceKeyboard == NULL)
 	{
 		// Debugウインドへ
-		cout << "<Warning>: No keyboard!" << endl;
+		cout << "<Warning> no keyboard!" << endl;
 		return hr;
 	}
 
@@ -150,7 +150,7 @@ HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 	if(FAILED(hr))
 	{
 		// Debugウインドへ
-		cout << "<Warning>: Can't setup keyboard!" << endl;
+		cout << "<Warning> can't setup keyboard!" << endl;
 		return hr;
 	}
 
@@ -159,7 +159,7 @@ HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 	if(FAILED(hr))
 	{
 		// Debugウインドへ
-		cout << "<Warning>: Keyboard mode error!" << endl;
+		cout << "<Warning> keyboard mode error!" << endl;
 		return hr;
 	}
 
@@ -167,7 +167,7 @@ HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 	gDeviceKeyboard->Acquire();
 
 	// Debugウインドへ
-	cout << "<System>: Keyboard ... OK!" << endl;
+	cout << "<System> keyboard ... OK!" << endl;
 
 	return S_OK;
 }
@@ -283,7 +283,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	if(FAILED(hr) || gDeviceMouse==NULL)
 	{
 		// Debugウインドへ
-		cout << "<Warning>: No mouse!" << endl;
+		cout << "<Warning> no mouse!" << endl;
 		return hr;
 	}
 
@@ -292,7 +292,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	if(FAILED(hr))
 	{
 		// Debugウインドへ
-		cout << "<Warning>: Can't setup mouse!" << endl;
+		cout << "<Warning> can't setup mouse!" << endl;
 		return hr;
 	}
 
@@ -301,7 +301,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	if(FAILED(hr))
 	{
 		// Debugウインドへ
-		cout << "<Warning>: Mouse mode error!" << endl;
+		cout << "<Warning> mouse mode error!" << endl;
 		return hr;
 	}
 	
@@ -318,7 +318,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	if(FAILED(hr))
 	{
 		// Debugウインドへ
-		cout << "<Warning>: Mouse property error!" << endl;
+		cout << "<Warning> mouse property error!" << endl;
 		return hr;	
 	}
 	
@@ -326,7 +326,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	gDeviceMouse->Acquire();
 
 	// Debugウインドへ
-	cout << "<System>: Mouse ... OK!" << endl;
+	cout << "<System> mouse ... OK!" << endl;
 
 	return hr;
 }
@@ -555,7 +555,7 @@ HRESULT InitializePad(void)
 		gDeviceGamePad[count]->Acquire();
 
 		// Debugウインドへ
-		cout << "<System>: GamePad[" << count << "] ... OK!" << endl;
+		cout << "<System> GamePad[" << count << "] ... OK!" << endl;
 	}
 
 	return true;

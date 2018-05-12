@@ -48,7 +48,8 @@ HRESULT SkyBox::InitSkyBox(float length)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
-	{// 頂点設計
+	// 頂点設計
+	{
 		D3DVERTEXELEMENT9 boundingBoxDecl[] =	// 頂点データのレイアウトを定義
 		{
 			{ 0, 0,  D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION },
@@ -61,7 +62,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 		if (FAILED(pD3DDevice->CreateVertexBuffer(16 * sizeof(SKYBOXVERTEX), D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &this->vertexBuffer, NULL)))
 		{
 			// Debugウインドへ
-			cout << "[Error] Make [Skybox] vertex buffer ... fail!" << endl;
+			cout << "<Error> make [Skybox] vertex buffer ... failed!" << endl;
 			return E_FAIL;
 		}
 
@@ -105,24 +106,31 @@ HRESULT SkyBox::InitSkyBox(float length)
 		if (FAILED(this->vertexBuffer->Lock(0, 0, (void**)&vertexBuffer, 0)))
 		{
 			// Debugウインドへ
-			cout << "[Error] [Skybox] vertex buffer can't lock ... fail!" << endl;
+			cout << "<Error> [Skybox] vertex buffer can't lock ... failed!" << endl;
 			return E_FAIL;
 		}
 		memcpy(vertexBuffer, vertex, sizeof(vertex));	// 作成された頂点を臨時ポインタの中に入れる
 		this->vertexBuffer->Unlock();					// 頂点データをアンロックする
 	}
 
-	{// インデックス設計
+	// インデックス設計
+	{
 		//オブジェクトの頂点インデックスバッファを生成
 		if (FAILED(pD3DDevice->CreateIndexBuffer(24 * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->indexBuffer, NULL)))
 		{
 			// Debugウインドへ
-			cout << "[Error] Make [Skybox] vertex index buffer ... fail!" << endl;
+			cout << "<Error> make [Skybox] vertex index buffer ... failed!" << endl;
 			return E_FAIL;
 		}
 
+		// インデックス データのある一定範囲をロックし、そのインデックス バッファー メモリーへのポインターを取得する
 		WORD* vertexIndex = nullptr;	// イデックスの中身を埋める
-		this->indexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);	// インデックス データのある一定範囲をロックし、そのインデックス バッファー メモリーへのポインターを取得する
+		if (FAILED(this->indexBuffer->Lock(0, 0, (void**)&vertexIndex, 0)))
+		{
+			// Debugウインドへ
+			cout << "<Error> [Skybox] index buffer can't lock ... failed!" << endl;
+			return E_FAIL;
+		}
 
 		// 前
 		vertexIndex[0] = 0, vertexIndex[1] = 1, vertexIndex[2] = 2;

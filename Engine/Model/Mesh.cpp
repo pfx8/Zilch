@@ -44,12 +44,12 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 		// 位置
 		// blender座標とDX座標が違うので、Y軸とZ軸を交換
 		vertex.pos.x = mesh->mVertices[count].x;
-		vertex.pos.y = mesh->mVertices[count].z;
-		vertex.pos.z = mesh->mVertices[count].y; 
+		vertex.pos.y = -mesh->mVertices[count].z;
+		vertex.pos.z = -mesh->mVertices[count].y; 
 
 		// 法線
 		vertex.nor.x = mesh->mNormals[count].x;
-		vertex.nor.y = mesh->mNormals[count].z;
+		vertex.nor.y = -mesh->mNormals[count].z;
 		vertex.nor.z = -mesh->mNormals[count].y;
 
 		// UV座標
@@ -231,7 +231,7 @@ HRESULT Mesh::setupVertices()
 	if (FAILED(pD3DDevice->CreateVertexBuffer(mVertices.size() * sizeof(VertexBone), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->mVertexBuffer, NULL)))
 	{
 		// Debugウインドへ
-		cout << "[Error] <Mesh> Make vertex buffer ... fail!" << endl;
+		cout << "<Error> make vertex buffer ... failed!" << endl;
 		return E_FAIL;
 	}
 
@@ -270,7 +270,7 @@ HRESULT Mesh::setupIndexes()
 	if (FAILED(pD3DDevice->CreateIndexBuffer(this->mIndices.size() * sizeof(WORD), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &this->mIndexBuffer, NULL)))
 	{
 		// Debugウインドへ
-		cout << "[Error] <Mesh> Make index buffer ... fail!" << endl;
+		cout << "<Error> make index buffer ... failed!" << endl;
 		return E_FAIL;
 	}
 

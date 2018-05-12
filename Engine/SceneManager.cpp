@@ -26,10 +26,11 @@ void SceneManager::start()
 {
 	// 各シーンのポイントを初期化
 	Scene02* zilch = new Scene02();
-	addScene("zilch", zilch);
+	zilch->mName = "zilch";
+	addScene(zilch->mName, zilch);
 
 	// 最初のシーンを選択
-	setActiveScene("zilch");
+	setActiveScene(zilch->mName);
 }
 
 //*****************************************************************************
@@ -96,7 +97,7 @@ HRESULT SceneManager::setActiveScene(string name)
 	}
 
 	// Debugウインドへ
-	cout << "[Error] <Scene> Set " << name << " ... failed!" << endl;
+	cout << "<Error> set " << name << " ... failed!" << endl;
 
 	return E_FAIL;
 }

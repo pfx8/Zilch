@@ -53,10 +53,10 @@ void Material::loadingMaterial(aiMaterial* mat)
 		this->mSpecular = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		// Debugウインドへ
-		cout << "[Warning] No Material" << endl;
+		cout << "<Warning> no material" << endl;
 	}
 
-	// テクスチャを読み込み
+	// ディフューズテクスチャを読み込み
 	addTextureFromResources(mat, aiTextureType_DIFFUSE);
 }
 
@@ -79,34 +79,29 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 {
 	for (unsigned int count = 0; count < mat->GetTextureCount(type); count++)
 	{
-		// モデルから読み込まれたテクスチャファイルの名前
-		aiString str;
-		// テクスチャパスを読み込み
-		mat->getTexture(type, count, &str);
+		Resources* resource = getResources();
 
-		// テクスチャ名前を保存
-		string fileName = str.C_Str();
+		// テクスチャパスを読み込み
+		aiString str;
+		mat->getTexture(type, count, &str);
+		string filePath = str.C_Str();
+
+		// テクスチャを読み込み
+		resource->createTexture(filePath);
+
 
 		// 絶対パスならば、モデルの名前とテクスチャを取得
-		if (fileName.find("\\") != string::npos)
+		string fileName;
+		if (filePath.find("\\") != string::npos)
 		{
-			fileName = fileName.substr(fileName.find_last_of("\\")+1, fileName.find_last_of("."));	// exp : c:\aaa\bbb\ccc.png -> ccc.png
+			fileName = filePath.substr(filePath.find_last_of("\\") + 1, filePath.find_last_of("."));	// exp : c:\aaa\bbb\ccc.png -> ccc.png
 		}
-		fileName = fileName.substr(0, fileName.find_first_of("."));									// exp : xxx.png -> xxx
+		fileName = fileName.substr(0, fileName.find_first_of("."));										// exp : xxx.png -> xxx
 
 		// テクスチャまだ読み込まなっかたら読み込む
-		Resources* resource = getResources();
 		Texture* texture = resource->getTexture(fileName.c_str());
 			
-		if (texture->mTex == nullptr)
-		{
-			// Debugウインドへ
-			cout << "[Error] Get <Texture> " << fileName.c_str() << " in <Material> ... failed!" << endl;
-		}
-		else
-		{
-			// テクスチャを保存
-			this->mTextures.push_back(texture);
-		}
+		// テクスチャを保存
+		this->mTextures.push_back(texture);
 	}
 }

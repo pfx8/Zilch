@@ -49,9 +49,12 @@ HRESULT Texture::loadingTexture(string path)
 		&mTex)))
 	{
 		// Debugウインドへ
-		cout << "[Error] Loading <Texture> " << path << " ... fail!" << endl;
+		cout << "<Error> loading " << path << " ... failed!" << endl;
 		return E_FAIL;
 	}
+
+	// Debugウインドへ
+	cout << "<Scene> loading " << path  << " ... sucessed!"<< endl;
 
 	return S_OK;
 }

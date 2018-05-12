@@ -15,7 +15,7 @@
 Scene02::Scene02()
 {
 	// シーンの情報
-	cout << "<Scene02>" << "<" << SCREEN_WIDTH << "," << SCREEN_HEIGHT << "> : [Project : Zilch] " << endl;
+	cout << "<Scene>: " << "[Project:Zilch] " << SCREEN_WIDTH << " * " << SCREEN_HEIGHT << endl;
 }
 
 //*****************************************************************************
@@ -32,18 +32,18 @@ void Scene02::start()
 	//-----------------------
 
 	// 床
-	resource->createTexture("Resources/Texture/grid.png");
+	//resource->createTexture("Resources/Texture/grid.png");
 	resource->createModel("Resources/Model/field.fbx");
 
 	// Hixo
-	resource->createTexture("Resources/Texture/Hixo/clothes.png");
-	resource->createTexture("Resources/Texture/Hixo/eye.png");
-	resource->createTexture("Resources/Texture/Hixo/face.png");
-	resource->createTexture("Resources/Texture/Hixo/facial.png");
-	resource->createTexture("Resources/Texture/Hixo/hair1.png");
-	resource->createTexture("Resources/Texture/Hixo/hair2.png");
-	resource->createTexture("Resources/Texture/Hixo/panties.png");
-	resource->createTexture("Resources/Texture/Hixo/skin.png");
+	//resource->createTexture("Resources/Texture/Hixo/clothes.png");
+	//resource->createTexture("Resources/Texture/Hixo/eye.png");
+	//resource->createTexture("Resources/Texture/Hixo/face.png");
+	//resource->createTexture("Resources/Texture/Hixo/facial.png");
+	//resource->createTexture("Resources/Texture/Hixo/hair1.png");
+	//resource->createTexture("Resources/Texture/Hixo/hair2.png");
+	//resource->createTexture("Resources/Texture/Hixo/panties.png");
+	//resource->createTexture("Resources/Texture/Hixo/skin.png");
 	resource->createModel("Resources/Model/Hixo.fbx");
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
