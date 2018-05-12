@@ -51,7 +51,7 @@ void	release(void);													// ウインド終了処理
 // ドロップ処理
 void onDropFiles(HWND hwnd, HDROP hDropInfo);							// ドロップファイル処理
 void enumerateFiles();													// ファイルの列挙処理
-void isModelFile(string name);											// モデルファイルかどうかを判断
+void isModelFile(string path);											// モデルファイルかどうかを判断
 
 // ImGui用プロシージャ
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -400,8 +400,8 @@ void onDropFiles(HWND hwnd, HDROP hDropInfo)
 {
 	// ドロップされたファイル数を取得
 	unsigned int fileCount {DragQueryFile(hDropInfo, (UINT)-1, NULL, 0)};
-	// ドロップされたファイル名前
-	TCHAR fileName[_MAX_PATH] {_T("")};
+	// ドロップされたファイルパス
+	TCHAR filePath[_MAX_PATH] {_T("")};
 	// ドロップされたファイル情報
 	DWORD attribute;
 
@@ -409,27 +409,27 @@ void onDropFiles(HWND hwnd, HDROP hDropInfo)
 	for (unsigned int i = 0; i < fileCount; i++)
 	{
 		// ドロップされたファイル名を取得
-		DragQueryFile(hDropInfo, i, fileName, sizeof(fileName));
+		DragQueryFile(hDropInfo, i, filePath, sizeof(filePath));
 		// ドロップされたファイルの情報を取得
-		attribute = GetFileAttributes(fileName);
+		attribute = GetFileAttributes(filePath);
 
 		// フォルダならば
 		if (attribute & FILE_ATTRIBUTE_DIRECTORY)
 		{
 			// 新しいディレクトリを設定
-			SetCurrentDirectory(fileName);
+			SetCurrentDirectory(filePath);
 			// 新しいディレクトリによってファイルを列挙処理
 			enumerateFiles();
 		}
 		// ファイルならば
 		else
 		{
-			cout << "<Drop File> " << fileName << endl;
+			break;
 		}
 	}
 
 	// チェックファイル内容
-	isModelFile(fileName);
+	isModelFile(filePath);
 
 	// ドロップ終了
 	DragFinish(hDropInfo);
@@ -475,8 +475,6 @@ void enumerateFiles()
 				filePath = directory;
 				// ドロップされたオブジェクトのパスを取得
 				filePath += findFileData.cFileName;
-
-				cout << "<Drop File> " << filePath << endl;
 			}
 		} while (FindNextFile(find, &findFileData));		// ディレクトリの下またファイルがあれば
 	}
@@ -489,10 +487,11 @@ void enumerateFiles()
 // モデルファイルかどうかを判断
 //
 //*****************************************************************************
-void isModelFile(string name)
+void isModelFile(string path)
 {
-	string fileFormat = name.substr(name.find_last_of(".") + 1, name.size());
+	string fileFormat = path.substr(path.find_last_of(".") + 1, path.size());
 
+	cout << "<test> " << path << endl;
 	cout << "<test> " << fileFormat << endl;
 
 	for (auto it : modelFileExtension)
@@ -500,9 +499,13 @@ void isModelFile(string name)
 		if (it == fileFormat)
 		{
 			gGUI->mIsAddingModel = true;
+			gGUI->mAddingFilePath = path;
 			break;
 		}
 	}
+
+	// 対象外
+	gGUI->mIsDropFileError = true;
 }
 
 //*****************************************************************************

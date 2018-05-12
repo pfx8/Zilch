@@ -47,11 +47,10 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	// デフォルトフォント
 	ImFont* font = io.Fonts->AddFontFromFileTTF("c:/Windows/Fonts/UDDigiKyokashoN-R.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 
-	// レンダリングモード設定
+	// 各チェックを初期化
 	this->mIsWireframe = false;
-
-	// 
 	this->mIsAddingModel = false;
+	this->mIsDropFileError = false;
 }
 
 //*****************************************************************************
@@ -90,6 +89,12 @@ void GUI::draw()
 	if (this->mIsAddingModel == true)
 	{
 		addModelImGui();
+	}
+
+	// ドロップされたファイルが対象外
+	if (this->mIsDropFileError == true)
+	{
+		dropFileErrorGUI();
 	}
 
 	// ImGuiを描画
@@ -290,13 +295,16 @@ void GUI::createNewGameObjectGUI()
 	{
 
 		ImGui::Text(u8"GameObject名前");
-		ImGui::InputText(" ", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
+		ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
 
-		if (ImGui::Button(u8"作る"))
+		if (ImGui::Button(u8"作り"))
 		{
 			// 新しいGameObjectを作る
 			GameObject* gameObject {new GameObject()};
 			getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
+
+			// mNewGameObjectName初期化
+			*this->mNewGameObjectName = { NULL };
 
 			// サブウインドを閉める
 			ImGui::CloseCurrentPopup();
@@ -306,6 +314,7 @@ void GUI::createNewGameObjectGUI()
 		{
 			// サブウインドを閉める
 			ImGui::CloseCurrentPopup();
+
 		}
 
 		ImGui::EndPopup();
@@ -320,9 +329,106 @@ void GUI::createNewGameObjectGUI()
 void GUI::addModelImGui()
 {
 	ImGui::Begin(u8"インポート");
+	ImGui::Text(u8"GameObject名前");
+	ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
+	ImGui::Text(u8"モデルファイルパス");
+	ImGui::Text(u8"%s", this->mAddingFilePath.c_str());
+
+	static int errorType = 0;	//エラータイプ 0 -- default、1 -- Error1、2 -- Error2
+
+	// チェックGameObject名前
+	if (ImGui::Button(u8"インポート"))
+	{
+		if (strlen(this->mNewGameObjectName) == 0 )
+		{
+			errorType = 1;
+		}
+
+		// チェックGameObject名前
+		if (!isGameObjectNameRight(this->mNewGameObjectName))
+		{
+			errorType = 2;
+		}
+
+		if (errorType != 0)
+		{
+			// エラーウインドを開く
+			ImGui::OpenPopup("Error");
+		}
+		else
+		{
+			// 新しいGameObjectを作る
+			GameObject* gameObject = new GameObject();
+			getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
+
+			// mNewGameObjectName初期化
+			*this->mNewGameObjectName = { NULL };
+			
+			this->mIsAddingModel = false;
+		}
+	}
+
+	// エラーウインド
+	if (ImGui::BeginPopupModal("Error"))
+	{
+		if (errorType == 1)
+		{
+			ImGui::Text(u8"GameObject名前を入力してください");
+		}
+		if (errorType == 2)
+		{
+			ImGui::Text(u8"このGameObject名前も存在してる");
+		}
+
+		if (ImGui::Button(u8"はい"))
+		{
+			// サブウインドを閉める
+			ImGui::CloseCurrentPopup();
+
+			// エラータイプ初期化
+			errorType = 0;
+		}
+
+		ImGui::EndPopup();
+	}
 
 	ImGui::End();
+}
 
+//*****************************************************************************
+//
+// チェック追加GameObject名前
+//
+//*****************************************************************************
+bool GUI::isGameObjectNameRight(string name)
+{
+	for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
+	{
+		// シーンに既にこの名前のGameObjectが存在すれば
+		if (it.first == name)
+		{
+			cout << "<test1> " << it.first << endl;
+			cout << "<test2> " << name << endl;
 
-	//this->mIsAddingModel = false;
+			return false;
+		}
+	}
+
+	return true;
+}
+
+//*****************************************************************************
+//
+// ドロップファイルは対応できないGUI
+//
+//*****************************************************************************
+void GUI::dropFileErrorGUI()
+{
+	ImGui::Begin(u8"Error");
+	ImGui::Text(u8"ドロップされたファイルはモデルファイルではありません！");
+	if (ImGui::Button(u8"はい"))
+	{
+		this->mIsDropFileError = false;
+	}
+	ImGui::End();
 }
