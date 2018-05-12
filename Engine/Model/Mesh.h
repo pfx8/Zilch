@@ -96,7 +96,7 @@ public:
 	vector<unsigned int>			mIndices;				// 頂点インデックスデータ
 	vector<Material*>				mMaterials;				// マテリアルデータ
 
-	Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);		// メッシュの初期化
+	Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);				// メッシュの初期化
 	~Mesh();
 
 	void checkBone(aiMesh* mesh);							// 骨をチェック
