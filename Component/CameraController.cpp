@@ -45,9 +45,9 @@ void CameraController::start()
 void CameraController::zoom(float distance)
 {
 	// 新しいoffset距離を計算、範囲を越えてなければoffsetを更新
-	D3DXVECTOR3 zoomDistance {this->mMainCamera->mCameraFront * distance};
-	D3DXVECTOR3 newOffset {this->mOffsetFromTarget + zoomDistance};
-	float newOffsetDistance {D3DXVec3Length(&newOffset) };
+	D3DXVECTOR3 zoomDistance = this->mMainCamera->mCameraFront * distance;
+	D3DXVECTOR3 newOffset = this->mOffsetFromTarget + zoomDistance;
+	float newOffsetDistance = D3DXVec3Length(&newOffset);
 	if (newOffsetDistance >= this->mOffsetFromTargetMin && newOffsetDistance <= this->mOffsetFromTargetMax)
 	{
 		this->mOffsetFromTarget = newOffset;
@@ -75,7 +75,7 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 	D3DXVECTOR3 newOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVec3TransformCoord(&newOffset, &this->mOffsetFromTarget, &verticalMatrix);						// 新しいoffset座標を計算する
 
-	D3DXVECTOR3 newOffsetNormalize {D3DXVECTOR3(0.0f, 0.0f, 0.0f)};
+	D3DXVECTOR3 newOffsetNormalize = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVec3Normalize(&newOffsetNormalize, &newOffset);													// ベクトルを正規化
 	float radianToWorldUp { D3DXVec3Dot(&newOffsetNormalize, &worldVector.worldUp) };					// カメラと世界のUpベクトルの角度を外積で計算
 	if (radianToWorldUp <= this->mVerticalRadiansMax && radianToWorldUp > this->mVerticalRadiansMin)	// カメラの垂直角度が範囲内ならば

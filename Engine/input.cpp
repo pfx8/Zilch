@@ -42,10 +42,10 @@ void UninitPad(void);				// ゲームパッド終了処理
 // グローバル変数
 //
 //*****************************************************************************
-LPDIRECTINPUT8				gD3DInput {nullptr};					// IDirectInput8インターフェースへのポインタ
+LPDIRECTINPUT8				gD3DInput = nullptr;					// IDirectInput8インターフェースへのポインタ
 
 // キーボード用
-LPDIRECTINPUTDEVICE8		gDeviceKeyboard {nullptr};				// IDirectInputDevice8インターフェースへのポインタ(キーボード)
+LPDIRECTINPUTDEVICE8		gDeviceKeyboard = nullptr;				// IDirectInputDevice8インターフェースへのポインタ(キーボード)
 BYTE						gKeyState[NUM_KEY_MAX];					// キーボードの状態を受け取るワーク
 BYTE						gKeyStateTrigger[NUM_KEY_MAX];			// キーボードの状態を受け取るワーク
 BYTE						gKeyStateRepeat[NUM_KEY_MAX];			// キーボードの状態を受け取るワーク
@@ -53,15 +53,15 @@ BYTE						gKeyStateRelease[NUM_KEY_MAX];			// キーボードの状態を受け�
 int							gKeyStateRepeatCnt[NUM_KEY_MAX];		// キーボードのリピートカウンタ
 
 // マウス用
-static LPDIRECTINPUTDEVICE8 gDeviceMouse {nullptr};					// マウスポインタ
+static LPDIRECTINPUTDEVICE8 gDeviceMouse = nullptr;					// マウスポインタ
 static DIMOUSESTATE2		gMouseState;							// マウスのダイレクトな状態
 static DIMOUSESTATE2		gMouseTrigger;							// 押された瞬間だけON
 
 // ゲームパッド用
-static LPDIRECTINPUTDEVICE8	gDeviceGamePad[GAMEPADMAX] {nullptr, nullptr, nullptr, nullptr};	// パッドデバイス
+static LPDIRECTINPUTDEVICE8	gDeviceGamePad[GAMEPADMAX] = {nullptr, nullptr, nullptr, nullptr};	// パッドデバイス
 static DWORD				gGamePadState[GAMEPADMAX];											// パッド情報（複数対応）
 static DWORD				gGamePadTrigger[GAMEPADMAX];										// 押された瞬間だけON
-static int					gGamePadCount {0};													// 検出したパッドの数
+static int					gGamePadCount = 0;													// 検出したパッドの数
 
 //*****************************************************************************
 //
@@ -475,7 +475,7 @@ HRESULT InitializePad(void)
 	gD3DInput->EnumDevices(DI8DEVCLASS_GAMECTRL, (LPDIENUMDEVICESCALLBACK)SearchGamePadCallback, NULL, DIEDFL_ATTACHEDONLY);
 	// セットしたコールバック関数が、パッドを発見した数だけ呼ばれる。
 
-	for (unsigned int i {0}; i < gGamePadCount; i++)
+	for (unsigned int i = 0; i < gGamePadCount; i++)
 	{
 		// ジョイスティック用のデータ・フォーマットを設定
 		hr = gDeviceGamePad[i]->SetDataFormat(&c_dfDIJoystick);
@@ -566,7 +566,7 @@ void UpdatePad(void)
 	HRESULT hr;
 	DIJOYSTATE2 dijs;
 
-	for (unsigned int i {0}; i < gGamePadCount; i++)
+	for (unsigned int i = 0; i < gGamePadCount; i++)
 	{
 		DWORD lastPadState;
 		lastPadState = gGamePadState[i];
@@ -650,7 +650,7 @@ void UpdatePad(void)
 //*****************************************************************************
 void UninitPad(void)
 {
-	for (unsigned int i {0}; i < GAMEPADMAX; i++)
+	for (unsigned int i = 0; i < GAMEPADMAX; i++)
 	{
 		if ( gDeviceGamePad[i] )
 		{

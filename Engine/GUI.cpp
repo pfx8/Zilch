@@ -36,11 +36,11 @@ GUI::~GUI()
 //*****************************************************************************
 void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 {
-	// ImGuiを初期化
 	ImGui::CreateContext();
 	// I/Oを初期化
-	ImGuiIO& io{ImGui::GetIO()};
+	ImGuiIO& io = ImGui::GetIO();
 	(void)io;
+	// ImGuiを初期化
 	ImGui_ImplDX9_Init(hWnd, D3DDevice);
 	// スタイルカラーを決める
 	ImGui::StyleColorsDark();
@@ -178,7 +178,7 @@ void GUI::systemGUI()
 		// レンダリングモードを選択
 		{
 			// 今ののレンダリングモード(デフォルトはテクスチャ)
-			static int currentShadingMode {2};
+			static int currentShadingMode = 2;
 
 			// コンボボックスの幅を設定
 			ImGui::PushItemWidth(160);
@@ -205,7 +205,7 @@ void GUI::systemGUI()
 		// カラーラップ選択
 		{
 			// 今ののレンダリングモード(デフォルトはテクスチャ)
-			static int currentColorRamp {0};
+			static int currentColorRamp = 0;
 
 			// コンボボックスの幅を設定
 			ImGui::PushItemWidth(160);
@@ -244,18 +244,18 @@ void GUI::sceneGUI()
 		createNewGameObjectGUI();
 
 		// 各GameObject
-		unsigned int IDs {0};
+		unsigned int IDs = 0;
 		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
 		{
 			ImGui::PushID(IDs);
 			if (ImGui::TreeNode(u8"%s", it.first.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
 				// GameObjectの各コンポーネントを出す
-				unsigned int ID2s {0};
+				unsigned int ID2s = 0;
 				for (auto it2 : it.second->mComponentsMap)
 				{
 					ImGui::PushID(ID2s);
-					string name{it2.first.name()};
+					string name = it2.first.name();
 					name = name.substr(name.find_last_of(" ") + 1, name.size());		// exp: class xxx -> xxx
 					if (ImGui::TreeNode(u8"%s", name.c_str()))
 					{
@@ -300,7 +300,7 @@ void GUI::createNewGameObjectGUI()
 		if (ImGui::Button(u8"作り"))
 		{
 			// 新しいGameObjectを作る
-			GameObject* gameObject {new GameObject()};
+			GameObject* gameObject = new GameObject();
 			getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
 
 			// mNewGameObjectName初期化
@@ -360,6 +360,9 @@ void GUI::addModelImGui()
 			// 新しいGameObjectを作る
 			GameObject* gameObject = new GameObject();
 			getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
+
+			// モデルを読み込み
+			//getResources()->createModel(this->mAddingFilePath);
 
 			// mNewGameObjectName初期化
 			*this->mNewGameObjectName = { NULL };

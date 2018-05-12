@@ -77,7 +77,7 @@ void Light::drawImGui()
 void Light::lightControllerImGui()
 {
 	// ライト位置入力配列
-	float* v1[3] {&this->mLightPos.x, &this->mLightPos.y, &this->mLightPos.z};
+	float* v1[3] = { &this->mLightPos.x, &this->mLightPos.y, &this->mLightPos.z };
 
 	switch (this->mLightType)
 	{

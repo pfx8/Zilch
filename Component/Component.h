@@ -27,7 +27,7 @@ private:
 
 public:
 	GameObject*			mGameObject;					// 所属GameObjectの他のコンポーネントを取れるように
-	bool				mStart {false};				// スタートマック
+	bool				mStart = false;				// スタートマック
 
 	Component();
 	virtual ~Component();

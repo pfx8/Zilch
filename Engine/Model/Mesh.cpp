@@ -47,10 +47,10 @@ Mesh::Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* sce
 void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene *scene)
 {
 	this->mName = mesh->mName.C_Str();			// メッシュの名前を取得
-	unsigned int numBones { bones.size() };		// 骨の順番を初期化
+	unsigned int numBones = bones.size();		// 骨の順番を初期化
 
 	// 頂点処理
-	for (unsigned int count { 0 }; count < mesh->mNumVertices; count++)
+	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
 	{
 		VertexBone vertex;
 
@@ -108,12 +108,12 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 	}
 
 	// 骨処理
-	for (unsigned int count { 0 }; count < mesh->mNumBones; count++)
+	for (unsigned int count = 0; count < mesh->mNumBones; count++)
 	{
-		unsigned int boneIndex { 0 };
-		string boneName{ mesh->mBones[count]->mName.C_Str() };			// 骨の名前を取得
+		unsigned int boneIndex =0;
+		string boneName = mesh->mBones[count]->mName.C_Str();			// 骨の名前を取得
 
-		bool skip { false };
+		bool skip = false;
 
 		// vector<Bone*>に骨を探す
 		for (auto it : bones)
@@ -135,21 +135,21 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 			boneIndex = numBones;
 			numBones++;
 			// 骨データを保存
-			D3DXMATRIX offset { mesh->mBones[count]->mOffsetMatrix[0] };		// aiMatrixからD3DXMATRIXへ変更
+			D3DXMATRIX offset = mesh->mBones[count]->mOffsetMatrix[0];		// aiMatrixからD3DXMATRIXへ変更
 			Bone *bone = new Bone(boneIndex, offset, boneName);
 			bones.push_back(bone);
 		}
 
 		// 頂点に骨情報を入れる
-		for (unsigned int i { 0 }; i < mesh->mBones[count]->mNumWeights; i++)
+		for (unsigned int i = 0; i < mesh->mBones[count]->mNumWeights; i++)
 		{
 
 			// 今の骨に対して各影響されてる頂点のIDと重みを取得
-			unsigned int vertexID { mesh->mBones[count]->mWeights[i].mVertexId };
-			float weight { mesh->mBones[count]->mWeights[i].mWeight };
+			unsigned int vertexID = mesh->mBones[count]->mWeights[i].mVertexId;
+			float weight = mesh->mBones[count]->mWeights[i].mWeight;
 
 			// 頂点に情報を入れる
-			for (unsigned int j { 0 }; j < NUM_BONES_PER_VEREX; j++)
+			for (unsigned int j = 0; j < NUM_BONES_PER_VEREX; j++)
 			{
 				if (mVertices.at(vertexID).weights[j] == 0.0f)
 				{
@@ -166,11 +166,11 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 	}
 
 	// インデックス処理
-	for (unsigned int count { 0 }; count < mesh->mNumFaces; count++)
+	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
 	{
-		aiFace face { mesh->mFaces[count] };
+		aiFace face = mesh->mFaces[count];
 
-		for (unsigned int i { 0 }; i < face.mNumIndices; i = i + 3)
+		for (unsigned int i = 0; i < face.mNumIndices; i = i + 3)
 		{
 			// フェースによって各頂点のインデックスを取得
 			// DXのポリゴン描きルールは反時計回りなので、ここで変更
@@ -183,8 +183,8 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 	// マテリアル処理
 	{
 		// フェースのマテリアルを取得
-		aiMaterial* aiMat { scene->mMaterials[mesh->mMaterialIndex] };
-		Material* mat { new Material(aiMat) };
+		aiMaterial* aiMat = scene->mMaterials[mesh->mMaterialIndex];
+		Material* mat = new Material(aiMat);
 		// メッシュのマテリアルに入れる
 		this->mMaterials.push_back(mat);
 	}
@@ -195,16 +195,16 @@ void Mesh::createMeshWithBone(aiMesh *mesh, vector<Bone*>& bones, const aiScene 
 // デフォルトメッシュを読み込み
 //
 //*****************************************************************************
-void Mesh::createMesh(aiMesh *mesh, const aiScene *scene)
+void Mesh::createMesh(aiMesh* mesh, const aiScene* scene)
 {
 	// メッシュ名前を保存
 	this->mName = mesh->mName.C_Str();
 
-	unsigned int numBones { 0 };					// 骨の数
+	unsigned int numBones = 0;					// 骨の数
 	unordered_map<string, Bone> boneMapping;		// 骨マップ
 
 	// 頂点処理
-	for (unsigned int count { 0 }; count < mesh->mNumVertices; count++)
+	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
 	{
 		VertexBone vertex;
 
@@ -267,11 +267,11 @@ void Mesh::createMesh(aiMesh *mesh, const aiScene *scene)
 	}
 
 	// インデックス処理
-	for (unsigned int count { 0 }; count < mesh->mNumFaces; count++)
+	for (unsigned int count = 0; count < mesh->mNumFaces; count++)
 	{
-		aiFace face { mesh->mFaces[count] };
+		aiFace face = mesh->mFaces[count];
 
-		for (unsigned int i { 0 }; i < face.mNumIndices; i = i + 3)
+		for (unsigned int i = 0; i < face.mNumIndices; i = i + 3)
 		{
 			// フェースによって各頂点のインデックスを取得
 			// DXのポリゴン描きルールは反時計回りなので、ここで変更
@@ -284,8 +284,8 @@ void Mesh::createMesh(aiMesh *mesh, const aiScene *scene)
 	// マテリアル処理
 	{
 		// フェースのマテリアルを取得
-		aiMaterial* aiMat { scene->mMaterials[mesh->mMaterialIndex] };
-		Material* mat { new Material(aiMat) };
+		aiMaterial* aiMat = scene->mMaterials[mesh->mMaterialIndex];
+		Material* mat = new Material(aiMat);
 		// メッシュのマテリアルに入れる
 		this->mMaterials.push_back(mat);
 	}
@@ -332,12 +332,12 @@ HRESULT Mesh::SetupMeshWithBone()
 		return E_FAIL;
 	}
 		
-	VertexBone* vertices {nullptr};
+	VertexBone* vertices = nullptr;
 		
 	// 頂点データの範囲をロックし、頂点バッファ メモリへのポインタを取得
 	this->mVertexBuffer->Lock(0, 0, (void**)&vertices, 0);
 
-	unsigned int count {0};
+	unsigned int count = 0;
 	for (auto it : this->mVertices)
 	{
 		vertices[count].pos = it.pos;
@@ -360,7 +360,7 @@ HRESULT Mesh::SetupMeshWithBone()
 		return E_FAIL;
 	}
 
-	WORD* vertexIndex {nullptr};
+	WORD* vertexIndex = nullptr;
 
 	// インデックス データのある一定範囲をロックし、そのインデックスバッファメモリーへのポインターを取得
 	this->mIndexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);
@@ -407,12 +407,12 @@ HRESULT Mesh::SetupMesh()
 		return E_FAIL;
 	}
 
-	Vertex* vertices {nullptr};
+	Vertex* vertices = nullptr;
 
 	// 頂点データの範囲をロックし、頂点バッファ メモリへのポインタを取得
 	this->mVertexBuffer->Lock(0, 0, (void**)&vertices, 0);
 
-	unsigned int count {0};
+	unsigned int count = 0;
 	for (auto it : this->mVertices)
 	{
 		vertices[count].pos = it.pos;
@@ -435,7 +435,7 @@ HRESULT Mesh::SetupMesh()
 		return E_FAIL;
 	}
 
-	WORD* vertexIndex {nullptr};
+	WORD* vertexIndex = nullptr;
 
 	// インデックス データのある一定範囲をロックし、そのインデックスバッファメモリーへのポインターを取得
 	this->mIndexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);
@@ -461,12 +461,12 @@ HRESULT Mesh::SetupMesh()
 //*****************************************************************************
 void Mesh::drawShadow(Shader* shader)
 {
-	LPDIRECT3DDEVICE9 pD3DDevice {getD3DDevice()};
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	// 描画
-	UINT passNum {0};
+	UINT passNum = 0;
 	shader->mEffect->Begin(&passNum, 0);
-	for (int count {0}; count < passNum; count++)
+	for (int count = 0; count < passNum; count++)
 	{
 		// 各パスを描画
 		shader->mEffect->BeginPass(count);
@@ -483,8 +483,8 @@ void Mesh::drawShadow(Shader* shader)
 			break;
 		}
 		hr = pD3DDevice->SetIndices(this->mIndexBuffer);		// インデックスバッファを設定
-		unsigned int vertexNums {mVertices.size()};
-		unsigned int faceNums {mIndices.size() / 3};
+		unsigned int vertexNums = mVertices.size();
+		unsigned int faceNums = mIndices.size()/3;
 		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画
 
 		shader->mEffect->EndPass();
@@ -499,7 +499,7 @@ void Mesh::drawShadow(Shader* shader)
 //*****************************************************************************
 void Mesh::drawModel(Shader* shader)
 {
-	LPDIRECT3DDEVICE9 pD3DDevice {getD3DDevice()};
+	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	// マテリアル属性を渡す
 	shader->mEffect->SetValue("amibent", this->mMaterials.at(0)->mAmbient, sizeof(D3DXVECTOR3));
@@ -508,13 +508,13 @@ void Mesh::drawModel(Shader* shader)
 	shader->mEffect->SetFloat("shininess", this->mMaterials.at(0)->mShininess);
 
 	// テクスチャを渡す
-	LPDIRECT3DTEXTURE9 tex {this->mMaterials.at(0)->mTextures.at(0)->mTex};
+	LPDIRECT3DTEXTURE9 tex = this->mMaterials.at(0)->mTextures.at(0)->mTex;
 	shader->mEffect->SetTexture("tex", tex);
 
 	// 描画
-	UINT passNum {0};
+	UINT passNum = 0;
 	shader->mEffect->Begin(&passNum, 0);
-	for (int count {0}; count < passNum; count++)
+	for (int count = 0; count < passNum; count++)
 	{
 		// 各パスを描画
 		shader->mEffect->BeginPass(count);
@@ -531,8 +531,8 @@ void Mesh::drawModel(Shader* shader)
 			break;
 		}
 		hr = pD3DDevice->SetIndices(this->mIndexBuffer);		// インデックスバッファを設定
-		unsigned int vertexNums {mVertices.size()};
-		unsigned int faceNums {mIndices.size() / 3};
+		unsigned int vertexNums = mVertices.size();
+		unsigned int faceNums = mIndices.size()/3;
 		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画
 
 		shader->mEffect->EndPass();

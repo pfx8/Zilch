@@ -98,7 +98,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 			//{ D3DXVECTOR3(-length / 2, length / 2, -length / 2), D3DXVECTOR2(1.0f, 1.0f) },
 		};
 
-		VOID* vertexBuffer;	// 頂点バッファポインタ作成
+		VOID* vertexBuffer = nullptr;	// 頂点バッファポインタ作成
 
 		// 頂点データの範囲をロックして頂点バッファメモリへのポインタを取得する
 		if (FAILED(this->vertexBuffer->Lock(0, 0, (void**)&vertexBuffer, 0)))
@@ -118,7 +118,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 			return E_FAIL;
 		}
 
-		WORD* vertexIndex = NULL;	// イデックスの中身を埋める
+		WORD* vertexIndex = nullptr;	// イデックスの中身を埋める
 		this->indexBuffer->Lock(0, 0, (void**)&vertexIndex, 0);	// インデックス データのある一定範囲をロックし、そのインデックス バッファー メモリーへのポインターを取得する
 
 		// 前

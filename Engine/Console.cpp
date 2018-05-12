@@ -14,9 +14,12 @@
 //*****************************************************************************
 Console::Console()
 {
-	this->mIsConsoleRun = AllocConsole();	// コンソールを初期化
-	SetConsoleTitle(_T("console"));			// コンソールのタイトルを設定する
-	freopen("CONIN$", "r", stdin);			// コンソールにinput,outputを指定
+	// コンソールを初期化
+	this->mIsConsoleRun = AllocConsole();
+	// コンソールのタイトルを設定する
+	SetConsoleTitle(_T("console"));
+	// コンソールにinput,outputを指定
+	freopen("CONIN$", "r", stdin);
 	freopen("CONOUT$", "w", stdout);
 	freopen("CONOUT$", "w", stderr);
 }
@@ -38,8 +41,7 @@ Console::~Console()
 //*****************************************************************************
 HRESULT Console::SetConsoleBack(HWND hwnd, int cmd)
 {
-
-		return S_OK;
+	return S_OK;
 }
 
 //*****************************************************************************
@@ -49,6 +51,5 @@ HRESULT Console::SetConsoleBack(HWND hwnd, int cmd)
 //*****************************************************************************
 HRESULT Console::SetConsoleFront(HWND hwnd)
 {
-
 	return S_OK;;
 }

@@ -24,7 +24,7 @@ class Animation
 	friend class Mesh;
 	friend class Model;
 private:
-	float					mLastStartTime {0.0f};							// 前回アニメーションが終わった時間、最初はゲームスタートので0にする
+	float					mLastStartTime = 0.0f;							// 前回アニメーションが終わった時間、最初はゲームスタートので0にする
 	string					mName;											// アニメーションの名前
 	float					mDuration;										// アニメーションの続き時間(単位はTicks)
 	float					mTicksPerSecond;								// Tricks/seconds

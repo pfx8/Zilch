@@ -46,15 +46,15 @@ void Billboard::start()
 void Billboard::update()
 {
 	// カメラからビルボードまでの方向ベクトルを計算
-	D3DXVECTOR3 cameraPos {this->mMainCamera->getComponent<Transform>()->mPos};
-	D3DXVECTOR3 cameraDir {cameraPos - this->mTrans->mPos};
+	D3DXVECTOR3 cameraPos = this->mMainCamera->getComponent<Transform>()->mPos;
+	D3DXVECTOR3 cameraDir = cameraPos - this->mTrans->mPos;
 	
 	// Y軸には関係ないのでｍここでY軸の数値を捨てて、正規化して方向ベクトルができる
 	cameraDir = D3DXVECTOR3(cameraDir.x, 0.0f, cameraDir.z);
 	D3DXVec3Normalize(&cameraDir, &cameraDir);
 
 	// カメラのビューイング行列を取得
-	D3DXMATRIX viewMatrix {mMainCamera->getComponent<Camera>()->mViewMatrix};
+	D3DXMATRIX viewMatrix = mMainCamera->getComponent<Camera>()->mViewMatrix;
 	// ビルボード行列を作る
 	D3DXMATRIX billboardMatrix;
 	D3DXMatrixIdentity(&billboardMatrix);

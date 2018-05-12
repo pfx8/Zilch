@@ -35,7 +35,7 @@ Resources::~Resources()
 void Resources::createModel(string const path, MeshType type)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	string name {path.substr(path.find_last_of("/") + 1, path.find_first_of("."))};	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	string name = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
 	name = name.substr(0, name.find_first_of("."));									// exp: ccc.fbx -> ccc
 
 	// モデルデータを保存
@@ -66,7 +66,7 @@ Model* Resources::getModel(string name)
 void Resources::createTexture(string const path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	string name {path.substr(path.find_last_of("/") + 1, path.find_first_of("."))};	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	string name = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
 	name = name.substr(0, name.find_first_of("."));									// exp: ccc.fbx -> ccc
 
 	mTextures.insert({ name, new Texture(name, path) });	
@@ -99,11 +99,11 @@ Texture* Resources::getTexture(string name)
 void Resources::createShader(string const path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	string techniqueName {path.substr(path.find_last_of("/") + 1, path.find_first_of("."))};	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
-	techniqueName = techniqueName.substr(0, techniqueName.find_first_of("."));									// exp: ccc.fbx -> ccc
+	string techniqueName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	techniqueName = techniqueName.substr(0, techniqueName.find_first_of("."));					// exp: ccc.fbx -> ccc
 
 	// シェーダーデータを作る
-	Shader* shader {new Shader(path)};
+	Shader* shader = new Shader(path);
 	
 	// techniqueを確定
 	shader->mEffect->SetTechnique((D3DXHANDLE)techniqueName.c_str());

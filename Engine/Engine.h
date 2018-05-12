@@ -106,9 +106,9 @@ class SceneManager;
 struct WorldVector
 {
 	// ÉQÅ[ÉÄê¢äEÇÃ3é≤
-	D3DXVECTOR3			worldLook {D3DXVECTOR3(0.0f, 0.0f, 1.0f)};
-	D3DXVECTOR3			worldUp {D3DXVECTOR3(0.0f, 1.0f, 0.0f)};
-	D3DXVECTOR3			worldRight {D3DXVECTOR3(1.0f, 0.0f, 0.0f)};
+	D3DXVECTOR3		worldLook  = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	D3DXVECTOR3		worldUp    = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	D3DXVECTOR3		worldRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 };
 
 //*****************************************************************************

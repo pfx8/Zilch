@@ -25,7 +25,7 @@ Scene02::Scene02()
 //*****************************************************************************
 void Scene02::start()
 {
-	Resources* resource {getResources()};
+	Resources* resource = getResources();
 
 	//-----------------------
 	// リソースを読み込み
@@ -60,11 +60,10 @@ void Scene02::start()
 	this->mShader = resource->getShader("mainShader");
 
 	// ライト
-	GameObject* pointLight {new GameObject()};
-	Light* light {new Light()};
+	GameObject* pointLight = new GameObject();
+	Light* light = new Light();
 	// ライトタイプを指定
 	light->mLightType = LT_point;
-	//light->mLightDirection = D3DXVECTOR3(1.0f, 1.0f, -0.5f);
 	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	light->mLightPos = D3DXVECTOR3(0.0f, 4.0f, 0.0f);
 	// ライト範囲は50ｍにする
@@ -76,17 +75,17 @@ void Scene02::start()
 	this->addGameObject("light", pointLight);
 
 	// mainCamera
-	GameObject* mainCamera {new GameObject()};
-	Camera* camera {new Camera()};
+	GameObject* mainCamera = new GameObject();
+	Camera* camera = new Camera();
 	camera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, 5.0f);
 
 	// player
-	GameObject* player {new GameObject()};
-	Transform* playerTrans {new Transform()};								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	GameObject* player = new GameObject();
+	Transform* playerTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	player->addComponent<Transform>(playerTrans);
-	CameraController* cameraController {new CameraController()};
+	CameraController* cameraController = new CameraController();
 	player->addComponent<CameraController>(cameraController);
-	MeshRender* playerMeshRender {new MeshRender()};
+	MeshRender* playerMeshRender = new MeshRender();
 	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
 	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
 	playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
@@ -100,8 +99,8 @@ void Scene02::start()
 	this->addGameObject("mainCamera", mainCamera);
 
 	// 床
-	GameObject* gridField {new GameObject()};
-	Transform* gridFieldTrans {new Transform()};							// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	GameObject* gridField = new GameObject();
+	Transform* gridFieldTrans = new Transform();							// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridFieldTrans->mScl = D3DXVECTOR3(6.0f, 6.0f, 6.0f);
 	gridField->addComponent<Transform>(gridFieldTrans);
 	//MeshRender* gridFieldMeshRender = new MeshRender();

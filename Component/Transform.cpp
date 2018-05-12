@@ -42,17 +42,14 @@ void Transform::update()
 
 	// ƒXƒP[ƒ‹‚ð”½‰f
 	D3DXMatrixScaling(&mtxScl, mScl.x, mScl.y, mScl.z);
-	//D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxScl);
 	this->mWorldMatrix = this->mWorldMatrix * mtxScl;
 
 	// ‰ñ“]‚ð”½‰f
 	D3DXMatrixRotationYawPitchRoll(&this->mRotMatrix, mRot.y, mRot.x, mRot.z);
-	//D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &this->mRotMatrix);
 	this->mWorldMatrix = this->mWorldMatrix * this->mRotMatrix;
 
 	// •½sˆÚ“®‚ð”½‰f
 	D3DXMatrixTranslation(&mtxTranslate, mPos.x, mPos.y, mPos.z);
-	//D3DXMatrixMultiply(&this->mWorldMatrix, &this->mWorldMatrix, &mtxTranslate);
 	this->mWorldMatrix = this->mWorldMatrix * mtxTranslate;
 }
 
@@ -64,7 +61,7 @@ void Transform::update()
 void Transform::drawImGui()
 {
 	ImGui::Text(u8"ƒXƒP[ƒ‹(X,Y,Z)");
-	float* v1[3] {&this->mScl.x, &this->mScl.y, &this->mScl.z};
+	float* v1[3] = { &this->mScl.x, &this->mScl.y, &this->mScl.z };
 	ImGui::InputFloat3("Scl", *v1);
 	ImGui::Separator();
 
@@ -75,6 +72,6 @@ void Transform::drawImGui()
 	ImGui::Separator();
 
 	ImGui::Text(u8"ˆÊ’u(X,Y,Z)");
-	float* v2[3] {&this->mPos.x, &this->mPos.y, &this->mPos.z};
+	float* v2[3] = { &this->mPos.x, &this->mPos.y, &this->mPos.z };
 	ImGui::InputFloat3("Tran", *v2);
 }

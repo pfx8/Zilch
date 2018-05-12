@@ -17,16 +17,16 @@
 // グローバル変数
 //
 //*****************************************************************************
-LPDIRECT3D9						gD3D {nullptr};				// Direct3Dオブジェクト
-LPDIRECT3DDEVICE9				gD3DDevice {nullptr};		// Deviceオブジェクト(描画に必要)
+LPDIRECT3D9						gD3D = nullptr;				// Direct3Dオブジェクト
+LPDIRECT3DDEVICE9				gD3DDevice = nullptr;		// Deviceオブジェクト(描画に必要)
 D3DPRESENT_PARAMETERS			gD3Dpp;						// デバイスのプレゼンテーションパラメータ
 
 // 自作クラス
-Console*						gConsole {nullptr};			// コンソールウインド
-Resources*						gResources {nullptr};		// リソース
-SceneManager*					gSceneManager {nullptr};	// シンー管理
-GameTimes*						gGameTimes {nullptr};		// ゲームタイム
-GUI*							gGUI {nullptr};				// ImGui
+Console*						gConsole = nullptr;			// コンソールウインド
+Resources*						gResources = nullptr;		// リソース
+SceneManager*					gSceneManager = nullptr;	// シンー管理
+GameTimes*						gGameTimes = nullptr;		// ゲームタイム
+GUI*							gGUI = nullptr;				// ImGui
 
 // ゲーム世界の3軸
 WorldVector						gWorldVector;
@@ -44,9 +44,9 @@ vector<string> modelFileExtension = { "x","fbx","obj","3ds" };
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);					// ウインド
 HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);		// DirectX初期化
 HRESULT	initGame(HINSTANCE hInstance, HWND hWnd);						// ゲーム処理を初期化
-void	updata(HWND hWnd, int cmd);										// ウインド更新処理
-void	draw(HWND hWnd);												// ウインド描画処理
-void	release(void);													// ウインド終了処理
+void updata(HWND hWnd, int cmd);										// ウインド更新処理
+void draw(HWND hWnd);													// ウインド描画処理
+void release(void);														// ウインド終了処理
 
 // ドロップ処理
 void onDropFiles(HWND hwnd, HDROP hDropInfo);							// ドロップファイル処理
@@ -285,7 +285,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	ZeroMemory(&gD3Dpp, sizeof(gD3Dpp));
 
 	// デフォルトで使わない
-	D3DMULTISAMPLE_TYPE multiSampType {D3DMULTISAMPLE_NONE};
+	D3DMULTISAMPLE_TYPE multiSampType = D3DMULTISAMPLE_NONE;
 	// このデバイスでマルチサンプリング テクニックを利用できるかどうかを調べる
 	if (gD3D->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8B8G8R8,
 		0, D3DMULTISAMPLE_16_SAMPLES, NULL))
@@ -320,7 +320,7 @@ HRESULT initDiretX(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	}
 
 	D3DCAPS9 caps; 
-	int vp {0};
+	int vp = 0;
 	if (FAILED(gD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps)))
 	{
 		cout << "[Error] Get directX device ... fail!" << endl;
@@ -399,17 +399,17 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 void onDropFiles(HWND hwnd, HDROP hDropInfo)
 {
 	// ドロップされたファイル数を取得
-	unsigned int fileCount {DragQueryFile(hDropInfo, (UINT)-1, NULL, 0)};
+	unsigned int fileCount = DragQueryFile(hDropInfo, (UINT)-1, NULL, 0);
 	// ドロップされたファイルパス
-	TCHAR filePath[_MAX_PATH] {_T("")};
+	TCHAR filePath[_MAX_PATH] = {_T("")};
 	// ドロップされたファイル情報
 	DWORD attribute;
 
 	// ドロップされたファイルとフォルダを取得
-	for (unsigned int i = 0; i < fileCount; i++)
+	for (unsigned int count = 0; count < fileCount; count++)
 	{
 		// ドロップされたファイル名を取得
-		DragQueryFile(hDropInfo, i, filePath, sizeof(filePath));
+		DragQueryFile(hDropInfo, count, filePath, sizeof(filePath));
 		// ドロップされたファイルの情報を取得
 		attribute = GetFileAttributes(filePath);
 

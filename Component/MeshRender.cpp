@@ -82,7 +82,7 @@ void MeshRender::drawShadowMap()
 void MeshRender::draw()
 {
 	// ライトを取得
-	Light* light {this->mGameObject->mScene->getGameObject("light")->getComponent<Light>()};
+	Light* light = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>();
 	// ライトタイプをシェーダーに渡す
 	this->mShader->mEffect->SetInt("lightType", light->mLightType);
 
@@ -127,13 +127,13 @@ void MeshRender::draw()
 	}
 
 	// モデルのワールド変換行列を取得
-	Transform* trans {this->mGameObject->getComponent<Transform>()};
+	Transform* trans = this->mGameObject->getComponent<Transform>();
 	// モデルのワールド変換行列と回転行列をシェーダーに渡る
 	this->mShader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
 	this->mShader->mEffect->SetMatrix("rotMatrix", &trans->mRotMatrix);
 
 	// カメラ情報を取得
-	Camera* camera {this->mGameObject->mScene->getGameObject("mainCamera")->getComponent<Camera>()};
+	Camera* camera = this->mGameObject->mScene->getGameObject("mainCamera")->getComponent<Camera>();
 	// カメラの行列をシェーダーに渡る
 	this->mShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
 	this->mShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
@@ -186,7 +186,7 @@ void MeshRender::drawImGui()
 		{
 			if (ImGui::TreeNode(u8"ボーン"))
 			{
-				unsigned int level {0};
+				unsigned int level = 0;
 				this->mModel->traverseNode(*(this->mModel->mAnimationes.at(0)->mNode.end() - 1), level);
 
 				ImGui::TreePop();
