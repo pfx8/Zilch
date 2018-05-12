@@ -47,8 +47,16 @@ void CameraController::zoom(float distance)
 	// 新しいoffset距離を計算、範囲を越えてなければoffsetを更新
 	D3DXVECTOR3 zoomDistance = this->mSceneCurrentCamera->mCameraFront * distance;
 	D3DXVECTOR3 newOffset = this->mOffsetFromTarget + zoomDistance;
+
 	float newOffsetDistance = D3DXVec3Length(&newOffset);
-	if (newOffsetDistance >= this->mOffsetFromTargetMin && newOffsetDistance <= this->mOffsetFromTargetMax)
+	if (this->mSceneCurrentCamera->mIsZoomLimited == true)
+	{
+		if (newOffsetDistance >= this->mOffsetFromTargetMin && newOffsetDistance <= this->mOffsetFromTargetMax)
+		{
+			this->mOffsetFromTarget = newOffset;
+		}
+	}
+	else
 	{
 		this->mOffsetFromTarget = newOffset;
 	}

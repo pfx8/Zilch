@@ -28,6 +28,7 @@ private:
 
 public:
 	bool			mIsVerticalLimited;			// カメラ垂直角度制限されたかどうかをチェック
+	bool			mIsZoomLimited;				// カメラズームされたかどうかをチェック
 
 	D3DXVECTOR3		mCameraPos;					// カメラの位置
 	Transform*		mTargetTrans;				// 目標Transformを保存

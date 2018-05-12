@@ -25,19 +25,7 @@
 // 構造体定義
 //
 //*****************************************************************************
-// デフォルト頂点設計
-struct Vertex
-{
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 nor;
-	D3DXVECTOR2 tex;
-
-	// プラスインフォメーション
-	//D3DXVECTOR3 tangent;
-	//D3DXVECTOR3 bitangent;
-};
-
-// 骨付き頂点設計
+// 頂点設計
 struct VertexBone 
 {
 	D3DXVECTOR3 pos;
@@ -75,17 +63,16 @@ typedef enum MeshType
 class Mesh
 {
 private:
-	MeshType						mMeshType;				// メッシュタイプ
 	D3DXVECTOR3						mBoundingBoxMax;		// バウンディングボックスマックス座標の最大値
 	D3DXVECTOR3						mBoundingBoxMin;		// バウンディングボックスマックス座標の最小値
 	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;			// 頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;			// 頂点インデックスバッファ
 	IDirect3DVertexDeclaration9*	mVertexDecl;			// 頂点シェーダー宣言
 
-	void createMesh(aiMesh* mesh, const aiScene* scene);										//	デフォルトメッシュを読み込み
-	void createMeshWithBone(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);			// 骨付きメッシュを読み込み
-	HRESULT SetupMesh();																		// デフォルトメッシュをセットアップ
-	HRESULT SetupMeshWithBone();																// 骨付きメッシュをセットアップ
+	void createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);					// メッシュを読み込み
+	HRESULT setupMesh();																		// メッシュをセットアップ
+	HRESULT setupVertices();																	// 頂点をセットアップ
+	HRESULT setupIndexes();																		// インデックスをセットアップ
 
 	void createBoundingBox(D3DXVECTOR3 vertexPos, D3DXVECTOR3 &boxMax, D3DXVECTOR3 &boxMin);	// バウンディングボックスサイズを作り
 
@@ -96,10 +83,9 @@ public:
 	vector<unsigned int>			mIndices;				// 頂点インデックスデータ
 	vector<Material*>				mMaterials;				// マテリアルデータ
 
-	Mesh(MeshType type, aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);				// メッシュの初期化
+	Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);				// メッシュの初期化
 	~Mesh();
 
-	void checkBone(aiMesh* mesh);							// 骨をチェック
 	void drawShadow(Shader* shader);						// メッシュのシャドウマップを描画
 	void drawModel(Shader* shader);							// メッシュを描画
 };

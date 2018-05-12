@@ -550,6 +550,7 @@ void draw(HWND hWnd)
 		// GUIを描画
 		gGUI->draw();
 
+		// Direct3Dによる描画の終了
 		gD3DDevice->EndScene();
 	}
 

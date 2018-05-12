@@ -28,7 +28,6 @@ private:
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
 
 public:
-	enum MeshType					mMeshType;						// メッシュタイプ
 	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号
 
 	string							mName;							// モデル名前
@@ -37,7 +36,7 @@ public:
 	vector<Bone*>					mBones;							// 骨データ
 	vector<D3DXMATRIX>				mTransforms;					// 各骨の変換行列
 
-	Model(MeshType type, string name, string const &path);
+	Model(string name, string const &path);
 	~Model();
 
 	void checkAnimation(const aiScene* scene);						// モデルはアニメーションを含めてるかどうかをチェック

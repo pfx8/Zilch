@@ -182,7 +182,7 @@ void MeshRender::drawImGui()
 		}
 
 		// çúèÓïÒ
-		if (this->mModel->mMeshType == MT_withBone)
+		/*if (this->mModel->mMeshType == MT_withBone)
 		{
 			if (ImGui::TreeNode(u8"É{Å[Éì"))
 			{
@@ -191,7 +191,7 @@ void MeshRender::drawImGui()
 
 				ImGui::TreePop();
 			}
-		}
+		}*/
 
 		ImGui::TreePop();
 	}

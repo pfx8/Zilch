@@ -32,14 +32,14 @@ Resources::~Resources()
 // Assimpでモデルを読み込み
 //
 //*****************************************************************************
-void Resources::createModel(string const path, MeshType type)
+void Resources::createModel(string const path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	string name = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
-	name = name.substr(0, name.find_first_of("."));									// exp: ccc.fbx -> ccc
+	string name1 = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	string name2 = name1.substr(0, name1.find_first_of("."));							// exp: ccc.fbx -> ccc
 
 	// モデルデータを保存
-	mModels.insert({ name, new Model(type, name, path) });
+	mModels.insert({ name2, new Model(name1, path) });
 }
 
 //*****************************************************************************

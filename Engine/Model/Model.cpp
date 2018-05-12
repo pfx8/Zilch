@@ -12,21 +12,10 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(MeshType type, string name, string const &path)
+Model::Model(string name, string const &path)
 {
-	// メッシュタイプを初期化
-	this->mMeshType = type;
-	switch (this->mMeshType)
-	{
-	case MT_default:
-		// Debugウインドへ
-		cout << "<Model><default> : " << name;
-		break;
-	case MT_withBone:
-		// Debugウインドへ
-		cout << "<Model><withBone> : " << name;
-		break;
-	}
+	// Debugウインドへ
+	cout << "<Model> : " << name;
 
 	// モデルの名前を初期化
 	this->mName = name;
@@ -87,7 +76,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(new Mesh(this->mMeshType, aiMesh, this->mBones, scene));
+		this->mMeshes.push_back(new Mesh(aiMesh, this->mBones, scene));
 
 		// 骨チェック
 		createBone(aiMesh);
@@ -141,7 +130,7 @@ void Model::addAnimation(Animation* animation)
 //*****************************************************************************
 void Model::updateAnimation(float timeInSeconds)
 {
-	this->mAnimationes[this->mCurAnimation]->updateBoneTransforms(timeInSeconds, this->mBones, this->mTransforms);
+	//this->mAnimationes[this->mCurAnimation]->updateBoneTransforms(timeInSeconds, this->mBones, this->mTransforms);
 }
 
 //*****************************************************************************
@@ -151,11 +140,6 @@ void Model::updateAnimation(float timeInSeconds)
 //*****************************************************************************
 void Model::createBone(aiMesh* mesh)
 {
-	if (mesh->mNumBones != 0 || (mesh->mNumBones == 0 && this->mMeshType == MT_default))
-	{
-		this->mMeshType = MT_withBone;
-	}
-
 	for (unsigned int count = 0; count < mesh->mNumBones; count++)
 	{
 		

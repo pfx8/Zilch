@@ -33,7 +33,7 @@ void Scene02::start()
 
 	// 床
 	resource->createTexture("Resources/Texture/grid.png");
-	resource->createModel("Resources/Model/field.fbx", MT_default);
+	resource->createModel("Resources/Model/field.fbx");
 
 	// Hixo
 	resource->createTexture("Resources/Texture/Hixo/clothes.png");
@@ -44,7 +44,7 @@ void Scene02::start()
 	resource->createTexture("Resources/Texture/Hixo/hair2.png");
 	resource->createTexture("Resources/Texture/Hixo/panties.png");
 	resource->createTexture("Resources/Texture/Hixo/skin.png");
-	resource->createModel("Resources/Model/Hixo.fbx", MT_withBone);
+	resource->createModel("Resources/Model/Hixo.fbx");
 	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
 
 	// Flag -- bone testing
@@ -94,6 +94,7 @@ void Scene02::start()
 	this->mSystemCamera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, 5.0f);
 	this->mSystemCamera->mTargetTrans = playerTrans;
 	this->mSystemCamera->mIsVerticalLimited = false;
+	this->mSystemCamera->mIsZoomLimited = false;
 
 	// シーンカメラを設定(デフォルトはシステムカメラ);
 	this->mCurrentCamera = this->mSystemCamera;
@@ -103,10 +104,10 @@ void Scene02::start()
 	Transform* gridFieldTrans = new Transform();							// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridFieldTrans->mScl = D3DXVECTOR3(6.0f, 6.0f, 6.0f);
 	gridField->addComponent<Transform>(gridFieldTrans);
-	//MeshRender* gridFieldMeshRender = new MeshRender();
-	//gridFieldMeshRender->mModel = resource->getModel("field");			// リソースからモデルを取得
-	//this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
-	//gridField->addComponent<MeshRender>(gridFieldMeshRender);
+	MeshRender* gridFieldMeshRender = new MeshRender();
+	gridFieldMeshRender->mModel = resource->getModel("field");			// リソースからモデルを取得
+	this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
+	gridField->addComponent<MeshRender>(gridFieldMeshRender);
 	this->addGameObject("gridField", gridField);
 
 	// Flag -- bone testing

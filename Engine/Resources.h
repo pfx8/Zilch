@@ -30,12 +30,12 @@ public:
 	Resources();
 	~Resources();
 	
-	void createModel(string const path, enum MeshType type);		// モデルデータを作る
-	Model* getModel(string name);									// モデルの名前によって取得
-	void createTexture(string const path);							// テクスチャデータを作る
-	Texture* getTexture(string name);								// テクスチャの名前によって取得
-	void createShader(string const path);							// シェーダーデータを作る
-	Shader* getShader(string techniqueName);						// シェーダーの名前によって取得
+	void createModel(string const path);				// モデルデータを作る
+	Model* getModel(string name);						// モデルの名前によって取得
+	void createTexture(string const path);				// テクスチャデータを作る
+	Texture* getTexture(string name);					// テクスチャの名前によって取得
+	void createShader(string const path);				// シェーダーデータを作る
+	Shader* getShader(string techniqueName);			// シェーダーの名前によって取得
 };
 
 #endif // !_RESOURCES_H_

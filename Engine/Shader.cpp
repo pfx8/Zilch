@@ -14,9 +14,12 @@
 //*****************************************************************************
 Shader::Shader(string path)
 {
-	string name = path.substr(path.find_last_of("//") + 1, path.find_last_of("/n"));
+	// パスからファイルの名前を取得(拡張子抜き)
+	string name1 = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	string name2 = name1.substr(0, name1.find_first_of("."));							// exp: ccc.fbx -> ccc
+
 	// Debugウインドへ
-	cout << "<Shader> : "  << name;
+	cout << "<Shader> : "  << name1;
 
 	loadEffectFile(path);
 
