@@ -36,7 +36,7 @@ Animation::~Animation()
 //*****************************************************************************
 HRESULT Animation::loadAnimation(wstring const& wPath)
 {
-	string path = WStringToString(wPath);
+	string path = wStringToString(wPath);
 
 	// Assimpのインポートを作る
 	Assimp::Importer import;

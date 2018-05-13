@@ -290,18 +290,21 @@ void GUI::sceneGUI()
 		{
 			ImGui::PushID(IDs);
 
-			// wstring -> string 
-			string name = WStringToString(it.first);
-			if (ImGui::TreeNode(u8"%s", name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
+			// Todo
+			// ライトと床、utf-8に変換しても出せない
+
+			// wstring -> string
+			string name1 = wstringUnicodeToUTF8(it.first);
+			if (ImGui::TreeNode(u8"%s", name1.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
 				// GameObjectの各コンポーネントを出す
 				unsigned int ID2s = 0;
 				for (auto it2 : it.second->mComponentsMap)
 				{
 					ImGui::PushID(ID2s);
-					string name = it2.first.name();
-					name = name.substr(name.find_last_of(" ") + 1, name.size());		// exp: class xxx -> xxx
-					if (ImGui::TreeNode(u8"%s", name.c_str()))
+					string name2 = it2.first.name();
+					name2 = name2.substr(name2.find_last_of(" ") + 1, name2.size());		// exp: class xxx -> xxx
+					if (ImGui::TreeNode(u8"%s", name2.c_str()))
 					{
 						it2.second->drawImGui();
 						ImGui::TreePop();
@@ -346,7 +349,7 @@ void GUI::createNewGameObjectGUI()
 			// 新しいGameObjectを作る
 			GameObject* gameObject = new GameObject();
 			// string -> wstring
-			wstring newGameObjectName = StringToWString(this->mNewGameObjectName);
+			wstring newGameObjectName = stringToWString(this->mNewGameObjectName);
 			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);
 
 			// mNewGameObjectName初期化
@@ -378,10 +381,11 @@ void GUI::addModelImGui()
 	ImGui::TextUnformatted(u8"GameObject名前");
 	ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
 	ImGui::TextUnformatted(u8"モデルファイルパス");
-	ImGui::Text(u8"%s", this->mAddingFilePath.c_str());
+	string path = wStringToString(this->mAddingFilePath);
+	ImGui::Text(u8"%s", path.c_str());
 
 	// string -> wstring
-	wstring newGameObjectName = StringToWString(this->mNewGameObjectName);
+	wstring newGameObjectName = stringToWString(this->mNewGameObjectName);
 
 	// エラータイプ 0 -- default、1 -- Error1、2 -- Error2
 	static int errorType = 0;

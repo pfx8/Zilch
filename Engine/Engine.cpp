@@ -9,10 +9,10 @@
 
 //*****************************************************************************
 //
-// wstring to string
+// wstring(unicode) to string(unicode)
 //
 //*****************************************************************************
-string WStringToString(const wstring& ws)
+string wStringToString(const wstring& ws)
 {
 	std::string strLocale = setlocale(LC_ALL, "");
 	const wchar_t* wchSrc = ws.c_str();
@@ -28,10 +28,10 @@ string WStringToString(const wstring& ws)
 
 //*****************************************************************************
 //
-// string to wstring
+// string(unicode) to wstring(unicode)
 //
 //*****************************************************************************
-wstring StringToWString(const string& s)
+wstring stringToWString(const string& s)
 {
 	std::string strLocale = setlocale(LC_ALL, "");
 	const char* chSrc = s.c_str();
@@ -56,4 +56,44 @@ wstring pathToFileName(const wstring path)
 	fileName = fileName.substr(0, fileName.find_first_of(L'.'));								// exp: ccc.fbx -> ccc
 
 	return fileName;
+}
+
+//*****************************************************************************
+//
+// string(UTF-8) to wstring(Unicode)
+//
+//*****************************************************************************
+wstring stringUTF8ToUnicode(const string& s)
+{
+	int len = s.length();
+	int unicodeLen = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, NULL, 0);
+	wchar_t* pUnicode;
+	pUnicode = new wchar_t[unicodeLen + 1];
+	memset(pUnicode, 0, (unicodeLen + 1) * sizeof(wchar_t));
+	MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, (LPWSTR)pUnicode, unicodeLen);
+	wstring rt;
+	rt = (wchar_t*)pUnicode;
+	delete pUnicode;
+
+	return rt;
+}
+
+//*****************************************************************************
+//
+// wstring(Unicode) to string(UTF-8)
+//
+//*****************************************************************************
+string wstringUnicodeToUTF8(const wstring& ws)
+{
+	char* elementText;
+	int textLen;
+	// wide char to multi char
+	textLen = WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), -1, NULL, 0, NULL, NULL);
+	elementText = new char[textLen + 1];
+	memset((void*)elementText, 0, sizeof(char)*(textLen + 1));
+	WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), -1, elementText, textLen, NULL, NULL);
+	string str;
+	str = elementText;
+	delete[] elementText;
+	return str;
 }

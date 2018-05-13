@@ -77,8 +77,7 @@ private:
 	void createBoundingBox(D3DXVECTOR3 vertexPos, D3DXVECTOR3 &boxMax, D3DXVECTOR3 &boxMin);	// バウンディングボックスサイズを作り
 
 public:
-	// メッシュデータ
-	string							mName;					// メッシュの名前
+	wstring							mName;					// メッシュの名前
 	vector<VertexBone>				mVertices;				// 頂点データ
 	vector<unsigned int>			mIndices;				// 頂点インデックスデータ
 	vector<Material*>				mMaterials;				// マテリアルデータ

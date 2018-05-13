@@ -38,7 +38,7 @@ Model::~Model()
 //*****************************************************************************
 HRESULT Model::loadModel(wstring const& wPath)
 {
-	string path = WStringToString(wPath);
+	string path = wStringToString(wPath);
 
 	// Assimpのインポートを作る
 	Assimp::Importer import;

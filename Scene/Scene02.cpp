@@ -63,7 +63,7 @@ void Scene02::start()
 	light->mPointLight.linear = 0.9f;
 	light->mPointLight.quadratic = 0.032f;
 	pointLight->addComponent<Light>(light);
-	this->addGameObject(L"ライト", pointLight);
+	this->addGameObject(L"light", pointLight);
 
 	// player
 	GameObject* player = new GameObject();
@@ -77,7 +77,7 @@ void Scene02::start()
 	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
 	player->addComponent<MeshRender>(playerMeshRender);
-	this->addGameObject(L"主人公", player);
+	this->addGameObject(L"player", player);
 
 	// システムカメラ設定
 	this->mSystemCamera = new Camera();
@@ -99,7 +99,7 @@ void Scene02::start()
 	gridFieldMeshRender->mModel = resource->getModel(L"床");			// リソースからモデルを取得
 	this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>(gridFieldMeshRender);
-	this->addGameObject(L"床", gridField);
+	this->addGameObject(L"floor", gridField);
 
 	// Flag -- bone testing
 	//GameObject* flag {new GameObject()};

@@ -22,9 +22,6 @@ Console::Console()
 	freopen("CONIN$", "r", stdin);
 	freopen("CONOUT$", "w", stdout);
 	freopen("CONOUT$", "w", stderr);
-
-	// ローカル言語を日本語にする
-	//wcout.imbue(locale("ja"));
 }
 
 //*****************************************************************************

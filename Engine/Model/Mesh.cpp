@@ -14,6 +14,9 @@
 //*****************************************************************************
 Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene)
 {
+	// 名前を取得
+	this->mName = stringUTF8ToUnicode(mesh->mName.C_Str());
+
 	// バッファポインタを初期化
 	this->mVertexBuffer = nullptr;
 	this->mIndexBuffer = nullptr;
@@ -33,7 +36,6 @@ Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene)
 //*****************************************************************************
 void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 {
-	this->mName = mesh->mName.C_Str();
 	unsigned int numBones = bones.size();
 
 	// 頂点処理

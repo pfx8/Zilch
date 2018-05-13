@@ -41,7 +41,7 @@ void MeshRender::start()
 	if (this->mIsDrawShadow == true)
 	{
 		// ライト位置を取得
-		D3DXVECTOR3 pos {this->mGameObject->mScene->getGameObject(L"ライト")->getComponent<Light>()->mLightPos};
+		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject(L"light")->getComponent<Light>()->mLightPos;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
 }
@@ -82,7 +82,7 @@ void MeshRender::drawShadowMap()
 void MeshRender::draw()
 {
 	// ライトを取得
-	Light* light = this->mGameObject->mScene->getGameObject(L"ライト")->getComponent<Light>();
+	Light* light = this->mGameObject->mScene->getGameObject(L"light")->getComponent<Light>();
 	// ライトタイプをシェーダーに渡す
 	this->mShader->mEffect->SetInt("lightType", light->mLightType);
 
@@ -164,19 +164,22 @@ void MeshRender::drawImGui()
 	if (ImGui::TreeNode(u8"モデル"))
 	{
 		// メッシュ情報
-		for (auto it : this->mModel->mMeshes)
+		for (auto it1 : this->mModel->mMeshes)
 		{
-			ImGui::Text("<Mesh> : %s", it->mName.c_str());
+			string name1 = wstringUnicodeToUTF8(it1->mName.c_str());
+			ImGui::Text(u8"<Mesh> : %s", name1.c_str());
 
 			// material
-			for (auto it1 : it->mMaterials)
+			for (auto it2 : it1->mMaterials)
 			{
-				ImGui::Text("  <Material> : %s", it1->mName.c_str());
+				string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
+				ImGui::Text(u8"  <Material> : %s", name2.c_str());
 
 				// texture
-				for (auto it2 : it1->mTextures)
+				for (auto it3 : it2->mTextures)
 				{
-					ImGui::Text("    <Texture>: %s", it2->mName.c_str());
+					string name3 = wstringUnicodeToUTF8(it3->mName.c_str());
+					ImGui::Text(u8"    <Texture>: %s", name3.c_str());
 				}
 			}
 		}

@@ -33,7 +33,7 @@ WorldVector						gWorldVector;
 
 // 読み込みできるファイル拡張子集合
 // 詳しいは https://github.com/assimp/assimp
-vector<wstring> modelFileExtension = { L"x", L"fbx", L"obj", L"3ds" };
+vector<wstring> modelFileExtension = { L"x", L"fbx", L"obj", L"3ds", L"PMX" };
 
 //*****************************************************************************
 //
@@ -63,8 +63,10 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 //*****************************************************************************
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	//setlocale(LC_ALL, "");
+	// ローカル文字コードを設定
+	setlocale(LC_ALL, "ja_JP.UTF-8");
 
+	// 乱数の初期化
 	srand((unsigned)time(NULL));
 
 	// ウィンドウを初期化
@@ -496,6 +498,8 @@ void enumerateFiles()
 //*****************************************************************************
 bool isModelFile(wstring path)
 {
+	//wcout << "<Test><Impoter> " << path << endl;
+
 	wstring fileFormat = path.substr(path.find_last_of(L".") + 1, path.size());
 
 	for (auto it : modelFileExtension)

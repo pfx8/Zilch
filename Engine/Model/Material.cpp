@@ -14,7 +14,8 @@
 //*****************************************************************************
 Material::Material(aiMaterial* mat)
 {
-	this->mShininess = 1.0f;				// デフォルト値
+	// デフォルト値
+	this->mShininess = 1.0f;
 
 	loadingMaterial(mat);
 }
@@ -29,10 +30,10 @@ void Material::loadingMaterial(aiMaterial* mat)
 	// マテリアルの名前を取得
 	aiString name;
 	mat->Get(AI_MATKEY_NAME, name);
-	this->mName = name.C_Str();
+	this->mName = stringUTF8ToUnicode(name.C_Str());
 
 	// マテリアルがあれば、マテリアル属性を取得
-	if (this->mName != "DefaultMaterial")
+	if (name.C_Str() != "DefaultMaterial")
 	{
 		aiColor3D ambient = { 0.0f, 0.0f, 0.0f };
 		aiColor3D diffuse = { 0.0f, 0.0f, 0.0f };
@@ -84,8 +85,10 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		// テクスチャパスを読み込み
 		aiString path;
 		mat->getTexture(type, count, &path);
-		// string -> wstring
-		wstring wPath = StringToWString(path.C_Str());
+
+		// aiStringの文字コードはstringのutf-8
+		// ここはwstringのunicodeが欲しい
+		wstring wPath = stringUTF8ToUnicode(path.C_Str());
 
 		// テクスチャを読み込み
 		resource->createTexture(wPath);
