@@ -50,7 +50,7 @@ void Light::drawImGui()
 
 	// コンボボックスの幅を設定
 	ImGui::PushItemWidth(160);
-	ImGui::Text(u8"ライトタイプ");
+	ImGui::TextUnformatted(u8"ライトタイプ");
 	ImGui::Combo(" ", &this->mCurrentLightType, this->mLight, IM_ARRAYSIZE(this->mLight));
 	switch (this->mCurrentLightType)
 	{
@@ -82,31 +82,31 @@ void Light::lightControllerImGui()
 	switch (this->mLightType)
 	{
 	case LT_direction:
-		ImGui::Text(u8"ライト方向");
+		ImGui::TextUnformatted(u8"ライト方向");
 		ImGui::SliderFloat("X", &this->mDirectionLight.direction.x, -1.0f, 1.0f);
 		ImGui::SliderFloat("Y", &this->mDirectionLight.direction.y, -1.0f, 1.0f);
 		ImGui::SliderFloat("Z", &this->mDirectionLight.direction.z, -1.0f, 1.0f);
 
 		break;
 	case LT_point:
-		ImGui::Text(u8"ライト位置");
+		ImGui::TextUnformatted(u8"ライト位置");
 		ImGui::InputFloat3("pos", *v1);
 		ImGui::Separator();
 
-		ImGui::Text(u8"ポイントライト減衰パラメータ");
+		ImGui::TextUnformatted(u8"ポイントライト減衰パラメータ");
 		ImGui::InputFloat("Constant", &this->mPointLight.constant);
 		ImGui::InputFloat("Linear", &this->mPointLight.linear);
 		ImGui::InputFloat("Quadratic", &this->mPointLight.quadratic);
 
 		break;
 	case LT_spot:
-		ImGui::Text(u8"ライト方向");
+		ImGui::TextUnformatted(u8"ライト方向");
 		ImGui::SliderFloat("X", &this->mDirectionLight.direction.x, -1.0f, 1.0f);
 		ImGui::SliderFloat("Y", &this->mDirectionLight.direction.y, -1.0f, 1.0f);
 		ImGui::SliderFloat("Z", &this->mDirectionLight.direction.z, -1.0f, 1.0f);
 		ImGui::Separator();
 
-		ImGui::Text(u8"スポットベクトルとライトベクトルのコサイン");
+		ImGui::TextUnformatted(u8"スポットベクトルとライトベクトルのコサイン");
 		ImGui::SliderFloat("cos", &this->mSpotLight.cutOff, -1.0f, 1.0f);
 
 		break;

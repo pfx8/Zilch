@@ -18,7 +18,7 @@ Material::Material(aiMaterial* mat, wstring modelPath)
 	this->mModelPath = modelPath;
 
 	// デフォルト値
-	this->mShininess = 1.0f;
+	this->mShininess = 40.0f;
 
 	loadingMaterial(mat);
 }

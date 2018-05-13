@@ -46,15 +46,18 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 	{
 		VertexBone vertex;
 
+		// Todo 
+		// 軸を判断できる機能
+
+		// blender座標とDX座標が違うので、Y軸とZ軸を交換しなきゃ
 		// 位置
-		// blender座標とDX座標が違うので、Y軸とZ軸を交換
 		vertex.pos.x = mesh->mVertices[count].x;
 		vertex.pos.y = -mesh->mVertices[count].z;
 		vertex.pos.z = -mesh->mVertices[count].y; 
 
 		// 法線
 		vertex.nor.x = mesh->mNormals[count].x;
-		vertex.nor.y = -mesh->mNormals[count].z;
+		vertex.nor.y = mesh->mNormals[count].z;
 		vertex.nor.z = -mesh->mNormals[count].y;
 
 		// UV座標
@@ -340,9 +343,9 @@ void Mesh::drawModel(Shader* shader)
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	// マテリアル属性を渡す
-	shader->mEffect->SetValue("amibent", this->mMaterials.at(0)->mAmbient, sizeof(D3DXVECTOR3));
-	shader->mEffect->SetValue("diffuse", this->mMaterials.at(0)->mDiffuse, sizeof(D3DXVECTOR3));
-	shader->mEffect->SetValue("specular", this->mMaterials.at(0)->mSpecular, sizeof(D3DXVECTOR3));
+	shader->mEffect->SetValue("matAmibent", this->mMaterials.at(0)->mAmbient, sizeof(D3DXVECTOR3));
+	shader->mEffect->SetValue("matDiffuse", this->mMaterials.at(0)->mDiffuse, sizeof(D3DXVECTOR3));
+	shader->mEffect->SetValue("matSpecular", this->mMaterials.at(0)->mSpecular, sizeof(D3DXVECTOR3));
 	shader->mEffect->SetFloat("shininess", this->mMaterials.at(0)->mShininess);
 
 	// テクスチャを渡す
