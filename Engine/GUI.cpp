@@ -132,7 +132,8 @@ void GUI::systemGUI()
 
 		// マウス位置
 		{
-			ImGui::Text(u8"マウス位置:"); ImGui::SameLine();
+			ImGui::TextUnformatted(u8"マウス位置:");
+			ImGui::SameLine();
 			ImGui::Text("%f,%f", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
 			ImGui::Separator();
 		}
@@ -140,14 +141,15 @@ void GUI::systemGUI()
 		// レンダリングモード
 		{
 			// ワイヤフレームを塗りつぶす
-			ImGui::Text(u8"ワイヤフレームモード"); ImGui::SameLine();
+			ImGui::TextUnformatted(u8"ワイヤフレームモード");
+			ImGui::SameLine();
 			if (ImGui::Button("WIREFRAME"))
 			{
 				getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 				this->mIsWireframe = true;
 			}
 			// 面を塗りつぶす
-			ImGui::Text(u8"ポリゴンモード      "); ImGui::SameLine();
+			ImGui::TextUnformatted(u8"ポリゴンモード      "); ImGui::SameLine();
 			if (ImGui::Button("SOLID"))
 			{
 				getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -158,20 +160,23 @@ void GUI::systemGUI()
 
 		// スクリーンショット
 		{
-			//ImGui::Text(u8"スクリーンショット  "); ImGui::SameLine();
-			//if (ImGui::Button("SCREENSHOT"))
-			//{
-			//	// バッファ画面を取得
-			//	LPDIRECT3DSURFACE9 backBuffer;
-			//	getD3DDevice()->GetRenderTarget(0, &backBuffer);
+			ImGui::TextUnformatted(u8"スクリーンショット  "); ImGui::SameLine();
+			if (ImGui::Button("SCREENSHOT"))
+			{
+				// バッファ画面を取得
+				LPDIRECT3DSURFACE9 backBuffer;
+				getD3DDevice()->GetRenderTarget(0, &backBuffer);
 
-			//	// バッファサーフェイスを保存
-			//	D3DXSaveSurfaceToFile("screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
+				// バッファサーフェイスを保存
+				D3DXSaveSurfaceToFile(L"screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
 
-			//	// バッファをリリース
-			//	backBuffer->Release();
-			//}
-			//ImGui::Separator();
+				// Debugウインドへ
+				cout << "<System> ..\screenShot.bmp ... successed!" << endl;
+
+				// バッファをリリース
+				backBuffer->Release();
+			}
+			ImGui::Separator();
 		}
 
 		// システムカメラ
@@ -181,27 +186,27 @@ void GUI::systemGUI()
 
 			if(ImGui::TreeNode(u8"システムカメラ"))
 			{
-				ImGui::Text(u8"カメラ位置");
+				ImGui::TextUnformatted(u8"カメラ位置");
 				float* v1[3] = { &camera->mCameraPos.x, &camera->mCameraPos.y, &camera->mCameraPos.z };
 				ImGui::InputFloat3("Pos", *v1);
 				ImGui::Separator();
 
-				ImGui::Text(u8"カメラ注視点(モデル位置に設定してる)");
+				ImGui::TextUnformatted(u8"カメラ注視点(モデル位置に設定してる)");
 				float* v2[3] = { &camera->mTargetTrans->mPos.x, &camera->mTargetTrans->mPos.y, &camera->mTargetTrans->mPos.z };
 				ImGui::InputFloat3("Look", *v2);
 				ImGui::Separator();
 
-				ImGui::Text(u8"注視方向ベクトル");
+				ImGui::TextUnformatted(u8"注視方向ベクトル");
 				float* v3[3] = { &camera->mCameraFront.x, &camera->mCameraFront.y, &camera->mCameraFront.z };
 				ImGui::DragFloat3("lookV", *v3);
 				ImGui::Separator();
 
-				ImGui::Text(u8"右方向ベクトル");
+				ImGui::TextUnformatted(u8"右方向ベクトル");
 				float* v4[3] = { &camera->mCameraRight.x, &camera->mCameraRight.y, &camera->mCameraRight.z };
 				ImGui::DragFloat3("rightV", *v4);
 				ImGui::Separator();
 
-				ImGui::Text(u8"上方向ベクトル");
+				ImGui::TextUnformatted(u8"上方向ベクトル");
 				float* v5[3] = { &camera->mCameraUp.x, &camera->mCameraUp.y, &camera->mCameraUp.z };
 				ImGui::DragFloat3("upV", *v5);
 				ImGui::Separator();
@@ -218,7 +223,7 @@ void GUI::systemGUI()
 
 			// コンボボックスの幅を設定
 			ImGui::PushItemWidth(160);
-			ImGui::Text(u8"レンダリングモード");
+			ImGui::TextUnformatted(u8"レンダリングモード");
 			ImGui::Combo("RenderMode", &currentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
 			switch (currentShadingMode)
 			{
@@ -245,7 +250,7 @@ void GUI::systemGUI()
 
 			// コンボボックスの幅を設定
 			ImGui::PushItemWidth(160);
-			ImGui::Text(u8"カラーランプモード");
+			ImGui::TextUnformatted(u8"カラーランプモード");
 			ImGui::Combo("ColorRamp", &currentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
 			switch (currentColorRamp)
 			{
@@ -253,7 +258,7 @@ void GUI::systemGUI()
 				getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_LINEAR;
 				break;
 			case 1:
-				ImGui::Text(u8"カラーセグメント");
+				ImGui::TextUnformatted(u8"カラーセグメント");
 				ImGui::SliderFloat("Level1", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.x, 0.0f, 1.0f);
 				ImGui::SliderFloat("Level2", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.y, 0.0f, 1.0f);
 				ImGui::SliderFloat("Level3", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.z, 0.0f, 1.0f);
@@ -284,7 +289,10 @@ void GUI::sceneGUI()
 		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
 		{
 			ImGui::PushID(IDs);
-			if (ImGui::TreeNode(u8"%s", it.first.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
+
+			// wstring -> string 
+			string name = WStringToString(it.first);
+			if (ImGui::TreeNode(u8"%s", name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
 				// GameObjectの各コンポーネントを出す
 				unsigned int ID2s = 0;
@@ -330,14 +338,16 @@ void GUI::createNewGameObjectGUI()
 	if (ImGui::BeginPopupModal("Create GameObject"))
 	{
 
-		ImGui::Text(u8"GameObject名前");
+		ImGui::TextUnformatted(u8"GameObject名前");
 		ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
 
 		if (ImGui::Button(u8"作り"))
 		{
 			// 新しいGameObjectを作る
 			GameObject* gameObject = new GameObject();
-			getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
+			// string -> wstring
+			wstring newGameObjectName = StringToWString(this->mNewGameObjectName);
+			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);
 
 			// mNewGameObjectName初期化
 			*this->mNewGameObjectName = { NULL };
@@ -365,10 +375,13 @@ void GUI::createNewGameObjectGUI()
 void GUI::addModelImGui()
 {
 	ImGui::Begin(u8"インポート");
-	ImGui::Text(u8"GameObject名前");
+	ImGui::TextUnformatted(u8"GameObject名前");
 	ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
-	ImGui::Text(u8"モデルファイルパス");
+	ImGui::TextUnformatted(u8"モデルファイルパス");
 	ImGui::Text(u8"%s", this->mAddingFilePath.c_str());
+
+	// string -> wstring
+	wstring newGameObjectName = StringToWString(this->mNewGameObjectName);
 
 	// エラータイプ 0 -- default、1 -- Error1、2 -- Error2
 	static int errorType = 0;
@@ -382,7 +395,7 @@ void GUI::addModelImGui()
 		}
 
 		// チェックGameObject名前
-		if (!isGameObjectNameRight(this->mNewGameObjectName))
+		if (!isGameObjectNameRight(newGameObjectName))
 		{
 			errorType = 2;
 		}
@@ -396,7 +409,7 @@ void GUI::addModelImGui()
 		{
 			// 新しいGameObjectを作る
 			GameObject* gameObject = new GameObject();
-			getSceneManager()->mCurrentScene->addGameObject(this->mNewGameObjectName, gameObject);
+			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);
 
 			// モデルを読み込み
 			//getResources()->createModel(this->mAddingFilePath);
@@ -413,11 +426,11 @@ void GUI::addModelImGui()
 	{
 		if (errorType == 1)
 		{
-			ImGui::Text(u8"GameObject名前を入力してください");
+			ImGui::TextUnformatted(u8"GameObject名前を入力してください");
 		}
 		if (errorType == 2)
 		{
-			ImGui::Text(u8"このGameObject名前も存在してる");
+			ImGui::TextUnformatted(u8"このGameObject名前も存在してる");
 		}
 
 		if (ImGui::Button(u8"はい"))
@@ -456,7 +469,7 @@ void GUI::addModelImGui()
 // チェック追加GameObject名前
 //
 //*****************************************************************************
-bool GUI::isGameObjectNameRight(string name)
+bool GUI::isGameObjectNameRight(wstring name)
 {
 	for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
 	{
@@ -478,7 +491,7 @@ bool GUI::isGameObjectNameRight(string name)
 void GUI::dropFileErrorGUI()
 {
 	ImGui::Begin(u8"Error");
-	ImGui::Text(u8"ドロップされたファイルはモデルファイルではありません！");
+	ImGui::TextUnformatted(u8"ドロップされたファイルはモデルファイルではありません！");
 	if (ImGui::Button(u8"はい"))
 	{
 		this->mIsModelFile = false;

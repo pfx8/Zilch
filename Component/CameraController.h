@@ -11,13 +11,13 @@
 #include "Transform.h"
 #include "Camera.h"
 
-#include "Engine/Engine.h"
-#include "Engine/input.h"
-#include "Engine/GameTimes.h"
+#include "Engine\Engine.h"
+#include "Engine\input.h"
+#include "Engine\GameTimes.h"
 
-#include "GameObject/GameObject.h"
+#include "GameObject\GameObject.h"
 
-#include "Scene/Scene.h"
+#include "Scene\Scene.h"
 
 //*****************************************************************************
 //

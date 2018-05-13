@@ -15,7 +15,7 @@
 Scene02::Scene02()
 {
 	// シーンの情報
-	cout << "<Scene>: " << "[Project:Zilch] " << SCREEN_WIDTH << " * " << SCREEN_HEIGHT << endl;
+	cout << "<Scene> " << "[Project:Zilch] " << SCREEN_WIDTH << " * " << SCREEN_HEIGHT << endl;
 }
 
 //*****************************************************************************
@@ -32,20 +32,11 @@ void Scene02::start()
 	//-----------------------
 
 	// 床
-	//resource->createTexture("Resources/Texture/grid.png");
-	resource->createModel("Resources/Model/field.fbx");
+	resource->createModel(L"床", L"Resources\\Model\\field - コピー.fbx");
 
 	// Hixo
-	//resource->createTexture("Resources/Texture/Hixo/clothes.png");
-	//resource->createTexture("Resources/Texture/Hixo/eye.png");
-	//resource->createTexture("Resources/Texture/Hixo/face.png");
-	//resource->createTexture("Resources/Texture/Hixo/facial.png");
-	//resource->createTexture("Resources/Texture/Hixo/hair1.png");
-	//resource->createTexture("Resources/Texture/Hixo/hair2.png");
-	//resource->createTexture("Resources/Texture/Hixo/panties.png");
-	//resource->createTexture("Resources/Texture/Hixo/skin.png");
-	resource->createModel("Resources/Model/Hixo.fbx");
-	resource->getModel("Hixo")->addAnimation(new Animation("Resources/Model/Running.fbx"));
+	resource->createModel(L"主人公", L"Resources\\Model\\Hixo.fbx");
+	//resource->getModel(L"Hixo")->addAnimation(new Animation(L"Resources/Model/Running.fbx"));
 
 	// Flag -- bone testing
 	//resource->createTexture("Resources/Texture/flag/heart.png");
@@ -53,11 +44,11 @@ void Scene02::start()
 	//resource->createModel("Resources/Model/flag.fbx", MT_withBone);
 
 	// shader
-	resource->createShader("Resources/Shader/mainShader.fx");
-	resource->createShader("Resources/Shader/shadowMap.fx");
+	resource->createShader(L"Resources\\Shader\\mainShader.fx");
+	resource->createShader(L"Resources\\Shader\\shadowMap.fx");
 
 	// シーンのデフォルトシェーダーを指定
-	this->mShader = resource->getShader("mainShader");
+	this->mShader = resource->getShader(L"mainShader");
 
 	// ライト
 	GameObject* pointLight = new GameObject();
@@ -72,7 +63,7 @@ void Scene02::start()
 	light->mPointLight.linear = 0.9f;
 	light->mPointLight.quadratic = 0.032f;
 	pointLight->addComponent<Light>(light);
-	this->addGameObject("light", pointLight);
+	this->addGameObject(L"ライト", pointLight);
 
 	// player
 	GameObject* player = new GameObject();
@@ -81,12 +72,12 @@ void Scene02::start()
 	CameraController* cameraController = new CameraController();
 	player->addComponent<CameraController>(cameraController);
 	MeshRender* playerMeshRender = new MeshRender();
-	playerMeshRender->mModel = resource->getModel("Hixo");					// リソースからモデルを取得
+	playerMeshRender->mModel = resource->getModel(L"主人公");				// リソースからモデルを取得
 	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
-	playerMeshRender->mShadowMapShader = resource->getShader("shadowMap");	// シャドウマップシェーダーを取得
+	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
 	player->addComponent<MeshRender>(playerMeshRender);
-	this->addGameObject("player", player);
+	this->addGameObject(L"主人公", player);
 
 	// システムカメラ設定
 	this->mSystemCamera = new Camera();
@@ -101,14 +92,14 @@ void Scene02::start()
 
 	// 床
 	GameObject* gridField = new GameObject();
-	Transform* gridFieldTrans = new Transform();							// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	Transform* gridFieldTrans = new Transform();						// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	gridFieldTrans->mScl = D3DXVECTOR3(6.0f, 6.0f, 6.0f);
 	gridField->addComponent<Transform>(gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->mModel = resource->getModel("field");			// リソースからモデルを取得
+	gridFieldMeshRender->mModel = resource->getModel(L"床");			// リソースからモデルを取得
 	this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>(gridFieldMeshRender);
-	this->addGameObject("gridField", gridField);
+	this->addGameObject(L"床", gridField);
 
 	// Flag -- bone testing
 	//GameObject* flag {new GameObject()};

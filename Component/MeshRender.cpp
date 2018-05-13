@@ -41,7 +41,7 @@ void MeshRender::start()
 	if (this->mIsDrawShadow == true)
 	{
 		// ライト位置を取得
-		D3DXVECTOR3 pos {this->mGameObject->mScene->getGameObject("light")->getComponent<Light>()->mLightPos};
+		D3DXVECTOR3 pos {this->mGameObject->mScene->getGameObject(L"ライト")->getComponent<Light>()->mLightPos};
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
 }
@@ -82,7 +82,7 @@ void MeshRender::drawShadowMap()
 void MeshRender::draw()
 {
 	// ライトを取得
-	Light* light = this->mGameObject->mScene->getGameObject("light")->getComponent<Light>();
+	Light* light = this->mGameObject->mScene->getGameObject(L"ライト")->getComponent<Light>();
 	// ライトタイプをシェーダーに渡す
 	this->mShader->mEffect->SetInt("lightType", light->mLightType);
 

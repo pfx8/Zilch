@@ -12,7 +12,7 @@
 #include "input.h"
 #include "Shader.h"
 
-#include "Model/Model.h"
+#include "Model\Model.h"
 
 //*****************************************************************************
 //

@@ -12,7 +12,7 @@
 #include "Bone.h"
 #include "Node.h"
 
-#include "Engine/Engine.h"
+#include "Engine\Engine.h"
 
 //*****************************************************************************
 //
@@ -25,12 +25,12 @@ class Animation
 	friend class Model;
 private:
 	float					mLastStartTime = 0.0f;							// 前回アニメーションが終わった時間、最初はゲームスタートので0にする
-	string					mName;											// アニメーションの名前
+	wstring					mName;											// アニメーションの名前
 	float					mDuration;										// アニメーションの続き時間(単位はTicks)
 	float					mTicksPerSecond;								// Tricks/seconds
 
 	void processNode(Node* node, aiNode* aiNode, const aiScene* scene);		// ノード処理
-	HRESULT loadAnimation(string const &path);								// アニメーションを読み込み
+	HRESULT loadAnimation(wstring const &path);								// アニメーションを読み込み
 
 	void calcInterpolatedScl(D3DXVECTOR3& scl, float animationTime, AnimationChannel* channel);
 	void calcInterpolatedRot(D3DXQUATERNION& rot, float animationTime, AnimationChannel* channel);
@@ -45,7 +45,7 @@ public:
 	D3DXMATRIX						mGlobalInverseTransform;	// モデルの空間逆行列
 	vector<Node*>					mNode;						// ノードデータ
 
-	Animation(string const &path);
+	Animation(wstring const &path);
 	~Animation();
 
 	void updateBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms);		// アニメーションキーフレームによって骨の変更行列を更新

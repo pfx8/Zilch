@@ -12,9 +12,9 @@
 #include "Transform.h"
 #include "Camera.h"
 
-#include "Engine/Engine.h"
+#include "Engine\Engine.h"
 
-#include "GameObject/GameObject.h"
+#include "GameObject\GameObject.h"
 
 //*****************************************************************************
 //

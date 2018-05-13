@@ -32,9 +32,10 @@ Scene::~Scene()
 // シーンにGameObjectを添付
 //
 //*****************************************************************************
-void Scene::addGameObject(string name, GameObject* gameObject)
+void Scene::addGameObject(wstring name, GameObject* gameObject)
 {
 	gameObject->mScene = this;
+
 	this->mGameObjectMap.insert({ name, gameObject });
 }
 
@@ -43,13 +44,15 @@ void Scene::addGameObject(string name, GameObject* gameObject)
 // シーンからGameObjectを取得
 //
 //*****************************************************************************
-GameObject* Scene::getGameObject(string name)
+GameObject* Scene::getGameObject(wstring name)
 {
 	if (this->mGameObjectMap.find(name) != this->mGameObjectMap.end())
 	{
 		return this->mGameObjectMap[name];
 	}
-	cout << "<Error> [GameObject] Get " << name << " failed!" << endl;
+
+	// Debugウインドへ
+	wcout << "<Error> [GameObject] Get " << name << " failed!" << endl;
 
 	return nullptr;
 }

@@ -13,11 +13,11 @@
 #include "Material.h"
 #include "Bone.h"
 
-#include "Component/Camera.h"
-#include "Component/Transform.h"
+#include "Component\Camera.h"
+#include "Component\Transform.h"
 
-#include "Engine/Engine.h"
-#include "Engine/Shader.h"
+#include "Engine\Engine.h"
+#include "Engine\Shader.h"
 
 
 //*****************************************************************************

@@ -12,11 +12,11 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Shader::Shader(string path)
+Shader::Shader(wstring path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	string name1 = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
-	string name2 = name1.substr(0, name1.find_first_of("."));							// exp: ccc.fbx -> ccc
+	wstring name1 = path.substr(path.find_last_of(L"/") + 1, path.find_first_of(L"."));		// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
+	wstring name2 = name1.substr(0, name1.find_first_of(L"."));								// exp: ccc.fbx -> ccc
 
 	loadEffectFile(path);
 
@@ -45,7 +45,7 @@ Shader::~Shader()
 // 頂点シェーダーファイルを読み込む
 //
 //*****************************************************************************
-HRESULT Shader::loadEffectFile(string path)
+HRESULT Shader::loadEffectFile(wstring path)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
@@ -70,14 +70,14 @@ HRESULT Shader::loadEffectFile(string path)
 	if (errorBuffer)	// エラーをチェック
 	{
 		// Debugウインドへ
-		cout << "<Error> loading " << path  << " ... fail!" << endl;	// エラーメッセージ
-		cout << "<Information> " << (char*)errorBuffer->GetBufferPointer() << endl;	// エラーメッセージ
+		wcout << "<Error> loading<Shader> " << path  << " ... fail!" << endl;					// エラーメッセージ
+		wcout << "<Information> " << (char*)errorBuffer->GetBufferPointer() << endl;	// エラーメッセージ
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
 
 	// Debugウインドへ
-	cout << "<Scene> loading " << path << " ... success!" << endl;
+	wcout << "<Scene> loading<Shader> " << path << " ... success!" << endl;
 
 	return S_OK;
 }

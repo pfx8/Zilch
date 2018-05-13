@@ -16,9 +16,9 @@
 //
 //*****************************************************************************
 // ImGui
-#include "FrameWork/ImGui/imgui.h"
-#include "FrameWork/ImGui/imgui_impl_dx9.h"
-#include "FrameWork/ImGui/imgui_internal.h"
+#include "FrameWork\ImGui\imgui.h"
+#include "FrameWork\ImGui\imgui_impl_dx9.h"
+#include "FrameWork\ImGui\imgui_internal.h"
 
 // DirectX9.0 and Windows
 #include <windows.h>
@@ -30,20 +30,20 @@
 // c++
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include <vector>
 #include <map>
 #include <unordered_map>				// ペア関係だけで順番にする必要がないのでmapからunordered_mapに変更した
 #include <typeindex>					// typeid()のため
 
 // Assimp
-#include "FrameWork/assimp/include/assimp/Importer.hpp"
-#include "FrameWork/assimp/include/assimp/scene.h"
-#include "FrameWork/assimp/include/assimp/postprocess.h"
-
+#include "FrameWork\assimp\include\assimp\Importer.hpp"
+#include "FrameWork\assimp\include\assimp\scene.h"
+#include "FrameWork\assimp\include\assimp\postprocess.h"
 
 // FMOD
-#include "FrameWork/FMOD/include/fmod.hpp"
-#include "FrameWork/FMOD/include/fmod_errors.h"
+#include "FrameWork\FMOD\include\fmod.hpp"
+#include "FrameWork\FMOD\include\fmod_errors.h"
 
 using namespace std;
 
@@ -116,9 +116,17 @@ struct WorldVector
 // プロトタイプ宣言
 //
 //*****************************************************************************
+// ローカル変数取得関数
 LPDIRECT3DDEVICE9 getD3DDevice(void);
 Resources* getResources(void);
 GameTimes* getGameTimes(void);
 SceneManager* getSceneManager(void);
+
+// 文字列変更関数
+string WStringToString(const wstring& ws);
+wstring StringToWString(const string& s);
+
+// パスからファイル名を取得
+wstring pathToFileName(const wstring path);
 
 #endif // !_ENGINE_H_

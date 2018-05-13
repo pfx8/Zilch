@@ -8,19 +8,19 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
-#include "Component/Camera.h"
-#include "Component/CameraController.h"
-#include "Component/Component.h"
-#include "Component/MeshRender.h"
-#include "Component/PlayerController.h"
-#include "Component/Transform.h"
-#include "Component/Light.h"
+#include "Component\Camera.h"
+#include "Component\CameraController.h"
+#include "Component\Component.h"
+#include "Component\MeshRender.h"
+#include "Component\PlayerController.h"
+#include "Component\Transform.h"
+#include "Component\Light.h"
 
-#include "Engine/Engine.h"
-#include "Engine/input.h"
-#include "Engine/Shader.h"
+#include "Engine\Engine.h"
+#include "Engine\input.h"
+#include "Engine\Shader.h"
 
-#include "GameObject/GameObject.h"
+#include "GameObject\GameObject.h"
 
 //*****************************************************************************
 //
@@ -36,7 +36,7 @@ public:
 
 	bool									mIsStart;				// スタートマーク
 	vector<MeshRender*>						mMeshRenders;			// メッシュレンダリング
-	map<string, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
+	map<wstring, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
 
 	Camera*									mSystemCamera;			// システムカメラ
 	Camera*									mCurrentCamera;			// 使っているカメラ
@@ -49,8 +49,8 @@ public:
 	void update();					// シーンの更新
 	void draw();					// シーンの描画
 	
-	void addGameObject(string name, GameObject* gameObject);		// シーンにGameObjectを増加
-	GameObject* getGameObject(string name);							// シーンからGameObjectを取得
+	void addGameObject(wstring name, GameObject* gameObject);		// シーンにGameObjectを増加
+	GameObject* getGameObject(wstring name);							// シーンからGameObjectを取得
 };
 #endif // !_SCENE_H_
 

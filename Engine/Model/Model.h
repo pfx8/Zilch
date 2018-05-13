@@ -12,11 +12,11 @@
 #include "Material.h"
 #include "Animation.h"
 
-#include "Engine/Engine.h"
-#include "Engine/Shader.h"
+#include "Engine\Engine.h"
+#include "Engine\Shader.h"
 
-#include "Component/Camera.h"
-#include "Component/Transform.h"
+#include "Component\Camera.h"
+#include "Component\Transform.h"
 
 //*****************************************************************************
 //
@@ -26,19 +26,19 @@
 class Model
 {
 private:
-	HRESULT loadModel(string const &path);							// モデルを読み込み
+	HRESULT loadModel(wstring const& wPath);						// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
 
 public:
 	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号
 
-	string							mName;							// モデル名前
+	wstring							mName;							// モデル名前
 	vector<Mesh*>					mMeshes;						// メッシュデータ
 	vector<Animation*>				mAnimationes;					// アニメーションデータ
 	vector<Bone*>					mBones;							// 骨データ
 	vector<D3DXMATRIX>				mTransforms;					// 各骨の変換行列
 
-	Model(string name, string const &path);
+	Model(wstring name, wstring const& wPath);
 	~Model();
 
 	void checkAnimation(const aiScene* scene);						// モデルはアニメーションを含めてるかどうかをチェック

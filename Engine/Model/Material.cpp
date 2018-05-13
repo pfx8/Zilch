@@ -82,24 +82,24 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		Resources* resource = getResources();
 
 		// テクスチャパスを読み込み
-		aiString str;
-		mat->getTexture(type, count, &str);
-		string filePath = str.C_Str();
+		aiString path;
+		mat->getTexture(type, count, &path);
+		// string -> wstring
+		wstring wPath = StringToWString(path.C_Str());
 
 		// テクスチャを読み込み
-		resource->createTexture(filePath);
-
+		resource->createTexture(wPath);
 
 		// 絶対パスならば、モデルの名前とテクスチャを取得
-		string fileName;
-		if (filePath.find("\\") != string::npos)
+		wstring fileName;
+		if (wPath.find(L'\\') != string::npos)
 		{
-			fileName = filePath.substr(filePath.find_last_of("\\") + 1, filePath.find_last_of("."));	// exp : c:\aaa\bbb\ccc.png -> ccc.png
+			fileName = wPath.substr(wPath.find_last_of(L'\\') + 1, wPath.find_last_of(L'.'));	// exp: c:\aaa\bbb\ccc.png -> ccc.png
 		}
-		fileName = fileName.substr(0, fileName.find_first_of("."));										// exp : xxx.png -> xxx
+		fileName = fileName.substr(0, fileName.find_first_of(L'.'));							// exp: xxx.png -> xxx
 
 		// テクスチャまだ読み込まなっかたら読み込む
-		Texture* texture = resource->getTexture(fileName.c_str());
+		Texture* texture = resource->getTexture(fileName);
 			
 		// テクスチャを保存
 		this->mTextures.push_back(texture);

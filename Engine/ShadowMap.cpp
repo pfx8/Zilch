@@ -86,7 +86,7 @@ void ShadowMap::draw(Model* model)
 	// 保存シャドウマップ
 	if (GetKeyboardTrigger(DIK_F6))			// key F6
 	{
-		D3DXSaveTextureToFile("shadowMap.jpg", D3DXIFF_JPG, this->mShadowMap, NULL);
+		D3DXSaveTextureToFile(L"shadowMap.jpg", D3DXIFF_JPG, this->mShadowMap, NULL);
 	}
 
 	// シャドウマップ作った後で、元のレンダリングターゲットと深度バッファに戻す

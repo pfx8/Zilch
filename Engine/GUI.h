@@ -14,7 +14,7 @@
 #include "GameTimes.h"
 #include "SceneManager.h"
 
-#include "GameObject/GameObject.h"
+#include "GameObject\GameObject.h"
 
 //*****************************************************************************
 //
@@ -33,7 +33,7 @@ private:
 public:
 	bool				mIsAddingModel;							// モデル読み込んでるをチェック
 	bool				mIsModelFile;							// ドロップされたファイルが対象外エラー
-	string				mAddingFilePath = {" "};				// ドロップされたファイルのパスを保存
+	wstring				mAddingFilePath = { L" " };				// ドロップされたファイルのパスを保存
 
 	GUI();
 	~GUI();
@@ -47,7 +47,7 @@ public:
 	
 	bool isAnyImGuiFocused();								// ImGuiとアプリケーションの操作分離
 	void addModelImGui();									// モデル追加GUI
-	bool isGameObjectNameRight(string name);				// チェック追加GameObject名前
+	bool isGameObjectNameRight(wstring name);				// チェック追加GameObject名前
 	void dropFileErrorGUI();								// ドロップされたファイルが対象外エラーGUI
 };
 

@@ -10,8 +10,8 @@
 
 #include "Texture.h"
 
-#include "Engine/Engine.h"
-#include "Engine/Resources.h"
+#include "Engine\Engine.h"
+#include "Engine\Resources.h"
 
 //*****************************************************************************
 //

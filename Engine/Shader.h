@@ -44,10 +44,10 @@ public:
 	ColorRamp		mColorRamp;					// カラーランプモード
 	D3DXVECTOR3		mColorRampSegment;			// カラーセグメント値、最大は３レベル
 
-	Shader(string path);
+	Shader(wstring path);
 	~Shader();
 
-	HRESULT loadEffectFile(string path);		// 頂点シェーダーファイルを読み込む
+	HRESULT loadEffectFile(wstring path);		// 頂点シェーダーファイルを読み込む
 };
 
 #endif // !_SHADER_H_

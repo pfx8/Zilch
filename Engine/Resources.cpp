@@ -32,14 +32,10 @@ Resources::~Resources()
 // Assimpでモデルを読み込み
 //
 //*****************************************************************************
-void Resources::createModel(string const path)
+void Resources::createModel(wstring name, const wstring path)
 {
-	// パスからファイルの名前を取得(拡張子抜き)
-	string name1 = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
-	string name2 = name1.substr(0, name1.find_first_of("."));							// exp: ccc.fbx -> ccc
-
 	// モデルデータを保存
-	mModels.insert({ name2, new Model(name1, path) });
+	mModels.insert({ name, new Model(name, path) });
 }
 
 //*****************************************************************************
@@ -47,7 +43,7 @@ void Resources::createModel(string const path)
 // モデルの名前によってゲット
 //
 //*****************************************************************************
-Model* Resources::getModel(string name)
+Model* Resources::getModel(wstring name)
 {
 	if (mModels.find(name) != mModels.end())
 	{
@@ -55,7 +51,7 @@ Model* Resources::getModel(string name)
 	}
 
 	// Debugウインドへ
-	cout << "<Error> get " << name << " ... failed!" << endl;
+	wcout << "<Error> get " << name << " ... failed!" << endl;
 
 	return nullptr;
 }
@@ -65,11 +61,10 @@ Model* Resources::getModel(string name)
 // テクスチャを読み込み
 //
 //*****************************************************************************
-void Resources::createTexture(string const path)
+void Resources::createTexture(const wstring path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	string name = path.substr(path.find_last_of("\\") + 1, path.find_first_of("."));	// exp: c:\aaa\bbb\ccc.fbx -> ccc.x
-	name = name.substr(0, name.find_first_of("."));										// exp: ccc.fbx -> ccc
+	wstring name = pathToFileName(path);
 
 	mTextures.insert({ name, new Texture(name, path) });	
 }
@@ -79,7 +74,7 @@ void Resources::createTexture(string const path)
 // テクスチャの名前によって取得
 //
 //*****************************************************************************
-Texture* Resources::getTexture(string name)
+Texture* Resources::getTexture(wstring name)
 {
 	if (mTextures.find(name) != mTextures.end())
 	{
@@ -87,7 +82,7 @@ Texture* Resources::getTexture(string name)
 	}
 
 	// Debugウインドへ
-	cout << "<Error> get " << name << " ... failed!" << endl;
+	wcout << "<Error> get " << name << " ... failed!" << endl;
 
 	return nullptr;
 }
@@ -97,14 +92,12 @@ Texture* Resources::getTexture(string name)
 // シェーダーを読み込み
 //
 // 初期化した後でtechniqueを選択
-// one shader one technique
 //
 //*****************************************************************************
-void Resources::createShader(string const path)
+void Resources::createShader(const wstring path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	string techniqueName = path.substr(path.find_last_of("/") + 1, path.find_first_of("."));	// exp: c:/aaa/bbb/ccc.fbx -> ccc.x
-	techniqueName = techniqueName.substr(0, techniqueName.find_first_of("."));					// exp: ccc.fbx -> ccc
+	wstring techniqueName = pathToFileName(path);
 
 	// シェーダーデータを作る
 	Shader* shader = new Shader(path);
@@ -121,7 +114,7 @@ void Resources::createShader(string const path)
 // シェーダーの名前によって取得
 //
 //*****************************************************************************
-Shader* Resources::getShader(string techniqueName)
+Shader* Resources::getShader(wstring techniqueName)
 {
 	if (mShaders.find(techniqueName) != mShaders.end())
 	{
@@ -129,7 +122,7 @@ Shader* Resources::getShader(string techniqueName)
 	}
 
 	// Debugウインドへ
-	cout << "<Error> get technique " << techniqueName << " ... failed!" << endl;
+	wcout << "<Error> get technique " << techniqueName << " ... failed!" << endl;
 
 	return nullptr;
 }

@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(string name, string const &path)
+Model::Model(wstring name, wstring const& path)
 {
 	// モデルの名前を初期化
 	this->mName = name;
@@ -36,8 +36,10 @@ Model::~Model()
 // モデルをロードする
 //
 //*****************************************************************************
-HRESULT Model::loadModel(string const &path)
+HRESULT Model::loadModel(wstring const& wPath)
 {
+	string path = WStringToString(wPath);
+
 	// Assimpのインポートを作る
 	Assimp::Importer import;
 	// Assimpシーンを作る
@@ -57,7 +59,7 @@ HRESULT Model::loadModel(string const &path)
 	processNode(scene->mRootNode, scene);
 
 	// Debugウインドへ
-	cout << "<Scene> loading " << path << " ... successed!" << endl;
+	wcout << "<Scene> loading<Model> " << wPath << " ... successed!" << endl;
 
 	return S_OK;
 }

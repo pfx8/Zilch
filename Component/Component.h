@@ -8,9 +8,9 @@
 #ifndef _COMPONENT_H_
 #define _COMPONENT_H_
 
-#include "Engine/Engine.h"
+#include "Engine\Engine.h"
 
-#include "GameObject/GameObject.h"
+#include "GameObject\GameObject.h"
 
 //*****************************************************************************
 //
@@ -26,13 +26,13 @@ private:
 	virtual void update() {};
 
 public:
-	GameObject*			mGameObject;					// 所属GameObjectの他のコンポーネントを取れるように
+	GameObject*			mGameObject;				// 所属GameObjectの他のコンポーネントを取れるように
 	bool				mStart = false;				// スタートマック
 
 	Component();
 	virtual ~Component();
 
-	virtual void drawImGui() {};						// ImGuiでcomponentのデータを出す
+	virtual void drawImGui() {};					// ImGuiでcomponentのデータを出す
 };
 
 #endif // !_COMPONENT_H_

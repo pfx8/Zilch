@@ -5,12 +5,12 @@
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#include "Engine/Engine.h"
-#include "Engine/Console.h"
-#include "Engine/SceneManager.h"
-#include "Engine/input.h"
-#include "Engine/GameTimes.h"
-#include "Engine/GUI.h"
+#include "Engine\Engine.h"
+#include "Engine\Console.h"
+#include "Engine\SceneManager.h"
+#include "Engine\input.h"
+#include "Engine\GameTimes.h"
+#include "Engine\GUI.h"
 
 //*****************************************************************************
 //
@@ -33,7 +33,7 @@ WorldVector						gWorldVector;
 
 // 読み込みできるファイル拡張子集合
 // 詳しいは https://github.com/assimp/assimp
-vector<string> modelFileExtension = { "x","fbx","obj","3ds" };
+vector<wstring> modelFileExtension = { L"x", L"fbx", L"obj", L"3ds" };
 
 //*****************************************************************************
 //
@@ -51,7 +51,7 @@ void release(void);														// ウインド終了処理
 // ドロップ処理
 void onDropFiles(HWND hwnd, HDROP hDropInfo);							// ドロップファイル処理
 void enumerateFiles();													// ファイルの列挙処理
-bool isModelFile(string path);											// モデルファイルかどうかを判断
+bool isModelFile(wstring path);											// モデルファイルかどうかを判断
 
 // ImGui用プロシージャ
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -63,6 +63,8 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 //*****************************************************************************
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	//setlocale(LC_ALL, "");
+
 	srand((unsigned)time(NULL));
 
 	// ウィンドウを初期化
@@ -426,7 +428,7 @@ void onDropFiles(HWND hwnd, HDROP hDropInfo)
 			// 新しいディレクトリによってファイルを列挙処理
 			enumerateFiles();
 		}
-		// ファイルならば
+		// ファイルならば列挙が終わり
 		else
 		{
 			break;
@@ -472,7 +474,7 @@ void enumerateFiles()
 			// ファイルならば
 			else
 			{
-				string filePath;
+				wstring filePath;
 				TCHAR directory[MAX_PATH];
 
 				// 現在のディレクトリを取得
@@ -492,9 +494,9 @@ void enumerateFiles()
 // モデルファイルかどうかを判断
 //
 //*****************************************************************************
-bool isModelFile(string path)
+bool isModelFile(wstring path)
 {
-	string fileFormat = path.substr(path.find_last_of(".") + 1, path.size());
+	wstring fileFormat = path.substr(path.find_last_of(L".") + 1, path.size());
 
 	for (auto it : modelFileExtension)
 	{

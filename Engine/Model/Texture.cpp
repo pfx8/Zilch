@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Texture::Texture(string name, string path)
+Texture::Texture(wstring name, wstring path)
 {
 	this->mTex = nullptr;
 
@@ -38,7 +38,7 @@ Texture::~Texture()
 // テクスチャを読み込み
 //
 //*****************************************************************************
-HRESULT Texture::loadingTexture(string path)
+HRESULT Texture::loadingTexture(wstring path)
 {
 	LPDIRECT3DDEVICE9 D3dDevice = getD3DDevice();
 
@@ -49,12 +49,12 @@ HRESULT Texture::loadingTexture(string path)
 		&mTex)))
 	{
 		// Debugウインドへ
-		cout << "<Error> loading " << path << " ... failed!" << endl;
+		wcout << "<Error> loading<Texture> " << path << " ... failed!" << endl;
 		return E_FAIL;
 	}
 
 	// Debugウインドへ
-	cout << "<Scene> loading " << path  << " ... sucessed!"<< endl;
+	wcout << "<Scene> loading<Texture> " << path  << " ... sucessed!"<< endl;
 
 	return S_OK;
 }

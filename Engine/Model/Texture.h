@@ -8,7 +8,7 @@
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
 
-#include "Engine/Engine.h"
+#include "Engine\Engine.h"
 
 //*****************************************************************************
 //
@@ -23,13 +23,13 @@ class Texture
 private:
 
 public:
-	string						mName;		// テクスチャ名前
+	wstring						mName;		// テクスチャ名前
 	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
 
-	Texture(string name, string path);
+	Texture(wstring name, wstring path);
 	~Texture();
 
-	HRESULT loadingTexture(string path);	// テクスチャを読み込み
+	HRESULT loadingTexture(wstring path);	// テクスチャを読み込み
 };
 
 #endif // !_TEXTURE_H_

@@ -12,9 +12,10 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Animation::Animation(string const &path)
+Animation::Animation(wstring const& wPath)
 {
-	loadAnimation(path);
+
+	loadAnimation(wPath);
 }
 
 //*****************************************************************************
@@ -33,9 +34,12 @@ Animation::~Animation()
 // アニメーションを読み込み
 //
 //*****************************************************************************
-HRESULT Animation::loadAnimation(string const &path)
+HRESULT Animation::loadAnimation(wstring const& wPath)
 {
-	Assimp::Importer import;			// Assimpのインポートを作る
+	string path = WStringToString(wPath);
+
+	// Assimpのインポートを作る
+	Assimp::Importer import;
 	const aiScene* scene = new aiScene();
 	scene = import.ReadFile(path, aiProcessPreset_TargetRealtime_Quality | aiProcess_FixInfacingNormals | aiProcess_ConvertToLeftHanded);
 
@@ -54,7 +58,7 @@ HRESULT Animation::loadAnimation(string const &path)
 	// 各アニメーションファイルにアニメーションは一つしかない
 	if (scene->mNumAnimations == 1)
 	{
-		this->mName = scene->mAnimations[0]->mName.C_Str();
+		//this->mName = scene->mAnimations[0]->mName.C_Str();
 		this->mDuration = scene->mAnimations[0]->mDuration;
 		this->mTicksPerSecond = scene->mAnimations[0]->mTicksPerSecond;
 	}
