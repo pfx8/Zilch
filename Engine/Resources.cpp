@@ -32,10 +32,11 @@ Resources::~Resources()
 // Assimpでモデルを読み込み
 //
 //*****************************************************************************
-void Resources::createModel(wstring name, const wstring path)
-{
-	// モデルデータを保存
-	mModels.insert({ name, new Model(name, path) });
+void Resources::createModel(const wstring path)
+{	
+	// パスからファイルの名前を取得(拡張子抜き)
+	wstring name = pathToFileName(path);
+	mModels.insert({ name, new Model(path) });
 }
 
 //*****************************************************************************
@@ -65,7 +66,6 @@ void Resources::createTexture(const wstring path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
 	wstring name = pathToFileName(path);
-
 	mTextures.insert({ name, new Texture(name, path) });	
 }
 

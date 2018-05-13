@@ -32,10 +32,11 @@ void Scene02::start()
 	//-----------------------
 
 	// 床
-	resource->createModel(L"床", L"Resources\\Model\\field - コピー.fbx");
+	//resource->createModel(L"Resources\\Model\\field.fbx");
+	resource->createModel(L"C:\\Users\\liaos\\3D Objects\\test\\model\\test.fbx"); 
 
 	// Hixo
-	resource->createModel(L"主人公", L"Resources\\Model\\Hixo.fbx");
+	//resource->createModel(L"Resources\\Model\\Hixo.fbx");
 	//resource->getModel(L"Hixo")->addAnimation(new Animation(L"Resources/Model/Running.fbx"));
 
 	// Flag -- bone testing
@@ -71,12 +72,12 @@ void Scene02::start()
 	player->addComponent<Transform>(playerTrans);
 	CameraController* cameraController = new CameraController();
 	player->addComponent<CameraController>(cameraController);
-	MeshRender* playerMeshRender = new MeshRender();
-	playerMeshRender->mModel = resource->getModel(L"主人公");				// リソースからモデルを取得
-	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
-	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
-	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
-	player->addComponent<MeshRender>(playerMeshRender);
+	//MeshRender* playerMeshRender = new MeshRender();
+	//playerMeshRender->mModel = resource->getModel(L"Hixo");					// リソースからモデルを取得
+	//playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
+	//playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
+	//this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
+	//player->addComponent<MeshRender>(playerMeshRender);
 	this->addGameObject(L"player", player);
 
 	// システムカメラ設定
@@ -96,7 +97,8 @@ void Scene02::start()
 	gridFieldTrans->mScl = D3DXVECTOR3(6.0f, 6.0f, 6.0f);
 	gridField->addComponent<Transform>(gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->mModel = resource->getModel(L"床");			// リソースからモデルを取得
+	//gridFieldMeshRender->mModel = resource->getModel(L"field");			// リソースからモデルを取得
+	gridFieldMeshRender->mModel = resource->getModel(L"test");			// リソースからモデルを取得
 	this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>(gridFieldMeshRender);
 	this->addGameObject(L"floor", gridField);

@@ -26,6 +26,7 @@
 #include <tchar.h>
 #include <time.h>
 #include <dinput.h>
+#include <Shlwapi.h>					// パスからファイルを探す
 
 // c++
 #include <iostream>
@@ -77,6 +78,7 @@ class SceneManager;
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
 #pragma comment (lib, "winmm.lib")
+#pragma comment (lib, "Shlwapi.lib")										// PathFileExists()
 #pragma comment (lib, "FrameWork/FMOD/lib/fmod_vc.lib")						// fmod
 #pragma comment (lib, "FrameWork/assimp/lib/x86/assimp-vc140-mt.lib")		// assimp
 #endif

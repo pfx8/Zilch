@@ -23,13 +23,13 @@ class Texture
 private:
 
 public:
-	wstring						mName;		// テクスチャ名前
-	LPDIRECT3DTEXTURE9			mTex;		// テクスチャポインタ
+	wstring						mName;			// テクスチャ名前
+	LPDIRECT3DTEXTURE9			mTex;			// テクスチャポインタ
 
 	Texture(wstring name, wstring path);
 	~Texture();
 
-	HRESULT loadingTexture(wstring path);	// テクスチャを読み込み
+	HRESULT loadingTexture(wstring path);		// テクスチャを読み込み
 };
 
 #endif // !_TEXTURE_H_

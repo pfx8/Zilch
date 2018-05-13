@@ -24,6 +24,7 @@ private:
 
 public:
 	wstring				mName;					// マテリアルの名前
+	wstring				mModelPath;				// モデルパス
 	vector<Texture*>	mTextures;				// テクスチャ
 	D3DXVECTOR3			mAmbient;				// 環境光
 	D3DXVECTOR3			mDiffuse;				// 拡散反射光
@@ -31,7 +32,7 @@ public:
 	float				mShininess;				// 光沢
 
 	// マテリアルがなければデフォルトで初期化
-	Material(aiMaterial* mat);
+	Material(aiMaterial* mat, wstring modelPath);
 	~Material();
 
 	// マテリアルを読み込み
@@ -39,6 +40,8 @@ public:
 
 	// マテリアルによってテクスチャを読み込み
 	void addTextureFromResources(aiMaterial* mat, aiTextureType mType);
+	// Assimpから読み込まれたテクスチャパスを絶対パスに変換
+	wstring searchTexturePath(wstring texturePathFromAssimp);
 };
 
 #endif // !_MATERIAL_H

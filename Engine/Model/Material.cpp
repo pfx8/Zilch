@@ -12,8 +12,11 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Material::Material(aiMaterial* mat)
+Material::Material(aiMaterial* mat, wstring modelPath)
 {
+	// モデルパス
+	this->mModelPath = modelPath;
+
 	// デフォルト値
 	this->mShininess = 1.0f;
 
@@ -90,6 +93,8 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		// ここはwstringのunicodeが欲しい
 		wstring wPath = stringUTF8ToUnicode(path.C_Str());
 
+		wPath = searchTexturePath(wPath);
+
 		// テクスチャを読み込み
 		resource->createTexture(wPath);
 
@@ -107,4 +112,72 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		// テクスチャを保存
 		this->mTextures.push_back(texture);
 	}
+}
+
+//*****************************************************************************
+//
+// Assimpから読み込まれたテクスチャパスを絶対パスに変換
+//
+//*****************************************************************************
+wstring Material::searchTexturePath(wstring texturePathFromAssimp)
+{
+	// 最終パス
+	wstring filePath;
+
+	// モデルの名前を取得
+	wstring modelName = pathToFileName(this->mModelPath);
+
+	// 方法1
+	// Resources\Texture\(モデルファイル名前)フォルダを探す
+	{
+		wstring fileName = texturePathFromAssimp.substr(texturePathFromAssimp.find_last_of(L'\\') + 1, texturePathFromAssimp.find_last_of(L'.'));	// exp: c:\aaa\bbb\ccc.png -> ccc.png
+		wstring path = L"Resources\\Texture\\" + modelName + L'\\' + fileName;
+
+		if (PathFileExists(path.c_str()))
+		{
+			filePath = path;
+		}
+	}
+
+	// 方法2
+	// 絶対パス
+	{
+		if (PathFileExists(texturePathFromAssimp.c_str()))
+		{
+			filePath = texturePathFromAssimp;
+		}
+	}
+
+	// 方法3
+	// 相対パス
+	{
+		wstring str1 = texturePathFromAssimp;
+		int fileCount = 0;
+
+		while (1)
+		{
+			if (str1.find(L'\\') != string::npos)
+			{
+				str1 = str1.substr(0, str1.find_last_of(L"\\"));
+				fileCount++;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		wstring mainPath = this->mModelPath;
+		for (unsigned int count = 0; count < fileCount; count++)
+		{
+			mainPath = mainPath.substr(0, mainPath.find_last_of(L"\\"));
+		}
+
+		wstring texPath = texturePathFromAssimp;
+		texPath = texPath.substr(texPath.find_first_of(L"\\"), texPath.size());
+
+		filePath = mainPath + texPath;
+	}
+
+	return filePath;
 }

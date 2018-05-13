@@ -12,10 +12,13 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene)
+Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath)
 {
 	// 名前を取得
 	this->mName = stringUTF8ToUnicode(mesh->mName.C_Str());
+
+	// モデルパスを保存
+	this->mModelPath = modelPath;
 
 	// バッファポインタを初期化
 	this->mVertexBuffer = nullptr;
@@ -173,7 +176,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 	{
 		// フェースのマテリアルを取得
 		aiMaterial* aiMat = scene->mMaterials[mesh->mMaterialIndex];
-		Material* mat = new Material(aiMat);
+		Material* mat = new Material(aiMat, this->mModelPath);
 		// メッシュのマテリアルに入れる
 		this->mMaterials.push_back(mat);
 	}

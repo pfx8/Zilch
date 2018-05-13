@@ -63,6 +63,7 @@ typedef enum MeshType
 class Mesh
 {
 private:
+	wstring							mModelPath;				// モデルパス
 	D3DXVECTOR3						mBoundingBoxMax;		// バウンディングボックスマックス座標の最大値
 	D3DXVECTOR3						mBoundingBoxMin;		// バウンディングボックスマックス座標の最小値
 	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;			// 頂点バッファへのポインタ
@@ -82,7 +83,7 @@ public:
 	vector<unsigned int>			mIndices;				// 頂点インデックスデータ
 	vector<Material*>				mMaterials;				// マテリアルデータ
 
-	Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);				// メッシュの初期化
+	Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath);				// メッシュの初期化
 	~Mesh();
 
 	void drawShadow(Shader* shader);						// メッシュのシャドウマップを描画

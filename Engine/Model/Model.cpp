@@ -12,11 +12,8 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Model::Model(wstring name, wstring const& path)
+Model::Model(wstring const& path)
 {
-	// モデルの名前を初期化
-	this->mName = name;
-
 	// Assimpでモデルを読み込み
 	loadModel(path);
 }
@@ -38,6 +35,9 @@ Model::~Model()
 //*****************************************************************************
 HRESULT Model::loadModel(wstring const& wPath)
 {
+	// パスを保存
+	this->mPath = wPath;
+	// Assimpで読み込むためにwstring -> string
 	string path = wStringToString(wPath);
 
 	// Assimpのインポートを作る
@@ -76,7 +76,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(new Mesh(aiMesh, this->mBones, scene));
+		this->mMeshes.push_back(new Mesh(aiMesh, this->mBones, scene, this->mPath));
 
 		// 骨チェック
 		createBone(aiMesh);

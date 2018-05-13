@@ -30,7 +30,7 @@ public:
 	Resources();
 	~Resources();
 	
-	void createModel(wstring name, const wstring path);	// モデルデータを作る
+	void createModel(const wstring path);				// モデルデータを作る
 	Model* getModel(wstring name);						// モデルの名前によって取得
 	void createTexture(const wstring path);				// テクスチャデータを作る
 	Texture* getTexture(wstring name);					// テクスチャの名前によって取得

@@ -31,14 +31,13 @@ private:
 
 public:
 	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号
-
-	wstring							mName;							// モデル名前
+	wstring							mPath;							// モデルパス
 	vector<Mesh*>					mMeshes;						// メッシュデータ
 	vector<Animation*>				mAnimationes;					// アニメーションデータ
 	vector<Bone*>					mBones;							// 骨データ
 	vector<D3DXMATRIX>				mTransforms;					// 各骨の変換行列
 
-	Model(wstring name, wstring const& wPath);
+	Model(wstring const& wPath);
 	~Model();
 
 	void checkAnimation(const aiScene* scene);						// モデルはアニメーションを含めてるかどうかをチェック
