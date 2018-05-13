@@ -100,6 +100,10 @@ void Light::lightControllerImGui()
 
 		break;
 	case LT_spot:
+		ImGui::TextUnformatted(u8"ライト位置");
+		ImGui::InputFloat3("pos", *v1);
+		ImGui::Separator();
+
 		ImGui::TextUnformatted(u8"ライト方向");
 		ImGui::SliderFloat("X", &this->mDirectionLight.direction.x, -1.0f, 1.0f);
 		ImGui::SliderFloat("Y", &this->mDirectionLight.direction.y, -1.0f, 1.0f);
