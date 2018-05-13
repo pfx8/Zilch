@@ -121,6 +121,8 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 //*****************************************************************************
 wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 {
+	bool skip = false;
+
 	// 最終パス
 	wstring filePath;
 
@@ -136,20 +138,25 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 		if (PathFileExists(path.c_str()))
 		{
 			filePath = path;
+			skip = true;
 		}
 	}
 
 	// 方法2
 	// 絶対パス
+	if (skip == false)
 	{
 		if (PathFileExists(texturePathFromAssimp.c_str()))
 		{
 			filePath = texturePathFromAssimp;
+			skip = true;
 		}
 	}
 
+
 	// 方法3
 	// 相対パス
+	if (skip == false)
 	{
 		wstring str1 = texturePathFromAssimp;
 		int fileCount = 0;

@@ -122,7 +122,7 @@ void GUI::systemGUI()
 {
 	// デッバグウインド(メインウインド)
 	{
-		ImGui::Begin(u8"デバッグウインド"/*, nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove*/);
+		ImGui::Begin(u8"デバッグウインド", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
 		// FPSとタイム
 		{
@@ -279,10 +279,10 @@ void GUI::systemGUI()
 void GUI::sceneGUI()
 {
 	// シーンのマルチレベルメニュー
-	ImGui::Begin(u8"Scene"/*, nullptr, ImGuiWindowFlags_NoResize*/);
+	ImGui::Begin(u8"Scene", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 	{
 		// GameObjectの作りメニュ―
-		createNewGameObjectGUI();
+		//createNewGameObjectGUI();
 
 		// 各GameObject
 		unsigned int IDs = 0;
@@ -292,6 +292,7 @@ void GUI::sceneGUI()
 
 			// Todo
 			// ライトと床、utf-8に変換しても出せない
+			// UTF-8 to ANIS?
 
 			// wstring -> string
 			string name1 = wstringUnicodeToUTF8(it.first);
@@ -411,12 +412,19 @@ void GUI::addModelImGui()
 		}
 		else
 		{
+			// モデルを読み込み
+			getResources()->createModel(this->mAddingFilePath);
+
 			// 新しいGameObjectを作る
 			GameObject* gameObject = new GameObject();
-			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);
-
-			// モデルを読み込み
-			//getResources()->createModel(this->mAddingFilePath);
+			Transform* transform = new Transform();												// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+			gameObject->addComponent<Transform>(transform);
+			MeshRender* meshRender = new MeshRender();
+			wstring name = pathToFileName(this->mAddingFilePath);
+			meshRender->mModel = getResources()->getModel(name);								// リソースからモデルを取得
+			getSceneManager()->mCurrentScene->mMeshRenders.push_back(meshRender);				// MeshRenderをシーンに追加
+			gameObject->addComponent<MeshRender>(meshRender);
+			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);		// シーンに追加
 
 			// mNewGameObjectName初期化
 			*this->mNewGameObjectName = { NULL };
