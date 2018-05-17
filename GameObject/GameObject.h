@@ -8,8 +8,9 @@
 #ifndef _GAME_OBJECT_H_
 #define _GAME_OBJECT_H_
 
-#include "Engine/Engine.h"
-#include "Component/Component.h"
+#include "../Engine/Engine.h"
+
+#include "../Component/Component.h"
 
 //*****************************************************************************
 //
@@ -44,7 +45,7 @@ public:
 	// ここの<typename T>はComponentクラスの継承クラス
 	//
 	//*****************************************************************************
-	template<typename T> void GameObject::addComponent(T* component)
+	template<typename T> void addComponent(T* component)
 	{
 		// 添付したいコンポーネントの中に所属GameObjectのポインタを入れる
 		component->mGameObject = this;
@@ -71,7 +72,7 @@ public:
 	// <戻り値> eのクラス型のポインタ
 	//
 	//*****************************************************************************
-	template<typename T> T* GameObject::getComponent()
+	template<typename T> T* getComponent()
 	{
 		if (this->mComponentsMap.find(typeid(T)) != this->mComponentsMap.end())
 		{

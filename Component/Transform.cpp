@@ -65,7 +65,7 @@ void Transform::drawImGui()
 	ImGui::InputFloat3("Scl", *v1);
 	ImGui::Separator();
 
-	ImGui::Text(u8"‰ñ“]");
+	ImGui::Text("‰ñ“]");
 	ImGui::SliderFloat("X", &this->mRot.x, -1.0f, 1.0f);
 	ImGui::SliderFloat("Y", &this->mRot.y, -1.0f, 1.0f);
 	ImGui::SliderFloat("Z", &this->mRot.z, -1.0f, 1.0f);

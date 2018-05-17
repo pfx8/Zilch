@@ -130,6 +130,7 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 	wstring modelName = pathToFileName(this->mModelPath);
 
 	// 方法1
+	// 指定パス
 	// Resources\Texture\(モデルファイル名前)フォルダを探す
 	{
 		wstring fileName = texturePathFromAssimp.substr(texturePathFromAssimp.find_last_of(L'\\') + 1, texturePathFromAssimp.find_last_of(L'.'));	// exp: c:\aaa\bbb\ccc.png -> ccc.png

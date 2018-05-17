@@ -10,7 +10,7 @@
 
 #include "Scene.h"
 
-#include "Engine\Model\Mesh.h"
+#include "..\Engine\Model\Mesh.h"
 
 //*****************************************************************************
 //

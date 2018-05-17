@@ -8,16 +8,16 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
-#include <unordered_map>
-
 #include "Material.h"
 #include "Bone.h"
 
-#include "Component\Camera.h"
-#include "Component\Transform.h"
+#include "..\Engine.h"
+#include "..\Shader.h"
 
-#include "Engine\Engine.h"
-#include "Engine\Shader.h"
+#include "..\..\Component\Camera.h"
+#include "..\..\Component\Transform.h"
+
+
 
 
 //*****************************************************************************

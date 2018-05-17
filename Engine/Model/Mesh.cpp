@@ -57,7 +57,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 
 		// –@ü
 		vertex.nor.x = mesh->mNormals[count].x;
-		vertex.nor.y = mesh->mNormals[count].z;
+		vertex.nor.y = -mesh->mNormals[count].z;
 		vertex.nor.z = -mesh->mNormals[count].y;
 
 		// UVÀ•W

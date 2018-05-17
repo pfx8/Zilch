@@ -1,32 +1,27 @@
-//*****************************************************************************
+ï»¿//*****************************************************************************
 //
-// ƒGƒ“ƒWƒ“ƒRƒAƒtƒ@ƒCƒ‹ [Engine.h]
+// ã‚¨ãƒ³ã‚¸ãƒ³ã‚³ã‚¢ãƒ•ã‚¡ã‚¤ãƒ« [Engine.h]
 //
 // Author : LIAO HANCHEN
 //
 //*****************************************************************************
-#define _CRT_SECURE_NO_WARNINGS			// scanf ‚Ìwarning–h~
+#define _CRT_SECURE_NO_WARNINGS
 
 #ifndef _ENGINE_H_
 #define _ENGINE_H_
 
 //*****************************************************************************
 //
-// ƒwƒbƒhƒtƒ@ƒCƒ‹
+// ãƒ˜ãƒƒãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //
 //*****************************************************************************
-// ImGui
-#include "FrameWork\ImGui\imgui.h"
-#include "FrameWork\ImGui\imgui_impl_dx9.h"
-#include "FrameWork\ImGui\imgui_internal.h"
-
 // DirectX9.0 and Windows
 #include <windows.h>
 #include <d3dx9.h>
 #include <tchar.h>
 #include <time.h>
 #include <dinput.h>
-#include <Shlwapi.h>					// ƒpƒX‚©‚çƒtƒ@ƒCƒ‹‚ğ’T‚·
+#include <Shlwapi.h>					// ãƒ‘ã‚¹ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¢ã™
 
 // c++
 #include <iostream>
@@ -34,23 +29,29 @@
 #include <cstdlib>
 #include <vector>
 #include <map>
-#include <unordered_map>				// ƒyƒAŠÖŒW‚¾‚¯‚Å‡”Ô‚É‚·‚é•K—v‚ª‚È‚¢‚Ì‚Åmap‚©‚çunordered_map‚É•ÏX‚µ‚½
-#include <typeindex>					// typeid()‚Ì‚½‚ß
+#include <unordered_map>				// ãƒšã‚¢é–¢ä¿‚ã ã‘ã§é †ç•ªã«ã™ã‚‹å¿…è¦ãŒãªã„ã®ã§mapã‹ã‚‰unordered_mapã«å¤‰æ›´ã—ãŸ
+#include <typeindex>					// typeid()ã®ãŸã‚
+#include <locale>
 
 // Assimp
-#include "FrameWork\assimp\include\assimp\Importer.hpp"
-#include "FrameWork\assimp\include\assimp\scene.h"
-#include "FrameWork\assimp\include\assimp\postprocess.h"
+#include "..\FrameWork\assimp\include\assimp\Importer.hpp"
+#include "..\FrameWork\assimp\include\assimp\scene.h"
+#include "..\FrameWork\assimp\include\assimp\postprocess.h"
 
 // FMOD
-#include "FrameWork\FMOD\include\fmod.hpp"
-#include "FrameWork\FMOD\include\fmod_errors.h"
+#include "..\FrameWork\FMOD\include\fmod.hpp"
+#include "..\FrameWork\FMOD\include\fmod_errors.h"
+
+// ImGui
+#include "..\FrameWork\ImGui\imgui.h"
+#include "..\FrameWork\ImGui\imgui_impl_dx9.h"
+#include "..\FrameWork\ImGui\imgui_internal.h"
 
 using namespace std;
 
 //*****************************************************************************
 //
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //
 //*****************************************************************************
 class GameObject;
@@ -69,10 +70,10 @@ class SceneManager;
 
 //*****************************************************************************
 //
-// ˆË‘¶lib
+// ä¾å­˜lib
 //
 //*****************************************************************************
-#if 1	// [‚±‚±‚ğ"0"‚É‚µ‚½ê‡A"\¬ƒvƒƒpƒeƒB" -> "ƒŠƒ“ƒJ" -> "“ü—Í" -> "’Ç‰Á‚ÌˆË‘¶ƒtƒ@ƒCƒ‹"‚É‘ÎÛƒ‰ƒCƒuƒ‰ƒŠ‚ğİ’è‚·‚é]
+#if 1	// [ã“ã“ã‚’"0"ã«ã—ãŸå ´åˆã€"æ§‹æˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£" -> "ãƒªãƒ³ã‚«" -> "å…¥åŠ›" -> "è¿½åŠ ã®ä¾å­˜ãƒ•ã‚¡ã‚¤ãƒ«"ã«å¯¾è±¡ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’è¨­å®šã™ã‚‹]
 #pragma comment (lib, "d3d9.lib")
 #pragma comment (lib, "d3dx9.lib")
 #pragma comment (lib, "dinput8.lib")
@@ -85,14 +86,14 @@ class SceneManager;
 
 //*****************************************************************************
 //
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //
 //*****************************************************************************
-#define CLASS_NAME							_T("D3d9Class")				// ƒEƒCƒ“ƒhƒE‚ÌƒNƒ‰ƒX–¼
-#define WINDOW_NAME							_T("Project : Zilch")		// ƒEƒCƒ“ƒhƒE‚ÌƒLƒƒƒvƒVƒ‡ƒ“–¼
-#define SCREEN_WIDTH						(1280)						// ƒEƒCƒ“ƒhƒE‚Ì•
-#define SCREEN_HEIGHT						(720)						// ƒEƒCƒ“ƒhƒE‚Ì‚‚³
-#define NUM_BONES_PER_VEREX					(4)							// ’¸“_1ŒÂ‚ª‰e‹¿‚³‚ê‚éœ‚ÌÅ‘å”‚Í4–{
+#define CLASS_NAME							_T("D3d9Class")				// ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ã‚¯ãƒ©ã‚¹å
+#define WINDOW_NAME							_T("Project : Zilch")		// ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³å
+#define SCREEN_WIDTH						(1280)						// ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®å¹…
+#define SCREEN_HEIGHT						(720)						// ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®é«˜ã•
+#define NUM_BONES_PER_VEREX					(4)							// é ‚ç‚¹1å€‹ãŒå½±éŸ¿ã•ã‚Œã‚‹éª¨ã®æœ€å¤§æ•°ã¯4æœ¬
 
 #define RELEASE_POINT(ptr)					{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
 #define RELEASE_CLASS_POINT(ptr)			{ if(ptr) { delete ptr; } }
@@ -102,12 +103,12 @@ class SceneManager;
 
 //*****************************************************************************
 //
-// \‘¢‘Ì’è‹`
+// æ§‹é€ ä½“å®šç¾©
 //
 //*****************************************************************************
 struct WorldVector
 {
-	// ƒQ[ƒ€¢ŠE‚Ì3²
+	// ã‚²ãƒ¼ãƒ ä¸–ç•Œã®3è»¸
 	D3DXVECTOR3		worldLook  = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 	D3DXVECTOR3		worldUp    = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXVECTOR3		worldRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
@@ -115,24 +116,24 @@ struct WorldVector
 
 //*****************************************************************************
 //
-// ƒvƒƒgƒ^ƒCƒvéŒ¾
+// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 //
 //*****************************************************************************
-// ƒ[ƒJƒ‹•Ï”æ“¾ŠÖ”
+// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°å–å¾—é–¢æ•°
 LPDIRECT3DDEVICE9 getD3DDevice(void);
 Resources* getResources(void);
 GameTimes* getGameTimes(void);
 SceneManager* getSceneManager(void);
 
-// •¶š—ñ•ÏŠ·ŠÖ”
+// æ–‡å­—åˆ—å¤‰æ›é–¢æ•°
 string wStringToString(const wstring& ws);
 wstring stringToWString(const string& s);
 
-// •¶šƒR[ƒh•ÏŠ·ŠÖ”
+// æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›é–¢æ•°
 string wstringUnicodeToUTF8(const wstring& ws);
 wstring stringUTF8ToUnicode(const string& s);
 
-// ƒpƒX‚©‚çƒtƒ@ƒCƒ‹–¼‚ğæ“¾
+// ãƒ‘ã‚¹ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—
 wstring pathToFileName(const wstring path);
 
 #endif // !_ENGINE_H_

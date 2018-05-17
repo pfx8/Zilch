@@ -11,6 +11,11 @@
 #include "Engine.h"
 #include "Shader.h"
 
+//*****************************************************************************
+//
+// 頂点設計
+//
+//*****************************************************************************
 typedef struct SKYBOXVERTEX
 {
 	D3DXVECTOR3 pos;	// 位置
@@ -26,7 +31,7 @@ class SkyBox
 {
 private:
 	D3DXVECTOR3						pos;			// 座標
-	IDirect3DVertexDeclaration9*	vertexDecl;	// 頂点シェーダー宣言
+	IDirect3DVertexDeclaration9*	vertexDecl;		// 頂点シェーダー宣言
 	LPDIRECT3DVERTEXBUFFER9			vertexBuffer;	// 頂点バッファ
 	LPDIRECT3DINDEXBUFFER9			indexBuffer;	// インデックスバッファ
 	float							length;		// ボックスの長さ

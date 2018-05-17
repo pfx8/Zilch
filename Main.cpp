@@ -63,8 +63,8 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 //*****************************************************************************
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	// ローカル文字コードを設定
-	setlocale(LC_ALL, "ja_JP.UTF-8");
+	// ローカル文字コードを設定(utf-8)
+	//setlocale(LC_CTYPE, "Japanese_Japan.932");
 
 	// 乱数の初期化
 	srand((unsigned)time(NULL));

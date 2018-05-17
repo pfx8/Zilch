@@ -8,9 +8,9 @@
 #ifndef _COMPONENT_H_
 #define _COMPONENT_H_
 
-#include "Engine\Engine.h"
+#include "..\Engine\Engine.h"
 
-#include "GameObject\GameObject.h"
+#include "..\GameObject\GameObject.h"
 
 //*****************************************************************************
 //

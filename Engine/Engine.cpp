@@ -65,14 +65,23 @@ wstring pathToFileName(const wstring path)
 //*****************************************************************************
 wstring stringUTF8ToUnicode(const string& s)
 {
+	// 文字列の長さをはかる
 	int len = s.length();
+
+	// ワイド文字列の長さを計算して、wchar_t*として保存
 	int unicodeLen = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, NULL, 0);
+
 	wchar_t* pUnicode;
 	pUnicode = new wchar_t[unicodeLen + 1];
 	memset(pUnicode, 0, (unicodeLen + 1) * sizeof(wchar_t));
+
 	MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, (LPWSTR)pUnicode, unicodeLen);
+	
+	// ワイド文字列をwstringに入れる
 	wstring rt;
 	rt = (wchar_t*)pUnicode;
+
+	// 臨時ポインタをリリース
 	delete pUnicode;
 
 	return rt;

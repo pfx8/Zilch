@@ -1,10 +1,10 @@
-//*****************************************************************************
+ï»¿//*****************************************************************************
 //
-// GUIˆ—[GUI.h]
+// GUIå‡¦ç†[GUI.h]
 //
 // Author : LIAO HANCHEN
 //
-// ImGui‚ğ—˜—p‚µ‚ÄGUI‚ğ\’z‚·‚é
+// ImGuiã‚’åˆ©ç”¨ã—ã¦GUIã‚’æ§‹ç¯‰ã™ã‚‹
 // 
 //****************************************************************************
 #ifndef _GUI_H_
@@ -14,41 +14,45 @@
 #include "GameTimes.h"
 #include "SceneManager.h"
 
-#include "GameObject\GameObject.h"
+#include "..\GameObject\GameObject.h"
 
 //*****************************************************************************
 //
-// ƒNƒ‰ƒXéŒ¾
+// ã‚¯ãƒ©ã‚¹å®£è¨€
 //
 //*****************************************************************************
 class GUI
 {
 private:
-	bool				mIsWireframe;							// ƒƒCƒ„ƒtƒŒ[ƒ€ƒ`ƒFƒbƒN
-	char				mNewGameObjectName[20] = {NULL};		// Å‘å19•¶š
+	bool				mIsWireframe;							// ãƒ¯ã‚¤ãƒ¤ãƒ•ãƒ¬ãƒ¼ãƒ ãƒã‚§ãƒƒã‚¯
+	char				mNewGameObjectName[20] = { NULL };		// æœ€å¤§19æ–‡å­—
 
-	const char*			mColorRamp[2] = {u8"ƒŠƒjƒA", u8"ˆê’è"};
-	const char*			mShadingMode[4] = {u8"ƒfƒBƒtƒ…[ƒY", u8"ƒm[ƒ}ƒ‹", u8"ƒeƒNƒXƒ`ƒƒF", u8"ƒVƒF[ƒfƒBƒ“ƒO"};
+	const char*			mColorRamp[2] = { u8"ãƒªãƒ‹ã‚¢", u8"ä¸€å®š" };
+	int					mCurrentColorRamp;
+	const char*			mShadingMode[4] = { u8"ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚º", u8"ãƒãƒ¼ãƒãƒ«", u8"ãƒ†ã‚¯ã‚¹ãƒãƒ£è‰²", u8"ã‚·ã‚§ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°" };
+	int					mCurrentShadingMode;
+	const char*			mLanguage[2] = { u8"æ—¥æœ¬èª", u8"English" };
+	int					mCurrentLanguage;
 
 public:
-	bool				mIsAddingModel;							// ƒ‚ƒfƒ‹“Ç‚İ‚ñ‚Å‚é‚ğƒ`ƒFƒbƒN
-	bool				mIsModelFile;							// ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ª‘ÎÛŠOƒGƒ‰[
-	wstring				mAddingFilePath = { L" " };				// ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğ•Û‘¶
+	bool				mIsAddingModel;							// ãƒ¢ãƒ‡ãƒ«èª­ã¿è¾¼ã‚“ã§ã‚‹ã‚’ãƒã‚§ãƒƒã‚¯
+	bool				mIsModelFile;							// ãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãŒå¯¾è±¡å¤–ã‚¨ãƒ©ãƒ¼
+	wstring				mAddingFilePath = { L" " };				// ãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’ä¿å­˜
 
 	GUI();
 	~GUI();
 
-	void start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice);		// ImGui‰Šú‰»
+	void start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice);		// ImGuiåˆæœŸåŒ–
 
-	void draw();											// ImGui‚Ì•`‰æˆ—
-	void systemGUI();										// ƒVƒXƒeƒ€‘€ìGUI
-	void sceneGUI();										// ƒV[ƒ“GUI
-	void createNewGameObjectGUI();							// V‚µ‚¢GameObject‚ğì‚èƒƒjƒ…[
+	void draw();											// ImGuiã®æç”»å‡¦ç†
+	void systemGUI();										// ã‚·ã‚¹ãƒ†ãƒ æ“ä½œGUI
+	void sceneGUI();										// ã‚·ãƒ¼ãƒ³GUI
+	void createNewGameObjectGUI();							// æ–°ã—ã„GameObjectã‚’ä½œã‚Šãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	
-	bool isAnyImGuiFocused();								// ImGui‚ÆƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‘€ì•ª—£
-	void addModelImGui();									// ƒ‚ƒfƒ‹’Ç‰ÁGUI
-	bool isGameObjectNameRight(wstring name);				// ƒ`ƒFƒbƒN’Ç‰ÁGameObject–¼‘O
-	void dropFileErrorGUI();								// ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ª‘ÎÛŠOƒGƒ‰[GUI
+	bool isAnyImGuiFocused();								// ImGuiã¨ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®æ“ä½œåˆ†é›¢
+	void addModelImGui();									// ãƒ¢ãƒ‡ãƒ«è¿½åŠ GUI
+	bool isGameObjectNameRight(wstring name);				// ãƒã‚§ãƒƒã‚¯è¿½åŠ GameObjectåå‰
+	void dropFileErrorGUI();								// ãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãŒå¯¾è±¡å¤–ã‚¨ãƒ©ãƒ¼GUI
 };
 
 #endif // !_GUI_H_
