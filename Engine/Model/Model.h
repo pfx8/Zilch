@@ -25,12 +25,12 @@
 //*****************************************************************************
 struct ModelInfo
 {
-	unsigned int nNumMeshes;
-	unsigned int nNumMaterials;
-	unsigned int nNumAnimations;
-	unsigned int nNumTextures;
-	unsigned int nNumLights;
-	unsigned int nNumCameras;
+	unsigned int numMeshes;
+	unsigned int numMaterials;
+	unsigned int numAnimations;
+	unsigned int numTextures;
+	unsigned int numLights;
+	unsigned int numCameras;
 };
 
 

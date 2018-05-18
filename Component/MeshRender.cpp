@@ -166,23 +166,21 @@ void MeshRender::drawImGui()
 		// モデル情報
 		string path = wstringUnicodeToUTF8(this->mModel->mPath);
 		ImGui::Text(u8"パス:%s", path.c_str());
-		ImGui::Separator();
-		ImGui::Text(u8"メッシュ数:%d", this->mModel->mMeshes.size());
-		ImGui::Separator();
+		ImGui::Text(u8"メッシュ数:%d", this->mModel->mModelInfo.numMeshes);
 		ImGui::Text(u8"骨数:%d", this->mModel->mBones.size());
+		ImGui::Text(u8"マテリアル数:%d", this->mModel->mModelInfo.numMaterials);
+		ImGui::Text(u8"テクスチャ数:%d", this->mModel->mModelInfo.numTextures);
+		//ImGui::Text(u8"アニメーション数:%d", );
 		ImGui::Separator();
 
-		// メッシュ情報
 		for (auto it1 : this->mModel->mMeshes)
 		{
 			string name1 = wstringUnicodeToUTF8(it1->mName.c_str());
 			ImGui::Text(u8"<Mesh> : %s", name1.c_str());
 
-			// 頂点数
-			ImGui::Text(u8"頂点数:%d");
-			ImGui::Separator();
-			// 三角形数
-			ImGui::Text(u8"ポリゴン数:%d");
+			// メッシュ情報
+			ImGui::Text(u8"頂点数:%d", it1->mMeshInfo.numVertices);
+			ImGui::Text(u8"ポリゴン数:%d",it1->mMeshInfo.numFaces);
 			ImGui::Separator();
 
 			// material
@@ -210,7 +208,6 @@ void MeshRender::drawImGui()
 
 					ImGui::TreePop();
 				}
-				
 
 				// texture
 				for (auto it3 : it2->mTextures)
@@ -227,7 +224,7 @@ void MeshRender::drawImGui()
 						ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
 
 						// テクスチャをImGuiで出す
-						ImGui::Image((void*)it3->mTex, ImVec2(100, 100));
+						ImGui::Image((void*)it3->mTex, ImVec2(150, 150));
 
 						ImGui::TreePop();
 					}

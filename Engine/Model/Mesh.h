@@ -17,16 +17,13 @@
 #include "..\..\Component\Camera.h"
 #include "..\..\Component\Transform.h"
 
-
-
-
 //*****************************************************************************
 //
 // 構造体定義
 //
 //*****************************************************************************
 // 頂点設計
-struct VertexBone 
+struct VertexDesign 
 {
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 nor;
@@ -42,6 +39,12 @@ struct VertexBone
 
 	// test data
 	unsigned int boneNum { 0 };
+};
+
+struct MeshInfo
+{
+	unsigned int numVertices;
+	unsigned int numFaces;
 };
 
 //*****************************************************************************
@@ -62,13 +65,15 @@ typedef enum MeshType
 //*****************************************************************************
 class Mesh
 {
+	friend class MeshRender;
 private:
 	wstring							mModelPath;				// モデルパス
 	D3DXVECTOR3						mBoundingBoxMax;		// バウンディングボックスマックス座標の最大値
 	D3DXVECTOR3						mBoundingBoxMin;		// バウンディングボックスマックス座標の最小値
 	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;			// 頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;			// 頂点インデックスバッファ
-	IDirect3DVertexDeclaration9*	mVertexDecl;			// 頂点シェーダー宣言
+	IDirect3DVertexDeclaration9*	mVertexDecl;			// 頂点宣言
+	MeshInfo						mMeshInfo;				// メッシュ情報
 
 	void createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);					// メッシュを読み込み
 	HRESULT setupMesh();																		// メッシュをセットアップ
@@ -79,7 +84,7 @@ private:
 
 public:
 	wstring							mName;					// メッシュの名前
-	vector<VertexBone>				mVertices;				// 頂点データ
+	vector<VertexDesign>			mVertices;				// 頂点データ
 	vector<unsigned int>			mIndices;				// 頂点インデックスデータ
 	vector<Material*>				mMaterials;				// マテリアルデータ
 

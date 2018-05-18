@@ -52,6 +52,15 @@ HRESULT Model::loadModel(wstring const& wPath)
 		return E_FAIL;
 	}
 
+	// モデル情報を取得
+	this->mModelInfo.numMeshes = scene->mNumMeshes;
+	this->mModelInfo.numMaterials = scene->mNumMaterials;
+	this->mModelInfo.numAnimations = scene->mNumAnimations;
+	this->mModelInfo.numTextures = scene->mNumTextures;
+	// Ex
+	this->mModelInfo.numLights = scene->mNumLights;
+	this->mModelInfo.numCameras = scene->mNumCameras;
+
 	// アニメーションをチェック
 	checkAnimation(scene);
 

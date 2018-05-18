@@ -14,18 +14,15 @@
 //*****************************************************************************
 Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath)
 {
-	// 名前を取得
-	this->mName = stringUTF8ToUnicode(mesh->mName.C_Str());
-
-	// モデルパスを保存
+	// テクスチャ探すために保存した
 	this->mModelPath = modelPath;
 
-	// バッファポインタを初期化
+	this->mName = stringUTF8ToUnicode(mesh->mName.C_Str());
+	this->mMeshInfo.numVertices = mesh->mNumVertices;
+	this->mMeshInfo.numFaces = mesh->mNumFaces;
 	this->mVertexBuffer = nullptr;
 	this->mIndexBuffer = nullptr;
-
-	// 頂点フォーマット宣言ポイントを初期化
-	this->mVertexDecl = nullptr;
+	this->mVertexDecl = nullptr;			// 頂点宣言
 
 	// メッシュを読み込み&メッシュのバッファを作り
 	createMesh(mesh, bones, scene);
@@ -44,7 +41,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 	// 頂点処理
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
 	{
-		VertexBone vertex;
+		VertexDesign vertex;
 
 		// Todo 
 		// 軸を判断できる機能
@@ -106,8 +103,9 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 	for (unsigned int count = 0; count < mesh->mNumBones; count++)
 	{
 		unsigned int boneIndex =0;
-		string boneName = mesh->mBones[count]->mName.C_Str();			// 骨の名前を取得
 
+		// 骨の名前を取得
+		string boneName = mesh->mBones[count]->mName.C_Str();
 		bool skip = false;
 
 		// vector<Bone*>に骨を探す
@@ -236,14 +234,14 @@ HRESULT Mesh::setupVertices()
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
 	// 頂点バッファ作成
-	if (FAILED(pD3DDevice->CreateVertexBuffer(mVertices.size() * sizeof(VertexBone), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->mVertexBuffer, NULL)))
+	if (FAILED(pD3DDevice->CreateVertexBuffer(mVertices.size() * sizeof(VertexDesign), D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &this->mVertexBuffer, NULL)))
 	{
 		// Debugウインドへ
 		cout << "<Error> make vertex buffer ... failed!" << endl;
 		return E_FAIL;
 	}
 
-	VertexBone* vertices = nullptr;
+	VertexDesign* vertices = nullptr;
 
 	// 頂点データの範囲をロックし、頂点バッファ メモリへのポインタを取得
 	this->mVertexBuffer->Lock(0, 0, (void**)&vertices, 0);
@@ -320,7 +318,7 @@ void Mesh::drawShadow(Shader* shader)
 		// 頂点宣言を設定
 		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);
 		// 頂点バッファを設定
-		hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexBone));
+		hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexDesign));
 		// インデックスバッファを設定
 		hr = pD3DDevice->SetIndices(this->mIndexBuffer);
 
@@ -364,7 +362,7 @@ void Mesh::drawModel(Shader* shader)
 		// 頂点宣言を設定
 		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);
 		// 頂点バッファを設定
-		hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexBone));	
+		hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexDesign));	
 		// インデックスバッファを設定
 		hr = pD3DDevice->SetIndices(this->mIndexBuffer);
 
