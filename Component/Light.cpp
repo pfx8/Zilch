@@ -45,13 +45,13 @@ void Light::start()
 void Light::drawImGui()
 {
 	// ライトカラー
-	ImGui::ColorEdit4(u8"ライトカラー", this->mLightColor);
+	ImGui::Text(u8"ライトカラー");
+	ImGui::ColorEdit4(u8"color", this->mLightColor);
 	ImGui::Separator();
 
 	// コンボボックスの幅を設定
 	ImGui::PushItemWidth(160);
-	ImGui::TextUnformatted(u8"ライトタイプ");
-	ImGui::Combo(" ", &this->mCurrentLightType, this->mLight, IM_ARRAYSIZE(this->mLight));
+	ImGui::Combo(u8"ライトタイプ", &this->mCurrentLightType, this->mLight, IM_ARRAYSIZE(this->mLight));
 	switch (this->mCurrentLightType)
 	{
 	case 0:
@@ -82,6 +82,7 @@ void Light::lightControllerImGui()
 	switch (this->mLightType)
 	{
 	case LT_direction:
+		ImGui::Separator();
 		ImGui::TextUnformatted(u8"ライト方向");
 		ImGui::SliderFloat("X", &this->mDirectionLight.direction.x, -1.0f, 1.0f);
 		ImGui::SliderFloat("Y", &this->mDirectionLight.direction.y, -1.0f, 1.0f);
@@ -89,8 +90,7 @@ void Light::lightControllerImGui()
 
 		break;
 	case LT_point:
-		ImGui::TextUnformatted(u8"ライト位置");
-		ImGui::InputFloat3("pos", *v1);
+		ImGui::InputFloat3(u8"位置", *v1);
 		ImGui::Separator();
 
 		ImGui::TextUnformatted(u8"ポイントライト減衰パラメータ");
@@ -100,8 +100,7 @@ void Light::lightControllerImGui()
 
 		break;
 	case LT_spot:
-		ImGui::TextUnformatted(u8"ライト位置");
-		ImGui::InputFloat3("pos", *v1);
+		ImGui::InputFloat3(u8"位置", *v1);
 		ImGui::Separator();
 
 		ImGui::TextUnformatted(u8"ライト方向");

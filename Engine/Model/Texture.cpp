@@ -16,8 +16,9 @@ Texture::Texture(wstring name, wstring path)
 {
 	this->mTex = nullptr;
 
-	// テクスチャの名前を取得
+	// テクスチャ情報取得
 	this->mName = name;
+	this->mPath = path;
 	
 	// テクスチャを読み込み
 	loadingTexture(path);

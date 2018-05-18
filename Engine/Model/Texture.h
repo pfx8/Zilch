@@ -24,6 +24,7 @@ private:
 
 public:
 	wstring						mName;			// テクスチャ名前
+	wstring						mPath;			// テクスチャパス
 	LPDIRECT3DTEXTURE9			mTex;			// テクスチャポインタ
 
 	Texture(wstring name, wstring path);

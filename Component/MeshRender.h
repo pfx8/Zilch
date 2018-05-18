@@ -30,23 +30,27 @@
 class MeshRender : public Component
 {
 private:
-	Shader*				mShader;				// 描画する用のシェーダー(byシーン)
+	Shader*				mShader;					// 描画する用のシェーダー(byシーン)
 
-	void start();								// 初期化
-	void update();								// 更新
+	// 臨時
+	char				mModelPathTemp[MAX_PATH];	// モデルパス
+	char*				mTexPathTemp;		// テクスチャパス	
+
+	void start();									// 初期化
+	void update();									// 更新
 
 public:
-	bool				mIsDrawShadow;			// シャドウチェック
-	Model*				mModel;					// 描画するモデル
-	Shader*				mShadowMapShader;		// シャドウマップシェーダー
-	ShadowMap*			mShadowMap;				// シャドウマップ
+	bool				mIsDrawShadow;				// シャドウチェック
+	Model*				mModel;						// 描画するモデル
+	Shader*				mShadowMapShader;			// シャドウマップシェーダー
+	ShadowMap*			mShadowMap;					// シャドウマップ
 
 	MeshRender();
 	~MeshRender();
 
-	void draw();								// メッシュを描画
-	void drawShadowMap();						// シャドウマップを描画
-	void drawImGui();							// ImGuiでMeshRenderのデータを出す
+	void draw();									// メッシュを描画
+	void drawShadowMap();							// シャドウマップを描画
+	void drawImGui();								// ImGuiでMeshRenderのデータを出す
 };
 
 #endif // !_MESH_RENDER_H_

@@ -1,6 +1,6 @@
-ï»¿//*****************************************************************************
+//*****************************************************************************
 //
-// GUIå‡¦ç†[GUI.cpp]
+// GUIˆ—[GUI.cpp]
 //
 // Author : LIAO HANCHEN
 //
@@ -9,7 +9,7 @@
 
 //*****************************************************************************
 //
-// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //
 //*****************************************************************************
 GUI::GUI()
@@ -19,45 +19,47 @@ GUI::GUI()
 
 //*****************************************************************************
 //
-// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+// ƒfƒXƒgƒ‰ƒNƒ^
 //
 //*****************************************************************************
 GUI::~GUI()
 {
-	// ImGuiçµ‚äº†å‡¦ç†
+	// ImGuiI—¹ˆ—
 	ImGui_ImplDX9_Shutdown();
 	ImGui::DestroyContext();
 }
 
 //*****************************************************************************
 //
-// ImGuiåˆæœŸåŒ–
+// ImGui‰Šú‰»
 //
 //*****************************************************************************
 void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 {
 	ImGui::CreateContext();
-	// I/Oã‚’åˆæœŸåŒ–
+	// I/O‚ğ‰Šú‰»
 	ImGuiIO& io = ImGui::GetIO();
 	(void)io;
-	// ImGuiã‚’åˆæœŸåŒ–
+	// ImGui‚ğ‰Šú‰»
 	ImGui_ImplDX9_Init(hWnd, D3DDevice);
-	// ã‚¹ã‚¿ã‚¤ãƒ«ã‚«ãƒ©ãƒ¼ã‚’æ±ºã‚ã‚‹
+	// ƒXƒ^ƒCƒ‹ƒJƒ‰[‚ğŒˆ‚ß‚é
 	ImGui::StyleColorsDark();
-	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ•ã‚©ãƒ³ãƒˆ
+	// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒg
 	ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msgothic.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+	io.FontDefault = font;
 
-	// å„ãƒã‚§ãƒƒã‚¯ã‚’åˆæœŸåŒ–
+	// Šeƒ`ƒFƒbƒN‚ğ‰Šú‰»
 	this->mIsWireframe = false;
 	this->mIsAddingModel = false;
-	this->mCurrentShadingMode = 2;	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ãƒ†ã‚¯ã‚¹ãƒãƒ£
-	this->mCurrentColorRamp = 0;	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ãƒªãƒ‹ã‚¢ãƒ¢ãƒ¼ãƒ‰
-	this->mCurrentLanguage = 0;		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯æ—¥æœ¬èª
+	this->mIsModelFile = true;
+	this->mCurrentShadingMode = 2;	// ƒfƒtƒHƒ‹ƒg‚ÍƒeƒNƒXƒ`ƒƒ
+	this->mCurrentColorRamp = 0;	// ƒfƒtƒHƒ‹ƒg‚ÍƒŠƒjƒAƒ‚[ƒh
+	this->mCurrentLanguage = 0;		// ƒfƒtƒHƒ‹ƒg‚Í“ú–{Œê
 }
 
 //*****************************************************************************
 //
-// ImGuiã¨ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®æ“ä½œåˆ†é›¢
+// ImGui‚ÆƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‘€ì•ª—£
 //
 //*****************************************************************************
 bool GUI::isAnyImGuiFocused()
@@ -72,34 +74,34 @@ bool GUI::isAnyImGuiFocused()
 
 //*****************************************************************************
 //
-// ImGuiã®æç”»å‡¦ç†
+// ImGui‚Ì•`‰æˆ—
 //
 //*****************************************************************************
 void GUI::draw()
 {
-	// ImGuiãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã‚’ç¢ºå®š
+	// ImGuiƒoƒbƒtƒ@ƒTƒCƒY‚ğŠm’è
 	ImGui::GetIO().DisplaySize.x = SCREEN_WIDTH;
 	ImGui::GetIO().DisplaySize.y = SCREEN_HEIGHT;
 
-	//ã‚·ã‚¹ãƒ†ãƒ æ“ä½œGUI
+	//ƒVƒXƒeƒ€‘€ìGUI
 	systemGUI();
 
-	// ã‚·ãƒ¼ãƒ³GUI
+	// ƒV[ƒ“GUI
 	sceneGUI();
 
-	// ãƒ¢ãƒ‡ãƒ«èª­ã¿è¾¼ã¿
+	// ƒ‚ƒfƒ‹“Ç‚İ‚İ
 	if (this->mIsAddingModel == true)
 	{
 		addModelImGui();
 	}
 
-	// ãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãŒå¯¾è±¡å¤–
+	// ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ª‘ÎÛŠO
 	if (this->mIsModelFile == false)
 	{
 		dropFileErrorGUI();
 	}
 
-	// ImGuiã‚’æç”»
+	// ImGui‚ğ•`‰æ
 	if (this->mIsWireframe)
 	{
 		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -118,47 +120,45 @@ void GUI::draw()
 
 //*****************************************************************************
 //
-// ã‚·ã‚¹ãƒ†ãƒ æ“ä½œGUI
+// ƒVƒXƒeƒ€‘€ìGUI
 //
 //*****************************************************************************
 void GUI::systemGUI()
 {
-	ImGui::Begin(u8"ãƒ‡ãƒãƒƒã‚°ã‚¦ã‚¤ãƒ³ãƒ‰", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+	ImGui::Begin(u8"ƒfƒoƒbƒOƒEƒCƒ“ƒh", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
-	// å›½èªé¸æŠ
+	// Œ¾Œê‘I‘ğ
 	{
-		ImGui::TextUnformatted(u8"ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰");
-		ImGui::Combo("RenderMode", &this->mCurrentLanguage, this->mLanguage, IM_ARRAYSIZE(this->mLanguage));
+		ImGui::Combo(u8"Œ¾Œê", &this->mCurrentLanguage, this->mLanguage, IM_ARRAYSIZE(this->mLanguage));
+		ImGui::Separator();
 	}
 
-	// FPSã¨ã‚¿ã‚¤ãƒ 
+	// FPS‚Æƒ^ƒCƒ€
 	{
 		ImGui::Text("Fps:%.1f, Time:%.3fs", ImGui::GetIO().Framerate, getGameTimes()->mCurrentTime);
 		ImGui::Separator();
 	}
 
-	// ãƒã‚¦ã‚¹ä½ç½®
+	// ƒ}ƒEƒXˆÊ’u
 	{
-		ImGui::Text(u8"ãƒã‚¦ã‚¹ä½ç½®:");
-		ImGui::SameLine();
 		ImGui::Text("%f,%f", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+		ImGui::SameLine();
+		ImGui::Text(u8"ƒ}ƒEƒXˆÊ’u");
 		ImGui::Separator();
 	}
 
-	// ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰
+	// ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh
 	{
-		// ãƒ¯ã‚¤ãƒ¤ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’å¡—ã‚Šã¤ã¶ã™
-		ImGui::Text(u8"ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ");
-		ImGui::SameLine();
-		if (ImGui::Button("WIREFRAME"))
+		// ƒƒCƒ„ƒtƒŒ[ƒ€‚ğ“h‚è‚Â‚Ô‚·
+		ImGui::TextUnformatted(u8"“h‚è‚Â‚Ô‚·");
+		if (ImGui::Button(u8"ƒƒCƒ„[ƒtƒŒ[ƒ€"))
 		{
 			getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			this->mIsWireframe = true;
 		}
-		// é¢ã‚’å¡—ã‚Šã¤ã¶ã™
-		ImGui::Text(u8"ãƒãƒªã‚´ãƒ³ãƒ¢ãƒ¼ãƒ‰      ");
+		// –Ê‚ğ“h‚è‚Â‚Ô‚·
 		ImGui::SameLine();
-		if (ImGui::Button("SOLID"))
+		if (ImGui::Button(u8"ƒ|ƒŠƒSƒ“ƒ‚[ƒh"))
 		{
 			getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 			this->mIsWireframe = false;
@@ -166,58 +166,52 @@ void GUI::systemGUI()
 		ImGui::Separator();
 	}
 
-	// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆ
+	// ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg
 	{
-		ImGui::TextUnformatted(u8"ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆ  ");
-		ImGui::SameLine();
-		if (ImGui::Button("SCREENSHOT"))
+		ImGui::TextUnformatted(u8"‹@”\");
+		if (ImGui::Button(u8"ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg"))
 		{
-			// ãƒãƒƒãƒ•ã‚¡ç”»é¢ã‚’å–å¾—
+			// ƒoƒbƒtƒ@‰æ–Ê‚ğæ“¾
 			LPDIRECT3DSURFACE9 backBuffer;
 			getD3DDevice()->GetRenderTarget(0, &backBuffer);
 
-			// ãƒãƒƒãƒ•ã‚¡ã‚µãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã‚’ä¿å­˜
+			// ƒoƒbƒtƒ@ƒT[ƒtƒFƒCƒX‚ğ•Û‘¶
 			D3DXSaveSurfaceToFile(L"screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
 
-			// Debugã‚¦ã‚¤ãƒ³ãƒ‰ã¸
+			// DebugƒEƒCƒ“ƒh‚Ö
 			cout << "<System> ..\screenShot.bmp ... successed!" << endl;
 
-			// ãƒãƒƒãƒ•ã‚¡ã‚’ãƒªãƒªãƒ¼ã‚¹
+			// ƒoƒbƒtƒ@‚ğƒŠƒŠ[ƒX
 			backBuffer->Release();
 		}
 		ImGui::Separator();
 	}
 
-	// ã‚·ã‚¹ãƒ†ãƒ ã‚«ãƒ¡ãƒ©
+	// ƒVƒXƒeƒ€ƒJƒƒ‰
 	{
-		// ã‚·ãƒ¼ãƒ³ã®ã‚«ãƒ¡ãƒ©ã‚’å–å¾—
+		// ƒV[ƒ“‚ÌƒJƒƒ‰‚ğæ“¾
 		Camera* camera = getSceneManager()->mCurrentScene->mCurrentCamera;
 
-		if (ImGui::TreeNode(u8"ã‚·ã‚¹ãƒ†ãƒ ã‚«ãƒ¡ãƒ©"))
+		if (ImGui::TreeNode(u8"ƒVƒXƒeƒ€ƒJƒƒ‰"))
 		{
-			ImGui::Text(u8"ã‚«ãƒ¡ãƒ©ä½ç½®");
 			float* v1[3] = { &camera->mCameraPos.x, &camera->mCameraPos.y, &camera->mCameraPos.z };
-			ImGui::InputFloat3("Pos", *v1);
+			ImGui::InputFloat3(u8"ˆÊ’u", *v1);
 			ImGui::Separator();
 
-			ImGui::TextUnformatted(u8"ã‚«ãƒ¡ãƒ©æ³¨è¦–ç‚¹(ãƒ¢ãƒ‡ãƒ«ä½ç½®ã«è¨­å®šã—ã¦ã‚‹)");
 			float* v2[3] = { &camera->mTargetTrans->mPos.x, &camera->mTargetTrans->mPos.y, &camera->mTargetTrans->mPos.z };
-			ImGui::InputFloat3("Look", *v2);
+			ImGui::InputFloat3(u8"’‹“_", *v2);
 			ImGui::Separator();
 
-			ImGui::TextUnformatted(u8"æ³¨è¦–æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«");
 			float* v3[3] = { &camera->mCameraFront.x, &camera->mCameraFront.y, &camera->mCameraFront.z };
-			ImGui::DragFloat3("lookV", *v3);
+			ImGui::DragFloat3(u8"’‹•ûŒü", *v3);
 			ImGui::Separator();
 
-			ImGui::TextUnformatted(u8"å³æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«");
 			float* v4[3] = { &camera->mCameraRight.x, &camera->mCameraRight.y, &camera->mCameraRight.z };
-			ImGui::DragFloat3("rightV", *v4);
+			ImGui::DragFloat3(u8"‰E•ûŒü", *v4);
 			ImGui::Separator();
 
-			ImGui::TextUnformatted(u8"ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«");
 			float* v5[3] = { &camera->mCameraUp.x, &camera->mCameraUp.y, &camera->mCameraUp.z };
-			ImGui::DragFloat3("upV", *v5);
+			ImGui::DragFloat3(u8"•ûŒü", *v5);
 			ImGui::Separator();
 
 			ImGui::TreePop();
@@ -225,15 +219,11 @@ void GUI::systemGUI()
 		ImGui::Separator();
 	}
 
-	// ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ã‚’é¸æŠ
+	// ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğ‘I‘ğ
 	{
-		// ä»Šã®ã®ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ãƒ†ã‚¯ã‚¹ãƒãƒ£)
-
-
-		// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®å¹…ã‚’è¨­å®š
+		// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì•‚ğİ’è
 		ImGui::PushItemWidth(160);
-		ImGui::TextUnformatted(u8"ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰");
-		ImGui::Combo("RenderMode", &this->mCurrentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
+		ImGui::Combo(u8"ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh", &this->mCurrentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
 		switch (this->mCurrentShadingMode)
 		{
 		case 0:
@@ -252,19 +242,18 @@ void GUI::systemGUI()
 		ImGui::Separator();
 	}
 
-	// ã‚«ãƒ©ãƒ¼ãƒ©ãƒƒãƒ—é¸æŠ
+	// ƒJƒ‰[ƒ‰ƒbƒv‘I‘ğ
 	{
-		// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®å¹…ã‚’è¨­å®š
+		// ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì•‚ğİ’è
 		ImGui::PushItemWidth(160);
-		ImGui::TextUnformatted(u8"ã‚«ãƒ©ãƒ¼ãƒ©ãƒ³ãƒ—ãƒ¢ãƒ¼ãƒ‰");
-		ImGui::Combo("ColorRamp", &this->mCurrentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
+		ImGui::Combo(u8"ƒJƒ‰[ƒ‰ƒ“ƒvƒ‚[ƒh", &this->mCurrentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
 		switch (this->mCurrentColorRamp)
 		{
 		case 0:
 			getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_LINEAR;
 			break;
 		case 1:
-			ImGui::TextUnformatted(u8"ã‚«ãƒ©ãƒ¼ã‚»ã‚°ãƒ¡ãƒ³ãƒˆ");
+			ImGui::TextUnformatted(u8"ƒJƒ‰[ƒZƒOƒƒ“ƒg");
 			ImGui::SliderFloat("Level1", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.x, 0.0f, 1.0f);
 			ImGui::SliderFloat("Level2", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.y, 0.0f, 1.0f);
 			ImGui::SliderFloat("Level3", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.z, 0.0f, 1.0f);
@@ -278,25 +267,25 @@ void GUI::systemGUI()
 
 //*****************************************************************************
 //
-// ã‚·ãƒ¼ãƒ³GUI
+// ƒV[ƒ“GUI
 //
 //*****************************************************************************
 void GUI::sceneGUI()
 {
-	// ã‚·ãƒ¼ãƒ³ã®ãƒãƒ«ãƒãƒ¬ãƒ™ãƒ«ãƒ¡ãƒ‹ãƒ¥ãƒ¼
-	ImGui::Begin(u8"Scene", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+	// ƒV[ƒ“‚Ìƒ}ƒ‹ƒ`ƒŒƒxƒ‹ƒƒjƒ…[
+	ImGui::Begin(u8"ƒV[ƒ“", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 	{
-		// GameObjectã®ä½œã‚Šãƒ¡ãƒ‹ãƒ¥â€•
+		// GameObject‚Ìì‚èƒƒjƒ…\
 		//createNewGameObjectGUI();
 
-		// å„GameObject
+		// ŠeGameObject
 		unsigned int IDs = 0;
 		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
 		{
 			ImGui::PushID(IDs);
 
 			// Todo
-			// ãƒ©ã‚¤ãƒˆã¨åºŠã€utf-8ã«å¤‰æ›ã—ã¦ã‚‚å‡ºã›ãªã„
+			// ƒ‰ƒCƒg‚Æ°Autf-8‚É•ÏŠ·‚µ‚Ä‚ào‚¹‚È‚¢
 			// UTF-8 to ANIS?
 
 			// wstring -> string
@@ -304,7 +293,7 @@ void GUI::sceneGUI()
 			string name1 = wstringUnicodeToUTF8(it.first);
 			if (ImGui::TreeNode(u8"%s", name1.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
-				// GameObjectã®å„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å‡ºã™
+				// GameObject‚ÌŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚ğo‚·
 				unsigned int ID2s = 0;
 				for (auto it2 : it.second->mComponentsMap)
 				{
@@ -333,42 +322,42 @@ void GUI::sceneGUI()
 
 //*****************************************************************************
 //
-//  æ–°ã—ã„GameObjectã‚’ä½œã‚Šãƒ¡ãƒ‹ãƒ¥ãƒ¼
+//  V‚µ‚¢GameObject‚ğì‚èƒƒjƒ…[
 //
 //*****************************************************************************
 void GUI::createNewGameObjectGUI()
 {
 	if (ImGui::Button("Create GameObject"))
 	{
-		// ã‚µãƒ–ã‚¦ã‚¤ãƒ³ãƒ‰ã‚’é–‹ã
+		// ƒTƒuƒEƒCƒ“ƒh‚ğŠJ‚­
 		ImGui::OpenPopup("Create GameObject");
 	}
 
-	// ã‚µãƒ–ã‚¦ã‚¤ãƒ³ãƒ‰è¨­å®š
+	// ƒTƒuƒEƒCƒ“ƒhİ’è
 	if (ImGui::BeginPopupModal("Create GameObject"))
 	{
 
-		ImGui::TextUnformatted(u8"GameObjectåå‰");
+		ImGui::TextUnformatted(u8"GameObject–¼‘O");
 		ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
 
-		if (ImGui::Button(u8"ä½œã‚Š"))
+		if (ImGui::Button(u8"ì‚è"))
 		{
-			// æ–°ã—ã„GameObjectã‚’ä½œã‚‹
+			// V‚µ‚¢GameObject‚ğì‚é
 			GameObject* gameObject = new GameObject();
 			// string -> wstring
 			wstring newGameObjectName = stringToWString(this->mNewGameObjectName);
 			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);
 
-			// mNewGameObjectNameåˆæœŸåŒ–
+			// mNewGameObjectName‰Šú‰»
 			*this->mNewGameObjectName = { NULL };
 
-			// ã‚µãƒ–ã‚¦ã‚¤ãƒ³ãƒ‰ã‚’é–‰ã‚ã‚‹
+			// ƒTƒuƒEƒCƒ“ƒh‚ğ•Â‚ß‚é
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
-		if (ImGui::Button(u8"ã‚­ãƒ£ãƒ³ã‚»ãƒ«"))
+		if (ImGui::Button(u8"ƒLƒƒƒ“ƒZƒ‹"))
 		{
-			// ã‚µãƒ–ã‚¦ã‚¤ãƒ³ãƒ‰ã‚’é–‰ã‚ã‚‹
+			// ƒTƒuƒEƒCƒ“ƒh‚ğ•Â‚ß‚é
 			ImGui::CloseCurrentPopup();
 
 		}
@@ -379,15 +368,15 @@ void GUI::createNewGameObjectGUI()
 
 //*****************************************************************************
 //
-// ãƒ¢ãƒ‡ãƒ«è¿½åŠ GUI
+// ƒ‚ƒfƒ‹’Ç‰ÁGUI
 //
 //*****************************************************************************
 void GUI::addModelImGui()
 {
-	ImGui::Begin(u8"ã‚¤ãƒ³ãƒãƒ¼ãƒˆ");
-	ImGui::TextUnformatted(u8"GameObjectåå‰");
+	ImGui::Begin(u8"ƒCƒ“ƒ|[ƒg");
+	ImGui::TextUnformatted(u8"GameObject–¼‘O");
 	ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
-	ImGui::TextUnformatted(u8"ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹");
+	ImGui::TextUnformatted(u8"ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹ƒpƒX");
 	//string path = wStringToString(this->mAddingFilePath);
 	string path = wstringUnicodeToUTF8(this->mAddingFilePath);
 	ImGui::Text(u8"%s", path.c_str());
@@ -395,80 +384,81 @@ void GUI::addModelImGui()
 	// string -> wstring
 	wstring newGameObjectName = stringToWString(this->mNewGameObjectName);
 
-	// ã‚¨ãƒ©ãƒ¼ã‚¿ã‚¤ãƒ— 0 -- defaultã€1 -- Error1ã€2 -- Error2
+	// ƒGƒ‰[ƒ^ƒCƒv 0 -- defaultA1 -- Error1A2 -- Error2
 	static int errorType = 0;
 
-	// ãƒã‚§ãƒƒã‚¯GameObjectåå‰
-	if (ImGui::Button(u8"ã‚¤ãƒ³ãƒãƒ¼ãƒˆ"))
+	// ƒ`ƒFƒbƒNGameObject–¼‘O
+	if (ImGui::Button(u8"ƒCƒ“ƒ|[ƒg"))
 	{
 		if (strlen(this->mNewGameObjectName) == 0 )
 		{
+			// GameObject–¼‘O‚ª‚È‚¢
 			errorType = 1;
 		}
 
-		// ãƒã‚§ãƒƒã‚¯GameObjectåå‰
 		if (!isGameObjectNameRight(newGameObjectName))
 		{
+			// GameObject–¼‘O‚ªˆá–@
 			errorType = 2;
 		}
 
 		if (errorType != 0)
 		{
-			// ã‚¨ãƒ©ãƒ¼ã‚¦ã‚¤ãƒ³ãƒ‰ã‚’é–‹ã
+			// ƒGƒ‰[ƒEƒCƒ“ƒh‚ğŠJ‚­
 			ImGui::OpenPopup("Error");
 		}
 		else
 		{
-			// ãƒ¢ãƒ‡ãƒ«ã‚’èª­ã¿è¾¼ã¿
+			// ƒ‚ƒfƒ‹‚ğ“Ç‚İ‚İ
 			getResources()->createModel(this->mAddingFilePath);
 
-			// æ–°ã—ã„GameObjectã‚’ä½œã‚‹
+			// V‚µ‚¢GameObject‚ğì‚é
 			GameObject* gameObject = new GameObject();
-			Transform* transform = new Transform();												// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯pos(0,0,0)ã€scl(1,1,1)ã€rot(0,0,0)
+			Transform* transform = new Transform();												// ƒfƒtƒHƒ‹ƒg‚Ípos(0,0,0)Ascl(1,1,1)Arot(0,0,0)
 			gameObject->addComponent<Transform>(transform);
 			MeshRender* meshRender = new MeshRender();
 			wstring name = pathToFileName(this->mAddingFilePath);
-			meshRender->mModel = getResources()->getModel(name);								// ãƒªã‚½ãƒ¼ã‚¹ã‹ã‚‰ãƒ¢ãƒ‡ãƒ«ã‚’å–å¾—
-			getSceneManager()->mCurrentScene->mMeshRenders.push_back(meshRender);				// MeshRenderã‚’ã‚·ãƒ¼ãƒ³ã«è¿½åŠ 
+			meshRender->mModel = getResources()->getModel(name);								// ƒŠƒ\[ƒX‚©‚çƒ‚ƒfƒ‹‚ğæ“¾
+			getSceneManager()->mCurrentScene->mMeshRenders.push_back(meshRender);				// MeshRender‚ğƒV[ƒ“‚É’Ç‰Á
 			gameObject->addComponent<MeshRender>(meshRender);
-			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);		// ã‚·ãƒ¼ãƒ³ã«è¿½åŠ 
+			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);		// ƒV[ƒ“‚É’Ç‰Á
 
-			// mNewGameObjectNameåˆæœŸåŒ–
+			// mNewGameObjectName‰Šú‰»
 			*this->mNewGameObjectName = { NULL };
 			
 			this->mIsAddingModel = false;
 		}
 	}
 
-	// ã‚¨ãƒ©ãƒ¼ã‚¦ã‚¤ãƒ³ãƒ‰
+	// ƒGƒ‰[ƒEƒCƒ“ƒh
 	if (ImGui::BeginPopupModal("Error"))
 	{
 		if (errorType == 1)
 		{
-			ImGui::TextUnformatted(u8"GameObjectåå‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„");
+			ImGui::TextUnformatted(u8"GameObject–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
 		}
 		if (errorType == 2)
 		{
-			ImGui::TextUnformatted(u8"ã“ã®GameObjectåå‰ã‚‚å­˜åœ¨ã—ã¦ã‚‹");
+			ImGui::TextUnformatted(u8"‚±‚ÌGameObject–¼‘O‚à‘¶İ‚µ‚Ä‚é");
 		}
 
-		if (ImGui::Button(u8"ã¯ã„"))
+		if (ImGui::Button(u8"‚Í‚¢"))
 		{
-			// ã‚µãƒ–ã‚¦ã‚¤ãƒ³ãƒ‰ã‚’é–‰ã‚ã‚‹
+			// ƒTƒuƒEƒCƒ“ƒh‚ğ•Â‚ß‚é
 			ImGui::CloseCurrentPopup();
 
-			// ã‚¨ãƒ©ãƒ¼ã‚¿ã‚¤ãƒ—åˆæœŸåŒ–
+			// ƒGƒ‰[ƒ^ƒCƒv‰Šú‰»
 			errorType = 0;
 		}
 
 		ImGui::EndPopup();
 	}
 
-	// ã‚­ãƒ£ãƒ³ã‚»ãƒ«
+	// ƒLƒƒƒ“ƒZƒ‹
 	ImGui::SameLine();
-	if (ImGui::Button(u8"ã‚­ãƒ£ãƒ³ã‚»ãƒ«"))
+	if (ImGui::Button(u8"ƒLƒƒƒ“ƒZƒ‹"))
 	{
-		// mNewGameObjectNameåˆæœŸåŒ–
+		// mNewGameObjectName‰Šú‰»
 		*this->mNewGameObjectName = { NULL };
 
 		this->mIsAddingModel = false;
@@ -476,7 +466,7 @@ void GUI::addModelImGui()
 
 	if (this->mIsAddingModel == false)
 	{
-		// ãƒ¢ãƒ‡ãƒ«è¿½åŠ GUIã‚’é–‰ã‚ã‚‹
+		// ƒ‚ƒfƒ‹’Ç‰ÁGUI‚ğ•Â‚ß‚é
 		ImGui::CloseCurrentPopup();
 	}
 
@@ -485,14 +475,14 @@ void GUI::addModelImGui()
 
 //*****************************************************************************
 //
-// ãƒã‚§ãƒƒã‚¯è¿½åŠ GameObjectåå‰
+// ƒ`ƒFƒbƒN’Ç‰ÁGameObject–¼‘O
 //
 //*****************************************************************************
 bool GUI::isGameObjectNameRight(wstring name)
 {
 	for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
 	{
-		// ã‚·ãƒ¼ãƒ³ã«æ—¢ã«ã“ã®åå‰ã®GameObjectãŒå­˜åœ¨ã™ã‚Œã°
+		// ƒV[ƒ“‚ÉŠù‚É‚±‚Ì–¼‘O‚ÌGameObject‚ª‘¶İ‚·‚ê‚Î
 		if (it.first == name)
 		{
 			return false;
@@ -504,16 +494,17 @@ bool GUI::isGameObjectNameRight(wstring name)
 
 //*****************************************************************************
 //
-// ãƒ‰ãƒ­ãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã¯å¯¾å¿œã§ããªã„GUI
+// ƒhƒƒbƒvƒtƒ@ƒCƒ‹‚Í‘Î‰‚Å‚«‚È‚¢GUI
 //
 //*****************************************************************************
 void GUI::dropFileErrorGUI()
 {
 	ImGui::Begin(u8"Error");
-	ImGui::TextUnformatted(u8"ãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã¯ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“ï¼");
-	if (ImGui::Button(u8"ã¯ã„"))
+	ImGui::TextUnformatted(u8"ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Íƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñI");
+	if (ImGui::Button(u8"‚Í‚¢"))
 	{
-		this->mIsModelFile = false;
+		// ƒEƒCƒ“ƒhƒE‚ğ•Â‚¶‚é
+		this->mIsModelFile = true;
 	}
 	ImGui::End();
 }

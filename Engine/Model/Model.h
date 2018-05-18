@@ -20,14 +20,33 @@
 
 //*****************************************************************************
 //
+// 構造体定義
+//
+//*****************************************************************************
+struct ModelInfo
+{
+	unsigned int nNumMeshes;
+	unsigned int nNumMaterials;
+	unsigned int nNumAnimations;
+	unsigned int nNumTextures;
+	unsigned int nNumLights;
+	unsigned int nNumCameras;
+};
+
+
+//*****************************************************************************
+//
 // クラス宣言
 //
 //*****************************************************************************
 class Model
 {
+	friend class MeshRender;
 private:
 	HRESULT loadModel(wstring const& wPath);						// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
+
+	ModelInfo						mModelInfo;						// モデル情報構造体
 
 public:
 	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号

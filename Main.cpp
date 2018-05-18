@@ -49,7 +49,7 @@ void draw(HWND hWnd);													// ウインド描画処理
 void release(void);														// ウインド終了処理
 
 // ドロップ処理
-void onDropFiles(HWND hwnd, HDROP hDropInfo);							// ドロップファイル処理
+void dropFileProcess(HWND hwnd, HDROP hDropInfo);						// ドロップファイル処理
 void enumerateFiles();													// ファイルの列挙処理
 bool isModelFile(wstring path);											// モデルファイルかどうかを判断
 
@@ -64,7 +64,7 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// ローカル文字コードを設定(utf-8)
-	//setlocale(LC_CTYPE, "Japanese_Japan.932");
+	setlocale(LC_ALL, "Japanese_Japan.932");
 
 	// 乱数の初期化
 	srand((unsigned)time(NULL));
@@ -117,12 +117,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	// ウィンドウの作成
 	hWnd = CreateWindowEx
-		(WS_EX_ACCEPTFILES,															// ドロップファイルを受け入れることを指定
+		(WS_EX_ACCEPTFILES,																		// ドロップファイルを受け入れることを指定
 		CLASS_NAME,
 		WINDOW_NAME,
 		WS_OVERLAPPEDWINDOW,
-		x,																			// ウィンドウの左座標
-		y,																			// ウィンドウの上座標
+		x,																						// ウィンドウの左座標
+		y,																						// ウィンドウの上座標
 		SCREEN_WIDTH + GetSystemMetrics(SM_CXDLGFRAME) * 2,										// ウィンドウ横幅 + 左右ウインドの太さ
 		SCREEN_HEIGHT + GetSystemMetrics(SM_CXDLGFRAME) * 2 + GetSystemMetrics(SM_CYCAPTION),	// ウィンドウ縦幅 + 上下ウインドの太さ
 		NULL,
@@ -249,7 +249,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DROPFILES:
-		onDropFiles(hWnd, (HDROP)wParam);	// ドロップファイル処理
+		dropFileProcess(hWnd, (HDROP)wParam);	// ドロップファイル処理
 		break;
 
 	default:
@@ -405,7 +405,7 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 // ドロップファイル処理
 //
 //*****************************************************************************
-void onDropFiles(HWND hwnd, HDROP hDropInfo)
+void dropFileProcess(HWND hwnd, HDROP hDropInfo)
 {
 	// ドロップされたファイル数を取得
 	unsigned int fileCount = DragQueryFile(hDropInfo, (UINT)-1, NULL, 0);

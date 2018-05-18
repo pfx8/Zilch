@@ -34,6 +34,9 @@ private:
 	const char*			mLanguage[2] = { u8"日本語", u8"English" };
 	int					mCurrentLanguage;
 
+	vector<string>		mJapanese;
+	vector<string>		mEnglish;
+
 public:
 	bool				mIsAddingModel;							// モデル読み込んでるをチェック
 	bool				mIsModelFile;							// ドロップされたファイルが対象外エラー
