@@ -121,6 +121,7 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 //*****************************************************************************
 wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 {
+	// パス
 	bool skip = false;
 
 	// 最終パス
@@ -154,8 +155,19 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 		}
 	}
 
-
 	// 方法3
+	// 同じファイル
+	if(skip == false)
+	{
+		wstring path = this->mModelPath;
+		path = path.substr(0, path.find_last_of(L"\\"));
+
+		filePath = path + L"\\" + texturePathFromAssimp;
+
+		skip = true;
+	}
+
+	// 方法4
 	// 相対パス
 	if (skip == false)
 	{
@@ -180,6 +192,10 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 		{
 			mainPath = mainPath.substr(0, mainPath.find_last_of(L"\\"));
 		}
+
+		// test
+		wcout << L"<Tex path from Assimp>" << texturePathFromAssimp << endl;
+		wcout << L"<Tex main path>" << mainPath << endl;
 
 		wstring texPath = texturePathFromAssimp;
 		texPath = texPath.substr(texPath.find_first_of(L"\\"), texPath.size());

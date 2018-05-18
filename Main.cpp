@@ -33,7 +33,7 @@ WorldVector						gWorldVector;
 
 // 読み込みできるファイル拡張子集合
 // 詳しいは https://github.com/assimp/assimp
-vector<wstring> modelFileExtension = { L"x", L"fbx", L"obj", L"3ds", L"PMX" };
+vector<wstring> modelFileExtension = { L"X", L"fbx", L"obj", L"3ds", L"PMX" };
 
 //*****************************************************************************
 //
