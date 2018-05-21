@@ -45,7 +45,8 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	// スタイルカラーを決める
 	ImGui::StyleColorsDark();
 	// デフォルトフォント
-	ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msgothic.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+	//ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msgothic.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+	ImFont* font = io.Fonts->AddFontFromFileTTF("Resources\\Font\\NotoSansCJKjp-Regular.otf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 	io.FontDefault = font;
 
 	// 各チェックを初期化
