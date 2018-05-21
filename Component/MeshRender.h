@@ -34,7 +34,7 @@ private:
 
 	// 臨時
 	char				mModelPathTemp[MAX_PATH];	// モデルパス
-	char*				mTexPathTemp;		// テクスチャパス	
+	char				mTexPathTemp[MAX_PATH];		// テクスチャパス	
 
 	void start();									// 初期化
 	void update();									// 更新

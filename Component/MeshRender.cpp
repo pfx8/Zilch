@@ -188,9 +188,7 @@ void MeshRender::drawImGui()
 				for (auto it2 : it1->mMaterials)
 				{
 					string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
-					ImGui::Text(u8"  <Material> : %s", name2.c_str());
-
-					if (ImGui::TreeNode(u8"マテリアルのプロパティ"))
+					if (ImGui::TreeNode("material", u8"<Material> : %s", name2.c_str()))
 					{
 						ImGui::Text(u8"環境光");
 						ImGui::SliderFloat(u8"R", &it2->mAmbient.x, 0.0f, 1.0f);
@@ -215,18 +213,15 @@ void MeshRender::drawImGui()
 					for (auto it3 : it2->mTextures)
 					{
 						string name3 = wstringUnicodeToUTF8(it3->mName.c_str());
-						ImGui::Text(u8"    <Texture>: %s", name3.c_str());
-
 						ImGui::PushID(ID2s);
-						if (ImGui::TreeNode(u8"テクスチャプロパティ"))
+						if (ImGui::TreeNode("texture", u8"<Texture>: %s", name3.c_str()))
 						{
 							// テクスチャをImGuiで出す
 							ImGui::Image((void*)it3->mTex, ImVec2(150, 150));
 
 							// テクスチャパス
 							static string path1 = wstringUnicodeToUTF8(it3->mPath);
-							//ImGui::Text(u8"テクスチャパス:%s", path.data());
-							this->mTexPathTemp = (char*)path1.c_str();
+							strcpy(this->mTexPathTemp, path1.c_str());
 							ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
 
 							ImGui::TreePop();
