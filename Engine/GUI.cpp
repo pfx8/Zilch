@@ -45,7 +45,6 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	// スタイルカラーを決める
 	ImGui::StyleColorsDark();
 	// デフォルトフォント
-	//ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msgothic.ttc", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 	ImFont* font = io.Fonts->AddFontFromFileTTF("Resources\\Font\\NotoSansCJKjp-Regular.otf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 	io.FontDefault = font;
 
@@ -274,6 +273,7 @@ void GUI::systemGUI()
 void GUI::sceneGUI()
 {
 	// シーンのマルチレベルメニュー
+	ImGui::SetNextWindowSize(ImVec2(364,742));
 	ImGui::Begin(u8"シーン", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 	{
 		// GameObjectの作りメニュ―
@@ -292,7 +292,7 @@ void GUI::sceneGUI()
 			// wstring -> string
 			//string name1 = wStringToString(it.first);
 			string name1 = wstringUnicodeToUTF8(it.first);
-			if (ImGui::TreeNode(u8"%s", name1.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
+			if (ImGui::TreeNode("gameObject", u8"%s", name1.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
 				// GameObjectの各コンポーネントを出す
 				unsigned int ID2s = 0;
@@ -383,7 +383,7 @@ void GUI::addModelImGui()
 	ImGui::Text(u8"%s", path.c_str());
 
 	// string -> wstring
-	wstring newGameObjectName = stringToWString(this->mNewGameObjectName);
+	wstring newGameObjectName = stringUTF8ToUnicode(this->mNewGameObjectName);
 
 	// エラータイプ 0 -- default、1 -- Error1、2 -- Error2
 	static int errorType = 0;

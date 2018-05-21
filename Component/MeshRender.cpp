@@ -165,71 +165,83 @@ void MeshRender::drawImGui()
 	{
 		// モデル情報
 		string path = wstringUnicodeToUTF8(this->mModel->mPath);
-		ImGui::Text(u8"パス:%s", path.c_str());
-		ImGui::Text(u8"メッシュ数:%d", this->mModel->mModelInfo.numMeshes);
-		ImGui::Text(u8"骨数:%d", this->mModel->mBones.size());
-		ImGui::Text(u8"マテリアル数:%d", this->mModel->mModelInfo.numMaterials);
-		ImGui::Text(u8"テクスチャ数:%d", this->mModel->mModelInfo.numTextures);
+		ImGui::Text(u8"パス : %s", path.c_str());
+		ImGui::Text(u8"メッシュ数 : %d", this->mModel->mModelInfo.numMeshes);
+		ImGui::Text(u8"骨数 : %d", this->mModel->mBones.size());
+		ImGui::Text(u8"マテリアル数 : %d", this->mModel->mModelInfo.numMaterials);
 		//ImGui::Text(u8"アニメーション数:%d", );
 		ImGui::Separator();
 
+		unsigned int ID1s = 0;
 		for (auto it1 : this->mModel->mMeshes)
 		{
-			string name1 = wstringUnicodeToUTF8(it1->mName.c_str());
-			ImGui::Text(u8"<Mesh> : %s", name1.c_str());
-
-			// メッシュ情報
-			ImGui::Text(u8"頂点数:%d", it1->mMeshInfo.numVertices);
-			ImGui::Text(u8"ポリゴン数:%d",it1->mMeshInfo.numFaces);
-			ImGui::Separator();
-
-			// material
-			for (auto it2 : it1->mMaterials)
+			ImGui::PushID(ID1s);
+			string name = wstringUnicodeToUTF8((wstring const)it1->mName);
+			if (ImGui::TreeNode("mesh", u8"<Mesh> :%s", name.c_str()))
 			{
-				string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
-				ImGui::Text(u8"  <Material> : %s", name2.c_str());
+				// メッシュ情報
+				ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
+				ImGui::Text(u8"ポリゴン数 : %d", it1->mMeshInfo.numFaces);
+				ImGui::Separator();
 
-				if (ImGui::TreeNode(u8"マテリアルのプロパティ"))
+				// material
+				for (auto it2 : it1->mMaterials)
 				{
-					ImGui::Text(u8"環境光");
-					ImGui::SliderFloat(u8"R", &it2->mAmbient.x, 0.0f, 1.0f);
-					ImGui::SliderFloat(u8"G", &it2->mAmbient.y, 0.0f, 1.0f);
-					ImGui::SliderFloat(u8"B", &it2->mAmbient.z, 0.0f, 1.0f);
+					string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
+					ImGui::Text(u8"  <Material> : %s", name2.c_str());
 
-					ImGui::Text(u8"拡散反射光");
-					ImGui::SliderFloat(u8"R", &it2->mDiffuse.x, 0.0f, 1.0f);
-					ImGui::SliderFloat(u8"G", &it2->mDiffuse.y, 0.0f, 1.0f);
-					ImGui::SliderFloat(u8"B", &it2->mDiffuse.z, 0.0f, 1.0f);
-
-					ImGui::Text(u8"鏡面反射光");
-					ImGui::SliderFloat(u8"R", &it2->mSpecular.x, 0.0f, 1.0f);
-					ImGui::SliderFloat(u8"G", &it2->mSpecular.y, 0.0f, 1.0f);
-					ImGui::SliderFloat(u8"B", &it2->mSpecular.z, 0.0f, 1.0f);
-
-					ImGui::TreePop();
-				}
-
-				// texture
-				for (auto it3 : it2->mTextures)
-				{
-					string name3 = wstringUnicodeToUTF8(it3->mName.c_str());
-					ImGui::Text(u8"    <Texture>: %s", name3.c_str());
-
-					if (ImGui::TreeNode(u8"テクスチャプロパティ"))
+					if (ImGui::TreeNode(u8"マテリアルのプロパティ"))
 					{
-						// テクスチャパス
-						static string path1 = wstringUnicodeToUTF8(it3->mPath);
-						//ImGui::Text(u8"テクスチャパス:%s", path.data());
-						this->mTexPathTemp = (char*)path1.c_str();
-						ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
+						ImGui::Text(u8"環境光");
+						ImGui::SliderFloat(u8"R", &it2->mAmbient.x, 0.0f, 1.0f);
+						ImGui::SliderFloat(u8"G", &it2->mAmbient.y, 0.0f, 1.0f);
+						ImGui::SliderFloat(u8"B", &it2->mAmbient.z, 0.0f, 1.0f);
 
-						// テクスチャをImGuiで出す
-						ImGui::Image((void*)it3->mTex, ImVec2(150, 150));
+						ImGui::Text(u8"拡散反射光");
+						ImGui::SliderFloat(u8"R", &it2->mDiffuse.x, 0.0f, 1.0f);
+						ImGui::SliderFloat(u8"G", &it2->mDiffuse.y, 0.0f, 1.0f);
+						ImGui::SliderFloat(u8"B", &it2->mDiffuse.z, 0.0f, 1.0f);
+
+						ImGui::Text(u8"鏡面反射光");
+						ImGui::SliderFloat(u8"R", &it2->mSpecular.x, 0.0f, 1.0f);
+						ImGui::SliderFloat(u8"G", &it2->mSpecular.y, 0.0f, 1.0f);
+						ImGui::SliderFloat(u8"B", &it2->mSpecular.z, 0.0f, 1.0f);
 
 						ImGui::TreePop();
 					}
+
+					// texture
+					unsigned int ID2s = 0;
+					for (auto it3 : it2->mTextures)
+					{
+						string name3 = wstringUnicodeToUTF8(it3->mName.c_str());
+						ImGui::Text(u8"    <Texture>: %s", name3.c_str());
+
+						ImGui::PushID(ID2s);
+						if (ImGui::TreeNode(u8"テクスチャプロパティ"))
+						{
+							// テクスチャをImGuiで出す
+							ImGui::Image((void*)it3->mTex, ImVec2(150, 150));
+
+							// テクスチャパス
+							static string path1 = wstringUnicodeToUTF8(it3->mPath);
+							//ImGui::Text(u8"テクスチャパス:%s", path.data());
+							this->mTexPathTemp = (char*)path1.c_str();
+							ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
+
+							ImGui::TreePop();
+						}
+
+						ID2s++;
+						ImGui::PopID();
+					}
 				}
+
+				ImGui::TreePop();
 			}
+
+			ID1s++;
+			ImGui::PopID();
 		}
 
 		// 骨情報

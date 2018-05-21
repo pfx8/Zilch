@@ -99,7 +99,7 @@ void Scene02::start()
 	gridFieldMeshRender->mModel = resource->getModel(L"field");			// リソースからモデルを取得
 	this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>(gridFieldMeshRender);
-	this->addGameObject(L"floor", gridField);
+	this->addGameObject(L"床", gridField);
 
 	// Flag -- bone testing
 	//GameObject* flag {new GameObject()};
