@@ -32,9 +32,8 @@ class MeshRender : public Component
 private:
 	Shader*				mShader;					// 描画する用のシェーダー(byシーン)
 
-	// 臨時
 	char				mModelPathTemp[MAX_PATH];	// モデルパス
-	char				mTexPathTemp[MAX_PATH];		// テクスチャパス	
+	char				mTexPathTemp[MAX_PATH];		// テクスチャパス
 
 	void start();									// 初期化
 	void update();									// 更新

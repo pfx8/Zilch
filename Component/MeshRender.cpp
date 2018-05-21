@@ -212,24 +212,25 @@ void MeshRender::drawImGui()
 					unsigned int ID2s = 0;
 					for (auto it3 : it2->mTextures)
 					{
-						string name3 = wstringUnicodeToUTF8(it3->mName.c_str());
+						// テクスチャパスと名前
+						string path1 = wstringUnicodeToUTF8(it3->mPath);
+						strcpy(this->mTexPathTemp, path1.c_str());
+						string name3 = wstringUnicodeToUTF8(it3->mName);
+
 						ImGui::PushID(ID2s);
 						if (ImGui::TreeNode("texture", u8"<Texture>: %s", name3.c_str()))
 						{
 							// テクスチャをImGuiで出す
 							ImGui::Image((void*)it3->mTex, ImVec2(150, 150));
-
-							// テクスチャパス
-							static string path1 = wstringUnicodeToUTF8(it3->mPath);
-							strcpy(this->mTexPathTemp, path1.c_str());
 							ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
+
+							// 新しいテクスチャパスを保存
 							wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
 							it3->mPath = str;
 
 							// 入力したパスによってテクスチャをリロード
 							if (ImGui::Button(u8"リロード"))
 							{
-								wcout << "<test reload> " << str << endl;
 								it3->loadingTexture(str);
 							}
 
