@@ -66,9 +66,9 @@ void Transform::drawImGui()
 	ImGui::Separator();
 
 	ImGui::Text("‰ñ“]");
-	ImGui::SliderFloat("X", &this->mRot.x, -1.0f, 1.0f);
-	ImGui::SliderFloat("Y", &this->mRot.y, -1.0f, 1.0f);
-	ImGui::SliderFloat("Z", &this->mRot.z, -1.0f, 1.0f);
+	ImGui::SliderFloat("X", &this->mRot.x, 0.0f, D3DXToRadian(360.0f));
+	ImGui::SliderFloat("Y", &this->mRot.y, 0.0f, D3DXToRadian(360.0f));
+	ImGui::SliderFloat("Z", &this->mRot.z, 0.0f, D3DXToRadian(360.0f));
 	ImGui::Separator();
 
 	ImGui::Text(u8"ˆÊ’u(X,Y,Z)");
