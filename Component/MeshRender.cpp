@@ -172,6 +172,7 @@ void MeshRender::drawImGui()
 		//ImGui::Text(u8"アニメーション数:%d", );
 		ImGui::Separator();
 
+		// メッシュ情報
 		unsigned int ID1s = 0;
 		for (auto it1 : this->mModel->mMeshes)
 		{
@@ -179,7 +180,6 @@ void MeshRender::drawImGui()
 			string name = wstringUnicodeToUTF8((wstring const)it1->mName);
 			if (ImGui::TreeNode("mesh", u8"<Mesh> :%s", name.c_str()))
 			{
-				// メッシュ情報
 				ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
 				ImGui::Text(u8"ポリゴン数 : %d", it1->mMeshInfo.numFaces);
 				ImGui::Separator();
@@ -223,6 +223,15 @@ void MeshRender::drawImGui()
 							static string path1 = wstringUnicodeToUTF8(it3->mPath);
 							strcpy(this->mTexPathTemp, path1.c_str());
 							ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
+							wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
+							it3->mPath = str;
+
+							// 入力したパスによってテクスチャをリロード
+							if (ImGui::Button(u8"リロード"))
+							{
+								wcout << "<test reload> " << str << endl;
+								it3->loadingTexture(str);
+							}
 
 							ImGui::TreePop();
 						}

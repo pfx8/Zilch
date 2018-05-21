@@ -33,7 +33,7 @@ WorldVector						gWorldVector;
 
 // 読み込みできるファイル拡張子集合
 // 詳しいは https://github.com/assimp/assimp
-vector<wstring> modelFileExtension = { L"X", L"fbx", L"obj", L"3ds", L"PMX" };
+vector<wstring> modelFileExtension = { L"x", L"fbx", L"obj", L"3ds", L"pmx" };
 
 //*****************************************************************************
 //
@@ -498,9 +498,13 @@ void enumerateFiles()
 //*****************************************************************************
 bool isModelFile(wstring path)
 {
-	//wcout << "<Test><Impoter> " << path << endl;
-
 	wstring fileFormat = path.substr(path.find_last_of(L".") + 1, path.size());
+
+	//	ファイル拡張子を小文字に変換
+	for (auto &str : fileFormat)
+	{
+		str = ::towlower(str);
+	}
 
 	for (auto it : modelFileExtension)
 	{

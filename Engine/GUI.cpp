@@ -141,7 +141,7 @@ void GUI::systemGUI()
 
 	// マウス位置
 	{
-		ImGui::Text("%f,%f", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+		ImGui::Text("%f, %f", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
 		ImGui::SameLine();
 		ImGui::Text(u8"マウス位置");
 		ImGui::Separator();
