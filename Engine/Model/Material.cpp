@@ -85,6 +85,8 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 {
 	for (unsigned int count = 0; count < mat->GetTextureCount(type); count++)
 	{
+		// 読み込みマック
+		bool skip = false;
 		Resources* resource = getResources();
 
 		// テクスチャパスを読み込み
@@ -92,27 +94,30 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		mat->getTexture(type, count, &path);
 
 		// aiStringの文字コードはstringのutf-8
-		// ここはwstringのunicodeが欲しい
 		wstring wPath = stringUTF8ToUnicode(path.C_Str());
-
 		wPath = searchTexturePath(wPath);
 
-		// テクスチャを読み込み
-		resource->createTexture(wPath);
-
-		// 絶対パスならば、モデルの名前とテクスチャを取得
-		wstring fileName;
-		if (wPath.find(L'\\') != string::npos)
+		// 名前で判断する、新しいテクスチャだけを読み込み
+		wstring name = pathToFileName(wPath);
+		for (auto it : this->mParentModel->mTextures)
 		{
-			fileName = wPath.substr(wPath.find_last_of(L'\\') + 1, wPath.find_last_of(L'.'));	// exp: c:\aaa\bbb\ccc.png -> ccc.png
+			if (it->mName == name)
+			{
+				skip = true;
+				this->mTextures.push_back(it);
+				break;
+			}
 		}
-		fileName = fileName.substr(0, fileName.find_first_of(L'.'));							// exp: xxx.png -> xxx
 
-		// テクスチャまだ読み込まなっかたら読み込む
-		Texture* texture = resource->getTexture(fileName);
-			
-		// テクスチャを保存
-		this->mTextures.push_back(texture);
+		// テククシャを読み込んで取得する
+		if (skip == false)
+		{
+			resource->createTexture(wPath);
+			Texture* texture = resource->getTexture(name);
+			this->mTextures.push_back(texture);
+			this->mParentModel->mTextures.push_back(texture);
+		}
+
 	}
 }
 

@@ -27,11 +27,11 @@ private:
 public:
 	wstring				mName;					// マテリアルの名前
 	Model*				mParentModel;			// 所属モデルポインタ
-	vector<Texture*>	mTextures;				// テクスチャ
 	D3DXVECTOR3			mAmbient;				// 環境光
 	D3DXVECTOR3			mDiffuse;				// 拡散反射光
 	D3DXVECTOR3			mSpecular;				// 鏡面反射光
 	float				mShininess;				// 光沢
+	vector<Texture*>	mTextures;				// テクスチャ
 
 	// マテリアルがなければデフォルトで初期化
 	Material(aiMaterial* mat, Model* model);
