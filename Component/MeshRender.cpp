@@ -178,7 +178,7 @@ void MeshRender::drawImGui()
 		{
 			ImGui::PushID(ID1s);
 			string name = wstringUnicodeToUTF8((wstring const)it1->mName);
-			if (ImGui::TreeNode("mesh", u8"<Mesh> :%s", name.c_str()))
+			if (ImGui::TreeNode("mesh", u8"<Mesh> : %s", name.c_str()))
 			{
 				ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
 				ImGui::Text(u8"ポリゴン数 : %d", it1->mMeshInfo.numFaces);
@@ -218,7 +218,7 @@ void MeshRender::drawImGui()
 						string name3 = wstringUnicodeToUTF8(it3->mName);
 
 						ImGui::PushID(ID2s);
-						if (ImGui::TreeNode("texture", u8"<Texture>: %s", name3.c_str()))
+						if (ImGui::TreeNode("texture", u8"<Texture> : %s", name3.c_str()))
 						{
 							// テクスチャをImGuiで出す
 							ImGui::Image((void*)it3->mTex, ImVec2(150, 150));

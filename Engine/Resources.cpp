@@ -66,7 +66,7 @@ void Resources::createTexture(const wstring path)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
 	wstring name = pathToFileName(path);
-	mTextures.insert({ name, new Texture(name, path) });	
+	mTextures.insert({ name, new Texture(path) });	
 }
 
 //*****************************************************************************

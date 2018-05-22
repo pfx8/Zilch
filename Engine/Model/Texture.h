@@ -27,7 +27,7 @@ public:
 	wstring						mPath;			// テクスチャパス
 	LPDIRECT3DTEXTURE9			mTex;			// テクスチャポインタ
 
-	Texture(wstring name, wstring path);
+	Texture(wstring path);
 	~Texture();
 
 	HRESULT loadingTexture(wstring path);		// テクスチャを読み込み

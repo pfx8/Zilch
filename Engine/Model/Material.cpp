@@ -12,11 +12,8 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Material::Material(aiMaterial* mat, wstring modelPath, Model* model)
+Material::Material(aiMaterial* mat, Model* model)
 {
-	// モデルパス
-	this->mModelPath = modelPath;
-
 	// 所属モデルポインタを取得
 	this->mParentModel = model;
 
@@ -24,6 +21,8 @@ Material::Material(aiMaterial* mat, wstring modelPath, Model* model)
 	this->mShininess = 40.0f;
 
 	loadingMaterial(mat);
+	// Debugウインドへ
+	wcout << "<Scene> loading<Material> " << this->mName << " ... sucessed!" << endl;
 }
 
 //*****************************************************************************
@@ -131,7 +130,7 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 	wstring filePath;
 
 	// モデルの名前を取得
-	wstring modelName = pathToFileName(this->mModelPath);
+	wstring modelName = pathToFileName(this->mParentModel->mPath);
 
 	// 方法1
 	// 指定パス
@@ -162,7 +161,7 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 	// 同じファイル
 	if(skip == false)
 	{
-		wstring path = this->mModelPath;
+		wstring path = this->mParentModel->mPath;
 		path = path.substr(0, path.find_last_of(L"\\"));
 
 		filePath = path + L"\\" + texturePathFromAssimp;
@@ -190,7 +189,7 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 			}
 		}
 
-		wstring mainPath = this->mModelPath;
+		wstring mainPath = this->mParentModel->mPath;
 		for (unsigned int count = 0; count < fileCount; count++)
 		{
 			mainPath = mainPath.substr(0, mainPath.find_last_of(L"\\"));

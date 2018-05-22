@@ -69,7 +69,6 @@ class Mesh
 	friend class MeshRender;
 private:
 	MeshInfo						mMeshInfo;				// メッシュ情報
-	wstring							mModelPath;				// モデルパス
 	Model*							mParentModel;			// 所属モデルポインタ
 	D3DXVECTOR3						mBoundingBoxMax;		// バウンディングボックスマックス座標の最大値
 	D3DXVECTOR3						mBoundingBoxMin;		// バウンディングボックスマックス座標の最小値

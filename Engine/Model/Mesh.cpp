@@ -14,9 +14,6 @@
 //*****************************************************************************
 Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath, Model* model)
 {
-	// テクスチャ探すために保存した
-	this->mModelPath = modelPath;
-
 	// 所属モデルポインタを取得
 	this->mParentModel = model;
 
@@ -179,11 +176,34 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 
 	// マテリアル処理
 	{
+		// 読み込みを飛べるマック
+		bool skip = false;
+
 		// フェースのマテリアルを取得
 		aiMaterial* aiMat = scene->mMaterials[mesh->mMaterialIndex];
-		Material* mat = new Material(aiMat, this->mModelPath, this->mParentModel);
-		// メッシュのマテリアルに入れる
-		this->mMaterials.push_back(mat);
+
+		// 名前で判断する、新しいマテリアルだけ読み込み
+		aiString name;
+		aiMat->Get(AI_MATKEY_NAME, name);
+		wstring wname = stringUTF8ToUnicode(name.C_Str());
+		for (auto it : this->mParentModel->mMaterials)
+		{
+			if (it->mName == wname)
+			{
+				// 同じマテリアルあれば、もう一度読み込まずポインタだけをメッシュのを入れる
+				skip = true;
+				this->mMaterials.push_back(it);
+				break;
+			}
+		}
+
+		if (skip == false)
+		{
+			Material* mat = new Material(aiMat, this->mParentModel);
+			// ポインタを所属モデルとメッシュ両方で保存
+			this->mParentModel->mMaterials.push_back(mat);
+			this->mMaterials.push_back(mat);
+		}
 	}
 }
 

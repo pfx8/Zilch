@@ -26,7 +26,6 @@ private:
 
 public:
 	wstring				mName;					// マテリアルの名前
-	wstring				mModelPath;				// モデルパス
 	Model*				mParentModel;			// 所属モデルポインタ
 	vector<Texture*>	mTextures;				// テクスチャ
 	D3DXVECTOR3			mAmbient;				// 環境光
@@ -35,7 +34,7 @@ public:
 	float				mShininess;				// 光沢
 
 	// マテリアルがなければデフォルトで初期化
-	Material(aiMaterial* mat, wstring modelPath, Model* model);
+	Material(aiMaterial* mat, Model* model);
 	~Material();
 
 	// マテリアルを読み込み
