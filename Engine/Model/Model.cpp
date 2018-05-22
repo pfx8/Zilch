@@ -85,7 +85,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
-		this->mMeshes.push_back(new Mesh(aiMesh, this->mBones, scene, this->mPath));
+		this->mMeshes.push_back(new Mesh(aiMesh, this->mBones, scene, this->mPath, this));
 
 		// 骨チェック
 		createBone(aiMesh);

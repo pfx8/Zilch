@@ -8,9 +8,10 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
+#include "Animation.h"
 #include "Mesh.h"
 #include "Material.h"
-#include "Animation.h"
+#include "Texture.h"
 
 #include "..\Engine.h"
 #include "..\Shader.h"
@@ -51,10 +52,12 @@ private:
 public:
 	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号
 	wstring							mPath;							// モデルパス
-	vector<Mesh*>					mMeshes;						// メッシュデータ
 	vector<Animation*>				mAnimationes;					// アニメーションデータ
 	vector<Bone*>					mBones;							// 骨データ
 	vector<D3DXMATRIX>				mTransforms;					// 各骨の変換行列
+	vector<Mesh*>					mMeshes;						// メッシュデータ
+	vector<Material*>				mMaterials;						// マテリアルデータ
+	vector<Texture*>				mTextures;						// テククシャデータ
 
 	Model(wstring const& wPath);
 	~Model();

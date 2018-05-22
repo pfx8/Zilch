@@ -9,6 +9,7 @@
 #define _MESH_H_
 
 #include "Material.h"
+#include "Model.h"
 #include "Bone.h"
 
 #include "..\Engine.h"
@@ -67,20 +68,21 @@ class Mesh
 {
 	friend class MeshRender;
 private:
+	MeshInfo						mMeshInfo;				// メッシュ情報
 	wstring							mModelPath;				// モデルパス
+	Model*							mParentModel;			// 所属モデルポインタ
 	D3DXVECTOR3						mBoundingBoxMax;		// バウンディングボックスマックス座標の最大値
 	D3DXVECTOR3						mBoundingBoxMin;		// バウンディングボックスマックス座標の最小値
 	LPDIRECT3DVERTEXBUFFER9			mVertexBuffer;			// 頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9			mIndexBuffer;			// 頂点インデックスバッファ
 	IDirect3DVertexDeclaration9*	mVertexDecl;			// 頂点宣言
-	MeshInfo						mMeshInfo;				// メッシュ情報
 
-	void createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);					// メッシュを読み込み
-	HRESULT setupMesh();																		// メッシュをセットアップ
-	HRESULT setupVertices();																	// 頂点をセットアップ
-	HRESULT setupIndexes();																		// インデックスをセットアップ
+	void createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);							// メッシュを読み込み
+	HRESULT setupMesh();																				// メッシュをセットアップ
+	HRESULT setupVertices();																			// 頂点をセットアップ
+	HRESULT setupIndexes();																				// インデックスをセットアップ
 
-	void createBoundingBox(D3DXVECTOR3 vertexPos, D3DXVECTOR3 &boxMax, D3DXVECTOR3 &boxMin);	// バウンディングボックスサイズを作り
+	void createBoundingBox(D3DXVECTOR3 vertexPos, D3DXVECTOR3 &boxMax, D3DXVECTOR3 &boxMin);			// バウンディングボックスサイズを作り
 
 public:
 	wstring							mName;					// メッシュの名前
@@ -88,7 +90,7 @@ public:
 	vector<unsigned int>			mIndices;				// 頂点インデックスデータ
 	vector<Material*>				mMaterials;				// マテリアルデータ
 
-	Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath);				// メッシュの初期化
+	Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath, Model* model);	// メッシュの初期化
 	~Mesh();
 
 	void drawShadow(Shader* shader);						// メッシュのシャドウマップを描画

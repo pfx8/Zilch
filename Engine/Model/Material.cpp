@@ -12,10 +12,13 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Material::Material(aiMaterial* mat, wstring modelPath)
+Material::Material(aiMaterial* mat, wstring modelPath, Model* model)
 {
 	// モデルパス
 	this->mModelPath = modelPath;
+
+	// 所属モデルポインタを取得
+	this->mParentModel = model;
 
 	// デフォルト値
 	this->mShininess = 40.0f;

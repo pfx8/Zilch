@@ -12,17 +12,21 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath)
+Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath, Model* model)
 {
 	// テクスチャ探すために保存した
 	this->mModelPath = modelPath;
+
+	// 所属モデルポインタを取得
+	this->mParentModel = model;
 
 	this->mName = stringUTF8ToUnicode(mesh->mName.C_Str());
 	this->mMeshInfo.numVertices = mesh->mNumVertices;
 	this->mMeshInfo.numFaces = mesh->mNumFaces;
 	this->mVertexBuffer = nullptr;
 	this->mIndexBuffer = nullptr;
-	this->mVertexDecl = nullptr;			// 頂点宣言
+	// 頂点宣言
+	this->mVertexDecl = nullptr;
 
 	// メッシュを読み込み&メッシュのバッファを作り
 	createMesh(mesh, bones, scene);
@@ -177,7 +181,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 	{
 		// フェースのマテリアルを取得
 		aiMaterial* aiMat = scene->mMaterials[mesh->mMaterialIndex];
-		Material* mat = new Material(aiMat, this->mModelPath);
+		Material* mat = new Material(aiMat, this->mModelPath, this->mParentModel);
 		// メッシュのマテリアルに入れる
 		this->mMaterials.push_back(mat);
 	}
@@ -346,9 +350,12 @@ void Mesh::drawModel(Shader* shader)
 	shader->mEffect->SetValue("matSpecular", this->mMaterials.at(0)->mSpecular, sizeof(D3DXVECTOR3));
 	shader->mEffect->SetFloat("shininess", this->mMaterials.at(0)->mShininess);
 
-	// テクスチャを渡す
-	LPDIRECT3DTEXTURE9 tex = this->mMaterials.at(0)->mTextures.at(0)->mTex;
-	shader->mEffect->SetTexture("tex", tex);
+	// テクスチャあれば渡す
+	if (this->mMaterials.size() != 0 && this->mMaterials.at(0)->mTextures.size() != 0)
+	{
+		LPDIRECT3DTEXTURE9 tex = this->mMaterials.at(0)->mTextures.at(0)->mTex;
+		shader->mEffect->SetTexture("tex", tex);
+	}
 
 	// 描画
 	UINT passNum = 0;
