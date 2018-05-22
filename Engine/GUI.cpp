@@ -171,20 +171,32 @@ void GUI::systemGUI()
 		ImGui::TextUnformatted(u8"機能");
 		if (ImGui::Button(u8"スクリーンショット"))
 		{
-			// バッファ画面を取得
-			LPDIRECT3DSURFACE9 backBuffer;
-			getD3DDevice()->GetRenderTarget(0, &backBuffer);
-
-			// バッファサーフェイスを保存
-			D3DXSaveSurfaceToFile(L"screenShot.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
-
-			// Debugウインドへ
-			cout << "<System> ..\screenShot.bmp ... successed!" << endl;
-
-			// バッファをリリース
-			backBuffer->Release();
+			ImGui::OpenPopup(u8"スクリーンショット");
 		}
 		ImGui::Separator();
+
+		if (ImGui::BeginPopupModal(u8"スクリーンショット"))
+		{
+			// バッファ画面を取得
+			static LPDIRECT3DSURFACE9 backBuffer = nullptr;
+			getD3DDevice()->GetRenderTarget(0, &backBuffer);
+
+			ImGui::TextUnformatted(u8"スクリーンショット.bmpが保存されました！");
+
+			if (ImGui::Button(u8"はい"))
+			{
+				// バッファサーフェイスを保存
+				D3DXSaveSurfaceToFile(L"スクリーンショット.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
+
+				// バッファをnullptrする
+				backBuffer = nullptr;
+
+				// サブウインドを閉める
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
 	}
 
 	// システムカメラ
@@ -284,13 +296,6 @@ void GUI::sceneGUI()
 		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
 		{
 			ImGui::PushID(IDs);
-
-			// Todo
-			// ライトと床、utf-8に変換しても出せない
-			// UTF-8 to ANIS?
-
-			// wstring -> string
-			//string name1 = wStringToString(it.first);
 			string name1 = wstringUnicodeToUTF8(it.first);
 			if (ImGui::TreeNode("gameObject", u8"%s", name1.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
@@ -337,7 +342,6 @@ void GUI::createNewGameObjectGUI()
 	// サブウインド設定
 	if (ImGui::BeginPopupModal("Create GameObject"))
 	{
-
 		ImGui::TextUnformatted(u8"GameObject名前");
 		ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
 
