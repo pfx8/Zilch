@@ -69,8 +69,11 @@ void Scene02::start()
 	GameObject* player = new GameObject();
 	Transform* playerTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	player->addComponent<Transform>(playerTrans);
-	CameraController* cameraController = new CameraController();
+	CameraController* cameraController = new CameraController();			// カメラコントローラ
 	player->addComponent<CameraController>(cameraController);
+	LightController* lightController = new LightController();				// ライトコントローラ
+	lightController->mLight = light;										// ライトを指定
+	player->addComponent<LightController>(lightController);
 	MeshRender* playerMeshRender = new MeshRender();
 	playerMeshRender->mModel = resource->getModel(L"Hixo");					// リソースからモデルを取得
 	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
@@ -83,7 +86,7 @@ void Scene02::start()
 	this->mSystemCamera = new Camera();
 	this->mSystemCamera->start();
 	this->mSystemCamera->mCameraPos = D3DXVECTOR3(0.0f, 4.0f, 5.0f);
-	this->mSystemCamera->mTargetTrans = playerTrans;
+	this->mSystemCamera->mTargetPos = D3DXVECTOR3(0.0f, 2.5f, 0.0f);
 	this->mSystemCamera->mIsVerticalLimited = false;
 	this->mSystemCamera->mIsZoomLimited = false;
 

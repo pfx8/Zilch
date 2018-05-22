@@ -14,6 +14,7 @@
 #include "..\Component\MeshRender.h"
 #include "..\Component\PlayerController.h"
 #include "..\Component\Transform.h"
+#include "..\Component\LightController.h"
 #include "..\Component\Light.h"
 
 #include "..\Engine\Engine.h"

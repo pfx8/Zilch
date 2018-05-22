@@ -37,6 +37,7 @@
     <ClCompile Include="FrameWork\ImGui\imgui_draw.cpp" />
     <ClCompile Include="FrameWork\ImGui\imgui_impl_dx9.cpp" />
     <ClCompile Include="Component\Light.cpp" />
+    <ClCompile Include="Component\LightController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Console.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="FrameWork\ImGui\stb_textedit.h" />
     <ClInclude Include="FrameWork\ImGui\stb_truetype.h" />
     <ClInclude Include="Component\Light.h" />
+    <ClInclude Include="Component\LightController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

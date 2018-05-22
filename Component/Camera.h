@@ -31,7 +31,7 @@ public:
 	bool			mIsZoomLimited;				// カメラズームされたかどうかをチェック
 
 	D3DXVECTOR3		mCameraPos;					// カメラの位置
-	Transform*		mTargetTrans;				// 目標Transformを保存
+	D3DXVECTOR3		mTargetPos;					// 目標Transformを保存
 
 	D3DXVECTOR3		mCameraFront;				// カメラの注視方向ベクトル
 	D3DXVECTOR3		mCameraRight;				// カメラの右方向ベクトル

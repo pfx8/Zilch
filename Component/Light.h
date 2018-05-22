@@ -78,7 +78,7 @@ public:
 	SpotLight			mSpotLight;			// スポットライト
 
 	Light();
-	virtual ~Light();
+	~Light();
 
 	void drawImGui();						// ImGuiでPointLightのデータを出す
 	void lightControllerImGui();			// 各ライトの調整ImGui

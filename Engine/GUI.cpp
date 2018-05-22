@@ -198,7 +198,7 @@ void GUI::systemGUI()
 			ImGui::InputFloat3(u8"ˆÊ’u", *v1);
 			ImGui::Separator();
 
-			float* v2[3] = { &camera->mTargetTrans->mPos.x, &camera->mTargetTrans->mPos.y, &camera->mTargetTrans->mPos.z };
+			float* v2[3] = { &camera->mTargetPos.x, &camera->mTargetPos.y, &camera->mTargetPos.z };
 			ImGui::InputFloat3(u8"’‹“_", *v2);
 			ImGui::Separator();
 

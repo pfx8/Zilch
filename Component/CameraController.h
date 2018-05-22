@@ -1,6 +1,6 @@
 ﻿//*****************************************************************************
 //
-// カメラ移動処理 [CameraController..h]
+// カメラコントローラ処理 [CameraController..h]
 //
 // Author : LIAO HANCHEN
 //
@@ -51,7 +51,7 @@ public:
 	void inputUpdate();												// 入力更新
 	void zoom(float distance);										// ズーム調整
 	void rotation(float verticalRadians, float horizonalRadians);	// 回転移動
-	void move(float distance, bool isVertical);						// 位置移動
+	void move(float sign, bool isVertical);							// 位置移動
 	void drawImGui();												// ImGuiでCameraControllerのデータを出す
 };
 #endif // !_CAMERA_H_

@@ -1,6 +1,6 @@
 ﻿//*****************************************************************************
 //
-// カメラ移動処理 [CameraController.cpp]
+// カメラコントローラ処理 [CameraController.cpp]
 //
 // Author : LIAO HANCHEN
 //
@@ -109,13 +109,13 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 void CameraController::update()
 {
 	// 目標からカメラまでの距離を計算
-	this->mOffsetFromTarget = this->mSceneCurrentCamera->mCameraPos - this->mSceneCurrentCamera->mTargetTrans->mPos;
+	this->mOffsetFromTarget = this->mSceneCurrentCamera->mCameraPos - this->mSceneCurrentCamera->mTargetPos;
 
 	// 入力更新
 	inputUpdate();
 
 	// カメラを更新
-	this->mSceneCurrentCamera->mCameraPos = this->mSceneCurrentCamera->mTargetTrans->mPos + this->mOffsetFromTarget;
+	this->mSceneCurrentCamera->mCameraPos = this->mSceneCurrentCamera->mTargetPos + this->mOffsetFromTarget;
 }
 
 //*****************************************************************************
@@ -123,15 +123,20 @@ void CameraController::update()
 // 位置移動
 //
 //*****************************************************************************
-void CameraController::move(float distance, bool isVertical)
+void CameraController::move(float sign, bool isFront)
 {
-	if (isVertical)
+	// ターゲットとのオフセット座標とターゲットの座標を更新
+	if (isFront)
 	{
-		this->mSceneCurrentCamera->mCameraPos.z += distance;
+		// 前後移動
+		this->mOffsetFromTarget += this->mSceneCurrentCamera->mCameraFront * 0.1 * sign;
+		this->mSceneCurrentCamera->mTargetPos += this->mSceneCurrentCamera->mCameraFront * 0.1 * sign;
 	}
 	else
 	{
-		this->mSceneCurrentCamera->mCameraPos.x += distance;
+		// 左右移動
+		this->mOffsetFromTarget += this->mSceneCurrentCamera->mCameraRight * 0.3 * sign;
+		this->mSceneCurrentCamera->mTargetPos += this->mSceneCurrentCamera->mCameraRight * 0.1 * sign;
 	}
 }
 
@@ -176,22 +181,22 @@ void CameraController::inputUpdate()
 	// カメラ移動(前)
 	if (GetKeyboardPress(DIK_W) || IsButtonPressed(0, LEFT_STICK_UP))
 	{
-		move(this->mMoveSpeed, false);
+		move(1, true);
 	}
 	// カメラ移動(後)
 	if (GetKeyboardPress(DIK_S) || IsButtonPressed(0, LEFT_STICK_DOWN))
 	{
-		move(-this->mMoveSpeed, false);
+		move(-1, true);
 	}
 	// カメラ移動(左)
 	if (GetKeyboardPress(DIK_A) || IsButtonPressed(0, LEFT_STICK_LEFT))
 	{
-		move(this->mMoveSpeed, true);
+		move(this->mMoveSpeed, false);
 	}
 	// カメラ移動(右)
 	if (GetKeyboardPress(DIK_D) || IsButtonPressed(0, LEFT_STICK_RIGHT))
 	{
-		move(-this->mMoveSpeed, true);
+		move(-this->mMoveSpeed, false);
 	}
 }
 
@@ -202,5 +207,6 @@ void CameraController::inputUpdate()
 //*****************************************************************************
 void CameraController::drawImGui()
 {
-	ImGui::TextColored(ImVec4(1, 0, 0, 1), u8"詳しいはプログラムを見てください");
+	// 操作の説明
+	ImGui::Text(u8"マウス左ボタン+");
 }

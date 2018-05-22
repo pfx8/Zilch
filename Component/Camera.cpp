@@ -51,7 +51,7 @@ void Camera::update()
 	WorldVector worldVector;
 
 	// 新しい向きベクトルを計算
-	D3DXVec3Normalize(&this->mCameraFront, &(this->mTargetTrans->mPos - this->mCameraPos));
+	D3DXVec3Normalize(&this->mCameraFront, &(this->mTargetPos - this->mCameraPos));
 	// 新しい右ベクトルを計算(外積)、そして正規化
 	D3DXVec3Cross(&this->mCameraRight, &this->mCameraFront, &worldVector.worldUp);
 	D3DXVec3Normalize(&this->mCameraRight, &this->mCameraRight);
@@ -60,7 +60,7 @@ void Camera::update()
 	D3DXVec3Normalize(&this->mCameraUp, &this->mCameraUp);
 
 	// ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&this->mViewMatrix, &this->mCameraPos, &(this->mTargetTrans->mPos + D3DXVECTOR3(0.0f, 2.0f, 0.0f)), &this->mCameraUp);
+	D3DXMatrixLookAtLH(&this->mViewMatrix, &this->mCameraPos, &this->mTargetPos, &this->mCameraUp);
 	// プロジェクションマトリックスの作成
 	D3DXMatrixPerspectiveFovLH(&this->mProjectionMatrix, this->mField, this->mRatio, this->mRangeStart, this->mRangeEnd);
 }
@@ -78,7 +78,7 @@ void Camera::drawImGui()
 	ImGui::Separator();
 
 	ImGui::Text(u8"カメラ注視点(モデル位置に設定してる)");
-	float* v2[3] = { &this->mTargetTrans->mPos.x, &this->mTargetTrans->mPos.y, &this->mTargetTrans->mPos.z };
+	float* v2[3] = { &this->mTargetPos.x, &this->mTargetPos.y, &this->mTargetPos.z };
 	ImGui::InputFloat3("Look", *v2);
 	ImGui::Separator();
 
