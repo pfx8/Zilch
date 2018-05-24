@@ -190,20 +190,26 @@ void MeshRender::drawImGui()
 					string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
 					if (ImGui::TreeNode("material", u8"<Material> : %s", name2.c_str()))
 					{
+						ImGui::PushID(1);
 						ImGui::Text(u8"ŠÂ‹«Œõ");
 						ImGui::SliderFloat(u8"R", &it2->mAmbient.x, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"G", &it2->mAmbient.y, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"B", &it2->mAmbient.z, 0.0f, 1.0f);
+						ImGui::PopID();
 
+						ImGui::PushID(2);
 						ImGui::Text(u8"ŠgŽU”½ŽËŒõ");
 						ImGui::SliderFloat(u8"R", &it2->mDiffuse.x, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"G", &it2->mDiffuse.y, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"B", &it2->mDiffuse.z, 0.0f, 1.0f);
+						ImGui::PopID();
 
+						ImGui::PushID(3);
 						ImGui::Text(u8"‹¾–Ê”½ŽËŒõ");
 						ImGui::SliderFloat(u8"R", &it2->mSpecular.x, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"G", &it2->mSpecular.y, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"B", &it2->mSpecular.z, 0.0f, 1.0f);
+						ImGui::PopID();
 
 						ImGui::TreePop();
 					}
