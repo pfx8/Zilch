@@ -13,6 +13,9 @@
 #include "Engine.h"
 #include "GameTimes.h"
 #include "SceneManager.h"
+#include "Shader.h"
+
+#include "..\Component\Light.h"
 
 #include "..\GameObject\GameObject.h"
 
@@ -28,9 +31,9 @@ private:
 	char				mNewGameObjectName[20] = { NULL };		// 最大19文字
 
 	const char*			mColorRamp[2] = { u8"リニア", u8"一定" };
-	int					mCurrentColorRamp;
-	const char*			mShadingMode[4] = { u8"ディフューズ", u8"ノーマル", u8"テクスチャ色", u8"シェーディング" };
-	int					mCurrentShadingMode;
+	ColorRamp			mCurrentColorRamp;
+	const char*			mRenderingMode[5] = { u8"テクスチャ色", u8"ディフューズ", u8"スペキュラー", u8"ノーマル", u8"シェーディング" };
+	RenderingMode		mCurrentRenderingMode;
 	const char*			mLanguage[2] = { u8"日本語", u8"English" };
 	int					mCurrentLanguage;
 

@@ -140,7 +140,7 @@ void MeshRender::draw()
 	this->mShader->mEffect->SetValue("cameraPos", &camera->mCameraPos, sizeof(camera->mCameraPos));
 
 	// レンダリングモードをシェーダーに渡す
-	this->mShader->mEffect->SetInt("renderMode", this->mShader->mRenderMode);
+	this->mShader->mEffect->SetInt("renderingMode", this->mShader->mRenderingMode);
 
 	// カラーランプモードをシェーダーに渡す
 	this->mShader->mEffect->SetInt("colorRamp", this->mShader->mColorRamp);

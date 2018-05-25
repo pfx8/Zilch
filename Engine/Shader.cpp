@@ -21,7 +21,7 @@ Shader::Shader(wstring path)
 	loadEffectFile(path);
 
 	// デフォルトシェーディングモードを設定
-	this->mRenderMode = RT_TEXTURE;
+	this->mRenderingMode = RM_DIFFUSE;
 
 	// カラーランプモードを設定
 	this->mColorRamp = CR_LINEAR;

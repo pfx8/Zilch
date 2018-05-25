@@ -21,6 +21,7 @@ Material::Material(aiMaterial* mat, Model* model)
 	this->mShininess = 40.0f;
 
 	loadingMaterial(mat);
+
 	// Debugウインドへ
 	wcout << "<Scene> loading <Material> " << this->mName << " ... sucessed!" << endl;
 }
@@ -92,12 +93,11 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		// テクスチャパスを読み込み
 		aiString path;
 		mat->getTexture(type, count, &path);
-		cout << mat->GetTextureCount(type) << endl;
-		cout << "<Test path>" << path.C_Str() << endl;
+		//cout << "<Test path>" << path.C_Str() << endl;
 
 		// aiStringの文字コードはstringのutf-8
 		wstring wPath = stringUTF8ToUnicode(path.C_Str());
-		wcout << "<Test wPath>" << wPath << endl;
+		//wcout << "<Test wPath>" << wPath << endl;
 		wPath = searchTexturePath(wPath);
 
 		// 名前で判断する、新しいテクスチャだけを読み込み

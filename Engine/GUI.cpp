@@ -52,9 +52,9 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	this->mIsWireframe = false;
 	this->mIsAddingModel = false;
 	this->mIsModelFile = true;
-	this->mCurrentShadingMode = 2;	// デフォルトはテクスチャ
-	this->mCurrentColorRamp = 0;	// デフォルトはリニアモード
-	this->mCurrentLanguage = 0;		// デフォルトは日本語
+	this->mCurrentRenderingMode = RM_DIFFUSE;	// デフォルトはディフューズ
+	this->mCurrentColorRamp = CR_LINEAR;		// デフォルトはリニアモード
+	this->mCurrentLanguage = 0;					// デフォルトは日本語
 }
 
 //*****************************************************************************
@@ -235,20 +235,23 @@ void GUI::systemGUI()
 	{
 		// コンボボックスの幅を設定
 		ImGui::PushItemWidth(160);
-		ImGui::Combo(u8"レンダリングモード", &this->mCurrentShadingMode, this->mShadingMode, IM_ARRAYSIZE(this->mShadingMode));
-		switch (this->mCurrentShadingMode)
+		ImGui::Combo(u8"レンダリングモード", (int*)&this->mCurrentRenderingMode, this->mRenderingMode, IM_ARRAYSIZE(this->mRenderingMode));
+		switch (this->mCurrentRenderingMode)
 		{
 		case 0:
-			getSceneManager()->mCurrentScene->mShader->mRenderMode = RT_DIFFUSE;
+			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_TEXTURE;
 			break;
 		case 1:
-			getSceneManager()->mCurrentScene->mShader->mRenderMode = RT_NORMAL;
+			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_DIFFUSE;
 			break;
 		case 2:
-			getSceneManager()->mCurrentScene->mShader->mRenderMode = RT_TEXTURE;
+			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_SPECULAR;
 			break;
 		case 3:
-			getSceneManager()->mCurrentScene->mShader->mRenderMode = RT_SHADING;
+			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_NORMAL;
+			break;
+		case 4:
+			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_SHADING;
 			break;
 		}
 		ImGui::Separator();
@@ -258,7 +261,7 @@ void GUI::systemGUI()
 	{
 		// コンボボックスの幅を設定
 		ImGui::PushItemWidth(160);
-		ImGui::Combo(u8"カラーランプモード", &this->mCurrentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
+		ImGui::Combo(u8"カラーランプモード", (int*)&this->mCurrentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
 		switch (this->mCurrentColorRamp)
 		{
 		case 0:

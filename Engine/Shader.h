@@ -15,12 +15,13 @@
 //  列挙体定義
 //
 //*****************************************************************************
-enum RenderMode
+enum RenderingMode
 {
-	RT_DIFFUSE,			// ディフューズ
-	RT_NORMAL,			// 法線
-	RT_TEXTURE,			// テクスチャ
-	RT_SHADING,			// シェーディング
+	RM_TEXTURE,			// テクスチャ
+	RM_DIFFUSE,			// ディフューズ
+	RM_SPECULAR,		// スペキュラー
+	RM_NORMAL,			// 法線
+	RM_SHADING,			// シェーディング
 };
 
 enum ColorRamp
@@ -40,7 +41,7 @@ private:
 
 public:
 	ID3DXEffect*	mEffect;					// エフェクト
-	RenderMode		mRenderMode;				// レンダリングモード
+	RenderingMode	mRenderingMode;				// レンダリングモード
 	ColorRamp		mColorRamp;					// カラーランプモード
 	D3DXVECTOR3		mColorRampSegment;			// カラーセグメント値、最大は３レベル
 
