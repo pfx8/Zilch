@@ -16,6 +16,9 @@ Model::Model(wstring const& path)
 {
 	// Assimpでモデルを読み込み
 	loadModel(path);
+
+	// Debugウインドへ
+	wcout << "<Scene> loading <Model> " << path << " ... successed!" << endl;
 }
 
 //*****************************************************************************
@@ -66,9 +69,6 @@ HRESULT Model::loadModel(wstring const& wPath)
 
 	// ルートノードから処理を始める
 	processNode(scene->mRootNode, scene);
-
-	// Debugウインドへ
-	wcout << "<Scene> loading<Model> " << wPath << " ... successed!" << endl;
 
 	return S_OK;
 }

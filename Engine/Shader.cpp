@@ -28,6 +28,9 @@ Shader::Shader(wstring path)
 
 	// セグメントを設定
 	this->mColorRampSegment = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	// Debugウインドへ
+	wcout << "<Scene> loading <Shader> " << path << " ... success!" << endl;
 }
 
 //*****************************************************************************
@@ -75,9 +78,6 @@ HRESULT Shader::loadEffectFile(wstring path)
 		RELEASE_POINT(errorBuffer);
 		return E_FAIL;
 	}
-
-	// Debugウインドへ
-	wcout << "<Scene> loading<Shader> " << path << " ... success!" << endl;
 
 	return S_OK;
 }

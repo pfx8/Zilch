@@ -23,6 +23,9 @@ Texture::Texture(wstring path)
 	
 	// テクスチャを読み込み
 	loadingTexture(path);
+
+	// Debugウインドへ
+	wcout << "<Scene> loading <Texture> " << path << " ... sucessed!" << endl;
 }
 
 //*****************************************************************************
@@ -54,9 +57,6 @@ HRESULT Texture::loadingTexture(wstring path)
 		wcout << "<Error> loading<Texture> " << path << " ... failed!" << endl;
 		return E_FAIL;
 	}
-
-	// Debugウインドへ
-	wcout << "<Scene> loading<Texture> " << path  << " ... sucessed!"<< endl;
 
 	return S_OK;
 }

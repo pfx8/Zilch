@@ -22,7 +22,7 @@ Material::Material(aiMaterial* mat, Model* model)
 
 	loadingMaterial(mat);
 	// Debugウインドへ
-	wcout << "<Scene> loading<Material> " << this->mName << " ... sucessed!" << endl;
+	wcout << "<Scene> loading <Material> " << this->mName << " ... sucessed!" << endl;
 }
 
 //*****************************************************************************
@@ -92,9 +92,12 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		// テクスチャパスを読み込み
 		aiString path;
 		mat->getTexture(type, count, &path);
+		cout << mat->GetTextureCount(type) << endl;
+		cout << "<Test path>" << path.C_Str() << endl;
 
 		// aiStringの文字コードはstringのutf-8
 		wstring wPath = stringUTF8ToUnicode(path.C_Str());
+		wcout << "<Test wPath>" << wPath << endl;
 		wPath = searchTexturePath(wPath);
 
 		// 名前で判断する、新しいテクスチャだけを読み込み
@@ -128,11 +131,12 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 //*****************************************************************************
 wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 {
-	// パス
 	bool skip = false;
 
 	// 最終パス
 	wstring filePath;
+	// 臨時パス
+	wstring tempPath;
 
 	// モデルの名前を取得
 	wstring modelName = pathToFileName(this->mParentModel->mPath);
@@ -140,21 +144,22 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 	// 方法1
 	// 指定パス
 	// Resources\Texture\(モデルファイル名前)フォルダを探す
-	{
-		wstring fileName = texturePathFromAssimp.substr(texturePathFromAssimp.find_last_of(L'\\') + 1, texturePathFromAssimp.find_last_of(L'.'));	// exp: c:\aaa\bbb\ccc.png -> ccc.png
-		wstring path = L"Resources\\Texture\\" + modelName + L'\\' + fileName;
+	wstring fileName = texturePathFromAssimp.substr(texturePathFromAssimp.find_last_of(L'\\') + 1, texturePathFromAssimp.find_last_of(L'.'));	// exp: c:\aaa\bbb\ccc.png -> ccc.png
+	tempPath = L"Resources\\Texture\\" + modelName + L'\\' + fileName;
 
-		if (PathFileExists(path.c_str()))
-		{
-			filePath = path;
-			skip = true;
-		}
+	// 無効なパスかどうかをチェック
+	if (PathFileExists(tempPath.c_str()))
+	{
+		filePath = tempPath;
+		skip = true;
 	}
+
 
 	// 方法2
 	// 絶対パス
 	if (skip == false)
 	{
+		// 無効なパスかどうかをチェック
 		if (PathFileExists(texturePathFromAssimp.c_str()))
 		{
 			filePath = texturePathFromAssimp;
@@ -166,26 +171,29 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 	// 同じファイル
 	if(skip == false)
 	{
-		wstring path = this->mParentModel->mPath;
-		path = path.substr(0, path.find_last_of(L"\\"));
+		tempPath = this->mParentModel->mPath;
+		tempPath = tempPath.substr(0, tempPath.find_last_of(L"\\"));
+		tempPath = tempPath + L"\\" + texturePathFromAssimp;
 
-		filePath = path + L"\\" + texturePathFromAssimp;
-
-		skip = true;
+		if (PathFileExists(tempPath.c_str()))
+		{
+			filePath = tempPath;
+			skip = true;
+		}
 	}
 
 	// 方法4
 	// 相対パス
 	if (skip == false)
 	{
-		wstring str1 = texturePathFromAssimp;
-		int fileCount = 0;
+		tempPath = texturePathFromAssimp;
+		int fileCount = 1;
 
 		while (1)
 		{
-			if (str1.find(L'\\') != string::npos)
+			if (tempPath.find(L'\\') != string::npos)
 			{
-				str1 = str1.substr(0, str1.find_last_of(L"\\"));
+				tempPath = tempPath.substr(0, tempPath.find_last_of(L"\\"));
 				fileCount++;
 			}
 			else
@@ -200,11 +208,11 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 			mainPath = mainPath.substr(0, mainPath.find_last_of(L"\\"));
 		}
 
-		// test
-		wcout << L"<Tex path from Assimp>" << texturePathFromAssimp << endl;
-		wcout << L"<Tex main path>" << mainPath << endl;
-
 		wstring texPath = texturePathFromAssimp;
+
+		//wcout << "<Test Path>" << mainPath << endl;
+		//wcout << "<Test tesPath>" << texPath << endl;
+
 		texPath = texPath.substr(texPath.find_first_of(L"\\"), texPath.size());
 
 		filePath = mainPath + texPath;
