@@ -35,22 +35,25 @@ Transform::~Transform()
 void Transform::update()
 {
 	// 計算用マトリックス
-	D3DXMATRIX mtxScl, mtxTranslate;
+	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
 
 	// ワールドマトリックスを初期化する
 	D3DXMatrixIdentity(&this->mWorldMatrix);
+	D3DXMatrixIdentity(&this->mNormalMatrix);
 
 	// スケールを反映
 	D3DXMatrixScaling(&mtxScl, mScl.x, mScl.y, mScl.z);
-	this->mWorldMatrix = this->mWorldMatrix * mtxScl;
+	this->mWorldMatrix *= mtxScl;
+	this->mNormalMatrix *= mtxScl;
 
 	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&this->mRotMatrix, mRot.y, mRot.x, mRot.z);
-	this->mWorldMatrix = this->mWorldMatrix * this->mRotMatrix;
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, mRot.y, mRot.x, mRot.z);
+	this->mWorldMatrix *= mtxRot;
+	this->mNormalMatrix *= mtxRot;
 
 	// 平行移動を反映
 	D3DXMatrixTranslation(&mtxTranslate, mPos.x, mPos.y, mPos.z);
-	this->mWorldMatrix = this->mWorldMatrix * mtxTranslate;
+	this->mWorldMatrix *= mtxTranslate;
 }
 
 //*****************************************************************************
