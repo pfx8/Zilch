@@ -45,8 +45,7 @@ void Light::start()
 void Light::drawImGui()
 {
 	// ライトカラー
-	ImGui::Text(u8"ライトカラー");
-	ImGui::ColorEdit4(u8"color", this->mLightColor);
+	ImGui::ColorEdit4(u8"ライトカラー", this->mLightColor);
 	ImGui::Separator();
 
 	// コンボボックスの幅を設定
