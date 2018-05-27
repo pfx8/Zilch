@@ -211,6 +211,9 @@ void MeshRender::drawImGui()
 						ImGui::SliderFloat(u8"B", &it2->mSpecular.z, 0.0f, 1.0f);
 						ImGui::PopID();
 
+						ImGui::Text(u8"Œõ‘ò");
+						ImGui::InputFloat(u8"S", &it2->mShininess);
+
 						ImGui::TreePop();
 					}
 
