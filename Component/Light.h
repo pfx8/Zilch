@@ -69,10 +69,13 @@ private:
 	void start();		// 初期化
 
 public:
-	LightType			mLightType;			// ライトタイプ
-	D3DXVECTOR3			mLightPos;			// ライトの位置
-	D3DXVECTOR4			mLightColor;		// ライトのカラー
+	D3DXVECTOR3			mLightPos;				// ライトの位置
+	D3DXVECTOR4			mLightColor;			// ライトのカラー
+	float				mLightAmbient = 0.2f;	// ライトアンビエント
+	float				mLightDiffuse = 0.5f;	// ライトディフューズ
+	float				mLightSpecular = 1.0f;	// ライトスペキュラー
 
+	LightType			mLightType;			// ライトタイプ
 	PointLight			mPointLight;		// ポイントライト
 	DirectionLight		mDirectionLight;	// 方向ライト
 	SpotLight			mSpotLight;			// スポットライト

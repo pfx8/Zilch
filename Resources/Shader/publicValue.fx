@@ -18,17 +18,17 @@
 matrix  worldMatrix;       // ワールド変換行列
 matrix  viewMatrix;        // ビューイング変換行列
 matrix  projectionMatrix;  // プロジェクション変換行列
-matrix  rotMatrix;         // ワールドでの回転行列
+matrix  norMatrix;         // 回転、スクール行列
 
 //*****************************************************************************
 //
 // マテリアル
 //
 //*****************************************************************************
-float3  matAmibent;    // 環境光
-float3  matDiffuse;    // 拡散反射光
-float3  matSpecular;   // 鏡面反射光
-float   shininess;     // 光沢
+float3 matAmibent;  // 環境光
+float3 matDiffuse;  // 拡散反射光
+float3 matSpecular; // 鏡面反射光
+float  shininess;   // 光沢
 
 //*****************************************************************************
 //

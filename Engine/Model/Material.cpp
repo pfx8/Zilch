@@ -17,9 +17,6 @@ Material::Material(aiMaterial* mat, Model* model)
 	// 所属モデルポインタを取得
 	this->mParentModel = model;
 
-	// デフォルト値
-	this->mShininess = 40.0f;
-
 	loadingMaterial(mat);
 
 	// Debugウインドへ
@@ -44,20 +41,24 @@ void Material::loadingMaterial(aiMaterial* mat)
 		aiColor3D ambient = { 0.0f, 0.0f, 0.0f };
 		aiColor3D diffuse = { 0.0f, 0.0f, 0.0f };
 		aiColor3D specular = { 0.0f, 0.0f, 0.0f };
+		float     shininess = 0.0f;
 
 		mat->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
 		mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
 		mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
+		mat->Get(AI_MATKEY_SHININESS, shininess);
 	
 		this->mAmbient = D3DXVECTOR3(ambient.r, ambient.g, ambient.b);
 		this->mDiffuse = D3DXVECTOR3(diffuse.r, diffuse.g, diffuse.b);
 		this->mSpecular = D3DXVECTOR3(specular.r, specular.g, specular.b);
+		this->mShininess = shininess;
 	}
 	else
 	{
 		this->mAmbient = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		this->mDiffuse = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		this->mSpecular = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		this->mShininess = 0.0f;
 
 		// Debugウインドへ
 		cout << "<Warning> no material" << endl;

@@ -81,28 +81,25 @@ void MeshRender::drawShadowMap()
 //*****************************************************************************
 void MeshRender::draw()
 {
-	// ライトを取得
+	// ライト情報をシェーダーに渡す
 	Light* light = this->mGameObject->mScene->getGameObject(L"light")->getComponent<Light>();
-	// ライトタイプをシェーダーに渡す
-	this->mShader->mEffect->SetInt("lightType", light->mLightType);
 
-	// ライトタイプによってシェーダーに変数を渡す
+	// 共有プロパティ
+	this->mShader->mEffect->SetInt("lightType", light->mLightType);
+	this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
+	this->mShader->mEffect->SetFloat("lightAmbient", light->mLightAmbient);
+	this->mShader->mEffect->SetFloat("lightDiffuse", light->mLightDiffuse);
+	this->mShader->mEffect->SetFloat("lightSpecular", light->mLightSpecular);
+
+	// ライトタイプによってプロパティをシェーダーに渡す
 	switch (light->mLightType)
 	{
 	case LT_direction:
-		// ライトカラーをシェーダーに渡す
-		this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
-
-		// ライト方向をシェーダーに渡す
 		this->mShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
 
 		break;
 	case LT_point:
-		// ライト位置をシェーダーに渡す
 		this->mShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
-
-		// ライトカラーをシェーダーに渡す
-		this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
 
 		// 減衰値公式変数をシェーダーに渡す
 		this->mShader->mEffect->SetFloat("lightConstant", light->mPointLight.constant);
@@ -111,30 +108,20 @@ void MeshRender::draw()
 
 		break;
 	case LT_spot:
-		// ライト位置をシェーダーに渡す
 		this->mShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
-
-		// ライトカラーをシェーダーに渡す
-		this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
-
-		// ライト方向をシェーダーに渡す
 		this->mShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
-
-		// コサイン値をシェーダーに渡す
 		this->mShader->mEffect->SetFloat("cutOff", light->mSpotLight.cutOff);
 
 		break;
 	}
 
-	// モデルのワールド変換行列を取得
+	// モデル情報をシェーダーに渡す
 	Transform* trans = this->mGameObject->getComponent<Transform>();
-	// モデルのワールド変換行列と回転行列をシェーダーに渡る
 	this->mShader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
-	this->mShader->mEffect->SetMatrix("rotMatrix", &trans->mNormalMatrix);
+	this->mShader->mEffect->SetMatrix("norMatrix", &trans->mNormalMatrix);
 
-	// カメラ情報を取得
+	// カメラ情報情報をシェーダーに渡す
 	Camera* camera = this->mGameObject->mScene->mCurrentCamera;
-	// カメラの行列をシェーダーに渡る
 	this->mShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
 	this->mShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
 	this->mShader->mEffect->SetValue("cameraPos", &camera->mCameraPos, sizeof(camera->mCameraPos));
@@ -191,21 +178,21 @@ void MeshRender::drawImGui()
 					if (ImGui::TreeNode("material", u8"<Material> : %s", name2.c_str()))
 					{
 						ImGui::PushID(1);
-						ImGui::Text(u8"環境光");
+						ImGui::TextUnformatted(u8"アンビエント");
 						ImGui::SliderFloat(u8"R", &it2->mAmbient.x, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"G", &it2->mAmbient.y, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"B", &it2->mAmbient.z, 0.0f, 1.0f);
 						ImGui::PopID();
 
 						ImGui::PushID(2);
-						ImGui::Text(u8"拡散反射光");
+						ImGui::TextUnformatted(u8"ディフューズ");
 						ImGui::SliderFloat(u8"R", &it2->mDiffuse.x, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"G", &it2->mDiffuse.y, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"B", &it2->mDiffuse.z, 0.0f, 1.0f);
 						ImGui::PopID();
 
 						ImGui::PushID(3);
-						ImGui::Text(u8"鏡面反射光");
+						ImGui::TextUnformatted(u8"スペキュラー");
 						ImGui::SliderFloat(u8"R", &it2->mSpecular.x, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"G", &it2->mSpecular.y, 0.0f, 1.0f);
 						ImGui::SliderFloat(u8"B", &it2->mSpecular.z, 0.0f, 1.0f);

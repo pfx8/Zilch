@@ -10,15 +10,20 @@
 #ifndef _LIGHTING_PROCESS_H_
 #define _LIGHTING_PROCESS_H_
 
+#include "publicValue.fx"
+
 //*****************************************************************************
 //
 // 変数声明
 //
 //*****************************************************************************
 // ライトの基礎変数
-float3  lightPos;    // ライト位置
-float4  lightColor;  // ライトカラー
-int     lightType;   // ライトタイプ
+float3  lightPos;      // ライト位置
+float4  lightColor;    // ライトカラー
+int     lightType;     // ライトタイプ
+float   lightAmbient;  // ライトアンビエント
+float   lightDiffuse;  // ライトディフューズ
+float   lightSpecular; // ライトスペキュラー
 
 // 指向性ライト
 float3 direction;  // ライトの方向
@@ -32,34 +37,68 @@ float  lightQuadratic;
 float  cutOff;    // スポットベクトルとライトベクトルのコサイン値
 bool   isSmooth;  // スムースチェック
 
-// カラーランプ選択
-int colorRamp;
-// セグメント値
-float3 colorRampSegment;
+// カラーランプ
+int colorRampType;        // カラーランプタイプ
+float3 colorRampSegment;  // セグメント値
 
 //*****************************************************************************
 //
-// ライトディフューズ計算
+// アンビエント
 //
 //*****************************************************************************
-float diffuseProcess(float4 lightDir, float3 normal)
+float3 ambientProcess()
 {
-    float diffuse;
+    float3 ambient;
+
+    ambient = lightAmbient * matAmibent * lightColor.rgb;
+
+    return ambient;
+}
+
+//*****************************************************************************
+//
+// ディフューズ
+//
+// max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
+//
+//*****************************************************************************
+float3 diffuseProcess(float4 lightDir, float3 normal)
+{
+    float3 diffuse;
+    float diff;
 
     if(lightType == 0)
     {
         // 指向性ライトの場合
-        diffuse = dot(-direction, normal);
-
-        return diffuse;
+        diffuse = max(dot(normal, -direction), 0.0);
+    }
+    else
+    {
+        diffuse = max(dot(float4(normal, 1.0), lightDir), 0.0);
     }
 
-    // ライト方向ベクトルと法線の外積を計算その結果はdiffuseです
-    // 外積の値がマイナスならばシャドウにする(0)
-    // max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
-    diffuse = max(0, dot(float4(normal, 1.0f), -lightDir));
+    diffuse *= lightColor.rgb;
 
     return diffuse;
+}
+
+//*****************************************************************************
+//
+// スペキュラー
+//
+// max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
+//
+//*****************************************************************************
+float3 specularProcess(float4 cameraDir, float4 lightDir, float3 normal)
+{
+    float3 specular;
+    float  spec;
+
+    float4 reflectDir = reflect(-lightDir, float4(normal, 1.0));
+    spec = pow(max(dot(cameraDir, reflectDir), 0.0), shininess);
+    specular = lightSpecular * (spec * matSpecular);
+
+    return specular;
 }
 
 //*****************************************************************************
@@ -83,6 +122,7 @@ float attenuationProcess(float4 worldPos)
 float constantDiffuse(float diff)
 {
     float w = fwidth(diff) * 2.0;
+
     if (diff < colorRampSegment.x + w)
     {
         diff = lerp(colorRampSegment.x, colorRampSegment.y, smoothstep(colorRampSegment.x - w, colorRampSegment.x + w, diff));
@@ -120,7 +160,7 @@ float diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
         // リニアモード
         diff = diffuseProcess(lightDir, normal);
 
-        if (colorRamp == 1)
+        if (colorRampType == 1)
         {
             // 一定モード
             diff = diff * 0.5 + 0.5;
@@ -135,7 +175,7 @@ float diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
         // リニアモード
         diff = attenuationProcess(worldPos);
 
-        if (colorRamp == 1)
+        if (colorRampType == 1)
         {
             // 一定モード
             diff = diff * 0.5 + 0.5;
@@ -162,7 +202,7 @@ float diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
             diff = float4(0, 0, 0, 1);
         }
 
-        if (colorRamp == 1)
+        if (colorRampType == 1)
         {
             // 一定モード
             diff = diff * 0.5 + 0.5;

@@ -48,9 +48,19 @@ void Light::drawImGui()
 	ImGui::ColorEdit4(u8"ライトカラー", this->mLightColor);
 	ImGui::Separator();
 
+	// ライト属性
+	ImGui::TextUnformatted(u8"アンビエント");
+	ImGui::SliderFloat(u8"Ambient", &this->mLightAmbient, 0.0f, 1.0f);
+	ImGui::TextUnformatted(u8"ディフューズ");
+	ImGui::SliderFloat(u8"Diffuse", &this->mLightDiffuse, 0.0f, 1.0f);
+	ImGui::TextUnformatted(u8"スペキュラー");
+	ImGui::SliderFloat(u8"Specular", &this->mLightSpecular, 0.0f, 1.0f);
+	ImGui::Separator();
+
 	// コンボボックスの幅を設定
 	ImGui::PushItemWidth(160);
-	ImGui::Combo(u8"ライトタイプ", &this->mCurrentLightType, this->mLight, IM_ARRAYSIZE(this->mLight));
+	ImGui::TextUnformatted(u8"ColorType");
+	ImGui::Combo(u8"Type", &this->mCurrentLightType, this->mLight, IM_ARRAYSIZE(this->mLight));
 	switch (this->mCurrentLightType)
 	{
 	case 0:
@@ -63,6 +73,7 @@ void Light::drawImGui()
 		this->mLightType = LT_spot;
 		break;
 	}
+	ImGui::Separator();
 
 	// 種類によってライトの調整ImGuiを描画
 	lightControllerImGui();
@@ -89,7 +100,8 @@ void Light::lightControllerImGui()
 
 		break;
 	case LT_point:
-		ImGui::InputFloat3(u8"位置", *v1);
+		ImGui::TextUnformatted(u8"位置");
+		ImGui::InputFloat3(u8"pos", *v1);
 		ImGui::Separator();
 
 		ImGui::TextUnformatted(u8"ポイントライト減衰パラメータ");
@@ -99,7 +111,8 @@ void Light::lightControllerImGui()
 
 		break;
 	case LT_spot:
-		ImGui::InputFloat3(u8"位置", *v1);
+		ImGui::TextUnformatted(u8"位置");
+		ImGui::InputFloat3(u8"Pos", *v1);;
 		ImGui::Separator();
 
 		ImGui::TextUnformatted(u8"ライト方向");
