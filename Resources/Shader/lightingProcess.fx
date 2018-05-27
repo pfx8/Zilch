@@ -70,7 +70,7 @@ float3 diffuseProcess(float4 lightDir, float3 normal)
     if(lightType == 0)
     {
         // wŒü«ƒ‰ƒCƒg‚Ìê‡
-        diffuse = max(dot(normal, -direction), 0.0);
+        diffuse = max(dot(normal, direction), 0.0);
     }
     else
     {

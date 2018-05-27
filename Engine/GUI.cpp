@@ -207,23 +207,28 @@ void GUI::systemGUI()
 		if (ImGui::TreeNode(u8"システムカメラ"))
 		{
 			float* v1[3] = { &camera->mCameraPos.x, &camera->mCameraPos.y, &camera->mCameraPos.z };
-			ImGui::InputFloat3(u8"位置", *v1);
+			ImGui::TextUnformatted(u8"位置");
+			ImGui::InputFloat3(u8"Pos", *v1);
 			ImGui::Separator();
 
 			float* v2[3] = { &camera->mTargetPos.x, &camera->mTargetPos.y, &camera->mTargetPos.z };
-			ImGui::InputFloat3(u8"注視点", *v2);
+			ImGui::TextUnformatted(u8"注視点");
+			ImGui::InputFloat3(u8"At", *v2);
 			ImGui::Separator();
 
 			float* v3[3] = { &camera->mCameraFront.x, &camera->mCameraFront.y, &camera->mCameraFront.z };
-			ImGui::DragFloat3(u8"注視方向", *v3);
+			ImGui::TextUnformatted(u8"注視方向");
+			ImGui::DragFloat3(u8"Look", *v3);
 			ImGui::Separator();
 
 			float* v4[3] = { &camera->mCameraRight.x, &camera->mCameraRight.y, &camera->mCameraRight.z };
-			ImGui::DragFloat3(u8"右方向", *v4);
+			ImGui::TextUnformatted(u8"右方向");
+			ImGui::DragFloat3(u8"Right", *v4);
 			ImGui::Separator();
 
 			float* v5[3] = { &camera->mCameraUp.x, &camera->mCameraUp.y, &camera->mCameraUp.z };
-			ImGui::DragFloat3(u8"方向", *v5);
+			ImGui::TextUnformatted(u8"上方向");
+			ImGui::DragFloat3(u8"Up", *v5);
 			ImGui::Separator();
 
 			ImGui::TreePop();
@@ -235,7 +240,8 @@ void GUI::systemGUI()
 	{
 		// コンボボックスの幅を設定
 		ImGui::PushItemWidth(160);
-		ImGui::Combo(u8"レンダリングモード", (int*)&this->mCurrentRenderingMode, this->mRenderingMode, IM_ARRAYSIZE(this->mRenderingMode));
+		ImGui::TextUnformatted(u8"レンダリングモード");
+		ImGui::Combo(u8"RenderingMode", (int*)&this->mCurrentRenderingMode, this->mRenderingMode, IM_ARRAYSIZE(this->mRenderingMode));
 		switch (this->mCurrentRenderingMode)
 		{
 		case 0:
@@ -261,7 +267,8 @@ void GUI::systemGUI()
 	{
 		// コンボボックスの幅を設定
 		ImGui::PushItemWidth(160);
-		ImGui::Combo(u8"カラーランプモード", (int*)&this->mCurrentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
+		ImGui::TextUnformatted(u8"カラーランプモード");
+		ImGui::Combo(u8"ColorRamp", (int*)&this->mCurrentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
 		switch (this->mCurrentColorRamp)
 		{
 		case 0:
