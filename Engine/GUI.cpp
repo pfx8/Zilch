@@ -272,7 +272,7 @@ void GUI::systemGUI()
 		switch (this->mCurrentColorRamp)
 		{
 		case 0:
-			getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_LINEAR;
+			getSceneManager()->mCurrentScene->mShader->mColorRampType = CR_LINEAR;
 			break;
 		case 1:
 			D3DXVECTOR3* colorRampSegment = &getSceneManager()->mCurrentScene->mShader->mColorRampSegment;
@@ -303,7 +303,7 @@ void GUI::systemGUI()
 				colorRampSegment->x = colorRampSegment->y;
 			}
 
-			getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_CONSTANT;
+			getSceneManager()->mCurrentScene->mShader->mColorRampType = CR_CONSTANT;
 			break;
 		}
 	}

@@ -24,7 +24,7 @@ Shader::Shader(wstring path)
 	this->mRenderingMode = RM_DIFFUSE;
 
 	// カラーランプモードを設定
-	this->mColorRamp = CR_LINEAR;
+	this->mColorRampType = CR_LINEAR;
 
 	// セグメントを設定
 	this->mColorRampSegment = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

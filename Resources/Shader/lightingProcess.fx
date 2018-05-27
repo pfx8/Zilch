@@ -69,24 +69,21 @@ float3 ambientProcess()
 // max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
 //
 //*****************************************************************************
-float3 diffuseProcess(float4 lightDir, float3 normal)
+float diffuseProcess(float4 lightDir, float3 normal)
 {
-    float3 diffuse;
     float diff;
 
     if(lightType == 0)
     {
         // 指向性ライトの場合
-        diffuse = max(dot(normal, direction), 0.0);
+        diff = max(dot(normal, direction), 0.0);
     }
     else
     {
-        diffuse = max(dot(float4(normal, 1.0), lightDir), 0.0);
+        diff = max(dot(float4(normal, 1.0), lightDir), 0.0);
     }
 
-    diffuse *= lightColor.rgb;
-
-    return diffuse;
+    return diff;
 }
 
 //*****************************************************************************
@@ -101,8 +98,14 @@ float3 specularProcess(float4 cameraDir, float4 lightDir, float3 normal)
     float3 specular;
     float  spec;
 
-    float4 reflectDir = reflect(-lightDir, float4(normal, 1.0));
-    spec = pow(max(dot(cameraDir, reflectDir), 0.0), shininess);
+    // Phong
+    //float4 reflectDir = reflect(-lightDir, float4(normal, 1.0));
+    //spec = pow(max(dot(cameraDir, reflectDir), 0.0), shininess);
+
+    // Blinn-Phong
+    float4 halfwayDir = normalize(lightDir + cameraDir);
+    spec = pow(max(dot(normal, halfwayDir.rgb), 0.0), shininess);
+
     specular = lightSpecular * (spec * matSpecular);
 
     return specular;
@@ -155,48 +158,26 @@ float constantDiffuse(float diff)
 // 各種類のライトのディフューズを計算
 //
 //*****************************************************************************
-float diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
+float3 diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
 {
-    // 結果ディフューズ
+    float3 diffuse;
     float diff;
 
-     // 指向性ライト
+    // ディフューズ計算
     if (lightType == 0)
     {
-        // ディフューズ計算
-        // リニアモード
+        // 指向性ライト
         diff = diffuseProcess(lightDir, normal);
-
-        if (colorRampType == 1)
-        {
-            // 一定モード
-            diff = diff * 0.5 + 0.5;
-            diff = constantDiffuse(diff);
-        }
     }
-
-    // ポイントライト
     else if (lightType == 1)
     {
-        // ディフューズ計算
-        // リニアモード
+        // ポイントライト
         diff = diffuseProcess(lightDir, normal) * attenuationProcess(worldPos);
-
-        if (colorRampType == 1)
-        {
-            // 一定モード
-            diff = diff * 0.5 + 0.5;
-            diff = constantDiffuse(diff);
-        }
     }
-
-    // スポットライト
     else if (lightType == 2)
     {
-        // ディフューズ計算
-        // リニアモード
-
-        // 角度によって明るさを調整
+        // スポットライト
+        // ライトと光方向の角度
         float theta = dot(lightDir, float4(normalize(-direction), 1.0));
         if (theta > cutOff)
         {
@@ -206,18 +187,20 @@ float diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
         else
         {
             // ライトがない
-            diff = float4(0, 0, 0, 1);
-        }
-
-        if (colorRampType == 1)
-        {
-            // 一定モード
-            diff = diff * 0.5 + 0.5;
-            diff = constantDiffuse(diff);
+            diff = float4(0.0, 0.0, 0.0, 1.0);
         }
     }
 
-    return diff;
+    // 一定モードならば
+    if (colorRampType == 1)
+    {
+        //diff = diff * 0.5 + 0.5;
+        diff = constantDiffuse(diff);
+    }
+
+    diffuse = float3(diff, diff, diff) * lightColor.rgb;
+
+    return diffuse;
 }
 
 #endif // !_LIGHTING_PROCESS_H_

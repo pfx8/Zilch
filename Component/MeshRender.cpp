@@ -130,9 +130,9 @@ void MeshRender::draw()
 	this->mShader->mEffect->SetInt("renderingMode", this->mShader->mRenderingMode);
 
 	// カラーランプモードをシェーダーに渡す
-	this->mShader->mEffect->SetInt("colorRamp", this->mShader->mColorRamp);
+	this->mShader->mEffect->SetInt("colorRampType", this->mShader->mColorRampType);
 	// セグメント値をシェーダーに渡す
-	if (this->mShader->mColorRamp == CR_CONSTANT)
+	if (this->mShader->mColorRampType == CR_CONSTANT)
 	{
 		this->mShader->mEffect->SetValue("colorRampSegment", &this->mShader->mColorRampSegment, sizeof(this->mShader->mColorRampSegment));
 	}

@@ -42,7 +42,7 @@ private:
 public:
 	ID3DXEffect*	mEffect;					// エフェクト
 	RenderingMode	mRenderingMode;				// レンダリングモード
-	ColorRamp		mColorRamp;					// カラーランプモード
+	ColorRamp		mColorRampType;				// カラーランプモード
 	D3DXVECTOR3		mColorRampSegment;			// カラーセグメント値、最大は３レベル
 
 	Shader(wstring path);
