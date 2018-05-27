@@ -275,10 +275,34 @@ void GUI::systemGUI()
 			getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_LINEAR;
 			break;
 		case 1:
+			D3DXVECTOR3* colorRampSegment = &getSceneManager()->mCurrentScene->mShader->mColorRampSegment;
+
 			ImGui::TextUnformatted(u8"カラーセグメント");
-			ImGui::SliderFloat("Level1", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.x, 0.0f, 1.0f);
-			ImGui::SliderFloat("Level2", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.y, 0.0f, 1.0f);
-			ImGui::SliderFloat("Level3", &getSceneManager()->mCurrentScene->mShader->mColorRampSegment.z, 0.0f, 1.0f);
+			ImGui::SliderFloat("Level1", &colorRampSegment->x, 0.0f, 1.0f);
+			// 増加同期
+			if (colorRampSegment->x > colorRampSegment->y)
+			{
+				colorRampSegment->y = colorRampSegment->x;
+			}
+
+			ImGui::SliderFloat("Level2", &colorRampSegment->y, 0.0f, 1.0f);
+			// 増加同期
+			if (colorRampSegment->y > colorRampSegment->z)
+			{
+				colorRampSegment->z = colorRampSegment->y;
+			}
+
+			ImGui::SliderFloat("Level3", &colorRampSegment->z, 0.0f, 1.0f);
+			// 減少同期
+			if (colorRampSegment->z < colorRampSegment->y)
+			{
+				colorRampSegment->y = colorRampSegment->z;
+			}
+			if (colorRampSegment->y < colorRampSegment->x)
+			{
+				colorRampSegment->x = colorRampSegment->y;
+			}
+
 			getSceneManager()->mCurrentScene->mShader->mColorRamp = CR_CONSTANT;
 			break;
 		}

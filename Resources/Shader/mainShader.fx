@@ -93,7 +93,7 @@ float4 modelPS(outputVS oVS) : COLOR
 
     // 各分量を計算
     ambient = ambientProcess();
-    diffuse = diffuseProcess(lightDir, oVS.nor);
+    diffuse = diffuseByLightType(lightDir, oVS.nor, oVS.worldPos);
     specular = specularProcess(cameraDir, lightDir, oVS.nor);
 
     // ライトによってディフューズを計算
@@ -112,7 +112,7 @@ float4 modelPS(outputVS oVS) : COLOR
     }
     else if (renderingMode == 2)
     {
-        // RM_SPECULAR
+        // RM_SPECULAR -- bug
         finColor = float4(specular, 1.0);
     }
     else if(renderingMode == 3)
@@ -123,7 +123,7 @@ float4 modelPS(outputVS oVS) : COLOR
     else
     {
         // RT_SHADING
-        finColor = float4((ambient + diffuse + specular), 1.0) * texColor;
+        finColor = float4((ambient + diffuse/* + specular*/), 1.0) * texColor;
     }
 
     return finColor;

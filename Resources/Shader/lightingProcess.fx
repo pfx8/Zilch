@@ -50,7 +50,14 @@ float3 ambientProcess()
 {
     float3 ambient;
 
-    ambient = lightAmbient * matAmibent * lightColor.rgb;
+    if (matAmibent.r == 0.0 && matAmibent.g == 0.0 && matAmibent.b == 0.0)
+    {
+        ambient = lightAmbient * lightColor.rgb;
+    }
+    else
+    {
+        ambient = lightAmbient * matAmibent * lightColor.rgb;
+    }
 
     return ambient;
 }
@@ -173,7 +180,7 @@ float diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
     {
         // ディフューズ計算
         // リニアモード
-        diff = attenuationProcess(worldPos);
+        diff = diffuseProcess(lightDir, normal) * attenuationProcess(worldPos);
 
         if (colorRampType == 1)
         {
