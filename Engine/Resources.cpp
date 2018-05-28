@@ -62,11 +62,11 @@ Model* Resources::getModel(wstring name)
 // テクスチャを読み込み
 //
 //*****************************************************************************
-void Resources::createTexture(const wstring path)
+void Resources::createTexture(const wstring path, TexType type)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
 	wstring name = pathToFileName(path);
-	mTextures.insert({ name, new Texture(path) });	
+	mTextures.insert({ name, new Texture(path, type) });	
 }
 
 //*****************************************************************************

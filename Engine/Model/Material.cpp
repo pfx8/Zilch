@@ -66,6 +66,8 @@ void Material::loadingMaterial(aiMaterial* mat)
 
 	// ディフューズテクスチャを読み込み
 	addTextureFromResources(mat, aiTextureType_DIFFUSE);
+	addTextureFromResources(mat, aiTextureType_HEIGHT);
+	addTextureFromResources(mat, aiTextureType_SPECULAR);
 }
 
 //*****************************************************************************
@@ -82,6 +84,9 @@ Material::~Material()
 //
 // マテリアルによってテクスチャを読み込み
 //
+// <Error>
+// 1.fbm対応できない
+//
 //*****************************************************************************
 void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 {
@@ -94,11 +99,9 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		// テクスチャパスを読み込み
 		aiString path;
 		mat->getTexture(type, count, &path);
-		//cout << "<Test path>" << path.C_Str() << endl;
 
 		// aiStringの文字コードはstringのutf-8
 		wstring wPath = stringUTF8ToUnicode(path.C_Str());
-		//wcout << "<Test wPath>" << wPath << endl;
 		wPath = searchTexturePath(wPath);
 
 		// 名前で判断する、新しいテクスチャだけを読み込み
@@ -116,12 +119,26 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		// テククシャを読み込んで取得する
 		if (skip == false)
 		{
-			resource->createTexture(wPath);
+			TexType texType;
+			switch (type)
+			{
+			case aiTextureType_DIFFUSE:
+				texType = TT_diffuse;
+				break;
+			case aiTextureType_HEIGHT:
+				texType = TT_height;
+				break;
+			case aiTextureType_SPECULAR:
+				texType = TT_specular;
+				break;
+			}
+
+			// リソースでテクスチャを読み込みまたモデルに保存
+			resource->createTexture(wPath, texType);
 			Texture* texture = resource->getTexture(name);
 			this->mTextures.push_back(texture);
 			this->mParentModel->mTextures.push_back(texture);
 		}
-
 	}
 }
 

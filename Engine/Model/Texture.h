@@ -12,6 +12,18 @@
 
 //*****************************************************************************
 //
+// 列挙体
+//
+//*****************************************************************************
+enum TexType
+{
+	TT_diffuse,
+	TT_height,
+	TT_specular,
+};
+
+//*****************************************************************************
+//
 // クラス宣言
 //
 //*****************************************************************************
@@ -23,11 +35,12 @@ class Texture
 private:
 
 public:
+	TexType						mType;			// テクスチャタイプ
 	wstring						mName;			// テクスチャ名前
 	wstring						mPath;			// テクスチャパス
 	LPDIRECT3DTEXTURE9			mTex;			// テクスチャポインタ
 
-	Texture(wstring path);
+	Texture(wstring path, TexType type);
 	~Texture();
 
 	HRESULT loadingTexture(wstring path);		// テクスチャを読み込み

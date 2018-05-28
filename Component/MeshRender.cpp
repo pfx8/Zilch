@@ -172,10 +172,10 @@ void MeshRender::drawImGui()
 					ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
 					ImGui::Text(u8"ポリゴン数 : %d", it1->mMeshInfo.numFaces);
 					ImGui::Separator();
-
-					// material
+					
 					for (auto it2 : it1->mMaterials)
 					{
+						// material
 						string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
 						if (ImGui::TreeNode("material", u8"<Material> : %s", name2.c_str()))
 						{
@@ -206,36 +206,87 @@ void MeshRender::drawImGui()
 							ImGui::TreePop();
 						}
 
-						// texture
-						unsigned int ID2s = 0;
-						for (auto it3 : it2->mTextures)
-						{
-							// テクスチャパスと名前
-							string path1 = wstringUnicodeToUTF8(it3->mPath);
-							strcpy(this->mTexPathTemp, path1.c_str());
-							string name3 = wstringUnicodeToUTF8(it3->mName);
+						// diffuse
+						string path1 = wstringUnicodeToUTF8(it2->mTextures.at(0)->mPath);
+						strcpy(this->mTexPathTemp, path1.c_str());
+						string name3 = wstringUnicodeToUTF8(it2->mTextures.at(0)->mName);
 
-							ImGui::PushID(ID2s);
-							if (ImGui::TreeNode("texture", u8"<Texture> : %s", name3.c_str()))
+						ImGui::PushID(1);
+						if (ImGui::TreeNode("texture1", u8"<Texture><Diffuse> : %s", name3.c_str()))
+						{
+							// テクスチャをImGuiで出す
+							ImGui::Image((void*)it2->mTextures.at(0)->mTex, ImVec2(150, 150));
+							ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
+
+							// 新しいテクスチャパスを保存
+							wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
+							it2->mTextures.at(0)->mPath = str;
+
+							// 入力したパスによってテクスチャをリロード
+							if (ImGui::Button(u8"リロード"))
+							{
+								it2->mTextures.at(0)->loadingTexture(str);
+							}
+
+							ImGui::TreePop();
+						}
+						ImGui::PopID();
+
+						// height
+						if (it2->mTextures.size() == 3)
+						{
+							string path2 = wstringUnicodeToUTF8(it2->mTextures.at(1)->mPath);
+							strcpy(this->mTexPathTemp, path2.c_str());
+							string name4 = wstringUnicodeToUTF8(it2->mTextures.at(1)->mName);
+
+							ImGui::PushID(2);
+							if (ImGui::TreeNode("texture2", u8"<Texture><Height> : %s", name4.c_str()))
 							{
 								// テクスチャをImGuiで出す
-								ImGui::Image((void*)it3->mTex, ImVec2(150, 150));
+								ImGui::Image((void*)it2->mTextures.at(1)->mTex, ImVec2(150, 150));
 								ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
 
 								// 新しいテクスチャパスを保存
 								wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
-								it3->mPath = str;
+								it2->mTextures.at(1)->mPath = str;
 
 								// 入力したパスによってテクスチャをリロード
 								if (ImGui::Button(u8"リロード"))
 								{
-									it3->loadingTexture(str);
+									it2->mTextures.at(1)->loadingTexture(str);
 								}
 
 								ImGui::TreePop();
 							}
+							ImGui::PopID();
+						}
 
-							ID2s++;
+						// specular
+						if (it2->mTextures.size() == 3)
+						{
+							string path3 = wstringUnicodeToUTF8(it2->mTextures.at(2)->mPath);
+							strcpy(this->mTexPathTemp, path3.c_str());
+							string name5 = wstringUnicodeToUTF8(it2->mTextures.at(2)->mName);
+
+							ImGui::PushID(3);
+							if (ImGui::TreeNode("texture3", u8"<Texture><Specular> : %s", name5.c_str()))
+							{
+								// テクスチャをImGuiで出す
+								ImGui::Image((void*)it2->mTextures.at(2)->mTex, ImVec2(150, 150));
+								ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
+
+								// 新しいテクスチャパスを保存
+								wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
+								it2->mTextures.at(2)->mPath = str;
+
+								// 入力したパスによってテクスチャをリロード
+								if (ImGui::Button(u8"リロード"))
+								{
+									it2->mTextures.at(2)->loadingTexture(str);
+								}
+
+								ImGui::TreePop();
+							}
 							ImGui::PopID();
 						}
 					}

@@ -12,12 +12,13 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Texture::Texture(wstring path)
+Texture::Texture(wstring path, TexType type)
 {
 	// テククシャポインタを初期化
 	this->mTex = nullptr;
 
 	// テクスチャ情報取得
+	this->mType = type;
 	this->mName = pathToFileName(path);
 	this->mPath = path;
 	
