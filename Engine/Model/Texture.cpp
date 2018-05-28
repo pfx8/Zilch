@@ -55,7 +55,7 @@ HRESULT Texture::loadingTexture(wstring path)
 		&mTex)))
 	{
 		// Debugウインドへ
-		wcout << "<Error> loading<Texture> " << path << " ... failed!" << endl;
+		wcout << "<Error> loading <Texture> " << path << " ... failed!" << endl;
 		return E_FAIL;
 	}
 

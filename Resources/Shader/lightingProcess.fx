@@ -67,6 +67,7 @@ float3 ambientProcess()
 // ディフューズ
 //
 // max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
+// saturate(x) xを0~1の範囲にクランプ
 //
 //*****************************************************************************
 float diffuseProcess(float4 lightDir, float3 normal)
@@ -76,11 +77,13 @@ float diffuseProcess(float4 lightDir, float3 normal)
     if(lightType == 0)
     {
         // 指向性ライトの場合
-        diff = max(dot(normal, direction), 0.0);
+        //diff = max(dot(normal, direction), 0.0);
+        diff = saturate(dot(normal, direction));
     }
     else
     {
-        diff = max(dot(float4(normal, 1.0), lightDir), 0.0);
+        //diff = max(dot(float4(normal, 1.0), lightDir), 0.0);
+        diff = saturate(dot(float4(normal, 1.0), lightDir));
     }
 
     return diff;
@@ -104,7 +107,8 @@ float3 specularProcess(float4 cameraDir, float4 lightDir, float3 normal)
 
     // Blinn-Phong
     float4 halfwayDir = normalize(lightDir + cameraDir);
-    spec = pow(max(dot(normal, halfwayDir.rgb), 0.0), shininess);
+    //spec = pow(max(dot(normal, halfwayDir.rgb), 0.0), shininess);
+    spec = pow(saturate(dot(normal, halfwayDir.rgb)), shininess);
 
     specular = lightSpecular * (spec * matSpecular);
 

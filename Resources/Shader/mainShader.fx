@@ -86,6 +86,14 @@ outputVS modelVS(inputVSWithBone iVS)
     //oVS.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
 
     // TBNçsóÒåvéZ
+    float3 T = mul(float4(iVS.tan, 0.0), worldMatrix).rgb;
+    T = normalize(T);
+    float3 N = mul(float4(iVS.tan, 0.0), worldMatrix).rgb;
+    N = normalize(N);
+
+    T = normalize(T - dot(T, N) * N);
+    float3 B = cross(T, N);
+    float3x3 TBN = float3x3(T, B, N);
 
     // í∏ì_ïœä∑
     oVS.worldPos = mul(float4(iVS.pos, 1.0), worldMatrix);

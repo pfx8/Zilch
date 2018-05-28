@@ -48,8 +48,6 @@ struct inputVS
     float3 pos : POSITION0;
     float3 nor : NORMAL0;
     float2 coord : TEXCOORD0;
-    float3 tan : TTANGENT0;
-    float3 biNor : BINORMAL0;
 };
 
 // çúïtÇ´ÇÃí∏ì_ç\ë¢ëÃ
@@ -58,7 +56,7 @@ struct inputVSWithBone
     float3 pos : POSITION0;
     float3 nor : NORMAL0;
     float2 coord : TEXCOORD0;
-
+    float3 tan : TANGENT0;
     float4 weight : BLENDWEIGHT;
     float4 boneID : BLENDINDICES;
 };
