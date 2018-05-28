@@ -35,13 +35,13 @@ void Scene02::start()
 	resource->createModel(L"Resources\\Model\\field.fbx");
 
 	// Hixo
-	resource->createModel(L"Resources\\Model\\Hixo.fbx");
+	//resource->createModel(L"Resources\\Model\\Hixo.fbx");
 	//resource->getModel(L"Hixo")->addAnimation(new Animation(L"Resources/Model/Running.fbx"));
 
 	// Flag -- bone testing
 	//resource->createTexture("Resources/Texture/flag/heart.png");
 	//resource->createTexture("Resources/Texture/flag/wood.jpg");
-	//resource->createModel("Resources/Model/flag.fbx", MT_withBone);
+	resource->createModel(L"Resources\\Model\\flag.fbx");
 
 	// shader
 	resource->createShader(L"Resources\\Shader\\mainShader.fx");
@@ -75,7 +75,7 @@ void Scene02::start()
 	lightController->mLight = light;										// ライトを指定
 	player->addComponent<LightController>(lightController);
 	MeshRender* playerMeshRender = new MeshRender();
-	playerMeshRender->mModel = resource->getModel(L"Hixo");					// リソースからモデルを取得
+	playerMeshRender->mModel = resource->getModel(L"flag");					// リソースからモデルを取得
 	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
 	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加

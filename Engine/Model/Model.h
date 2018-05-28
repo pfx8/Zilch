@@ -44,10 +44,10 @@ class Model
 {
 	friend class MeshRender;
 private:
+	ModelInfo						mModelInfo;						// モデル情報構造体
+
 	HRESULT loadModel(wstring const& wPath);						// モデルを読み込み
 	void processNode(aiNode *node, const aiScene *scene);			// ノード処理
-
-	ModelInfo						mModelInfo;						// モデル情報構造体
 
 public:
 	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号
@@ -70,8 +70,6 @@ public:
 	void drawModel(Shader* shader);									// モデルを描画
 
 	void checkBone(aiMesh* mesh);									// 骨あるかどうかをチェック
-	void createBone(aiMesh* mesh);									// 骨データを解析して保存
-	void traverseNode(Node* node, unsigned int level);				// 骨ノードをトラバース
 };
 
 #endif // !_MODEL_H_

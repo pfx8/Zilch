@@ -14,8 +14,77 @@
 //*****************************************************************************
 Animation::Animation(wstring const& wPath)
 {
-
 	loadAnimation(wPath);
+}
+
+//*****************************************************************************
+//
+// コンストラクタ
+//
+//*****************************************************************************
+Animation::Animation(aiAnimation* animation)
+{
+	this->mName = stringToWString(animation->mName.C_Str());
+	this->mDuration = animation->mDuration;
+	this->mTicksPerSecond = animation->mTicksPerSecond;
+
+	// Animationデータを解析
+	for (unsigned int count = 0; count < animation->mNumChannels; count++)
+	{
+		// まずはチャンネルを取得
+		aiNodeAnim* channel = animation->mChannels[count];
+		AnimationChannel* animationChannel = new AnimationChannel();
+		animationChannel->mNodeName = stringToWString(channel->mNodeName.C_Str());
+
+		// 頂点座標
+		for (unsigned int i = 0; i < animation->mChannels[count]->mNumPositionKeys; i++)
+		{
+			struct VertexKey vectorkey;
+
+			// 頂点データを取得
+			vectorkey.time = animation->mChannels[count]->mPosKeys[i].mTime;
+			vectorkey.value.x = animation->mChannels[count]->mPosKeys[i].mValue.x;
+			vectorkey.value.y = animation->mChannels[count]->mPosKeys[i].mValue.y;
+			vectorkey.value.z = animation->mChannels[count]->mPosKeys[i].mValue.z;
+
+			// AnimationChannelに頂点データを入れる
+			animationChannel->mPosKeys.push_back(vectorkey);
+		}
+
+		// 回転
+		for (unsigned int i = 0; i < animation->mChannels[count]->mNumRotationKeys; i++)
+		{
+			struct QuaternionKey quaternionKey;
+
+			quaternionKey.time = animation->mChannels[count]->mRotationKeys[i].mTime;
+			// 四元数を取得
+			quaternionKey.value.x = animation->mChannels[count]->mRotationKeys[i].mValue.x;
+			quaternionKey.value.y = animation->mChannels[count]->mRotationKeys[i].mValue.y;
+			quaternionKey.value.z = animation->mChannels[count]->mRotationKeys[i].mValue.z;
+			quaternionKey.value.w = animation->mChannels[count]->mRotationKeys[i].mValue.w;
+
+			// AnimationChannelに頂点データを入れる
+			animationChannel->mRotkeys.push_back(quaternionKey);
+		}
+
+		// 拡大縮小
+		for (unsigned int i = 0; i < animation->mChannels[count]->mNumScalingKeys; i++)
+		{
+			struct VertexKey vectorkey;
+
+			// 拡大縮小のデータを取得
+			vectorkey.time = animation->mChannels[count]->mScalingKeys[i].mTime;
+			vectorkey.value.x = animation->mChannels[count]->mScalingKeys[i].mValue.x;
+			vectorkey.value.y = animation->mChannels[count]->mScalingKeys[i].mValue.y;
+			vectorkey.value.z = animation->mChannels[count]->mScalingKeys[i].mValue.z;
+
+			// AnimationChannelに拡大縮小のデータを入れる
+			animationChannel->mSclKeys.push_back(vectorkey);
+		}
+
+		// AnimationChannelを保存
+		mAnimationChannels.push_back(animationChannel);
+	}
 }
 
 //*****************************************************************************
@@ -70,15 +139,14 @@ HRESULT Animation::loadAnimation(wstring const& wPath)
 	}
 
 	// AnimationChannelを保存
-	for (unsigned int count {0}; count < scene->mAnimations[0]->mNumChannels; count++)
+	for (unsigned int count = 0; count < scene->mAnimations[0]->mNumChannels; count++)
 	{
 		// まずはチャンネルを取得
 		aiNodeAnim* channel = scene->mAnimations[0]->mChannels[count];
 		AnimationChannel* animationChannel = new AnimationChannel();
-		animationChannel->mBoneName = scene->mAnimations[0]->mChannels[count]->mNodeName.C_Str();
 
 		// 頂点座標
-		for (unsigned int i {0}; i < scene->mAnimations[0]->mChannels[count]->mNumPositionKeys; i++)
+		for (unsigned int i = 0; i < scene->mAnimations[0]->mChannels[count]->mNumPositionKeys; i++)
 		{
 			struct VertexKey vectorkey;
 
@@ -93,7 +161,7 @@ HRESULT Animation::loadAnimation(wstring const& wPath)
 		}
 
 		// 回転
-		for (unsigned int i {0}; i < scene->mAnimations[0]->mChannels[count]->mNumRotationKeys; i++)
+		for (unsigned int i = 0; i < scene->mAnimations[0]->mChannels[count]->mNumRotationKeys; i++)
 		{
 			struct QuaternionKey quaternionKey;
 
@@ -109,7 +177,7 @@ HRESULT Animation::loadAnimation(wstring const& wPath)
 		}
 
 		// 拡大縮小
-		for (unsigned int i {0}; i < scene->mAnimations[0]->mChannels[count]->mNumScalingKeys; i++)
+		for (unsigned int i = 0; i < scene->mAnimations[0]->mChannels[count]->mNumScalingKeys; i++)
 		{
 			struct VertexKey vectorkey;
 
@@ -128,36 +196,13 @@ HRESULT Animation::loadAnimation(wstring const& wPath)
 	}
 
 	// ルートノードから処理を始める
-	Node* node = new Node(scene->mRootNode->mName.C_Str());
-	node->mParent = nullptr;
-	processNode(node, scene->mRootNode, scene);
+	//Node* node = new Node(scene->mRootNode->mName.C_Str());
+	//node->mParent = nullptr;
+	//processNode(node, scene->mRootNode, scene);
 
 	return S_OK;
 }
 
-//*****************************************************************************
-//
-// 骨ノードをトラバース
-//
-//*****************************************************************************
-void Animation::traverseBoneNode(Node* node, unsigned int level)
-{
-	string space;
-
-	for (unsigned count = 0; count < level; count++)
-	{
-		if (count == level - 1)
-		{
-			space += "|";
-		}
-		space += "  ";
-	}
-
-	for (auto it : node->mChildren)
-	{
-		traverseBoneNode(it, level + 1);
-	}
-}
 
 //*****************************************************************************
 //
@@ -166,23 +211,23 @@ void Animation::traverseBoneNode(Node* node, unsigned int level)
 // アニメーションの情報を自分作ったAnimationChannelに入れる
 //
 //*****************************************************************************
-void Animation::processNode(Node* node, aiNode* aiNode, const aiScene* scene)
+void Animation::processNode(aiNode* aiNode, const aiScene* scene)
 {
-	// offset行列を保存
-	node->mTransform = aiNode->mTransformation[0];
+	//// offset行列を保存
+	//node->mTransform = aiNode->mTransformation[0];
 
-	// 子供ノードを処理
-	for (unsigned int count {0}; count < aiNode->mNumChildren; count++)
-	{
-		// 子供ノードを作る
-		Node* cNode = new Node(aiNode->mChildren[count]->mName.C_Str());
-		cNode->mParent = node;
-		node->mChildren.push_back(cNode);
+	//// 子供ノードを処理
+	//for (unsigned int count = 0; count < aiNode->mNumChildren; count++)
+	//{
+	//	// 子供ノードを作る
+	//	Node* cNode = new Node(aiNode->mChildren[count]->mName.C_Str());
+	//	cNode->mParent = node;
+	//	node->mChildren.push_back(cNode);
 
-		processNode(cNode, aiNode->mChildren[count], scene);
-	}
+	//	processNode(cNode, aiNode->mChildren[count], scene);
+	//}
 
-	this->mNode.push_back(node);
+	//this->mNode.push_back(node);
 }
 
 //*****************************************************************************
@@ -204,7 +249,7 @@ void Animation::updateBoneTransforms(float timeInSeconds, vector<Bone*>& bones, 
 	float animationTime = fmodf(timeInSeconds * this->mTicksPerSecond, this->mDuration);
 
 	// 各骨を更新行列を計算、ルートノードから
-	processBoneTransforms(animationTime, *(this->mNode.end()-1), bones, matrix);
+	//processBoneTransforms(animationTime, *(this->mNode.end()-1), bones, matrix);
 
 	// test data
 	/*unsigned int count = 1;
@@ -222,10 +267,10 @@ void Animation::updateBoneTransforms(float timeInSeconds, vector<Bone*>& bones, 
 // キーフレームで各ノード(骨)の変換行列を計算処理
 //
 //*****************************************************************************
-void Animation::processBoneTransforms(float animationTime, Node* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform)
+void Animation::processBoneTransforms(float animationTime, Node<D3DXMATRIX>* node, vector<Bone*>& bones, D3DXMATRIX& parentTransform)
 {
 	// ノードの変更行列を取得
-	D3DXMATRIX nodeTransform = node->mTransform;
+	D3DXMATRIX nodeTransform = *node->mData;
 
 	// ノードが骨ならば、対応してるchannelを取得
 	AnimationChannel* channel = nullptr;
@@ -233,10 +278,10 @@ void Animation::processBoneTransforms(float animationTime, Node* node, vector<Bo
 	// このノードに骨があれば
 	for (auto it : this->mAnimationChannels)
 	{
-		if (node->mName == it->mBoneName)
+		/*if (node->mName == it->mBoneName)
 		{
 			channel = it;
-		}
+		}*/
 	}
 
 	// このノードに骨があれば、キーフレームによって骨の変更行列を計算

@@ -60,6 +60,7 @@ HRESULT Model::loadModel(wstring const& wPath)
 	this->mModelInfo.numMaterials = scene->mNumMaterials;
 	this->mModelInfo.numAnimations = scene->mNumAnimations;
 	this->mModelInfo.numTextures = scene->mNumTextures;
+
 	// Ex
 	this->mModelInfo.numLights = scene->mNumLights;
 	this->mModelInfo.numCameras = scene->mNumCameras;
@@ -80,15 +81,17 @@ HRESULT Model::loadModel(wstring const& wPath)
 //*****************************************************************************
 void Model::processNode(aiNode* node, const aiScene* scene)
 {
-	// もし今のノードにメッシュがあれば処理する
+	// メッシュノード処理
 	for (unsigned int count = 0; count < node->mNumMeshes; count++)
 	{
 		// sceneのmMeshesは本当のメッシュデータ、一歩でnodeのmMesherはメッシュのインデックス
 		aiMesh* aiMesh = scene->mMeshes[node->mMeshes[count]];
 		this->mMeshes.push_back(new Mesh(aiMesh, this->mBones, scene, this->mPath, this));
 
-		// 骨チェック
-		createBone(aiMesh);
+		//cout << node->mTransformation.a1 << ", " << node->mTransformation.a2 << ", " << node->mTransformation.a3 << ", " << node->mTransformation.a4 << endl;
+		//cout << node->mTransformation.b1 << ", " << node->mTransformation.b2 << ", " << node->mTransformation.b3 << ", " << node->mTransformation.b4 << endl;
+		//cout << node->mTransformation.c1 << ", " << node->mTransformation.c2 << ", " << node->mTransformation.c3 << ", " << node->mTransformation.c4 << endl;
+		//cout << node->mTransformation.d1 << ", " << node->mTransformation.d2 << ", " << node->mTransformation.d3 << ", " << node->mTransformation.d4 << endl;
 	}
 
 	// 子供ノードを同じように処理する
@@ -115,10 +118,11 @@ void Model::checkBone(aiMesh* mesh)
 //*****************************************************************************
 void Model::checkAnimation(const aiScene* scene)
 {
-	if (scene->mNumAnimations != 0)
+	for (unsigned int count = 0; count < scene->mNumAnimations; count++)
 	{
 		// アニメーションを解析して保存
-
+		aiAnimation* animation = scene->mAnimations[count];
+		this->mAnimationes.push_back(new Animation(animation));
 	}
 }
 
@@ -142,40 +146,6 @@ void Model::updateAnimation(float timeInSeconds)
 	//this->mAnimationes[this->mCurAnimation]->updateBoneTransforms(timeInSeconds, this->mBones, this->mTransforms);
 }
 
-//*****************************************************************************
-//
-// 骨データを解析して保存
-//
-//*****************************************************************************
-void Model::createBone(aiMesh* mesh)
-{
-	for (unsigned int count = 0; count < mesh->mNumBones; count++)
-	{
-		
-	}
-}
-
-//*****************************************************************************
-//
-// ノードをトラバース
-//
-//*****************************************************************************
-void Model::traverseNode(Node* node, unsigned int level)
-{
-	string space;
-
-	for (unsigned count = 0; count < level; count++)
-	{
-		space += "  ";
-	}
-
-	ImGui::Text("%s%s", space.c_str(), node->mName.c_str());
-
-	for (auto it : node->mChildren)
-	{
-		traverseNode(it, level + 1);
-	}
-}
 
 //*****************************************************************************
 //

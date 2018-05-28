@@ -36,7 +36,7 @@ class AnimationChannel
 private:
 
 public:
-	string						mBoneName;				// 骨の名前
+	wstring						mNodeName;				// ノード名前
 	vector<VertexKey>			mPosKeys;				// 頂点座標
 	vector<QuaternionKey>		mRotkeys;				// 回転四元数
 	vector<VertexKey>			mSclKeys;				// 拡大縮小データ

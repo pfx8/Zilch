@@ -156,96 +156,142 @@ void MeshRender::drawImGui()
 		ImGui::Text(u8"メッシュ数 : %d", this->mModel->mModelInfo.numMeshes);
 		ImGui::Text(u8"骨数 : %d", this->mModel->mBones.size());
 		ImGui::Text(u8"マテリアル数 : %d", this->mModel->mModelInfo.numMaterials);
-		//ImGui::Text(u8"アニメーション数:%d", );
+		ImGui::Text(u8"アニメーション数 : %d", this->mModel->mModelInfo.numAnimations);
 		ImGui::Separator();
 
 		// メッシュ情報
-		unsigned int ID1s = 0;
-		for (auto it1 : this->mModel->mMeshes)
+		if (ImGui::TreeNode(u8"メッシュ"))
 		{
-			ImGui::PushID(ID1s);
-			string name = wstringUnicodeToUTF8((wstring const)it1->mName);
-			if (ImGui::TreeNode("mesh", u8"<Mesh> : %s", name.c_str()))
+			unsigned int ID1s = 0;
+			for (auto it1 : this->mModel->mMeshes)
 			{
-				ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
-				ImGui::Text(u8"ポリゴン数 : %d", it1->mMeshInfo.numFaces);
-				ImGui::Separator();
-
-				// material
-				for (auto it2 : it1->mMaterials)
+				ImGui::PushID(ID1s);
+				string name = wstringUnicodeToUTF8((wstring const)it1->mName);
+				if (ImGui::TreeNode("mesh", u8"<Mesh> : %s", name.c_str()))
 				{
-					string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
-					if (ImGui::TreeNode("material", u8"<Material> : %s", name2.c_str()))
+					ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
+					ImGui::Text(u8"ポリゴン数 : %d", it1->mMeshInfo.numFaces);
+					ImGui::Separator();
+
+					// material
+					for (auto it2 : it1->mMaterials)
 					{
-						ImGui::PushID(1);
-						ImGui::TextUnformatted(u8"アンビエント");
-						ImGui::SliderFloat(u8"R", &it2->mAmbient.x, 0.0f, 1.0f);
-						ImGui::SliderFloat(u8"G", &it2->mAmbient.y, 0.0f, 1.0f);
-						ImGui::SliderFloat(u8"B", &it2->mAmbient.z, 0.0f, 1.0f);
-						ImGui::PopID();
-
-						ImGui::PushID(2);
-						ImGui::TextUnformatted(u8"ディフューズ");
-						ImGui::SliderFloat(u8"R", &it2->mDiffuse.x, 0.0f, 1.0f);
-						ImGui::SliderFloat(u8"G", &it2->mDiffuse.y, 0.0f, 1.0f);
-						ImGui::SliderFloat(u8"B", &it2->mDiffuse.z, 0.0f, 1.0f);
-						ImGui::PopID();
-
-						ImGui::PushID(3);
-						ImGui::TextUnformatted(u8"スペキュラー");
-						ImGui::SliderFloat(u8"R", &it2->mSpecular.x, 0.0f, 1.0f);
-						ImGui::SliderFloat(u8"G", &it2->mSpecular.y, 0.0f, 1.0f);
-						ImGui::SliderFloat(u8"B", &it2->mSpecular.z, 0.0f, 1.0f);
-						ImGui::PopID();
-
-						ImGui::Text(u8"光沢");
-						ImGui::InputFloat(u8"S", &it2->mShininess);
-
-						ImGui::TreePop();
-					}
-
-					// texture
-					unsigned int ID2s = 0;
-					for (auto it3 : it2->mTextures)
-					{
-						// テクスチャパスと名前
-						string path1 = wstringUnicodeToUTF8(it3->mPath);
-						strcpy(this->mTexPathTemp, path1.c_str());
-						string name3 = wstringUnicodeToUTF8(it3->mName);
-
-						ImGui::PushID(ID2s);
-						if (ImGui::TreeNode("texture", u8"<Texture> : %s", name3.c_str()))
+						string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
+						if (ImGui::TreeNode("material", u8"<Material> : %s", name2.c_str()))
 						{
-							// テクスチャをImGuiで出す
-							ImGui::Image((void*)it3->mTex, ImVec2(150, 150));
-							ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
+							ImGui::PushID(1);
+							ImGui::TextUnformatted(u8"アンビエント");
+							ImGui::SliderFloat(u8"R", &it2->mAmbient.x, 0.0f, 1.0f);
+							ImGui::SliderFloat(u8"G", &it2->mAmbient.y, 0.0f, 1.0f);
+							ImGui::SliderFloat(u8"B", &it2->mAmbient.z, 0.0f, 1.0f);
+							ImGui::PopID();
 
-							// 新しいテクスチャパスを保存
-							wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
-							it3->mPath = str;
+							ImGui::PushID(2);
+							ImGui::TextUnformatted(u8"ディフューズ");
+							ImGui::SliderFloat(u8"R", &it2->mDiffuse.x, 0.0f, 1.0f);
+							ImGui::SliderFloat(u8"G", &it2->mDiffuse.y, 0.0f, 1.0f);
+							ImGui::SliderFloat(u8"B", &it2->mDiffuse.z, 0.0f, 1.0f);
+							ImGui::PopID();
 
-							// 入力したパスによってテクスチャをリロード
-							if (ImGui::Button(u8"リロード"))
-							{
-								it3->loadingTexture(str);
-							}
+							ImGui::PushID(3);
+							ImGui::TextUnformatted(u8"スペキュラー");
+							ImGui::SliderFloat(u8"R", &it2->mSpecular.x, 0.0f, 1.0f);
+							ImGui::SliderFloat(u8"G", &it2->mSpecular.y, 0.0f, 1.0f);
+							ImGui::SliderFloat(u8"B", &it2->mSpecular.z, 0.0f, 1.0f);
+							ImGui::PopID();
+
+							ImGui::Text(u8"光沢");
+							ImGui::InputFloat(u8"S", &it2->mShininess);
 
 							ImGui::TreePop();
 						}
 
-						ID2s++;
-						ImGui::PopID();
+						// texture
+						unsigned int ID2s = 0;
+						for (auto it3 : it2->mTextures)
+						{
+							// テクスチャパスと名前
+							string path1 = wstringUnicodeToUTF8(it3->mPath);
+							strcpy(this->mTexPathTemp, path1.c_str());
+							string name3 = wstringUnicodeToUTF8(it3->mName);
+
+							ImGui::PushID(ID2s);
+							if (ImGui::TreeNode("texture", u8"<Texture> : %s", name3.c_str()))
+							{
+								// テクスチャをImGuiで出す
+								ImGui::Image((void*)it3->mTex, ImVec2(150, 150));
+								ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
+
+								// 新しいテクスチャパスを保存
+								wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
+								it3->mPath = str;
+
+								// 入力したパスによってテクスチャをリロード
+								if (ImGui::Button(u8"リロード"))
+								{
+									it3->loadingTexture(str);
+								}
+
+								ImGui::TreePop();
+							}
+
+							ID2s++;
+							ImGui::PopID();
+						}
 					}
+
+					ImGui::TreePop();
 				}
 
-				ImGui::TreePop();
+				ID1s++;
+				ImGui::PopID();
 			}
 
-			ID1s++;
-			ImGui::PopID();
+			ImGui::TreePop();
 		}
 
-		// 骨情報
+		// アニメーション情報
+		if (ImGui::TreeNode(u8"アニメーション"))
+		{
+			unsigned int ID = 0;
+			for (auto it : this->mModel->mAnimationes)
+			{
+				ImGui::PushID(ID);
+				string name = wstringUnicodeToUTF8((wstring const)it->mName);
+				if (ImGui::TreeNode("animation", u8"<Animation> : %s", name.c_str()))
+				{
+					ImGui::Text(u8"時間(Max : %f)", it->mDuration / it->mTicksPerSecond);
+					ImGui::SliderFloat("times", &it->mLastStartTime, 0.0f, it->mDuration / it->mTicksPerSecond);
+
+					unsigned int ID2 = 0;
+					for (auto it2 : it->mAnimationChannels)
+					{
+						ImGui::PushID(ID2);
+						string name = wstringUnicodeToUTF8((wstring const)it2->mNodeName);
+						if (ImGui::TreeNode(u8"<KeyFrame> : %s", name.c_str()))
+						{
+							ImGui::Text(u8"Pos %d", it2->mPosKeys.size());
+							ImGui::Text(u8"Scl %d", it2->mSclKeys.size());
+							ImGui::Text(u8"Rot %d", it2->mRotkeys.size());
+
+							ImGui::TreePop();
+						}
+
+						ID2++;
+						ImGui::PopID();
+					}
+
+					ImGui::TreePop();
+				}
+
+				ID++;
+				ImGui::PopID();
+			}
+
+			ImGui::TreePop();
+		}
+		
+
 		/*if (this->mModel->mMeshType == MT_withBone)
 		{
 			if (ImGui::TreeNode(u8"ボーン"))

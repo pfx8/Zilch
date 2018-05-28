@@ -12,7 +12,8 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Node::Node(string name)
+template<typename T>
+Node<T>::Node(string name)
 {
 	this->mName = name;
 	this->mParent = nullptr;
@@ -23,7 +24,8 @@ Node::Node(string name)
 // デストラクタ
 //
 //*****************************************************************************
-Node::~Node()
+template<typename T>
+Node<T>::~Node()
 {
 	// リリースaiScene
 

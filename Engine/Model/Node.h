@@ -15,15 +15,16 @@
 // クラス宣言
 //
 //*****************************************************************************
+template<typename T>
 class Node
 {
 private:
 
 public:
 	string				mName;			// ノードの名前
-	vector<Node*>		mChildren;		// 子供ノードポインタ集合
-	Node*				mParent;		// 親ノードポインタ
-	D3DXMATRIX			mTransform;		// ノードの変換行列
+	vector<Node<T>*>	mChildren;		// 子供ノードポインタ集合
+	Node<T>*			mParent;		// 親ノードポインタ
+	T*					mData;			// ノードデータ
 
 	Node(string name);
 	~Node();
