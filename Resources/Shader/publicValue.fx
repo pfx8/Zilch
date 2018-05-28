@@ -48,6 +48,8 @@ struct inputVS
     float3 pos : POSITION0;
     float3 nor : NORMAL0;
     float2 coord : TEXCOORD0;
+    float3 tan : TTANGENT0;
+    float3 biNor : BINORMAL0;
 };
 
 // œ•t‚«‚Ì’¸“_\‘¢‘Ì

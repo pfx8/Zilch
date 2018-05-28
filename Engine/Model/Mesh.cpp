@@ -32,7 +32,10 @@ Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring mod
 
 //*****************************************************************************
 //
-// 骨付きメッシュを読み込み
+// メッシュを読み込み
+//
+// Error
+// 1.軸変換がうまくない
 //
 //*****************************************************************************
 void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
@@ -43,9 +46,6 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 	for (unsigned int count = 0; count < mesh->mNumVertices; count++)
 	{
 		VertexDesign vertex;
-
-		// Todo 
-		// 軸を判断できる機能
 
 		// blender座標とDX座標が違うので、Y軸とZ軸を交換しなきゃ
 		// 位置
@@ -59,7 +59,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 		vertex.nor.z = -mesh->mNormals[count].y;
 
 		// UV座標
-		if (mesh->mTextureCoords[0])	// テクスチャ0から(Maxは8で)
+		if (mesh->mTextureCoords[0])
 		{
 			vertex.tex.x = mesh->mTextureCoords[0][count].x;
 			vertex.tex.y = mesh->mTextureCoords[0][count].y;
@@ -70,7 +70,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 		}
 
 		// 接線(Tangents)
-		/*if (mesh->mTangents)
+		if (mesh->mTangents)
 		{
 		vertex.tangent.x = mesh->mTangents[count].x;
 		vertex.tangent.y = mesh->mTangents[count].y;
@@ -79,19 +79,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 		else
 		{
 		vertex.tangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		}*/
-
-		// 従接線(Bitangents)
-		/*if (mesh->mBitangents)
-		{
-		vertex.bitangent.x = mesh->mBitangents[count].x;
-		vertex.bitangent.y = mesh->mBitangents[count].y;
-		vertex.bitangent.z = mesh->mBitangents[count].z;
 		}
-		else
-		{
-		vertex.bitangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		}*/
 
 		// 取得した頂点を頂点コンテナの末尾に追加
 		this->mVertices.push_back(vertex);
@@ -149,10 +137,6 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 				{
 					mVertices.at(vertexID).boneID[j] = boneIndex;
 					mVertices.at(vertexID).weights[j] = weight;
-
-					// test data
-					mVertices.at(vertexID).boneNum++;
-
 					break;
 				}
 			}
@@ -234,8 +218,9 @@ HRESULT Mesh::setupMesh()
 			{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
 			{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
 			{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
-			{ 0, 32, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDWEIGHT, 0 },
-			{ 0, 48, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDINDICES, 0 },
+			{ 0, 32, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0 },
+			{ 0, 44, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDWEIGHT, 0 },
+			{ 0, 60, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDINDICES, 0 },
 			D3DDECL_END()
 		};
 		pD3DDevice->CreateVertexDeclaration(Decl, &this->mVertexDecl);
@@ -277,8 +262,7 @@ HRESULT Mesh::setupVertices()
 
 		vertices[count].nor = it.nor;
 		vertices[count].tex = it.tex;
-		//vertices[count].tangent = it.tangent;
-		//vertices[count].bitangent = it.bitangent;
+		vertices[count].tangent = it.tangent;
 
 		count++;
 	}
@@ -373,8 +357,17 @@ void Mesh::drawModel(Shader* shader)
 	// テクスチャあれば渡す
 	if (this->mMaterials.size() != 0 && this->mMaterials.at(0)->mTextures.size() != 0)
 	{
-		LPDIRECT3DTEXTURE9 tex = this->mMaterials.at(0)->mTextures.at(0)->mTex;
-		shader->mEffect->SetTexture("tex", tex);
+		LPDIRECT3DTEXTURE9 diffuseMap = this->mMaterials.at(0)->mTextures.at(0)->mTex;
+		shader->mEffect->SetTexture("diffuseMap", diffuseMap);
+
+		if (this->mMaterials.at(0)->mTextures.size() == 3)
+		{
+			LPDIRECT3DTEXTURE9 heightMap = this->mMaterials.at(0)->mTextures.at(1)->mTex;
+			shader->mEffect->SetTexture("heightMap", heightMap);
+
+			LPDIRECT3DTEXTURE9 specularMap = this->mMaterials.at(0)->mTextures.at(2)->mTex;
+			shader->mEffect->SetTexture("specularMap", specularMap);
+		}
 	}
 
 	// 描画

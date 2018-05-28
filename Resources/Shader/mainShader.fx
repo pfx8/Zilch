@@ -24,15 +24,38 @@ int renderingMode;
 
 //*****************************************************************************
 //
-// サンプラー
+// テクスチャとサンプラー
 //
 //*****************************************************************************
-// ディフューズテクスチャ
-texture tex;
-// ディフューズテクスチャサンプラー
-sampler texSampler = sampler_state
+// ディフューズマップ
+texture diffuseMap;
+sampler diffuseMapSampler = sampler_state
 {
-    Texture = <tex>;
+    Texture = <diffuseMap>;
+    MipFilter = LINEAR;
+    MinFilter = LINEAR;
+    MagFilter = LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
+};
+
+// ノーマルマップ
+texture heightMap;
+sampler heightMapSampler = sampler_state
+{
+    Texture = <heightMap>;
+    MipFilter = LINEAR;
+    MinFilter = LINEAR;
+    MagFilter = LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
+};
+
+// スペキュラーマップ
+texture specularMap;
+sampler specularMapSampler = sampler_state
+{
+    Texture = <specularMap>;
     MipFilter = LINEAR;
     MinFilter = LINEAR;
     MagFilter = LINEAR;
@@ -62,6 +85,8 @@ outputVS modelVS(inputVSWithBone iVS)
     //// 法線変更
     //oVS.nor = normalize(mul(float4(nor, 1.0), rotMatrix));
 
+    // TBN行列計算
+
     // 頂点変換
     oVS.worldPos = mul(float4(iVS.pos, 1.0), worldMatrix);
     oVS.pos = mul(mul(oVS.worldPos, viewMatrix), projectionMatrix);
@@ -89,7 +114,8 @@ float4 modelPS(outputVS oVS) : COLOR
     float4 lightDir = normalize(float4(lightPos, 1.0f) - oVS.worldPos);
     float4 cameraDir = float4(cameraPos, 1.0) - oVS.worldPos;
     float4 normalColor = float4(oVS.nor.x, oVS.nor.y, oVS.nor.z, 1.0f);
-    float4 texColor = tex2D(texSampler, oVS.coord);
+    float4 diffuseMapColor = tex2D(diffuseMapSampler, oVS.coord);
+    float4 specularMapColor = tex2D(specularMapSampler, oVS.coord);
 
     // 各分量を計算
     ambient = ambientProcess();
@@ -103,7 +129,7 @@ float4 modelPS(outputVS oVS) : COLOR
     if(renderingMode == 0)
     {
         // RM_TEXTURE
-        finColor = texColor;
+        finColor = diffuseMapColor;
     }
     else if (renderingMode == 1)
     {
@@ -112,7 +138,7 @@ float4 modelPS(outputVS oVS) : COLOR
     }
     else if (renderingMode == 2)
     {
-        // RM_SPECULAR -- bug
+        // RM_SPECULAR
         finColor = float4(specular, 1.0);
     }
     else if(renderingMode == 3)
@@ -123,7 +149,9 @@ float4 modelPS(outputVS oVS) : COLOR
     else
     {
         // RT_SHADING
-        finColor = float4((ambient + diffuse/* + specular*/), 1.0) * texColor;
+        finColor = float4((ambient + diffuse), 1.0) * diffuseMapColor;
+        finColor += float4(specular, 1.0) * specularMapColor;
+
     }
 
     return finColor;
@@ -160,8 +188,8 @@ technique mainShader
         // アルファブレンティング
         AlphaBlendEnable = TRUE;
         // 目透明合成
-        DestBlend = InvSrcAlpha;
-        SrcBlend = SrcAlpha;
+        //DestBlend = InvSrcAlpha;
+        //SrcBlend = SrcAlpha;
         // マルチ・サンプリングの設定
         MultiSampleAntialias = TRUE;
         // Zバッファ

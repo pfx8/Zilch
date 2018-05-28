@@ -228,8 +228,8 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 
 		wstring texPath = texturePathFromAssimp;
 
-		//wcout << "<Test Path>" << mainPath << endl;
-		//wcout << "<Test tesPath>" << texPath << endl;
+		wcout << "<Test Path>" << mainPath << endl;
+		wcout << "<Test texPath>" << texPath << endl;
 
 		texPath = texPath.substr(texPath.find_first_of(L"\\"), texPath.size());
 

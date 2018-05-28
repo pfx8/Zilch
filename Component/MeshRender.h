@@ -39,7 +39,7 @@ private:
 	void update();									// 更新
 
 public:
-	bool				mIsDrawShadow;				// シャドウチェック
+	bool				mIsDrawShadow = false;		// シャドウチェック
 	Model*				mModel;						// 描画するモデル
 	Shader*				mShadowMapShader;			// シャドウマップシェーダー
 	ShadowMap*			mShadowMap;					// シャドウマップ

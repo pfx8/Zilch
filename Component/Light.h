@@ -9,6 +9,7 @@
 #define _LIGHT_H_
 
 #include "Component.h"
+#include "Transform.h"
 
 #include "..\Engine\Engine.h"
 

@@ -29,17 +29,11 @@ struct VertexDesign
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 nor;
 	D3DXVECTOR2 tex;
-
-	// プラスインフォメーション
-	//D3DXVECTOR3 tangent;
-	//D3DXVECTOR3 bitangent;
+	D3DXVECTOR3 tangent;
 
 	// 骨
 	unsigned int	boneID[NUM_BONES_PER_VEREX] { 0, 0, 0, };					// 骨のID
 	float			weights[NUM_BONES_PER_VEREX] { 0.0f, 0.0f, 0.0f, 0.0f};		// 骨の重み
-
-	// test data
-	unsigned int boneNum { 0 };
 };
 
 struct MeshInfo

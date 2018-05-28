@@ -38,10 +38,14 @@ void Scene02::start()
 	//resource->createModel(L"Resources\\Model\\Hixo.fbx");
 	//resource->getModel(L"Hixo")->addAnimation(new Animation(L"Resources/Model/Running.fbx"));
 
+	// nanosuit
+	resource->createModel(L"Resources\\Model\\nanosuit\\nanosuit.obj");
+
+	// light
+	resource->createModel(L"Resources\\Model\\light.fbx");
+
 	// Flag -- bone testing
-	//resource->createTexture("Resources/Texture/flag/heart.png");
-	//resource->createTexture("Resources/Texture/flag/wood.jpg");
-	resource->createModel(L"Resources\\Model\\flag.fbx");
+	//resource->createModel(L"Resources\\Model\\flag.fbx");
 
 	// shader
 	resource->createShader(L"Resources\\Shader\\mainShader.fx");
@@ -51,19 +55,26 @@ void Scene02::start()
 	this->mShader = resource->getShader(L"mainShader");
 
 	// ライト
-	GameObject* pointLight = new GameObject();
-	Light* light = new Light();
+	GameObject* light = new GameObject();
+	Transform* lightTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
+	lightTrans->mPos = D3DXVECTOR3(0.0f, 4.0f, 0.0f);
+	light->addComponent<Transform>(lightTrans);
+	Light* singleLight = new Light();
 	// ライトタイプを指定
-	light->mLightType = LT_point;
-	light->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	light->mLightPos = D3DXVECTOR3(0.0f, 4.0f, 0.0f);
+	singleLight->mLightType = LT_point;
+	singleLight->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	// ライト範囲は50ｍにする
 	// data by http://wiki.ogre3d.org/tiki-index.php?page=-Point+Light+Attenuation
-	light->mPointLight.constant = 1.0f;
-	light->mPointLight.linear = 0.9f;
-	light->mPointLight.quadratic = 0.032f;
-	pointLight->addComponent<Light>(light);
-	this->addGameObject(L"light", pointLight);
+	singleLight->mPointLight.constant = 1.0f;
+	singleLight->mPointLight.linear = 0.9f;
+	singleLight->mPointLight.quadratic = 0.032f;
+	singleLight->mLightPos = lightTrans->mPos;
+	light->addComponent<Light>(singleLight);
+	MeshRender* lightMeshRender = new MeshRender();
+	lightMeshRender->mModel = resource->getModel(L"light");					// リソースからモデルを取得
+	this->mMeshRenders.push_back(lightMeshRender);							// MeshRenderをシーンに追加
+	light->addComponent<MeshRender>(lightMeshRender);
+	this->addGameObject(L"light", light);
 
 	// player
 	GameObject* player = new GameObject();
@@ -72,10 +83,10 @@ void Scene02::start()
 	CameraController* cameraController = new CameraController();			// カメラコントローラ
 	player->addComponent<CameraController>(cameraController);
 	LightController* lightController = new LightController();				// ライトコントローラ
-	lightController->mLight = light;										// ライトを指定
+	lightController->mLight = singleLight;										// ライトを指定
 	player->addComponent<LightController>(lightController);
 	MeshRender* playerMeshRender = new MeshRender();
-	playerMeshRender->mModel = resource->getModel(L"flag");					// リソースからモデルを取得
+	playerMeshRender->mModel = resource->getModel(L"nanosuit");				// リソースからモデルを取得
 	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
 	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加

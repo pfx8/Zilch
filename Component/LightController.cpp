@@ -34,9 +34,11 @@ LightController::~LightController()
 //*****************************************************************************
 void LightController::update()
 {
+	Transform* trans = this->mLight->mGameObject->getComponent<Transform>();
+
 	if (IsMouseCenterPressed())
 	{
-		// 上下
+		// 上下移動
 		if (GetMouseY() > this->mMouseIsMoving)
 		{
 			// プラス
@@ -49,7 +51,7 @@ void LightController::update()
 			this->mLight->mLightPos.y += 0.5;
 		}
 
-		// 水平
+		// 水平移動
 		if (GetMouseX() > this->mMouseIsMoving)
 		{
 			// プラス
@@ -61,5 +63,7 @@ void LightController::update()
 			// マイナス
 			this->mLight->mLightPos.x += 0.5;
 		}
+
+		trans->mPos = this->mLight->mLightPos;
 	}
 }
