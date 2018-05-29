@@ -22,6 +22,12 @@ matrix boneMatrices[87];
 // レンダリング選択
 int renderingMode;
 
+// アウトラインチェック
+bool isOutline;
+
+// 透明チェック
+bool isTransparent;
+
 //*****************************************************************************
 //
 // テクスチャとサンプラー
@@ -159,7 +165,6 @@ float4 modelPS(outputVS oVS) : COLOR
         // RT_SHADING
         finColor = float4((ambient + diffuse), 1.0) * diffuseMapColor;
         finColor += float4(specular, 1.0) * specularMapColor;
-
     }
 
     return finColor;
@@ -196,8 +201,8 @@ technique mainShader
         // アルファブレンティング
         AlphaBlendEnable = TRUE;
         // 目透明合成
-        //DestBlend = InvSrcAlpha;
-        //SrcBlend = SrcAlpha;
+        DestBlend = InvSrcAlpha;
+        SrcBlend = SrcAlpha;
         // マルチ・サンプリングの設定
         MultiSampleAntialias = TRUE;
         // Zバッファ

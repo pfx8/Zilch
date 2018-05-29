@@ -152,7 +152,7 @@ void Model::updateAnimation(float timeInSeconds)
 // ƒ‚ƒfƒ‹‚ð•`‰æ
 //
 //*****************************************************************************
-void Model::drawModel(Shader* shader)
+void Model::drawModel(Shader* shader, bool isOutline)
 {
 	D3DXMATRIX mat[87] = { };
 
@@ -171,7 +171,7 @@ void Model::drawModel(Shader* shader)
 	// ŠeƒƒbƒVƒ…‚ð•`‰æ
 	for (auto it : mMeshes)
 	{
-		it->drawModel(shader);
+		it->drawModel(shader, isOutline);
 	}
 }
 

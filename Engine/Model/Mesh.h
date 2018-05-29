@@ -87,7 +87,7 @@ public:
 	~Mesh();
 
 	void drawShadow(Shader* shader);						// メッシュのシャドウマップを描画
-	void drawModel(Shader* shader);							// メッシュを描画
+	void drawModel(Shader* shader, bool isOutline);			// メッシュを描画
 };
 
 #endif // !_MESH_H_

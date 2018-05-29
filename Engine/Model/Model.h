@@ -67,7 +67,7 @@ public:
 	void updateAnimation(float timeInSeconds);						// アニメーション更新
 
 	void drawShadow(Shader* shader);								// モデルのシャドウマップを描画
-	void drawModel(Shader* shader);									// モデルを描画
+	void drawModel(Shader* shader, bool isOutline);					// モデルを描画
 
 	void checkBone(aiMesh* mesh);									// 骨あるかどうかをチェック
 };

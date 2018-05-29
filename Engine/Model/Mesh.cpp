@@ -344,7 +344,7 @@ void Mesh::drawShadow(Shader* shader)
 // メッシュをドロー
 //
 //*****************************************************************************
-void Mesh::drawModel(Shader* shader)
+void Mesh::drawModel(Shader* shader, bool isOutline)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
@@ -373,10 +373,24 @@ void Mesh::drawModel(Shader* shader)
 	// 描画
 	UINT passNum = 0;
 	shader->mEffect->Begin(&passNum, 0);
-	for (int count = 0; count < passNum; count++)
+
+	// pass0から、アウトライン描画
+	// pass1から、アウトライン描画しない
+	int currentPass;
+	if (isOutline)
+	{
+		currentPass = 0;
+	}
+	else
+	{
+		currentPass = 1;
+	}
+
+	// ポリゴンを描画
+	for (; currentPass < passNum; currentPass++)
 	{
 		// 各パスを描画
-		shader->mEffect->BeginPass(count);
+		shader->mEffect->BeginPass(currentPass);
 
 		HRESULT hr;
 		// 頂点宣言を設定
@@ -388,7 +402,7 @@ void Mesh::drawModel(Shader* shader)
 
 		unsigned int vertexNums = mVertices.size();
 		unsigned int faceNums = mIndices.size()/3;
-		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画
+		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);
 
 		shader->mEffect->EndPass();
 	}

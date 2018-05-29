@@ -131,6 +131,7 @@ void MeshRender::draw()
 
 	// カラーランプモードをシェーダーに渡す
 	this->mShader->mEffect->SetInt("colorRampType", this->mShader->mColorRampType);
+
 	// セグメント値をシェーダーに渡す
 	if (this->mShader->mColorRampType == CR_CONSTANT)
 	{
@@ -138,7 +139,7 @@ void MeshRender::draw()
 	}
 
 	// モデルを描画
-	this->mModel->drawModel(this->mShader);
+	this->mModel->drawModel(this->mShader, this->mIsOutline);
 }
 
 //*****************************************************************************
@@ -157,6 +158,7 @@ void MeshRender::drawImGui()
 		ImGui::Text(u8"骨数 : %d", this->mModel->mBones.size());
 		ImGui::Text(u8"マテリアル数 : %d", this->mModel->mModelInfo.numMaterials);
 		ImGui::Text(u8"アニメーション数 : %d", this->mModel->mModelInfo.numAnimations);
+		ImGui::Checkbox(u8"アウトライン", &this->mIsOutline);
 		ImGui::Separator();
 
 		// メッシュ情報
@@ -167,6 +169,7 @@ void MeshRender::drawImGui()
 			{
 				ImGui::PushID(ID1s);
 				string name = wstringUnicodeToUTF8((wstring const)it1->mName);
+				//CollapsingHeader
 				if (ImGui::TreeNode("mesh", u8"<Mesh> : %s", name.c_str()))
 				{
 					ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
