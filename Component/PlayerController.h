@@ -24,6 +24,9 @@
 class PlayerController : public Component
 {
 private:
+	int					mMouseIsMoving = 2;			// マウスの移動チェック量
+	float				mMoveSpeed = 0.1f;			// ライト移動スピード
+
 	void update();
 
 public:

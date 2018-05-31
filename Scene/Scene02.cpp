@@ -55,8 +55,7 @@ void Scene02::start()
 	lightTrans->mScl = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 	light->addComponent<Transform>(lightTrans);
 	Light* singleLight = new Light();
-	// ライトタイプを指定
-	singleLight->mLightType = LT_point;
+	singleLight->mLightType = LT_point;										// ライトタイプを指定
 	singleLight->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	// ライト範囲は50ｍにする
 	// data by http://wiki.ogre3d.org/tiki-index.php?page=-Point+Light+Attenuation
@@ -66,7 +65,7 @@ void Scene02::start()
 	singleLight->mLightPos = lightTrans->mPos;
 	light->addComponent<Light>(singleLight);
 	MeshRender* lightMeshRender = new MeshRender();
-	lightMeshRender->mModel = resource->getModel(L"light");					// リソースからモデルを取得
+	lightMeshRender->mModel = resource->getModel(L"light");
 	this->mMeshRenders.push_back(lightMeshRender);							// MeshRenderをシーンに追加
 	light->addComponent<MeshRender>(lightMeshRender);
 	this->addGameObject(L"Light", light);
@@ -75,16 +74,17 @@ void Scene02::start()
 	GameObject* player = new GameObject();
 	Transform* playerTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	player->addComponent<Transform>(playerTrans);
-	CameraController* cameraController = new CameraController();			// カメラコントローラ
+	CameraController* cameraController = new CameraController();
 	player->addComponent<CameraController>(cameraController);
-	LightController* lightController = new LightController();				// ライトコントローラ
-	lightController->mLight = singleLight;										// ライトを指定
+	PlayerController* playerController = new PlayerController();
+	player->addComponent<PlayerController>(playerController);
+	LightController* lightController = new LightController();
+	lightController->mLight = singleLight;									// コントローラライトを指定
 	player->addComponent<LightController>(lightController);
 	MeshRender* playerMeshRender = new MeshRender();
-	//playerMeshRender->mModel = resource->getModel(L"nanosuit");				// リソースからモデルを取得
-	playerMeshRender->mModel = resource->getModel(L"Hixo");					// リソースからモデルを取得
-	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
-	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
+	playerMeshRender->mModel = resource->getModel(L"Hixo");
+	playerMeshRender->mIsDrawShadow = true;									// シャドウマップを設定
+	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
 	player->addComponent<MeshRender>(playerMeshRender);
 	this->addGameObject(L"Player", player);
@@ -106,7 +106,7 @@ void Scene02::start()
 	gridFieldTrans->mScl = D3DXVECTOR3(15.0f, 15.0f, 15.0f);
 	gridField->addComponent<Transform>(gridFieldTrans);
 	MeshRender* gridFieldMeshRender = new MeshRender();
-	gridFieldMeshRender->mModel = resource->getModel(L"field");			// リソースからモデルを取得
+	gridFieldMeshRender->mModel = resource->getModel(L"field");
 	this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>(gridFieldMeshRender);
 	this->addGameObject(L"床", gridField);

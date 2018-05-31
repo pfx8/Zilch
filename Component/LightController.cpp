@@ -40,6 +40,7 @@ void LightController::update()
 	// システムカメラを取得
 	Camera* sysCamera = this->mGameObject->mScene->mSystemCamera;
 
+	// マウス操作
 	if (IsMouseCenterPressed())
 	{
 		// 上下移動
@@ -68,6 +69,7 @@ void LightController::update()
 			this->mLight->mLightPos += sysCamera->mCameraRight * this->mMoveSpeed;
 		}
 
+		// マウス操作をライトGUIに更新
 		trans->mPos = this->mLight->mLightPos;
 	}
 }
