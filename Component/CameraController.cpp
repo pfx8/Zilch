@@ -135,8 +135,8 @@ void CameraController::move(float sign, bool isFront)
 	else
 	{
 		// 左右移動
-		this->mOffsetFromTarget += this->mSceneCurrentCamera->mCameraRight * 0.3 * sign;
-		this->mSceneCurrentCamera->mTargetPos += this->mSceneCurrentCamera->mCameraRight * 0.1 * sign;
+		this->mOffsetFromTarget += D3DXVECTOR3(0.3f, 0.0f, 0.0f) * sign;
+		this->mSceneCurrentCamera->mTargetPos += D3DXVECTOR3(0.3f, 0.0f, 0.0f) * sign;
 	}
 }
 

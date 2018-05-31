@@ -35,7 +35,7 @@ private:
 	float				mVerticalRadiansMax   = cosf(D3DXToRadian(-15.0f));			// カメラの垂直角度の最大値
 	float				mRotateSpeedHorizonal = 4.0f;								// 水平移動スピード
 	float				mRotateSpeedVertical  = 2.0f;								// 垂直移動スピード
-	float				mZoomSpeed            = 0.3f;								// ゾーンスピード
+	float				mZoomSpeed            = 0.6f;								// ゾーンスピード
 	float				mMoveSpeed            = 0.3f;								// カメラ移動スピード
 	int					mMouseIsMoving        = 5;									// マウスの移動チェック量
 	D3DXVECTOR3			mOffsetFromTarget;											// カメラと目標の偏り

@@ -21,6 +21,7 @@
 float3  lightPos;      // ライト位置
 float4  lightColor;    // ライトカラー
 int     lightType;     // ライトタイプ
+float   lightStrength; // ライト強度
 float   lightAmbient;  // ライトアンビエント
 float   lightDiffuse;  // ライトディフューズ
 float   lightSpecular; // ライトスペキュラー
@@ -202,7 +203,7 @@ float3 diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
         diff = constantDiffuse(diff);
     }
 
-    diffuse = float3(diff, diff, diff) * lightColor.rgb;
+    diffuse = float3(diff, diff, diff) * matDiffuse * lightDiffuse * lightStrength;
 
     return diffuse;
 }

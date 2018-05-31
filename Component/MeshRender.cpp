@@ -87,6 +87,7 @@ void MeshRender::draw()
 	// 共有プロパティ
 	this->mShader->mEffect->SetInt("lightType", light->mLightType);
 	this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
+	this->mShader->mEffect->SetFloat("lightStrength", light->mLightStrength);
 	this->mShader->mEffect->SetFloat("lightAmbient", light->mLightAmbient);
 	this->mShader->mEffect->SetFloat("lightDiffuse", light->mLightDiffuse);
 	this->mShader->mEffect->SetFloat("lightSpecular", light->mLightSpecular);
@@ -149,6 +150,8 @@ void MeshRender::draw()
 //*****************************************************************************
 void MeshRender::drawImGui()
 {
+	ImGui::Checkbox(u8"アウトライン", &this->mIsOutline);
+
 	if (ImGui::TreeNode(u8"モデル"))
 	{
 		// モデル情報
@@ -158,7 +161,6 @@ void MeshRender::drawImGui()
 		ImGui::Text(u8"骨数 : %d", this->mModel->mBones.size());
 		ImGui::Text(u8"マテリアル数 : %d", this->mModel->mModelInfo.numMaterials);
 		ImGui::Text(u8"アニメーション数 : %d", this->mModel->mModelInfo.numAnimations);
-		ImGui::Checkbox(u8"アウトライン", &this->mIsOutline);
 		ImGui::Separator();
 
 		// メッシュ情報

@@ -34,7 +34,11 @@ LightController::~LightController()
 //*****************************************************************************
 void LightController::update()
 {
+	// ライト位置取得
 	Transform* trans = this->mLight->mGameObject->getComponent<Transform>();
+
+	// システムカメラを取得
+	Camera* sysCamera = this->mGameObject->mScene->mSystemCamera;
 
 	if (IsMouseCenterPressed())
 	{
@@ -42,26 +46,26 @@ void LightController::update()
 		if (GetMouseY() > this->mMouseIsMoving)
 		{
 			// プラス
-			this->mLight->mLightPos.y -= 0.5;
+			this->mLight->mLightPos -= sysCamera->mCameraUp * this->mMoveSpeed;
 		}
 		
 		if(GetMouseY() < -this->mMouseIsMoving)
 		{
 			// マイナス
-			this->mLight->mLightPos.y += 0.5;
+			this->mLight->mLightPos += sysCamera->mCameraUp * this->mMoveSpeed;
 		}
 
 		// 水平移動
 		if (GetMouseX() > this->mMouseIsMoving)
 		{
 			// プラス
-			this->mLight->mLightPos.x -= 0.5;
+			this->mLight->mLightPos -= sysCamera->mCameraRight * this->mMoveSpeed;
 		}
 
 		if (GetMouseX() < -this->mMouseIsMoving)
 		{
 			// マイナス
-			this->mLight->mLightPos.x += 0.5;
+			this->mLight->mLightPos += sysCamera->mCameraRight * this->mMoveSpeed;
 		}
 
 		trans->mPos = this->mLight->mLightPos;

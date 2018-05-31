@@ -72,6 +72,7 @@ private:
 public:
 	D3DXVECTOR3			mLightPos;				// ライトの位置
 	D3DXVECTOR4			mLightColor;			// ライトのカラー
+	float				mLightStrength = 1.0f;	// ライト強度
 	float				mLightAmbient = 0.2f;	// ライトアンビエント
 	float				mLightDiffuse = 0.5f;	// ライトディフューズ
 	float				mLightSpecular = 1.0f;	// ライトスペキュラー

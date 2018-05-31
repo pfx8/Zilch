@@ -23,10 +23,43 @@ Texture::Texture(wstring path, TexType type)
 	this->mPath = path;
 	
 	// テクスチャを読み込み
-	loadingTexture(path);
+	if (FAILED(loadingTexture(path)))
+	{
+		// Debugウインドへ
+		wcout << "<Error> loading <Texture> ";
+		switch (this->mType)
+		{
+		case TT_diffuse:
+			wcout << "<Diffuse> ";
+			break;
+		case TT_height:
+			wcout << "<Height> ";
+			break;
+		case TT_specular:
+			wcout << "<Specular> ";
+			break;
+		} 
+		wcout << path << " ... failed!" << endl;
+	}
+	else
+	{
+		// Debugウインドへ
+		wcout << "<Scene> loading <Texture> ";
+		switch (this->mType)
+		{
+		case TT_diffuse:
+			wcout << "<Diffuse> ";
+			break;
+		case TT_height:
+			wcout << "<Height> ";
+			break;
+		case TT_specular:
+			wcout << "<Specular> ";
+			break;
+		}
+		wcout << path << " ... sucessed!" << endl;
+	}
 
-	// Debugウインドへ
-	wcout << "<Scene> loading <Texture> " << path << " ... sucessed!" << endl;
 }
 
 //*****************************************************************************
@@ -54,8 +87,6 @@ HRESULT Texture::loadingTexture(wstring path)
 		path.data(),
 		&mTex)))
 	{
-		// Debugウインドへ
-		wcout << "<Error> loading <Texture> " << path << " ... failed!" << endl;
 		return E_FAIL;
 	}
 

@@ -172,7 +172,6 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 		skip = true;
 	}
 
-
 	// 方法2
 	// 絶対パス
 	if (skip == false)

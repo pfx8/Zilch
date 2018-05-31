@@ -35,17 +35,11 @@ void Scene02::start()
 	resource->createModel(L"Resources\\Model\\field.fbx");
 
 	// Hixo
-	//resource->createModel(L"Resources\\Model\\Hixo.fbx");
+	resource->createModel(L"Resources\\Model\\Hixo.fbx");
 	//resource->getModel(L"Hixo")->addAnimation(new Animation(L"Resources/Model/Running.fbx"));
 
-	// nanosuit
-	resource->createModel(L"Resources\\Model\\nanosuit\\nanosuit.obj");
-
-	// light
+	// light model
 	resource->createModel(L"Resources\\Model\\light.fbx");
-
-	// Flag -- bone testing
-	//resource->createModel(L"Resources\\Model\\flag.fbx");
 
 	// shader
 	resource->createShader(L"Resources\\Shader\\mainShader.fx");
@@ -58,6 +52,7 @@ void Scene02::start()
 	GameObject* light = new GameObject();
 	Transform* lightTrans = new Transform();								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
 	lightTrans->mPos = D3DXVECTOR3(0.0f, 4.0f, 0.0f);
+	lightTrans->mScl = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 	light->addComponent<Transform>(lightTrans);
 	Light* singleLight = new Light();
 	// ライトタイプを指定
@@ -86,7 +81,8 @@ void Scene02::start()
 	lightController->mLight = singleLight;										// ライトを指定
 	player->addComponent<LightController>(lightController);
 	MeshRender* playerMeshRender = new MeshRender();
-	playerMeshRender->mModel = resource->getModel(L"nanosuit");				// リソースからモデルを取得
+	//playerMeshRender->mModel = resource->getModel(L"nanosuit");				// リソースからモデルを取得
+	playerMeshRender->mModel = resource->getModel(L"Hixo");					// リソースからモデルを取得
 	playerMeshRender->mIsDrawShadow = true;									// シャドウマップ描画
 	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
@@ -114,16 +110,6 @@ void Scene02::start()
 	this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>(gridFieldMeshRender);
 	this->addGameObject(L"床", gridField);
-
-	// Flag -- bone testing
-	//GameObject* flag {new GameObject()};
-	//Transform* flagTrans {new Transform()};								// デフォルトはpos(0,0,0)、scl(1,1,1)、rot(0,0,0)
-	//flag->addComponent<Transform>(flagTrans);
-	//MeshRender* flagMeshRender {new MeshRender()};
-	//flagMeshRender->mModel = resource->getModel("flag");					// リソースからモデルを取得
-	//this->mMeshRenders.push_back(flagMeshRender);							// MeshRenderをシーンに追加
-	//flag->addComponent<MeshRender>(flagMeshRender);
-	//this->addGameObject("flag", flag);
 }
 
 //*****************************************************************************

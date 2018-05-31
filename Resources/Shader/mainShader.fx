@@ -165,6 +165,11 @@ float4 modelPS(outputVS oVS) : COLOR
         // RT_SHADING
         finColor = float4((ambient + diffuse), 1.0) * diffuseMapColor;
         finColor += float4(specular, 1.0) * specularMapColor;
+
+        if(diffuseMapColor.w == 0.0)
+        {
+            finColor.w = 0.0;
+        }
     }
 
     return finColor;

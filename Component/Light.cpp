@@ -48,6 +48,11 @@ void Light::drawImGui()
 	ImGui::ColorEdit4(u8"ライトカラー", this->mLightColor);
 	ImGui::Separator();
 
+	// ライト強度
+	ImGui::TextUnformatted(u8"ライト強度(Max : 20.0)");
+	ImGui::DragFloat(u8"Strength", &this->mLightStrength, 0.1f, 1.0f, 20.0f);
+	ImGui::Separator();
+
 	// ライト属性
 	ImGui::TextUnformatted(u8"アンビエント");
 	ImGui::SliderFloat(u8"Ambient", &this->mLightAmbient, 0.0f, 1.0f);
@@ -89,6 +94,7 @@ void Light::lightControllerImGui()
 	// ライト位置入力配列
 	Transform* trans = this->mGameObject->getComponent<Transform>();
 	float* v1[3] = { &trans->mPos.x, &trans->mPos.y, &trans->mPos.z };
+	this->mLightPos = trans->mPos;
 
 	switch (this->mLightType)
 	{
