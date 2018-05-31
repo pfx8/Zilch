@@ -40,6 +40,9 @@ private:
 
 public:
 	bool				mIsOutline = false;			// アウトラインチェック
+	float				mOutLineFactor;				// アウトラインベクトルを計算する時、頂点ベクトルと法線ベクトルんを混ざる因子数
+	float				mOutLineStrength;			// アウトライン太さ
+
 	bool				mIsDrawShadow = false;		// シャドウチェック
 	Model*				mModel;						// 描画するモデル
 	Shader*				mShadowMapShader;			// シャドウマップシェーダー

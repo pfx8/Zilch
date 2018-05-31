@@ -19,10 +19,10 @@
 //
 //*****************************************************************************
 // アウトラインを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-float outLineFactor = 0.2f;
+float outLineFactor;
 
 // アウトラインの太さをコントロール因子
-float outLineStr = 0.01f;
+float outLineStrength;
 
 //*****************************************************************************
 //
@@ -43,7 +43,7 @@ outputVS outLineVS(inputVS iVS)
     outLineDir *= sign(D);
     outLineDir = outLineDir * outLineFactor + iVS.nor * (1 - outLineFactor);
     // 頂点 + outLine方向ベクト * outLine太さ因数 = outLine頂点の場所
-    float3 outLinePos = iVS.pos + outLineDir * outLineStr;
+    float3 outLinePos = iVS.pos + outLineDir * outLineStrength;
 
     // 頂点変換
     oVS.worldPos = mul(float4(outLinePos, 1.0), worldMatrix);

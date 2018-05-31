@@ -22,12 +22,6 @@ matrix boneMatrices[87];
 // レンダリング選択
 int renderingMode;
 
-// アウトラインチェック
-bool isOutline;
-
-// 透明チェック
-bool isTransparent;
-
 //*****************************************************************************
 //
 // テクスチャとサンプラー
@@ -166,6 +160,7 @@ float4 modelPS(outputVS oVS) : COLOR
         finColor = float4((ambient + diffuse), 1.0) * diffuseMapColor;
         finColor += float4(specular, 1.0) * specularMapColor;
 
+        // テクスチャが透明ピクセルの場合、最終色のアルファ値を0にする
         if(diffuseMapColor.w == 0.0)
         {
             finColor.w = 0.0;

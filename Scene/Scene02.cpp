@@ -69,7 +69,7 @@ void Scene02::start()
 	lightMeshRender->mModel = resource->getModel(L"light");					// リソースからモデルを取得
 	this->mMeshRenders.push_back(lightMeshRender);							// MeshRenderをシーンに追加
 	light->addComponent<MeshRender>(lightMeshRender);
-	this->addGameObject(L"light", light);
+	this->addGameObject(L"Light", light);
 
 	// player
 	GameObject* player = new GameObject();
@@ -87,7 +87,7 @@ void Scene02::start()
 	playerMeshRender->mShadowMapShader = resource->getShader(L"shadowMap");	// シャドウマップシェーダーを取得
 	this->mMeshRenders.push_back(playerMeshRender);							// MeshRenderをシーンに追加
 	player->addComponent<MeshRender>(playerMeshRender);
-	this->addGameObject(L"player", player);
+	this->addGameObject(L"Player", player);
 
 	// システムカメラ設定
 	this->mSystemCamera = new Camera();

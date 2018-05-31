@@ -41,9 +41,13 @@ void MeshRender::start()
 	if (this->mIsDrawShadow == true)
 	{
 		// ライト位置を取得
-		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject(L"light")->getComponent<Light>()->mLightPos;
+		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject(L"Light")->getComponent<Light>()->mLightPos;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
+
+	// アウトライン初期化
+	this->mOutLineFactor = 0.2f;
+	this->mOutLineStrength = 0.01f;
 }
 
 //*****************************************************************************
@@ -82,7 +86,7 @@ void MeshRender::drawShadowMap()
 void MeshRender::draw()
 {
 	// ライト情報をシェーダーに渡す
-	Light* light = this->mGameObject->mScene->getGameObject(L"light")->getComponent<Light>();
+	Light* light = this->mGameObject->mScene->getGameObject(L"Light")->getComponent<Light>();
 
 	// 共有プロパティ
 	this->mShader->mEffect->SetInt("lightType", light->mLightType);
@@ -139,6 +143,10 @@ void MeshRender::draw()
 		this->mShader->mEffect->SetValue("colorRampSegment", &this->mShader->mColorRampSegment, sizeof(this->mShader->mColorRampSegment));
 	}
 
+	// アウトライン設定をシェーダーに渡す
+	this->mShader->mEffect->SetFloat("outLineFactor", this->mOutLineFactor); 
+	this->mShader->mEffect->SetFloat("outLineStrength", this->mOutLineStrength);
+
 	// モデルを描画
 	this->mModel->drawModel(this->mShader, this->mIsOutline);
 }
@@ -150,7 +158,15 @@ void MeshRender::draw()
 //*****************************************************************************
 void MeshRender::drawImGui()
 {
+	// アウトライン
 	ImGui::Checkbox(u8"アウトライン", &this->mIsOutline);
+	if (this->mIsOutline)
+	{
+		ImGui::TextUnformatted(u8"アウトライン因数");
+		ImGui::DragFloat(u8"factor", &this->mOutLineFactor, 0.05f, -2.0f, 2.0f);
+		ImGui::TextUnformatted(u8"アウトライン太さ");
+		ImGui::InputFloat(u8"strength", &this->mOutLineStrength);
+	}
 
 	if (ImGui::TreeNode(u8"モデル"))
 	{
