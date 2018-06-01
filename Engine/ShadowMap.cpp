@@ -20,11 +20,11 @@ ShadowMap::ShadowMap(Shader* shader, D3DXVECTOR3 lightPos)
 	this->mLightAt = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	this->mLightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	HRESULT hr;
+	HRESULT result;
 	// シャドウマップテクスチャを作る
-	hr = D3DXCreateTexture(getD3DDevice(), this->mMapSize, this->mMapSize, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R16F, D3DPOOL_DEFAULT, &this->mShadowMap);
+	result = D3DXCreateTexture(getD3DDevice(), this->mMapSize, this->mMapSize, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R16F, D3DPOOL_DEFAULT, &this->mShadowMap);
 	//シャドウマップ深度バッファサーフェイスを作る
-	hr = getD3DDevice()->CreateDepthStencilSurface(this->mMapSize, this->mMapSize, D3DFMT_D16, D3DMULTISAMPLE_NONE, 0, TRUE, &this->mShadowMapDepth, NULL);
+	result = getD3DDevice()->CreateDepthStencilSurface(this->mMapSize, this->mMapSize, D3DFMT_D16, D3DMULTISAMPLE_NONE, 0, TRUE, &this->mShadowMapDepth, NULL);
 }
 
 //*****************************************************************************

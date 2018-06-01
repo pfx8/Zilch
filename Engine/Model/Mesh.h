@@ -32,8 +32,8 @@ struct VertexDesign
 	D3DXVECTOR3 tangent;
 
 	// 骨
-	unsigned int	boneID[NUM_BONES_PER_VEREX] { 0, 0, 0, };					// 骨のID
-	float			weights[NUM_BONES_PER_VEREX] { 0.0f, 0.0f, 0.0f, 0.0f};		// 骨の重み
+	unsigned int	boneID[NUM_BONES_PER_VEREX] = { 0, 0, 0, };						// 骨のID
+	float			weights[NUM_BONES_PER_VEREX] = { 0.0f, 0.0f, 0.0f, 0.0f};		// 骨の重み
 };
 
 struct MeshInfo
@@ -71,9 +71,9 @@ private:
 	IDirect3DVertexDeclaration9*	mVertexDecl;			// 頂点宣言
 
 	void createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene);							// メッシュを読み込み
-	HRESULT setupMesh();																				// メッシュをセットアップ
-	HRESULT setupVertices();																			// 頂点をセットアップ
-	HRESULT setupIndexes();																				// インデックスをセットアップ
+	HRESULT setupMesh(void);																			// メッシュをセットアップ
+	HRESULT setupVertices(void);																		// 頂点をセットアップ
+	HRESULT setupIndexes(void);																			// インデックスをセットアップ
 
 	void createBoundingBox(D3DXVECTOR3 vertexPos, D3DXVECTOR3 &boxMax, D3DXVECTOR3 &boxMin);			// バウンディングボックスサイズを作り
 
@@ -84,7 +84,7 @@ public:
 	vector<Material*>				mMaterials;				// マテリアルデータ
 
 	Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath, Model* model);	// メッシュの初期化
-	~Mesh();
+	~Mesh(void);
 
 	void drawShadow(Shader* shader);						// メッシュのシャドウマップを描画
 	void drawModel(Shader* shader, bool isOutline);			// メッシュを描画

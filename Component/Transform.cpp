@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Transform::Transform()
+Transform::Transform(void)
 {
 
 }
@@ -22,7 +22,7 @@ Transform::Transform()
 // デストラクタ
 //
 //*****************************************************************************
-Transform::~Transform()
+Transform::~Transform(void)
 {
 
 }
@@ -32,7 +32,7 @@ Transform::~Transform()
 // 更新
 //
 //*****************************************************************************
-void Transform::update()
+void Transform::update(void)
 {
 	// 計算用マトリックス
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate;
@@ -61,7 +61,7 @@ void Transform::update()
 // ImGuiでTransformのデータを出す
 //
 //*****************************************************************************
-void Transform::drawImGui()
+void Transform::drawImGui(void)
 {
 	ImGui::Text(u8"スケール(X,Y,Z)");
 	float* v1[3] = { &this->mScl.x, &this->mScl.y, &this->mScl.z };

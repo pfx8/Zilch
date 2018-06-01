@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-GUI::GUI()
+GUI::GUI(void)
 {
 
 }
@@ -22,9 +22,8 @@ GUI::GUI()
 // デストラクタ
 //
 //*****************************************************************************
-GUI::~GUI()
+GUI::~GUI(void)
 {
-	// ImGui終了処理
 	ImGui_ImplDX9_Shutdown();
 	ImGui::DestroyContext();
 }
@@ -36,15 +35,14 @@ GUI::~GUI()
 //*****************************************************************************
 void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 {
+	// ImGuiを初期化
 	ImGui::CreateContext();
+	ImGui_ImplDX9_Init(hWnd, D3DDevice);
+	ImGui::StyleColorsDark();
+
 	// I/Oを初期化
 	ImGuiIO& io = ImGui::GetIO();
 	(void)io;
-	// ImGuiを初期化
-	ImGui_ImplDX9_Init(hWnd, D3DDevice);
-	// スタイルカラーを決める
-	ImGui::StyleColorsDark();
-	// デフォルトフォント
 	ImFont* font = io.Fonts->AddFontFromFileTTF("Resources\\Font\\NotoSansCJKjp-Regular.otf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 	io.FontDefault = font;
 
@@ -62,7 +60,7 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 // ImGuiとアプリケーションの操作分離
 //
 //*****************************************************************************
-bool GUI::isAnyImGuiFocused()
+bool GUI::isAnyImGuiFocused(void)
 {
 	if (ImGui::IsAnyWindowFocused())
 	{
@@ -77,7 +75,7 @@ bool GUI::isAnyImGuiFocused()
 // ImGuiの描画処理
 //
 //*****************************************************************************
-void GUI::draw()
+void GUI::draw(void)
 {
 	// ImGuiバッファサイズを確定
 	ImGui::GetIO().DisplaySize.x = SCREEN_WIDTH;
@@ -89,13 +87,13 @@ void GUI::draw()
 	// シーンGUI
 	sceneGUI();
 
-	// モデル読み込み
+	// モデル追加ウインドウをチェック
 	if (this->mIsAddingModel == true)
 	{
 		addModelImGui();
 	}
 
-	// ドロップされたファイルが対象外
+	// ドロップファイルエラーウインドウをチェック
 	if (this->mIsModelFile == false)
 	{
 		dropFileErrorGUI();
@@ -105,10 +103,8 @@ void GUI::draw()
 	if (this->mIsWireframe)
 	{
 		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
 		ImGui::Render();
 		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-
 		getD3DDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
 	else
@@ -123,11 +119,11 @@ void GUI::draw()
 // システム操作GUI
 //
 //*****************************************************************************
-void GUI::systemGUI()
+void GUI::systemGUI(void)
 {
 	ImGui::Begin(u8"デバッグウインド", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
-	// 言語選択
+	// 言語選択 -- 実装できない
 	{
 		ImGui::Combo(u8"言語", &this->mCurrentLanguage, this->mLanguage, IM_ARRAYSIZE(this->mLanguage));
 		ImGui::Separator();
@@ -182,11 +178,11 @@ void GUI::systemGUI()
 			getD3DDevice()->GetRenderTarget(0, &backBuffer);
 
 			ImGui::TextUnformatted(u8"スクリーンショット.bmpが保存されました！");
-
 			if (ImGui::Button(u8"はい"))
 			{
 				// バッファサーフェイスを保存
 				D3DXSaveSurfaceToFile(L"スクリーンショット.bmp", D3DXIFF_BMP, backBuffer, NULL, NULL);
+				wcout << L"<System> ..\\スクリーンショット.bmp ... successed!" << endl;
 
 				// バッファをnullptrする
 				backBuffer = nullptr;
@@ -279,21 +275,18 @@ void GUI::systemGUI()
 
 			ImGui::TextUnformatted(u8"カラーセグメント");
 			ImGui::SliderFloat("Level1", &colorRampSegment->x, 0.0f, 1.0f);
-			// 増加同期
 			if (colorRampSegment->x > colorRampSegment->y)
 			{
 				colorRampSegment->y = colorRampSegment->x;
 			}
 
 			ImGui::SliderFloat("Level2", &colorRampSegment->y, 0.0f, 1.0f);
-			// 増加同期
 			if (colorRampSegment->y > colorRampSegment->z)
 			{
 				colorRampSegment->z = colorRampSegment->y;
 			}
 
 			ImGui::SliderFloat("Level3", &colorRampSegment->z, 0.0f, 1.0f);
-			// 減少同期
 			if (colorRampSegment->z < colorRampSegment->y)
 			{
 				colorRampSegment->y = colorRampSegment->z;
@@ -316,7 +309,7 @@ void GUI::systemGUI()
 // シーンGUI
 //
 //*****************************************************************************
-void GUI::sceneGUI()
+void GUI::sceneGUI(void)
 {
 	// シーンのマルチレベルメニュー
 	ImGui::SetNextWindowSize(ImVec2(364,742));
@@ -369,7 +362,7 @@ void GUI::sceneGUI()
 //  新しいGameObjectを作りメニュー
 //
 //*****************************************************************************
-void GUI::createNewGameObjectGUI()
+void GUI::createNewGameObjectGUI(void)
 {
 	if (ImGui::Button("Create GameObject"))
 	{
@@ -387,7 +380,6 @@ void GUI::createNewGameObjectGUI()
 		{
 			// 新しいGameObjectを作る
 			GameObject* gameObject = new GameObject();
-			// string -> wstring
 			wstring newGameObjectName = stringToWString(this->mNewGameObjectName);
 			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);
 
@@ -414,17 +406,15 @@ void GUI::createNewGameObjectGUI()
 // モデル追加GUI
 //
 //*****************************************************************************
-void GUI::addModelImGui()
+void GUI::addModelImGui(void)
 {
 	ImGui::Begin(u8"インポート");
 	ImGui::TextUnformatted(u8"GameObject名前");
 	ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
 	ImGui::TextUnformatted(u8"モデルファイルパス");
-	//string path = wStringToString(this->mAddingFilePath);
 	string path = wstringUnicodeToUTF8(this->mAddingFilePath);
 	ImGui::Text(u8"%s", path.c_str());
 
-	// string -> wstring
 	wstring newGameObjectName = stringUTF8ToUnicode(this->mNewGameObjectName);
 
 	// エラータイプ 0 -- default、1 -- Error1、2 -- Error2
@@ -461,14 +451,13 @@ void GUI::addModelImGui()
 			gameObject->addComponent<Transform>(transform);
 			MeshRender* meshRender = new MeshRender();
 			wstring name = pathToFileName(this->mAddingFilePath);
-			meshRender->mModel = getResources()->getModel(name);								// リソースからモデルを取得
-			getSceneManager()->mCurrentScene->mMeshRenders.push_back(meshRender);				// MeshRenderをシーンに追加
+			meshRender->mModel = getResources()->getModel(name);
+			getSceneManager()->mCurrentScene->mMeshRenders.push_back(meshRender);
 			gameObject->addComponent<MeshRender>(meshRender);
-			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);		// シーンに追加
+			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);
 
-			// mNewGameObjectName初期化
+			// this->mNewGameObjectName初期化
 			*this->mNewGameObjectName = { NULL };
-			
 			this->mIsAddingModel = false;
 		}
 	}
@@ -540,7 +529,7 @@ bool GUI::isGameObjectNameRight(wstring name)
 // ドロップファイルは対応できないGUI
 //
 //*****************************************************************************
-void GUI::dropFileErrorGUI()
+void GUI::dropFileErrorGUI(void)
 {
 	ImGui::Begin(u8"Error");
 	ImGui::TextUnformatted(u8"ドロップされたファイルはモデルファイルではありません！");

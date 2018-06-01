@@ -26,7 +26,7 @@ Model::Model(wstring const& path)
 // デストラクタ
 //
 //*****************************************************************************
-Model::~Model()
+Model::~Model(void)
 {
 	// delete vector
 }
@@ -165,8 +165,8 @@ void Model::drawModel(Shader* shader, bool isOutline)
 	}
 
 	// 骨の行列をシェーダーに渡す
-	HRESULT hr;
-	hr = shader->mEffect->SetMatrixArray("boneMatrices", mat, 87);
+	HRESULT result;
+	result = shader->mEffect->SetMatrixArray("boneMatrices", mat, 87);
 
 	// 各メッシュを描画
 	for (auto it : mMeshes)

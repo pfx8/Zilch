@@ -25,7 +25,7 @@ Node<T>::Node(string name)
 //
 //*****************************************************************************
 template<typename T>
-Node<T>::~Node()
+Node<T>::~Node(void)
 {
 	// リリースaiScene
 

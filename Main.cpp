@@ -50,7 +50,7 @@ void release(void);														// ウインド終了処理
 
 // ドロップ処理
 void dropFileProcess(HWND hwnd, HDROP hDropInfo);						// ドロップファイル処理
-void enumerateFiles();													// ファイルの列挙処理
+void enumerateFiles(void);												// ファイルの列挙処理
 bool isModelFile(wstring path);											// モデルファイルかどうかを判断
 
 // ImGui用プロシージャ
@@ -449,7 +449,7 @@ void dropFileProcess(HWND hwnd, HDROP hDropInfo)
 // ファイルの列挙処理
 //
 //*****************************************************************************
-void enumerateFiles()
+void enumerateFiles(void)
 {
 	// WIN32ファイルデータ
 	WIN32_FIND_DATA findFileData;

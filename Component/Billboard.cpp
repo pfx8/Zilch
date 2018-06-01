@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Billboard::Billboard()
+Billboard::Billboard(void)
 {
 
 }
@@ -22,7 +22,7 @@ Billboard::Billboard()
 // デストラクタ
 //
 //*****************************************************************************
-Billboard::~Billboard()
+Billboard::~Billboard(void)
 {
 
 }
@@ -32,10 +32,10 @@ Billboard::~Billboard()
 // 初期化
 //
 //*****************************************************************************
-void Billboard::start()
+void Billboard::start(void)
 {
 	// ビルボードの変換行列を取得
-	this->mTrans = this->mGameObject->getComponent<Transform>();
+	this->mTrans = this->mParentGameObject->getComponent<Transform>();
 }
 
 //*****************************************************************************
@@ -43,7 +43,7 @@ void Billboard::start()
 // 更新
 //
 //*****************************************************************************
-void Billboard::update()
+void Billboard::update(void)
 {
 	// カメラからビルボードまでの方向ベクトルを計算
 	D3DXVECTOR3 cameraPos = this->mSceneCurrentCamera->getComponent<Transform>()->mPos;
@@ -55,6 +55,7 @@ void Billboard::update()
 
 	// カメラのビューイング行列を取得
 	D3DXMATRIX viewMatrix = mSceneCurrentCamera->getComponent<Camera>()->mViewMatrix;
+
 	// ビルボード行列を作る
 	D3DXMATRIX billboardMatrix;
 	D3DXMatrixIdentity(&billboardMatrix);

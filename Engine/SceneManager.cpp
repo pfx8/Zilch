@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-SceneManager::SceneManager()
+SceneManager::SceneManager(void)
 {
 
 }
@@ -22,7 +22,7 @@ SceneManager::SceneManager()
 // 最初のシーンを初期化
 //
 //*****************************************************************************
-void SceneManager::start()
+void SceneManager::start(void)
 {
 	// 各シーンのポイントを初期化
 	Scene02* zilch = new Scene02();
@@ -38,7 +38,7 @@ void SceneManager::start()
 // デストラクタ
 //
 //*****************************************************************************
-SceneManager::~SceneManager()
+SceneManager::~SceneManager(void)
 {
 	// to do delete unordered_map
 }
@@ -48,7 +48,7 @@ SceneManager::~SceneManager()
 // シンーの更新
 //
 //*****************************************************************************
-void SceneManager::update()
+void SceneManager::update(void)
 {
 	if (this->mCurrentScene->mIsStart)
 	{
@@ -66,7 +66,7 @@ void SceneManager::update()
 // シーンの描画
 //
 //*****************************************************************************
-void SceneManager::draw()
+void SceneManager::draw(void)
 {
 	// シーンを描画
 	this->mCurrentScene->draw();

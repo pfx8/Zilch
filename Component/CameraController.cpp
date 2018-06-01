@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-CameraController::CameraController()
+CameraController::CameraController(void)
 {
 
 }
@@ -22,7 +22,7 @@ CameraController::CameraController()
 // デストラクタ
 //
 //*****************************************************************************
-CameraController::~CameraController()
+CameraController::~CameraController(void)
 {
 
 }
@@ -32,9 +32,9 @@ CameraController::~CameraController()
 // 初期化
 //
 //*****************************************************************************
-void CameraController::start()
+void CameraController::start(void)
 {
-	this->mSceneCurrentCamera = this->mGameObject->mScene->mCurrentCamera;
+	this->mSceneCurrentCamera = this->mParentGameObject->mScene->mCurrentCamera;
 }
 
 //*****************************************************************************
@@ -106,7 +106,7 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 // 更新
 //
 //*****************************************************************************
-void CameraController::update()
+void CameraController::update(void)
 {
 	// 目標からカメラまでの距離を計算
 	this->mOffsetFromTarget = this->mSceneCurrentCamera->mCameraPos - this->mSceneCurrentCamera->mTargetPos;
@@ -145,26 +145,26 @@ void CameraController::move(float sign, bool isFront)
 // 入力更新
 //
 //*****************************************************************************
-void CameraController::inputUpdate()
+void CameraController::inputUpdate(void)
 {
 	// カメラを左右移動
 	if ((IsMouseLeftPressed() && GetMouseX() > this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_LEFT))
 	{
-		rotation(0.0f, D3DXToRadian(this->mRotateSpeedHorizonal));
+		rotation(0.0f, D3DXToRadian(this->mHorizonalRotateSpeed));
 	}
 	if ((IsMouseLeftPressed() && GetMouseX() < -this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_RIGHT))
 	{
-		rotation(0.0f, -D3DXToRadian(this->mRotateSpeedHorizonal));
+		rotation(0.0f, -D3DXToRadian(this->mHorizonalRotateSpeed));
 	}
 
 	// カメラを上下移動
 	if ((IsMouseLeftPressed() && GetMouseY() > this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_UP))
 	{
-		rotation(-D3DXToRadian(this->mRotateSpeedVertical), 0.0f);
+		rotation(-D3DXToRadian(this->mVerticalRotateSpeed), 0.0f);
 	}
 	if ((IsMouseLeftPressed() && GetMouseY() < -this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_DOWN))
 	{
-		rotation(D3DXToRadian(this->mRotateSpeedVertical), 0.0f);
+		rotation(D3DXToRadian(this->mVerticalRotateSpeed), 0.0f);
 	}
 
 	// ズーム拡大
@@ -202,11 +202,10 @@ void CameraController::inputUpdate()
 
 //*****************************************************************************
 //
-// ImGuiでCameraControllerのデータを出す
+// GUIパネル
 //
 //*****************************************************************************
-void CameraController::drawImGui()
+void CameraController::drawImGui(void)
 {
-	// 操作の説明
-	ImGui::Text(u8"マウス左ボタン+");
+
 }

@@ -26,8 +26,8 @@ private:
 	// typeid(classPoint)を利用して各componentのtype_indexを取得、そしてマップに保存
 	map<type_index, Component*>		mComponentsMap;
 
-	void start();
-	void update();
+	void start(void);
+	void update(void);
 
 public:
 	Scene*			mScene;							// シーンポインタ
@@ -35,8 +35,8 @@ public:
 	bool			mActive = true;					// 使ってるマーク
 	float			mLastActiveTime = 0;			// 前回更新した時間
 
-	GameObject();
-	virtual ~GameObject();
+	GameObject(void);
+	virtual ~GameObject(void);
 
 	//*****************************************************************************
 	//
@@ -48,7 +48,7 @@ public:
 	template<typename T> void addComponent(T* component)
 	{
 		// 添付したいコンポーネントの中に所属GameObjectのポインタを入れる
-		component->mGameObject = this;
+		component->mParentGameObject = this;
 
 		// MeshRenderがあればGameObjectを描画
 		if (typeid(T) == typeid(MeshRender))

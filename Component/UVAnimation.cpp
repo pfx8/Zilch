@@ -23,7 +23,7 @@ UVAnimation::UVAnimation(D3DXVECTOR2 size, float time)
 // デストラクタ
 //
 //*****************************************************************************
-UVAnimation::~UVAnimation()
+UVAnimation::~UVAnimation(void)
 {
 
 }
@@ -33,7 +33,7 @@ UVAnimation::~UVAnimation()
 // 初期化
 //
 //*****************************************************************************
-void UVAnimation::start()
+void UVAnimation::start(void)
 {
-	// 同じgameObjectのアニメーションがやってるモデル
+
 }

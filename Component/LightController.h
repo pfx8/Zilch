@@ -25,16 +25,16 @@
 class LightController : public Component
 {
 private:
-	int					mMouseIsMoving = 2;			// マウスの移動チェック量
-	float				mMoveSpeed = 0.1f;			// ライト移動スピード
-
-	void update();
+	int				mIsMouseMoving = 2;
+	float			mMoveSpeed = 0.1f;
 
 public:
-	Light*				mLight;						// 操作するライト
+	Light*			mCurrentLight;
 
-	LightController();
-	~LightController();
+	LightController(void);
+	~LightController(void);
+
+	void update(void);
 };
 
 #endif // !_LIGHT_CONTROLLER_H_

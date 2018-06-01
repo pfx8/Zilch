@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-AnimationChannel::AnimationChannel()
+AnimationChannel::AnimationChannel(void)
 {
 
 }
@@ -22,7 +22,7 @@ AnimationChannel::AnimationChannel()
 // デストラクタ
 //
 //*****************************************************************************
-AnimationChannel::~AnimationChannel()
+AnimationChannel::~AnimationChannel(void)
 {
 
 }

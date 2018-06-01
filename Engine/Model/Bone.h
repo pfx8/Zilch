@@ -32,9 +32,9 @@ public:
 	D3DXVECTOR3				mScl;						// Šg‘åk¬
 	D3DXVECTOR3				mSot;						// Šp“x‚Ì•ÏX
 
-	Bone();
+	Bone(void);
 	Bone(unsigned int index, D3DXMATRIX offset, string name);
-	~Bone();
+	~Bone(void);
 };
 
 #endif // !_BONE_H_

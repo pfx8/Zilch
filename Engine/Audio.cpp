@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Audio::Audio()
+Audio::Audio(void)
 {
 	
 }
@@ -22,9 +22,8 @@ Audio::Audio()
 // オーディオシステムを初期化
 //
 //*****************************************************************************
-HRESULT Audio::start()
+HRESULT Audio::start(void)
 {
-	// 結果変数
 	FMOD_RESULT result;
 
 	// FMODシステムを初期化
@@ -53,7 +52,7 @@ HRESULT Audio::start()
 // デストラクタ
 //
 //*****************************************************************************
-Audio::~Audio()
+Audio::~Audio(void)
 {
 
 }
@@ -78,6 +77,7 @@ HRESULT Audio::createStream(const string path, FMOD_MODE mode)
 	}
 
 	string fileName = path.substr(path.find_last_of("//") + 1, path.find_first_of("."));
+
 	// サウンドマップに入れる
 	this->mSoundsMap.insert(make_pair(fileName, sound));
 
@@ -113,7 +113,7 @@ HRESULT Audio::playAudio(string name)
 // 更新FMOD
 //
 //*****************************************************************************
-void Audio::update()
+void Audio::update(void)
 {
 
 }

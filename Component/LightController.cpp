@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-LightController::LightController()
+LightController::LightController(void)
 {
 
 }
@@ -22,54 +22,54 @@ LightController::LightController()
 // デストラクタ
 //
 //*****************************************************************************
-LightController::~LightController()
+LightController::~LightController(void)
 {
 
 }
 
 //*****************************************************************************
 //
-// コントローラ更新
+// 更新
 //
 //*****************************************************************************
-void LightController::update()
+void LightController::update(void)
 {
 	// ライト位置取得
-	Transform* trans = this->mLight->mGameObject->getComponent<Transform>();
+	Transform* trans = this->mCurrentLight->mParentGameObject->getComponent<Transform>();
 
 	// システムカメラを取得
-	Camera* sysCamera = this->mGameObject->mScene->mSystemCamera;
+	Camera* sysCamera = this->mParentGameObject->mScene->mSystemCamera;
 
 	// マウス操作
 	if (IsMouseCenterPressed())
 	{
 		// 上下移動
-		if (GetMouseY() > this->mMouseIsMoving)
+		if (GetMouseY() > this->mIsMouseMoving)
 		{
 			// プラス
-			this->mLight->mLightPos -= sysCamera->mCameraUp * this->mMoveSpeed;
+			this->mCurrentLight->mLightPos -= sysCamera->mCameraUp * this->mMoveSpeed;
 		}
 		
-		if(GetMouseY() < -this->mMouseIsMoving)
+		if(GetMouseY() < -this->mIsMouseMoving)
 		{
 			// マイナス
-			this->mLight->mLightPos += sysCamera->mCameraUp * this->mMoveSpeed;
+			this->mCurrentLight->mLightPos += sysCamera->mCameraUp * this->mMoveSpeed;
 		}
 
 		// 水平移動
-		if (GetMouseX() > this->mMouseIsMoving)
+		if (GetMouseX() > this->mIsMouseMoving)
 		{
 			// プラス
-			this->mLight->mLightPos -= sysCamera->mCameraRight * this->mMoveSpeed;
+			this->mCurrentLight->mLightPos -= sysCamera->mCameraRight * this->mMoveSpeed;
 		}
 
-		if (GetMouseX() < -this->mMouseIsMoving)
+		if (GetMouseX() < -this->mIsMouseMoving)
 		{
 			// マイナス
-			this->mLight->mLightPos += sysCamera->mCameraRight * this->mMoveSpeed;
+			this->mCurrentLight->mLightPos += sysCamera->mCameraRight * this->mMoveSpeed;
 		}
 
-		// マウス操作をライトGUIに更新
-		trans->mPos = this->mLight->mLightPos;
+		// マウス操作の結果をライトに渡す
+		trans->mPos = this->mCurrentLight->mLightPos;
 	}
 }

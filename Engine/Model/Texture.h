@@ -41,7 +41,7 @@ public:
 	LPDIRECT3DTEXTURE9			mTex;			// テクスチャポインタ
 
 	Texture(wstring path, TexType type);
-	~Texture();
+	~Texture(void);
 
 	HRESULT loadingTexture(wstring path);		// テクスチャを読み込み
 };

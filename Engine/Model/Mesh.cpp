@@ -196,7 +196,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 // デストラクタ
 //
 //*****************************************************************************
-Mesh::~Mesh()
+Mesh::~Mesh(void)
 {
 	RELEASE_POINT(mVertexBuffer);
 	RELEASE_POINT(mIndexBuffer);
@@ -207,7 +207,7 @@ Mesh::~Mesh()
 // メッシュを設定
 //
 //*****************************************************************************
-HRESULT Mesh::setupMesh()
+HRESULT Mesh::setupMesh(void)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
@@ -238,7 +238,7 @@ HRESULT Mesh::setupMesh()
 // 頂点をセットアップ
 //
 //*****************************************************************************
-HRESULT Mesh::setupVertices()
+HRESULT Mesh::setupVertices(void)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
@@ -276,7 +276,7 @@ HRESULT Mesh::setupVertices()
 // インデックスをセットアップ
 //
 //*****************************************************************************
-HRESULT Mesh::setupIndexes()
+HRESULT Mesh::setupIndexes(void)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 
@@ -322,17 +322,17 @@ void Mesh::drawShadow(Shader* shader)
 		// 各パスを描画
 		shader->mEffect->BeginPass(count);
 
-		HRESULT hr;
+		HRESULT result;
 		// 頂点宣言を設定
-		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);
+		result = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);
 		// 頂点バッファを設定
-		hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexDesign));
+		result = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexDesign));
 		// インデックスバッファを設定
-		hr = pD3DDevice->SetIndices(this->mIndexBuffer);
+		result = pD3DDevice->SetIndices(this->mIndexBuffer);
 
 		unsigned int vertexNums = mVertices.size();
 		unsigned int faceNums = mIndices.size()/3;
-		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画
+		result = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);	// ポリゴンの描画
 
 		shader->mEffect->EndPass();
 	}
@@ -392,17 +392,17 @@ void Mesh::drawModel(Shader* shader, bool isOutline)
 		// 各パスを描画
 		shader->mEffect->BeginPass(currentPass);
 
-		HRESULT hr;
+		HRESULT result;
 		// 頂点宣言を設定
-		hr = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);
+		result = pD3DDevice->SetVertexDeclaration(this->mVertexDecl);
 		// 頂点バッファを設定
-		hr = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexDesign));	
+		result = pD3DDevice->SetStreamSource(0, this->mVertexBuffer, 0, sizeof(VertexDesign));	
 		// インデックスバッファを設定
-		hr = pD3DDevice->SetIndices(this->mIndexBuffer);
+		result = pD3DDevice->SetIndices(this->mIndexBuffer);
 
 		unsigned int vertexNums = mVertices.size();
 		unsigned int faceNums = mIndices.size()/3;
-		hr = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);
+		result = pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexNums, 0, faceNums);
 
 		shader->mEffect->EndPass();
 	}

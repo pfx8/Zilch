@@ -22,10 +22,10 @@ class Scene02 : public Scene
 private:
 
 public:
-	Scene02();
-	~Scene02();
+	Scene02(void);
+	~Scene02(void);
 
-	void start();				// ‰Šú‰»
+	void start(void);				// ‰Šú‰»
 };
 #endif // !_SCENE02_H_
 

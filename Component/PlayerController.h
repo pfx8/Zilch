@@ -27,12 +27,12 @@ private:
 	int					mMouseIsMoving = 2;			// マウスの移動チェック量
 	float				mMoveSpeed = 0.1f;			// ライト移動スピード
 
-	void update();
+	void update(void);
 
 public:
 
-	PlayerController();
-	~PlayerController();
+	PlayerController(void);
+	~PlayerController(void);
 };
 
 #endif // !_PLAYER_CONTROLLERS_H_

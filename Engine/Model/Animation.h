@@ -49,7 +49,7 @@ public:
 	Animation(wstring const &path);
 	Animation(aiAnimation* animation);
 
-	~Animation();
+	~Animation(void);
 
 	void updateBoneTransforms(float timeInSeconds, vector<Bone*>& bones, vector<D3DXMATRIX>& transforms);		// アニメーションキーフレームによって骨の変更行列を更新
 };

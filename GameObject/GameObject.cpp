@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-GameObject::GameObject()
+GameObject::GameObject(void)
 {
 
 }
@@ -22,7 +22,7 @@ GameObject::GameObject()
 // デストラクタ
 //
 //*****************************************************************************
-GameObject::~GameObject()
+GameObject::~GameObject(void)
 {
 
 }
@@ -32,7 +32,7 @@ GameObject::~GameObject()
 // 初期化
 //
 //*****************************************************************************
-void GameObject::start()
+void GameObject::start(void)
 {
 
 }
@@ -42,18 +42,18 @@ void GameObject::start()
 // 更新
 //
 //*****************************************************************************
-void GameObject::update()
+void GameObject::update(void)
 {
 	for (auto it : this->mComponentsMap)
 	{
-		if (it.second->mStart == true)
+		if (it.second->mIsStart == true)
 		{
 			it.second->update();
 		}
 		else
 		{
 			it.second->start();
-			it.second->mStart = true;
+			it.second->mIsStart = true;
 		}
 	}
 }

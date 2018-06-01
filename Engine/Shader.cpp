@@ -38,7 +38,7 @@ Shader::Shader(wstring path)
 // デストラクタ
 //
 //*****************************************************************************
-Shader::~Shader()
+Shader::~Shader(void)
 {
 	RELEASE_POINT(mEffect);
 }

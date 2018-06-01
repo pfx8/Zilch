@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Scene02::Scene02()
+Scene02::Scene02(void)
 {
 	// シーンの情報
 	cout << "<Scene> " << "[Project:Zilch] " << SCREEN_WIDTH << " * " << SCREEN_HEIGHT << endl;
@@ -23,7 +23,7 @@ Scene02::Scene02()
 // 初期化
 //
 //*****************************************************************************
-void Scene02::start()
+void Scene02::start(void)
 {
 	Resources* resource = getResources();
 
@@ -57,8 +57,6 @@ void Scene02::start()
 	Light* singleLight = new Light();
 	singleLight->mLightType = LT_point;										// ライトタイプを指定
 	singleLight->mLightColor = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	// ライト範囲は50ｍにする
-	// data by http://wiki.ogre3d.org/tiki-index.php?page=-Point+Light+Attenuation
 	singleLight->mPointLight.constant = 1.0f;
 	singleLight->mPointLight.linear = 0.9f;
 	singleLight->mPointLight.quadratic = 0.032f;
@@ -79,7 +77,7 @@ void Scene02::start()
 	PlayerController* playerController = new PlayerController();
 	player->addComponent<PlayerController>(playerController);
 	LightController* lightController = new LightController();
-	lightController->mLight = singleLight;									// コントローラライトを指定
+	lightController->mCurrentLight = singleLight;									// コントローラライトを指定
 	player->addComponent<LightController>(lightController);
 	MeshRender* playerMeshRender = new MeshRender();
 	playerMeshRender->mModel = resource->getModel(L"Hixo");
@@ -117,7 +115,7 @@ void Scene02::start()
 // デストラクタ
 //
 //*****************************************************************************
-Scene02::~Scene02()
+Scene02::~Scene02(void)
 {
 	RELEASE_CLASS_POINT(this->mSystemCamera);
 	RELEASE_CLASS_POINT(this->mCurrentCamera);

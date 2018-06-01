@@ -92,7 +92,7 @@ Animation::Animation(aiAnimation* animation)
 // デストラクタ
 //
 //*****************************************************************************
-Animation::~Animation()
+Animation::~Animation(void)
 {
 	// リリースaiScene
 

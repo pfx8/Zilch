@@ -46,7 +46,7 @@ public:
 	D3DXVECTOR3		mColorRampSegment;			// カラーセグメント値、最大は３レベル
 
 	Shader(wstring path);
-	~Shader();
+	~Shader(void);
 
 	HRESULT loadEffectFile(wstring path);		// 頂点シェーダーファイルを読み込む
 };

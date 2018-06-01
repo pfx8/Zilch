@@ -67,7 +67,7 @@ Texture::Texture(wstring path, TexType type)
 // デストラクタ
 //
 //*****************************************************************************
-Texture::~Texture()
+Texture::~Texture(void)
 {
 
 }

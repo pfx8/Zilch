@@ -60,7 +60,7 @@ public:
 	vector<Texture*>				mTextures;						// テククシャデータ
 
 	Model(wstring const& wPath);
-	~Model();
+	~Model(void);
 
 	void checkAnimation(const aiScene* scene);						// モデルはアニメーションを含めてるかどうかをチェック
 	void addAnimation(Animation* animation);						// アニメーションデータを読み込み

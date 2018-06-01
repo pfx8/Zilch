@@ -22,17 +22,17 @@ class Component
 	friend class GameObject;
 
 private:
-	virtual void start() {};
-	virtual void update() {};
 
 public:
-	GameObject*			mGameObject;				// 所属GameObjectの他のコンポーネントを取れるように
-	bool				mStart = false;				// スタートマック
+	GameObject*			mParentGameObject;			// 所属のGameObjectポインタ
+	bool				mIsStart = false;			// スタートマック
 
-	Component();
-	virtual ~Component();
+	Component(void);
+	virtual ~Component(void);
 
-	virtual void drawImGui() {};					// ImGuiでcomponentのデータを出す
+	virtual void start(void) {};
+	virtual void update(void) {};
+	virtual void drawImGui(void) {};
 };
 
 #endif // !_COMPONENT_H_

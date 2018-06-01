@@ -23,8 +23,6 @@
 //
 // クラス宣言
 //
-// 所属 : Player(GameObject)
-//
 //*****************************************************************************
 class CameraController : public Component
 {
@@ -33,25 +31,27 @@ private:
 	float				mOffsetFromTargetMax  = 9.0f;								// プレーヤーとカメラの偏り(半径)の最大値
 	float				mVerticalRadiansMin   = cosf(D3DXToRadian(65.0f));			// カメラの垂直角度の最小値
 	float				mVerticalRadiansMax   = cosf(D3DXToRadian(-15.0f));			// カメラの垂直角度の最大値
-	float				mRotateSpeedHorizonal = 4.0f;								// 水平移動スピード
-	float				mRotateSpeedVertical  = 2.0f;								// 垂直移動スピード
-	float				mZoomSpeed            = 0.6f;								// ゾーンスピード
-	float				mMoveSpeed            = 0.3f;								// カメラ移動スピード
-	int					mMouseIsMoving        = 5;									// マウスの移動チェック量
-	D3DXVECTOR3			mOffsetFromTarget;											// カメラと目標の偏り
+	float				mHorizonalRotateSpeed = 4.0f;
+	float				mVerticalRotateSpeed  = 2.0f;
+	float				mZoomSpeed            = 0.6f;
+	float				mMoveSpeed            = 0.3f;
+	int					mMouseIsMoving        = 5;
+	D3DXVECTOR3			mOffsetFromTarget;
 
 public:
-	Camera*				mSceneCurrentCamera;										// メインカメラ
+	Camera*				mSceneCurrentCamera;
 
-	CameraController();
-	~CameraController();
+	CameraController(void);
+	~CameraController(void);
 
-	void start();													// 初期化
-	void update();													// 更新
-	void inputUpdate();												// 入力更新
+	void start(void);
+	void update(void);
+	void drawImGui(void);
+
+	void inputUpdate(void);
 	void zoom(float distance);										// ズーム調整
-	void rotation(float verticalRadians, float horizonalRadians);	// 回転移動
-	void move(float sign, bool isVertical);							// 位置移動
-	void drawImGui();												// ImGuiでCameraControllerのデータを出す
+	void rotation(float verticalRadians, float horizonalRadians);	// 回転
+	void move(float sign, bool isVertical);							// 移動
+
 };
 #endif // !_CAMERA_H_

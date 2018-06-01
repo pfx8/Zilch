@@ -21,7 +21,7 @@
 #include <tchar.h>
 #include <time.h>
 #include <dinput.h>
-#include <Shlwapi.h>					// パスからファイルを探す
+#include <Shlwapi.h>					// PathFileExists()のため
 
 // c++
 #include <iostream>
@@ -29,9 +29,9 @@
 #include <cstdlib>
 #include <vector>
 #include <map>
-#include <unordered_map>				// ペア関係だけで順番にする必要がないのでmapからunordered_mapに変更した
+#include <unordered_map>
 #include <typeindex>					// typeid()のため
-#include <locale>
+#include <locale>						// setlocal()のため
 
 // Assimp
 #include "..\FrameWork\assimp\include\assimp\Importer.hpp"
@@ -79,7 +79,7 @@ class SceneManager;
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
 #pragma comment (lib, "winmm.lib")
-#pragma comment (lib, "Shlwapi.lib")										// PathFileExists()
+#pragma comment (lib, "Shlwapi.lib")
 #pragma comment (lib, "FrameWork/FMOD/lib/fmod_vc.lib")						// fmod
 #pragma comment (lib, "FrameWork/assimp/lib/x86/assimp-vc140-mt.lib")		// assimp
 #endif
@@ -98,8 +98,6 @@ class SceneManager;
 #define RELEASE_POINT(ptr)					{ if(ptr) { (ptr)->Release(); (ptr) = NULL; } }
 #define RELEASE_CLASS_POINT(ptr)			{ if(ptr) { delete ptr; } }
 #define RELEASE_CLASS_ARRY_POINT(ptr)		{ if(ptr) { delete [] ptr;} }
-
-#define	FVF_DX_VERTEX_3D					(D3DFVF_XYZ | D3DFVF_DIFFUSE)
 
 //*****************************************************************************
 //

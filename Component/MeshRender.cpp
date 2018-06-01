@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-MeshRender::MeshRender()
+MeshRender::MeshRender(void)
 {
 
 }
@@ -22,9 +22,9 @@ MeshRender::MeshRender()
 // デストラクタ
 //
 //*****************************************************************************
-MeshRender::~MeshRender()
+MeshRender::~MeshRender(void)
 {
-
+	RELEASE_CLASS_POINT(this->mShadowMap);
 }
 
 //*****************************************************************************
@@ -32,16 +32,16 @@ MeshRender::~MeshRender()
 // 初期化
 //
 //*****************************************************************************
-void MeshRender::start()
+void MeshRender::start(void)
 {
 	// デフォルトシェーダーを取得
-	this->mShader = this->mGameObject->mScene->mShader;
+	this->mCurrentShader = this->mParentGameObject->mScene->mShader;
 
 	// シャドーマップ
 	if (this->mIsDrawShadow == true)
 	{
 		// ライト位置を取得
-		D3DXVECTOR3 pos = this->mGameObject->mScene->getGameObject(L"Light")->getComponent<Light>()->mLightPos;
+		D3DXVECTOR3 pos = this->mParentGameObject->mScene->getGameObject(L"Light")->getComponent<Light>()->mLightPos;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
 
@@ -55,7 +55,7 @@ void MeshRender::start()
 // 更新
 //
 //*****************************************************************************
-void MeshRender::update()
+void MeshRender::update(void)
 {
 	// シャドーマップ
 	if (this->mIsDrawShadow == true)
@@ -64,7 +64,7 @@ void MeshRender::update()
 	}
 
 	// アニメーションを更新
-	float deltaTime {getGameTimes()->mDeltaTime};
+	float deltaTime = getGameTimes()->mDeltaTime;
 	this->mModel->updateAnimation(deltaTime);
 }
 
@@ -73,7 +73,7 @@ void MeshRender::update()
 // シャドウマップを描画
 //
 //*****************************************************************************
-void MeshRender::drawShadowMap()
+void MeshRender::drawShadowMap(void)
 {
 	this->mShadowMap->draw(this->mModel);
 }
@@ -83,72 +83,72 @@ void MeshRender::drawShadowMap()
 // メッシュ描画
 //
 //*****************************************************************************
-void MeshRender::draw()
+void MeshRender::drawGameObject(void)
 {
 	// ライト情報をシェーダーに渡す
-	Light* light = this->mGameObject->mScene->getGameObject(L"Light")->getComponent<Light>();
+	Light* light = this->mParentGameObject->mScene->getGameObject(L"Light")->getComponent<Light>();
 
 	// 共有プロパティ
-	this->mShader->mEffect->SetInt("lightType", light->mLightType);
-	this->mShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
-	this->mShader->mEffect->SetFloat("lightStrength", light->mLightStrength);
-	this->mShader->mEffect->SetFloat("lightAmbient", light->mLightAmbient);
-	this->mShader->mEffect->SetFloat("lightDiffuse", light->mLightDiffuse);
-	this->mShader->mEffect->SetFloat("lightSpecular", light->mLightSpecular);
+	this->mCurrentShader->mEffect->SetInt("lightType", light->mLightType);
+	this->mCurrentShader->mEffect->SetValue("lightColor", &light->mLightColor, sizeof(light->mLightColor));
+	this->mCurrentShader->mEffect->SetFloat("lightStrength", light->mLightStrength);
+	this->mCurrentShader->mEffect->SetFloat("lightAmbient", light->mLightAmbient);
+	this->mCurrentShader->mEffect->SetFloat("lightDiffuse", light->mLightDiffuse);
+	this->mCurrentShader->mEffect->SetFloat("lightSpecular", light->mLightSpecular);
 
 	// ライトタイプによってプロパティをシェーダーに渡す
 	switch (light->mLightType)
 	{
 	case LT_direction:
-		this->mShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
+		this->mCurrentShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
 
 		break;
 	case LT_point:
-		this->mShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
+		this->mCurrentShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
 
 		// 減衰値公式変数をシェーダーに渡す
-		this->mShader->mEffect->SetFloat("lightConstant", light->mPointLight.constant);
-		this->mShader->mEffect->SetFloat("lightLinear", light->mPointLight.linear);
-		this->mShader->mEffect->SetFloat("lightQuadratic", light->mPointLight.quadratic);
+		this->mCurrentShader->mEffect->SetFloat("lightConstant", light->mPointLight.constant);
+		this->mCurrentShader->mEffect->SetFloat("lightLinear", light->mPointLight.linear);
+		this->mCurrentShader->mEffect->SetFloat("lightQuadratic", light->mPointLight.quadratic);
 
 		break;
 	case LT_spot:
-		this->mShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
-		this->mShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
-		this->mShader->mEffect->SetFloat("cutOff", light->mSpotLight.cutOff);
+		this->mCurrentShader->mEffect->SetValue("lightPos", &light->mLightPos, sizeof(light->mLightPos));
+		this->mCurrentShader->mEffect->SetValue("direction", &light->mDirectionLight.direction, sizeof(light->mDirectionLight.direction));
+		this->mCurrentShader->mEffect->SetFloat("cutOff", light->mSpotLight.cutOff);
 
 		break;
 	}
 
 	// モデル情報をシェーダーに渡す
-	Transform* trans = this->mGameObject->getComponent<Transform>();
-	this->mShader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
-	this->mShader->mEffect->SetMatrix("norMatrix", &trans->mNormalMatrix);
+	Transform* trans = this->mParentGameObject->getComponent<Transform>();
+	this->mCurrentShader->mEffect->SetMatrix("worldMatrix", &trans->mWorldMatrix);
+	this->mCurrentShader->mEffect->SetMatrix("norMatrix", &trans->mNormalMatrix);
 
 	// カメラ情報情報をシェーダーに渡す
-	Camera* camera = this->mGameObject->mScene->mCurrentCamera;
-	this->mShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
-	this->mShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
-	this->mShader->mEffect->SetValue("cameraPos", &camera->mCameraPos, sizeof(camera->mCameraPos));
+	Camera* camera = this->mParentGameObject->mScene->mCurrentCamera;
+	this->mCurrentShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
+	this->mCurrentShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
+	this->mCurrentShader->mEffect->SetValue("cameraPos", &camera->mCameraPos, sizeof(camera->mCameraPos));
 
 	// レンダリングモードをシェーダーに渡す
-	this->mShader->mEffect->SetInt("renderingMode", this->mShader->mRenderingMode);
+	this->mCurrentShader->mEffect->SetInt("renderingMode", this->mCurrentShader->mRenderingMode);
 
 	// カラーランプモードをシェーダーに渡す
-	this->mShader->mEffect->SetInt("colorRampType", this->mShader->mColorRampType);
+	this->mCurrentShader->mEffect->SetInt("colorRampType", this->mCurrentShader->mColorRampType);
 
 	// セグメント値をシェーダーに渡す
-	if (this->mShader->mColorRampType == CR_CONSTANT)
+	if (this->mCurrentShader->mColorRampType == CR_CONSTANT)
 	{
-		this->mShader->mEffect->SetValue("colorRampSegment", &this->mShader->mColorRampSegment, sizeof(this->mShader->mColorRampSegment));
+		this->mCurrentShader->mEffect->SetValue("colorRampSegment", &this->mCurrentShader->mColorRampSegment, sizeof(this->mCurrentShader->mColorRampSegment));
 	}
 
 	// アウトライン設定をシェーダーに渡す
-	this->mShader->mEffect->SetFloat("outLineFactor", this->mOutLineFactor); 
-	this->mShader->mEffect->SetFloat("outLineStrength", this->mOutLineStrength);
+	this->mCurrentShader->mEffect->SetFloat("outLineFactor", this->mOutLineFactor); 
+	this->mCurrentShader->mEffect->SetFloat("outLineStrength", this->mOutLineStrength);
 
 	// モデルを描画
-	this->mModel->drawModel(this->mShader, this->mIsOutline);
+	this->mModel->drawModel(this->mCurrentShader, this->mIsDrawOutline);
 }
 
 //*****************************************************************************
@@ -156,11 +156,11 @@ void MeshRender::draw()
 // ImGuiでMeshRenderのデータを出す
 //
 //*****************************************************************************
-void MeshRender::drawImGui()
+void MeshRender::drawImGui(void)
 {
 	// アウトライン
-	ImGui::Checkbox(u8"アウトライン", &this->mIsOutline);
-	if (this->mIsOutline)
+	ImGui::Checkbox(u8"アウトライン", &this->mIsDrawOutline);
+	if (this->mIsDrawOutline)
 	{
 		ImGui::TextUnformatted(u8"アウトライン因数");
 		ImGui::DragFloat(u8"factor", &this->mOutLineFactor, 0.05f, -2.0f, 2.0f);
@@ -187,7 +187,6 @@ void MeshRender::drawImGui()
 			{
 				ImGui::PushID(ID1s);
 				string name = wstringUnicodeToUTF8((wstring const)it1->mName);
-				//CollapsingHeader
 				if (ImGui::TreeNode("mesh", u8"<Mesh> : %s", name.c_str()))
 				{
 					ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
@@ -365,18 +364,6 @@ void MeshRender::drawImGui()
 
 			ImGui::TreePop();
 		}
-		
-
-		/*if (this->mModel->mMeshType == MT_withBone)
-		{
-			if (ImGui::TreeNode(u8"ボーン"))
-			{
-				unsigned int level = 0;
-				this->mModel->traverseNode(*(this->mModel->mAnimationes.at(0)->mNode.end() - 1), level);
-
-				ImGui::TreePop();
-			}
-		}*/
 
 		ImGui::TreePop();
 	}

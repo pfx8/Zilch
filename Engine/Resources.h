@@ -28,8 +28,8 @@ public:
 	unordered_map<wstring, Texture*>	mTextures;		// テクスチャ
 	unordered_map<wstring, Shader*>		mShaders;		// シェーダー
 
-	Resources();
-	~Resources();
+	Resources(void);
+	~Resources(void);
 	
 	void createModel(const wstring path);					// モデルデータを作る
 	Model* getModel(wstring name);							// モデルの名前によって取得

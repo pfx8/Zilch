@@ -26,15 +26,15 @@
 //*****************************************************************************
 HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd);						// キーボード初期化
 HRESULT InitializeMouse(HINSTANCE hInst, HWND hWindow);					// マウスの初期化
-HRESULT InitializePad(void);											// ゲームパッド初期化
+HRESULT InitializeGamePad(HWND hWnd);									// ゲームパッド初期化
 BOOL CALLBACK SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID);	// ゲームパッド検査コールバック
 
 HRESULT UpdateKeyboard(void);		// キーボード更新処理
-HRESULT UpdateMouse();				// マウスの更新処理
-void UpdatePad(void);				// ゲームパッド更新処理
+HRESULT UpdateMouse(void);				// マウスの更新処理
+void UpdateGamePad(void);			// ゲームパッド更新処理
 
 void UninitKeyboard(void);			// キーボード終了処理
-void UninitMouse();					// マウスの終了処理
+void UninitMouse(void);				// マウスの終了処理
 void UninitPad(void);				// ゲームパッド終了処理
 
 //*****************************************************************************
@@ -70,22 +70,17 @@ static int					gGamePadCount = 0;													// 検出したパッドの数
 //*****************************************************************************
 HRESULT InitInput(HINSTANCE hInst, HWND hWnd)
 {
-	HRESULT hr;
+	HRESULT result;
 
 	if(!gD3DInput)
 	{
 		// DirectInputオブジェクトの作成
-		hr = DirectInput8Create(hInst, DIRECTINPUT_VERSION,IID_IDirectInput8, (void**)&gD3DInput, NULL);
+		result = DirectInput8Create(hInst, DIRECTINPUT_VERSION,IID_IDirectInput8, (void**)&gD3DInput, NULL);
 	}
 
-	// キーボードの初期化
 	InitKeyboard(hInst, hWnd);
-
- 	// マウスの初期化
 	InitializeMouse(hInst, hWnd);
-	
-	// パッドの初期化
-	InitializePad();
+	InitializeGamePad(hWnd);
 
 	return S_OK;
 }
@@ -97,16 +92,10 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd)
 //*****************************************************************************
 void UninitInput(void)
 {
-	// キーボードの終了処理
 	UninitKeyboard();
-
-	// マウスの終了処理
 	UninitMouse();
-
-	// パッドの終了処理
 	UninitPad();
 
-	// DirectInputオブジェクトをリリース
 	RELEASE_POINT(gD3DInput);
 }
 
@@ -117,14 +106,9 @@ void UninitInput(void)
 //*****************************************************************************
 void UpdateInput(void)
 {
-	// キーボードの更新
 	UpdateKeyboard();
-	
-	// マウスの更新
 	UpdateMouse();
-	
-	// パッドの更新
-	UpdatePad();
+	UpdateGamePad();
 }
 
 //*****************************************************************************
@@ -134,33 +118,33 @@ void UpdateInput(void)
 //*****************************************************************************
 HRESULT InitKeyboard(HINSTANCE hInst, HWND hWnd)
 {
-	HRESULT hr;
+	HRESULT result;
 
-	// デバイスオブジェクトを作成
-	hr = gD3DInput->CreateDevice(GUID_SysKeyboard, &gDeviceKeyboard, NULL);
-	if(FAILED(hr) || gDeviceKeyboard == NULL)
+	// キーボードデバイス作成
+	result = gD3DInput->CreateDevice(GUID_SysKeyboard, &gDeviceKeyboard, NULL);
+	if(FAILED(result) || gDeviceKeyboard == NULL)
 	{
 		// Debugウインドへ
 		cout << "<Warning> no keyboard!" << endl;
-		return hr;
+		return result;
 	}
 
 	// データフォーマットを設定
-	hr = gDeviceKeyboard->SetDataFormat(&c_dfDIKeyboard);
-	if(FAILED(hr))
+	result = gDeviceKeyboard->SetDataFormat(&c_dfDIKeyboard);
+	if(FAILED(result))
 	{
 		// Debugウインドへ
 		cout << "<Warning> can't setup keyboard!" << endl;
-		return hr;
+		return result;
 	}
 
 	// 協調モードを設定（フォアグラウンド＆非排他モード）
-	hr = gDeviceKeyboard->SetCooperativeLevel(hWnd, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
-	if(FAILED(hr))
+	result = gDeviceKeyboard->SetCooperativeLevel(hWnd, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
+	if(FAILED(result))
 	{
 		// Debugウインドへ
 		cout << "<Warning> keyboard mode error!" << endl;
-		return hr;
+		return result;
 	}
 
 	// キーボードへのアクセス権を獲得(入力制御開始)
@@ -189,15 +173,15 @@ void UninitKeyboard(void)
 //*****************************************************************************
 HRESULT UpdateKeyboard(void)
 {
-	HRESULT hr;
+	HRESULT result;
 	BYTE keyStateOld[256];
 
 	// 前回のデータを保存
 	memcpy(keyStateOld, gKeyState, NUM_KEY_MAX);
 
-	// デバイスからデータを取得
-	hr = gDeviceKeyboard->GetDeviceState(sizeof(gKeyState), gKeyState);
-	if(SUCCEEDED(hr))
+	// キーボードデバイスからデータを取得
+	result = gDeviceKeyboard->GetDeviceState(sizeof(gKeyState), gKeyState);
+	if(SUCCEEDED(result))
 	{
 		for (unsigned int cnt {0}; cnt < NUM_KEY_MAX; cnt++)
 		{
@@ -274,35 +258,35 @@ bool GetKeyboardRelease(int key)
 // マウスの初期化
 //
 //*****************************************************************************
-HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
+HRESULT InitializeMouse(HINSTANCE hInst, HWND hWindow)
 {
-	HRESULT hr;
+	HRESULT result;
 
-	// デバイス作成
-	hr = gD3DInput->CreateDevice(GUID_SysMouse,&gDeviceMouse,NULL);
-	if(FAILED(hr) || gDeviceMouse==NULL)
+	// マウスデバイス作成
+	result = gD3DInput->CreateDevice(GUID_SysMouse,&gDeviceMouse,NULL);
+	if(FAILED(result) || gDeviceMouse==NULL)
 	{
 		// Debugウインドへ
 		cout << "<Warning> no mouse!" << endl;
-		return hr;
+		return result;
 	}
 
 	// データフォーマット設定
-	hr = gDeviceMouse->SetDataFormat(&c_dfDIMouse2);
-	if(FAILED(hr))
+	result = gDeviceMouse->SetDataFormat(&c_dfDIMouse2);
+	if(FAILED(result))
 	{
 		// Debugウインドへ
 		cout << "<Warning> can't setup mouse!" << endl;
-		return hr;
+		return result;
 	}
 
 	// 他のアプリと協調モードに設定
-	hr = gDeviceMouse->SetCooperativeLevel(hWindow, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
-	if(FAILED(hr))
+	result = gDeviceMouse->SetCooperativeLevel(hWindow, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
+	if(FAILED(result))
 	{
 		// Debugウインドへ
 		cout << "<Warning> mouse mode error!" << endl;
-		return hr;
+		return result;
 	}
 	
 	// デバイスの設定
@@ -314,12 +298,12 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	prop.diph.dwHow = DIPH_DEVICE;
 	prop.dwData = DIPROPAXISMODE_REL;		// マウスの移動値　相対値
 
-	hr = gDeviceMouse->SetProperty(DIPROP_AXISMODE,&prop.diph);
-	if(FAILED(hr))
+	result = gDeviceMouse->SetProperty(DIPROP_AXISMODE,&prop.diph);
+	if(FAILED(result))
 	{
 		// Debugウインドへ
 		cout << "<Warning> mouse property error!" << endl;
-		return hr;	
+		return result;	
 	}
 	
 	// アクセス権を得る
@@ -328,7 +312,7 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 	// Debugウインドへ
 	cout << "<System> mouse ... OK!" << endl;
 
-	return hr;
+	return result;
 }
 
 //*****************************************************************************
@@ -336,16 +320,16 @@ HRESULT InitializeMouse(HINSTANCE hInst,HWND hWindow)
 // マウスの更新処理
 //
 //*****************************************************************************
-HRESULT UpdateMouse()
+HRESULT UpdateMouse(void)
 {
-	HRESULT hr;
+	HRESULT result;
 
 	// 前回の値保存
 	DIMOUSESTATE2 lastMouseState = gMouseState;
 
-	// データ取得
-	hr = gDeviceMouse->GetDeviceState(sizeof(gMouseState), &gMouseState);
-	if (SUCCEEDED(hr))
+	// マウスデバイスからデータを取得
+	result = gDeviceMouse->GetDeviceState(sizeof(gMouseState), &gMouseState);
+	if (SUCCEEDED(result))
 	{
 		gMouseTrigger.lX = gMouseState.lX;
 		gMouseTrigger.lY = gMouseState.lY;
@@ -360,12 +344,11 @@ HRESULT UpdateMouse()
 	}
 	else
 	{
-		// 取得失敗
 		// アクセス権を得てみる
-		hr = gDeviceMouse->Acquire();
+		result = gDeviceMouse->Acquire();
 	}
 
-	return hr;
+	return result;
 }
 
 //*****************************************************************************
@@ -373,7 +356,7 @@ HRESULT UpdateMouse()
 // マウスの終了処理
 //
 //*****************************************************************************
-void UninitMouse()
+void UninitMouse(void)
 {
 	if(gDeviceMouse)
 	{
@@ -473,15 +456,14 @@ long GetMouseZ(void)
 	return gMouseState.lZ;
 }
 
-
 //*****************************************************************************
 //
 // ゲームパッドの初期化
 //
 //*****************************************************************************
-HRESULT InitializePad(void)
+HRESULT InitializeGamePad(HWND hWnd)
 {
-	HRESULT hr;
+	HRESULT result;
 
 	// ゲームパッド数を設定
 	gGamePadCount = 0;
@@ -492,17 +474,20 @@ HRESULT InitializePad(void)
 	for (unsigned int count = 0; count < gGamePadCount; count++)
 	{
 		// ジョイスティック用のデータ・フォーマットを設定
-		hr = gDeviceGamePad[count]->SetDataFormat(&c_dfDIJoystick);
+		result = gDeviceGamePad[count]->SetDataFormat(&c_dfDIJoystick);
 		// データフォーマットの設定に失敗
-		if (FAILED(hr))
+		if (FAILED(result))
 		{
 			return false;
 		}
 
 		// モードを設定（フォアグラウンド＆非排他モード）
-		//result = pGamePad[i]->SetCooperativeLevel(hWindow, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
-		//if ( FAILED(result) )
-		//	return false; // モードの設定に失敗
+		result = gDeviceGamePad[count]->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+		if (FAILED(result))
+		{
+			// モードの設定に失敗
+			return false;
+		}
 
 		// 軸の値の範囲を設定
 		// X軸、Y軸のそれぞれについて、オブジェクトが報告可能な値の範囲をセットする。
@@ -568,9 +553,8 @@ HRESULT InitializePad(void)
 //*****************************************************************************
 BOOL CALLBACK SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID)
 {
-	HRESULT hr;
-
-	hr = gD3DInput->CreateDevice(lpddi->guidInstance, &gDeviceGamePad[gGamePadCount++], NULL);
+	HRESULT result;
+	result = gD3DInput->CreateDevice(lpddi->guidInstance, &gDeviceGamePad[gGamePadCount++], NULL);
 
 	// 次のデバイスを列挙
 	return DIENUM_CONTINUE;
@@ -581,9 +565,9 @@ BOOL CALLBACK SearchGamePadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID)
 // ゲームパッドの更新処理
 //
 //*****************************************************************************
-void UpdatePad(void)
+void UpdateGamePad(void)
 {
-	HRESULT hr;
+	HRESULT result;
 	DIJOYSTATE2 dijs;
 
 	for (unsigned int i = 0; i < gGamePadCount; i++)
@@ -593,21 +577,21 @@ void UpdatePad(void)
 		gGamePadState[i] = 0x00000000l;	// 初期化
 
 		// ジョイスティックにポールをかける
-		hr = gDeviceGamePad[i]->Poll();
-		if (FAILED(hr)) 
+		result = gDeviceGamePad[i]->Poll();
+		if (FAILED(result)) 
 		{
-			hr = gDeviceGamePad[i]->Acquire();
-			while (hr == DIERR_INPUTLOST)
-				hr = gDeviceGamePad[i]->Acquire();
+			result = gDeviceGamePad[i]->Acquire();
+			while (result == DIERR_INPUTLOST)
+				result = gDeviceGamePad[i]->Acquire();
 		}
 
 		// デバイス状態を読み取る
-		hr = gDeviceGamePad[i]->GetDeviceState(sizeof(DIJOYSTATE), &dijs);
-		if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED) 
+		result = gDeviceGamePad[i]->GetDeviceState(sizeof(DIJOYSTATE), &dijs);
+		if (result == DIERR_INPUTLOST || result == DIERR_NOTACQUIRED) 
 		{
-			hr = gDeviceGamePad[i]->Acquire();
-			while (hr == DIERR_INPUTLOST)
-				hr = gDeviceGamePad[i]->Acquire();
+			result = gDeviceGamePad[i]->Acquire();
+			while (result == DIERR_INPUTLOST)
+				result = gDeviceGamePad[i]->Acquire();
 		}
 
 		// LONG lX;		X軸の位置		左アナログスティックの左右

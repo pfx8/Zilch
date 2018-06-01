@@ -43,12 +43,12 @@ public:
 	Camera*									mCurrentCamera;			// 使っているカメラ
 	Shader*									mShader;				// 現在レンダリング用なシェーダー
 
-	Scene();
-	~Scene();
+	Scene(void);
+	~Scene(void);
 
-	virtual void start() {};		// シーンのスタート
-	void update();					// シーンの更新
-	void draw();					// シーンの描画
+	virtual void start(void) {};		// シーンのスタート
+	void update(void);					// シーンの更新
+	void draw(void);					// シーンの描画
 	
 	void addGameObject(wstring name, GameObject* gameObject);		// シーンにGameObjectを増加
 	GameObject* getGameObject(wstring name);							// シーンからGameObjectを取得

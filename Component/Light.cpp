@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Light::Light()
+Light::Light(void)
 {
 
 }
@@ -22,7 +22,7 @@ Light::Light()
 // デストラクタ
 //
 //*****************************************************************************
-Light::~Light()
+Light::~Light(void)
 {
 
 }
@@ -32,17 +32,17 @@ Light::~Light()
 // 初期化
 //
 //*****************************************************************************
-void Light::start()
+void Light::start(void)
 {
 	this->mCurrentLightType = this->mLightType;
 }
 
 //*****************************************************************************
 //
-// ImGuiでPointLightのデータを出す
+// GUIパネル
 //
 //*****************************************************************************
-void Light::drawImGui()
+void Light::drawImGui(void)
 {
 	// ライトカラー
 	ImGui::ColorEdit4(u8"ライトカラー", this->mLightColor);
@@ -89,10 +89,10 @@ void Light::drawImGui()
 // 各ライトの調整ImGui
 //
 //*****************************************************************************
-void Light::lightControllerImGui()
+void Light::lightControllerImGui(void)
 {
 	// ライト位置入力配列
-	Transform* trans = this->mGameObject->getComponent<Transform>();
+	Transform* trans = this->mParentGameObject->getComponent<Transform>();
 	float* v1[3] = { &trans->mPos.x, &trans->mPos.y, &trans->mPos.z };
 	this->mLightPos = trans->mPos;
 

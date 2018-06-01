@@ -35,7 +35,7 @@ public:
 
 	// マテリアルがなければデフォルトで初期化
 	Material(aiMaterial* mat, Model* model);
-	~Material();
+	~Material(void);
 
 	// マテリアルを読み込み
 	void loadingMaterial(aiMaterial* mat);

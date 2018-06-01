@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-SkyBox::SkyBox()
+SkyBox::SkyBox(void)
 {
 	// 初期化
 	this->vertexBuffer = NULL;
@@ -30,7 +30,7 @@ SkyBox::SkyBox()
 // デストラクタ
 //
 //*****************************************************************************
-SkyBox::~SkyBox()
+SkyBox::~SkyBox(void)
 {
 	RELEASE_POINT(this->vertexBuffer);
 	RELEASE_POINT(this->indexBuffer);
@@ -164,7 +164,7 @@ HRESULT SkyBox::InitSkyBox(float length)
 // ワールド変換
 //
 //*****************************************************************************
-void SkyBox::SetWorldMatrix()
+void SkyBox::SetWorldMatrix(void)
 {
 	LPDIRECT3DDEVICE9 pD3DDevice = getD3DDevice();
 

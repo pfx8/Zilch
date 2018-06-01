@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Camera::Camera()
+Camera::Camera(void)
 {
 
 }
@@ -22,7 +22,7 @@ Camera::Camera()
 // デストラクタ
 //
 //*****************************************************************************
-Camera::~Camera()
+Camera::~Camera(void)
 {
 
 }
@@ -32,8 +32,9 @@ Camera::~Camera()
 // 初期化
 //
 //*****************************************************************************
-void Camera::start()
+void Camera::start(void)
 {
+	// ビューイング変換を設定
 	this->mField = D3DXToRadian(45);
 	this->mRatio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;
 	this->mRangeStart = 0.1f;
@@ -45,32 +46,35 @@ void Camera::start()
 // 更新
 //
 //*****************************************************************************
-void Camera::update()
+void Camera::update(void)
 {
 	// 世界ベクトルを取得
 	WorldVector worldVector;
 
 	// 新しい向きベクトルを計算
 	D3DXVec3Normalize(&this->mCameraFront, &(this->mTargetPos - this->mCameraPos));
+
 	// 新しい右ベクトルを計算(外積)、そして正規化
 	D3DXVec3Cross(&this->mCameraRight, &this->mCameraFront, &worldVector.worldUp);
 	D3DXVec3Normalize(&this->mCameraRight, &this->mCameraRight);
+
 	// 新しい上ベクトルを計算(外積)、そして正規化
 	D3DXVec3Cross(&this->mCameraUp, &this->mCameraRight, &this->mCameraFront);
 	D3DXVec3Normalize(&this->mCameraUp, &this->mCameraUp);
 
 	// ビューマトリックスの作成
 	D3DXMatrixLookAtLH(&this->mViewMatrix, &this->mCameraPos, &this->mTargetPos, &this->mCameraUp);
+
 	// プロジェクションマトリックスの作成
 	D3DXMatrixPerspectiveFovLH(&this->mProjectionMatrix, this->mField, this->mRatio, this->mRangeStart, this->mRangeEnd);
 }
 
 //*****************************************************************************
 //
-// ImGuiでCameraのデータを出す
+// GUIパネル
 //
 //*****************************************************************************
-void Camera::drawImGui()
+void Camera::drawImGui(void)
 {
 	ImGui::Text(u8"カメラ位置");
 	float* v1[3] = { &this->mCameraPos.x, &this->mCameraPos.y, &this->mCameraPos.z };

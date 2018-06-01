@@ -39,7 +39,7 @@ struct PointLight
 
 struct SpotLight
 {
-	D3DXVECTOR3			direction;
+	D3DXVECTOR3			direction;			// ライトの方向
 	float				cutOff;				// スポットベクトルとライトベクトルのコサイン値
 	bool				isSmooth;			// スムースチェック
 };
@@ -67,26 +67,25 @@ private:
 	int					mCurrentLightType;
 	const char*			mLight[3] = { u8"指向性ライト", u8"ポイントライト", u8"スポットライト" };
 
-	void start();		// 初期化
-
 public:
-	D3DXVECTOR3			mLightPos;				// ライトの位置
-	D3DXVECTOR4			mLightColor;			// ライトのカラー
-	float				mLightStrength = 1.0f;	// ライト強度
-	float				mLightAmbient = 0.2f;	// ライトアンビエント
-	float				mLightDiffuse = 0.5f;	// ライトディフューズ
-	float				mLightSpecular = 1.0f;	// ライトスペキュラー
+	D3DXVECTOR3			mLightPos;
+	D3DXVECTOR4			mLightColor;
+	float				mLightStrength = 1.0f;
+	float				mLightAmbient = 0.2f;
+	float				mLightDiffuse = 0.5f;
+	float				mLightSpecular = 1.0f;
 
-	LightType			mLightType;			// ライトタイプ
-	PointLight			mPointLight;		// ポイントライト
-	DirectionLight		mDirectionLight;	// 方向ライト
-	SpotLight			mSpotLight;			// スポットライト
+	LightType			mLightType;
+	PointLight			mPointLight;
+	DirectionLight		mDirectionLight;
+	SpotLight			mSpotLight;
 
-	Light();
-	~Light();
+	Light(void);
+	~Light(void);
 
-	void drawImGui();						// ImGuiでPointLightのデータを出す
-	void lightControllerImGui();			// 各ライトの調整ImGui
+	void start(void);
+	void drawImGui(void);
+	void lightControllerImGui(void);
 };
 
 #endif // !_LIGHT_H_

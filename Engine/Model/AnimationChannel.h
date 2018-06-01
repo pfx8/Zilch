@@ -41,8 +41,8 @@ public:
 	vector<QuaternionKey>		mRotkeys;				// 回転四元数
 	vector<VertexKey>			mSclKeys;				// 拡大縮小データ
 
-	AnimationChannel();
-	~AnimationChannel();
+	AnimationChannel(void);
+	~AnimationChannel(void);
 };
 
 #endif // !_ANIMATION_CHANNEL_H_

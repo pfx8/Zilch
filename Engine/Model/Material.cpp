@@ -75,7 +75,7 @@ void Material::loadingMaterial(aiMaterial* mat)
 // デストラクタ
 //
 //*****************************************************************************
-Material::~Material()
+Material::~Material(void)
 {
 
 }

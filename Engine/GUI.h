@@ -45,20 +45,20 @@ public:
 	bool				mIsModelFile;							// ドロップされたファイルが対象外エラー
 	wstring				mAddingFilePath = { L" " };				// ドロップされたファイルのパスを保存
 
-	GUI();
-	~GUI();
+	GUI(void);
+	~GUI(void);
 
 	void start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice);		// ImGui初期化
 
-	void draw();											// ImGuiの描画処理
-	void systemGUI();										// システム操作GUI
-	void sceneGUI();										// シーンGUI
-	void createNewGameObjectGUI();							// 新しいGameObjectを作りメニュー
+	void draw(void);											// ImGuiの描画処理
+	void systemGUI(void);										// システム操作GUI
+	void sceneGUI(void);										// シーンGUI
+	void createNewGameObjectGUI(void);							// 新しいGameObjectを作りメニュー
 	
-	bool isAnyImGuiFocused();								// ImGuiとアプリケーションの操作分離
-	void addModelImGui();									// モデル追加GUI
+	bool isAnyImGuiFocused(void);								// ImGuiとアプリケーションの操作分離
+	void addModelImGui(void);									// モデル追加GUI
 	bool isGameObjectNameRight(wstring name);				// チェック追加GameObject名前
-	void dropFileErrorGUI();								// ドロップされたファイルが対象外エラーGUI
+	void dropFileErrorGUI(void);								// ドロップされたファイルが対象外エラーGUI
 };
 
 #endif // !_GUI_H_

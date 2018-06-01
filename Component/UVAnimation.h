@@ -20,14 +20,14 @@
 class UVAnimation : public Component
 {
 private:
-	void start();
+	void start(void);
 
 public:
 	D3DXVECTOR2		mSize;		// テクスチャのサイズ
 	float			mTime;		// アニメーションの時間
 
 	UVAnimation(D3DXVECTOR2 size, float time);
-	~UVAnimation();
+	~UVAnimation(void);
 };
 
 #endif // !_UVANIMATION_H_

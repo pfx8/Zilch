@@ -22,14 +22,14 @@ private:
 	FMOD::Channel*							mChannel = nullptr;		// FMODチャンネル
 	unordered_map<string, FMOD::Sound*>		mSoundsMap;				// サウンドマップ
 
-	HRESULT start();
+	HRESULT start(void);
 public:
-	Audio();
-	~Audio();
+	Audio(void);
+	~Audio(void);
 
 	HRESULT createStream(const string mPath, FMOD_MODE mode);		// オーディオをストリームとして読み込み
 	HRESULT playAudio(string name);									// プレーサウンド
-	void update();													// 更新FMOD
+	void update(void);												// 更新FMOD
 };
 
 #endif // !_AUDIO_H_

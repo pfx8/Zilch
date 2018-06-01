@@ -40,11 +40,11 @@ public:
 	D3DXMATRIX						wMatrix;	// ワールド変換マトリックス
 	LPDIRECT3DTEXTURE9				tex;		// テクスチャ配列
 	
-	SkyBox();
-	~SkyBox();
+	SkyBox(void);
+	~SkyBox(void);
 
 	HRESULT InitSkyBox(float length);		// スカイボックスを初期化
-	void SetWorldMatrix();					// ワールド変換
+	void SetWorldMatrix(void);					// ワールド変換
 	void draw(Shader* mShader, D3DXMATRIX* vMatrix, D3DXMATRIX* pMatrix);	// スカイボックスを描画
 };
 

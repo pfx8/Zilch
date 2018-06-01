@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Resources::Resources()
+Resources::Resources(void)
 {
 
 }
@@ -22,7 +22,7 @@ Resources::Resources()
 // デストラクタ
 //
 //*****************************************************************************
-Resources::~Resources()
+Resources::~Resources(void)
 {
 	// delete Map(to do)
 }

@@ -27,12 +27,12 @@ private:
 public:
 	Scene*							mCurrentScene;			// 今のシーンポインタ
 
-	SceneManager();
-	~SceneManager();
+	SceneManager(void);
+	~SceneManager(void);
 
-	void start();				// 最初のシーンを初期化
-	void update();				// シーンを更新
-	void draw();				// シーンを描画
+	void start(void);				// 最初のシーンを初期化
+	void update(void);				// シーンを更新
+	void draw(void);				// シーンを描画
 
 	void addScene(string name, Scene* scene);		// シーンを増加
 	HRESULT setActiveScene(string name);			// これから実行するシーンを選択

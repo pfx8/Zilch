@@ -30,30 +30,30 @@
 class MeshRender : public Component
 {
 private:
-	Shader*				mShader;					// 描画する用のシェーダー(byシーン)
+	Shader*				mCurrentShader;
 
 	char				mModelPathTemp[MAX_PATH];	// モデルパス
 	char				mTexPathTemp[MAX_PATH];		// テクスチャパス
 
-	void start();									// 初期化
-	void update();									// 更新
-
 public:
-	bool				mIsOutline = false;			// アウトラインチェック
+	bool				mIsDrawOutline = false;
 	float				mOutLineFactor;				// アウトラインベクトルを計算する時、頂点ベクトルと法線ベクトルんを混ざる因子数
 	float				mOutLineStrength;			// アウトライン太さ
 
-	bool				mIsDrawShadow = false;		// シャドウチェック
-	Model*				mModel;						// 描画するモデル
-	Shader*				mShadowMapShader;			// シャドウマップシェーダー
-	ShadowMap*			mShadowMap;					// シャドウマップ
+	Model*				mModel;
 
-	MeshRender();
-	~MeshRender();
+	bool				mIsDrawShadow = false;
+	Shader*				mShadowMapShader;
+	ShadowMap*			mShadowMap;
 
-	void draw();									// メッシュを描画
-	void drawShadowMap();							// シャドウマップを描画
-	void drawImGui();								// ImGuiでMeshRenderのデータを出す
+	MeshRender(void);
+	~MeshRender(void);
+
+	void start(void);
+	void update(void);
+	void drawImGui(void);
+	void drawGameObject(void);
+	void drawShadowMap(void);
 };
 
 #endif // !_MESH_RENDER_H_

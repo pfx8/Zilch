@@ -24,10 +24,10 @@ public:
 	float mDeltaTime = 0.0f;			// デルタ時間(ミリ秒)
 	float mLastTime = 0.0f;				// 前の時間(ミリ秒)
 
-	GameTimes();
-	~GameTimes();
+	GameTimes(void);
+	~GameTimes(void);
 
-	void update();						// 時間を更新
+	void update(void);					// 時間を更新
 };
 
 #endif // !_GAME_TIMES_H_

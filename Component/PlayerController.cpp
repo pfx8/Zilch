@@ -12,7 +12,7 @@
 // コンストラクタ
 //
 //*****************************************************************************
-PlayerController::PlayerController()
+PlayerController::PlayerController(void)
 {
 
 }
@@ -22,7 +22,7 @@ PlayerController::PlayerController()
 // デストラクタ
 //
 //*****************************************************************************
-PlayerController::~PlayerController()
+PlayerController::~PlayerController(void)
 {
 
 }
@@ -32,13 +32,13 @@ PlayerController::~PlayerController()
 // 更新
 //
 //*****************************************************************************
-void PlayerController::update()
+void PlayerController::update(void)
 {
 	// プレや―の位置取得
-	Transform* trans = this->mGameObject->getComponent<Transform>();
+	Transform* trans = this->mParentGameObject->getComponent<Transform>();
 
 	// システムカメラを取得
-	Camera* sysCamera = this->mGameObject->mScene->mSystemCamera;
+	Camera* sysCamera = this->mParentGameObject->mScene->mSystemCamera;
 
 	// マウス操作
 	if (IsMouseRightPressed())

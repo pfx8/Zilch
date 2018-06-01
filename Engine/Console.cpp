@@ -12,12 +12,14 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Console::Console()
+Console::Console(void)
 {
 	// コンソールを初期化
 	this->mIsConsoleRun = AllocConsole();
+
 	// コンソールのタイトルを設定する
 	SetConsoleTitle(_T("Console"));
+
 	// コンソールにinput,outputを指定
 	freopen("CONIN$", "r", stdin);
 	freopen("CONOUT$", "w", stdout);
@@ -29,7 +31,7 @@ Console::Console()
 // デストラクタ
 //
 //*****************************************************************************
-Console::~Console()
+Console::~Console(void)
 {
 	this->mIsConsoleRun = FreeConsole() & 1;
 }

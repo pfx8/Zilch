@@ -12,8 +12,9 @@
 // コンストラクタ
 //
 //*****************************************************************************
-Scene::Scene()
+Scene::Scene(void)
 {	
+	// BGカラー初期化
 	this->mBGColor = D3DXVECTOR4(0.4, 0.4, 0.4, 1.0);
 }
 
@@ -22,7 +23,7 @@ Scene::Scene()
 // デストラクタ
 //
 //*****************************************************************************
-Scene::~Scene()
+Scene::~Scene(void)
 {
 
 }
@@ -62,7 +63,7 @@ GameObject* Scene::getGameObject(wstring name)
 // シーンの更新
 //
 //*****************************************************************************
-void Scene::update()
+void Scene::update(void)
 {
 	// 各GameObjectを更新
 	for (auto it : this->mGameObjectMap)
@@ -82,14 +83,14 @@ void Scene::update()
 // シーンの描画
 //
 //*****************************************************************************
-void Scene::draw()
+void Scene::draw(void)
 {
 	// バックバッファ＆Ｚバッファのクリア
 	getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_COLORVALUE(this->mBGColor.x, this->mBGColor.y, this->mBGColor.z, this->mBGColor.w), 1.0f, 0);
 	//シャドウマップ
 	for (auto it : mMeshRenders)
 	{
-		if (it->mStart == true)
+		if (it->mIsStart == true)
 		{
 			if (it->mIsDrawShadow == true)
 			{
@@ -103,9 +104,9 @@ void Scene::draw()
 	// メッシュ
 	for (auto it : mMeshRenders)
 	{
-		if (it->mStart == true)
+		if (it->mIsStart == true)
 		{
-			it->draw();
+			it->drawGameObject();
 		}
 	}
 }

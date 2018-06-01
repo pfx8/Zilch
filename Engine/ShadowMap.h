@@ -44,9 +44,9 @@ public:
 	D3DXVECTOR3				mLightUp;
 
 	ShadowMap(Shader* shader, D3DXVECTOR3 lightPos);
-	~ShadowMap();
+	~ShadowMap(void);
 
-	void update();								// シャドウマップ更新
+	void update(void);								// シャドウマップ更新
 	void draw(Model* model);					// シャドウマップを描画
 };
 

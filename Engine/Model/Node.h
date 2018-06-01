@@ -27,7 +27,7 @@ public:
 	T*					mData;			// ノードデータ
 
 	Node(string name);
-	~Node();
+	~Node(void);
 
 };
 
