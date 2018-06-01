@@ -31,7 +31,7 @@ private:
 	char				mNewGameObjectName[20] = { NULL };		// 最大19文字
 
 	const char*			mColorRamp[2] = { u8"リニア", u8"一定" };
-	ColorRamp			mCurrentColorRamp;
+	ColorRamp			mCurrentColorRampType;
 	const char*			mRenderingMode[5] = { u8"テクスチャ色", u8"ディフューズ", u8"スペキュラー", u8"ノーマル", u8"シェーディング" };
 	RenderingMode		mCurrentRenderingMode;
 	const char*			mLanguage[2] = { u8"日本語", u8"English" };

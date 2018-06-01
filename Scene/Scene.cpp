@@ -14,7 +14,7 @@
 //*****************************************************************************
 Scene::Scene()
 {	
-	
+	this->mBGColor = D3DXVECTOR4(0.4, 0.4, 0.4, 1.0);
 }
 
 //*****************************************************************************
@@ -85,7 +85,7 @@ void Scene::update()
 void Scene::draw()
 {
 	// バックバッファ＆Ｚバッファのクリア
-	getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
+	getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_COLORVALUE(this->mBGColor.x, this->mBGColor.y, this->mBGColor.z, this->mBGColor.w), 1.0f, 0);
 	//シャドウマップ
 	for (auto it : mMeshRenders)
 	{
@@ -99,7 +99,7 @@ void Scene::draw()
 	}
 
 	// バックバッファ＆Ｚバッファのクリア
-	getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
+	getD3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_COLORVALUE(this->mBGColor.x, this->mBGColor.y, this->mBGColor.z, this->mBGColor.w), 1.0f, 0);
 	// メッシュ
 	for (auto it : mMeshRenders)
 	{

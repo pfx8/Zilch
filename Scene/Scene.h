@@ -34,7 +34,7 @@ private:
 
 public:
 	string									mName;					// シーンの名前
-
+	D3DXVECTOR4								mBGColor;				// 背景カラー
 	bool									mIsStart;				// スタートマーク
 	vector<MeshRender*>						mMeshRenders;			// メッシュレンダリング
 	map<wstring, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ

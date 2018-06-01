@@ -52,8 +52,8 @@ void GUI::start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice)
 	this->mIsWireframe = false;
 	this->mIsAddingModel = false;
 	this->mIsModelFile = true;
-	this->mCurrentRenderingMode = RM_DIFFUSE;	// デフォルトはディフューズ
-	this->mCurrentColorRamp = CR_LINEAR;		// デフォルトはリニアモード
+	this->mCurrentRenderingMode = RM_TEXTURE;	// デフォルトはテクスチャモード
+	this->mCurrentColorRampType = CR_LINEAR;	// デフォルトはリニアモード
 	this->mCurrentLanguage = 0;					// デフォルトは日本語
 }
 
@@ -268,8 +268,8 @@ void GUI::systemGUI()
 		// コンボボックスの幅を設定
 		ImGui::PushItemWidth(160);
 		ImGui::TextUnformatted(u8"カラーランプモード");
-		ImGui::Combo(u8"ColorRamp", (int*)&this->mCurrentColorRamp, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
-		switch (this->mCurrentColorRamp)
+		ImGui::Combo(u8"ColorRamp", (int*)&this->mCurrentColorRampType, this->mColorRamp, IM_ARRAYSIZE(this->mColorRamp));
+		switch (this->mCurrentColorRampType)
 		{
 		case 0:
 			getSceneManager()->mCurrentScene->mShader->mColorRampType = CR_LINEAR;
@@ -324,6 +324,10 @@ void GUI::sceneGUI()
 	{
 		// GameObjectの作りメニュ―
 		//createNewGameObjectGUI();
+
+		// BGカラー
+		ImGui::ColorEdit4(u8"ライトカラー", getSceneManager()->mCurrentScene->mBGColor, ImGuiColorEditFlags_RGB);
+		ImGui::Separator();
 
 		// 各GameObject
 		unsigned int IDs = 0;
