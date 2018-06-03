@@ -121,9 +121,9 @@ void GUI::draw(void)
 //*****************************************************************************
 void GUI::systemGUI(void)
 {
-	ImGui::Begin(u8"デバッグウインド", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+	ImGui::Begin(u8"デバッグウインド", nullptr, /*ImGuiWindowFlags_NoResize | */ImGuiWindowFlags_NoMove);
 
-	// 言語選択 -- 実装できない
+	// 言語選択 -- 実装していない
 	{
 		ImGui::Combo(u8"言語", &this->mCurrentLanguage, this->mLanguage, IM_ARRAYSIZE(this->mLanguage));
 		ImGui::Separator();
@@ -140,6 +140,12 @@ void GUI::systemGUI(void)
 		ImGui::Text("%f, %f", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
 		ImGui::SameLine();
 		ImGui::Text(u8"マウス位置");
+		ImGui::Separator();
+	}
+
+	// BGカラー
+	{
+		ImGui::ColorEdit4(u8"背景カラー", getSceneManager()->mCurrentScene->mBGColor, ImGuiColorEditFlags_RGB);
 		ImGui::Separator();
 	}
 
@@ -317,10 +323,6 @@ void GUI::sceneGUI(void)
 	{
 		// GameObjectの作りメニュ―
 		//createNewGameObjectGUI();
-
-		// BGカラー
-		ImGui::ColorEdit4(u8"ライトカラー", getSceneManager()->mCurrentScene->mBGColor, ImGuiColorEditFlags_RGB);
-		ImGui::Separator();
 
 		// 各GameObject
 		unsigned int IDs = 0;

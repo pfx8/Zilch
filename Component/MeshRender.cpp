@@ -46,8 +46,9 @@ void MeshRender::start(void)
 	}
 
 	// アウトライン初期化
-	this->mOutLineFactor = 0.2f;
-	this->mOutLineStrength = 0.01f;
+	this->mOutlineFactor = 0.2f;
+	this->mOutlineStrength = 0.01f;
+	this->mOutlineColor = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 //*****************************************************************************
@@ -144,8 +145,9 @@ void MeshRender::drawGameObject(void)
 	}
 
 	// アウトライン設定をシェーダーに渡す
-	this->mCurrentShader->mEffect->SetFloat("outLineFactor", this->mOutLineFactor); 
-	this->mCurrentShader->mEffect->SetFloat("outLineStrength", this->mOutLineStrength);
+	this->mCurrentShader->mEffect->SetFloat("outlineFactor", this->mOutlineFactor); 
+	this->mCurrentShader->mEffect->SetFloat("outlineStrength", this->mOutlineStrength);
+	this->mCurrentShader->mEffect->SetValue("outlineColor", &this->mOutlineColor, sizeof(this->mOutlineColor));
 
 	// モデルを描画
 	this->mModel->drawModel(this->mCurrentShader, this->mIsDrawOutline);
@@ -163,9 +165,11 @@ void MeshRender::drawImGui(void)
 	if (this->mIsDrawOutline)
 	{
 		ImGui::TextUnformatted(u8"アウトライン因数");
-		ImGui::DragFloat(u8"factor", &this->mOutLineFactor, 0.05f, -2.0f, 2.0f);
+		ImGui::DragFloat(u8"factor", &this->mOutlineFactor, 0.05f, -2.0f, 2.0f);
 		ImGui::TextUnformatted(u8"アウトライン太さ");
-		ImGui::InputFloat(u8"strength", &this->mOutLineStrength);
+		ImGui::InputFloat(u8"strength", &this->mOutlineStrength);
+		ImGui::TextUnformatted(u8"アウトラインカラー");
+		ImGui::ColorEdit4(u8"ライトカラー", this->mOutlineColor, ImGuiColorEditFlags_RGB);
 	}
 
 	if (ImGui::TreeNode(u8"モデル"))

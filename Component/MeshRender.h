@@ -37,8 +37,9 @@ private:
 
 public:
 	bool				mIsDrawOutline = false;
-	float				mOutLineFactor;				// アウトラインベクトルを計算する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-	float				mOutLineStrength;			// アウトライン太さ
+	float				mOutlineFactor;				// アウトラインベクトルを計算する時、頂点ベクトルと法線ベクトルんを混ざる因子数
+	float				mOutlineStrength;			// アウトライン太さ
+	D3DXVECTOR4			mOutlineColor;
 
 	Model*				mModel;
 

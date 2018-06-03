@@ -19,10 +19,13 @@
 //
 //*****************************************************************************
 // アウトラインを描画する時、頂点ベクトルと法線ベクトルんを混ざる因子数
-float outLineFactor;
+float outlineFactor;
 
 // アウトラインの太さをコントロール因子
-float outLineStrength;
+float outlineStrength;
+
+// アウトラインカラー
+float4 outlineColor;
 
 //*****************************************************************************
 //
@@ -41,9 +44,9 @@ outputVS outLineVS(inputVS iVS)
     float D = dot(outLineDir, iVS.nor);
     // outLineの最終向きを計算
     outLineDir *= sign(D);
-    outLineDir = outLineDir * outLineFactor + iVS.nor * (1 - outLineFactor);
+    outLineDir = outLineDir * outlineFactor + iVS.nor * (1 - outlineFactor);
     // 頂点 + outLine方向ベクト * outLine太さ因数 = outLine頂点の場所
-    float3 outLinePos = iVS.pos + outLineDir * outLineStrength;
+    float3 outLinePos = iVS.pos + outLineDir * outlineStrength;
 
     // 頂点変換
     oVS.worldPos = mul(float4(outLinePos, 1.0), worldMatrix);
@@ -65,7 +68,7 @@ outputVS outLineVS(inputVS iVS)
 float4 outLinePS(outputVS oVS) : COLOR
 {
     // outLineカラーを設定
-    return float4(0.0f, 0.0f, 0.0f, 1.0f);
+    return outlineColor;
 }
 
 #endif // !_PUBLIC_VALUE_FX_
