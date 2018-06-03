@@ -111,7 +111,7 @@ float3 specularProcess(float4 cameraDir, float4 lightDir, float3 normal)
     //spec = pow(max(dot(normal, halfwayDir.rgb), 0.0), shininess);
     spec = pow(saturate(dot(normal, halfwayDir.rgb)), shininess);
 
-    specular = lightSpecular * (spec * matSpecular);
+    specular = lightSpecular * (spec * matSpecular) * lightStrength;
 
     return specular;
 }

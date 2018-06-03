@@ -280,19 +280,19 @@ void GUI::systemGUI(void)
 			D3DXVECTOR3* colorRampSegment = &getSceneManager()->mCurrentScene->mShader->mColorRampSegment;
 
 			ImGui::TextUnformatted(u8"カラーセグメント");
-			ImGui::SliderFloat("Level1", &colorRampSegment->x, 0.0f, 1.0f);
+			ImGui::SliderFloat("Level1", &colorRampSegment->x, 0.001f, 1.0f);
 			if (colorRampSegment->x > colorRampSegment->y)
 			{
 				colorRampSegment->y = colorRampSegment->x;
 			}
 
-			ImGui::SliderFloat("Level2", &colorRampSegment->y, 0.0f, 1.0f);
+			ImGui::SliderFloat("Level2", &colorRampSegment->y, 0.001f, 1.0f);
 			if (colorRampSegment->y > colorRampSegment->z)
 			{
 				colorRampSegment->z = colorRampSegment->y;
 			}
 
-			ImGui::SliderFloat("Level3", &colorRampSegment->z, 0.0f, 1.0f);
+			ImGui::SliderFloat("Level3", &colorRampSegment->z, 0.001f, 1.0f);
 			if (colorRampSegment->z < colorRampSegment->y)
 			{
 				colorRampSegment->y = colorRampSegment->z;

@@ -122,7 +122,10 @@ float4 modelPS(outputVS oVS) : COLOR
     float4 lightDir = normalize(float4(lightPos, 1.0f) - oVS.worldPos);
     float4 cameraDir = float4(cameraPos, 1.0) - oVS.worldPos;
     float4 normalColor = float4(oVS.nor.x, oVS.nor.y, oVS.nor.z, 1.0f);
+
+    // マップテクスチャから情報を取得
     float4 diffuseMapColor = tex2D(diffuseMapSampler, oVS.coord);
+    float4 heightMapColor = tex2D(heightMapSampler, oVS.coord);
     float4 specularMapColor = tex2D(specularMapSampler, oVS.coord);
 
     // 各分量を計算
@@ -157,8 +160,10 @@ float4 modelPS(outputVS oVS) : COLOR
     else
     {
         // RT_SHADING
-        finColor = float4((ambient + diffuse), 1.0) * diffuseMapColor;
-        finColor += float4(specular, 1.0) * specularMapColor;
+        finColor = float4((ambient + diffuse + specular), 1.0) * diffuseMapColor;
+        
+        //finColor = float4((ambient + diffuse), 1.0) * diffuseMapColor;
+        //finColor += float4(specular, 1.0) * specularMapColor;
 
         // テクスチャが透明ピクセルの場合、最終色のアルファ値を0にする
         if(diffuseMapColor.w == 0.0)
