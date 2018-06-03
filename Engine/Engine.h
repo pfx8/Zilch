@@ -124,12 +124,8 @@ GameTimes* getGameTimes(void);
 SceneManager* getSceneManager(void);
 
 // 文字列変換関数
-string wStringToString(const wstring& ws);
-wstring stringToWString(const string& s);
-
-// 文字コード変換関数
-string wstringUnicodeToUTF8(const wstring& ws);
-wstring stringUTF8ToUnicode(const string& s);
+string wstringToString(const wstring ws);
+wstring stringToWstring(const string s);
 
 // パスからファイル名を取得
 wstring pathToFileName(const wstring path);

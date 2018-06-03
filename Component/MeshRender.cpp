@@ -171,7 +171,7 @@ void MeshRender::drawImGui(void)
 	if (ImGui::TreeNode(u8"モデル"))
 	{
 		// モデル情報
-		string path = wstringUnicodeToUTF8(this->mModel->mPath);
+		string path = wstringToString(this->mModel->mPath);
 		ImGui::Text(u8"パス : %s", path.c_str());
 		ImGui::Text(u8"メッシュ数 : %d", this->mModel->mModelInfo.numMeshes);
 		ImGui::Text(u8"骨数 : %d", this->mModel->mBones.size());
@@ -186,7 +186,7 @@ void MeshRender::drawImGui(void)
 			for (auto it1 : this->mModel->mMeshes)
 			{
 				ImGui::PushID(ID1s);
-				string name = wstringUnicodeToUTF8((wstring const)it1->mName);
+				string name = wstringToString((wstring const)it1->mName);
 				if (ImGui::TreeNode("mesh", u8"<Mesh> : %s", name.c_str()))
 				{
 					ImGui::Text(u8"頂点数 : %d", it1->mMeshInfo.numVertices);
@@ -196,7 +196,7 @@ void MeshRender::drawImGui(void)
 					for (auto it2 : it1->mMaterials)
 					{
 						// material
-						string name2 = wstringUnicodeToUTF8(it2->mName.c_str());
+						string name2 = wstringToString(it2->mName.c_str());
 						if (ImGui::TreeNode("material", u8"<Material> : %s", name2.c_str()))
 						{
 							ImGui::PushID(1);
@@ -229,9 +229,9 @@ void MeshRender::drawImGui(void)
 						// diffuse
 						if (it2->mTextures.size() == 1)
 						{
-							string path1 = wstringUnicodeToUTF8(it2->mTextures.at(0)->mPath);
+							string path1 = wstringToString(it2->mTextures.at(0)->mPath);
 							strcpy(this->mTexPathTemp, path1.c_str());
-							string name3 = wstringUnicodeToUTF8(it2->mTextures.at(0)->mName);
+							string name3 = wstringToString(it2->mTextures.at(0)->mName);
 
 							ImGui::PushID(1);
 							if (ImGui::TreeNode("texture1", u8"<Texture><Diffuse> : %s", name3.c_str()))
@@ -241,7 +241,7 @@ void MeshRender::drawImGui(void)
 								ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
 
 								// 新しいテクスチャパスを保存
-								wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
+								wstring str = stringToWstring(this->mTexPathTemp);
 								it2->mTextures.at(0)->mPath = str;
 
 								// 入力したパスによってテクスチャをリロード
@@ -258,9 +258,9 @@ void MeshRender::drawImGui(void)
 						// height
 						if (it2->mTextures.size() == 3)
 						{
-							string path2 = wstringUnicodeToUTF8(it2->mTextures.at(1)->mPath);
+							string path2 = wstringToString(it2->mTextures.at(1)->mPath);
 							strcpy(this->mTexPathTemp, path2.c_str());
-							string name4 = wstringUnicodeToUTF8(it2->mTextures.at(1)->mName);
+							string name4 = wstringToString(it2->mTextures.at(1)->mName);
 
 							ImGui::PushID(2);
 							if (ImGui::TreeNode("texture2", u8"<Texture><Height> : %s", name4.c_str()))
@@ -270,7 +270,7 @@ void MeshRender::drawImGui(void)
 								ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
 
 								// 新しいテクスチャパスを保存
-								wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
+								wstring str = stringToWstring(this->mTexPathTemp);
 								it2->mTextures.at(1)->mPath = str;
 
 								// 入力したパスによってテクスチャをリロード
@@ -287,9 +287,9 @@ void MeshRender::drawImGui(void)
 						// specular
 						if (it2->mTextures.size() == 3)
 						{
-							string path3 = wstringUnicodeToUTF8(it2->mTextures.at(2)->mPath);
+							string path3 = wstringToString(it2->mTextures.at(2)->mPath);
 							strcpy(this->mTexPathTemp, path3.c_str());
-							string name5 = wstringUnicodeToUTF8(it2->mTextures.at(2)->mName);
+							string name5 = wstringToString(it2->mTextures.at(2)->mName);
 
 							ImGui::PushID(3);
 							if (ImGui::TreeNode("texture3", u8"<Texture><Specular> : %s", name5.c_str()))
@@ -299,7 +299,7 @@ void MeshRender::drawImGui(void)
 								ImGui::InputText(u8"テクスチャパス", this->mTexPathTemp, IM_ARRAYSIZE(this->mTexPathTemp));
 
 								// 新しいテクスチャパスを保存
-								wstring str = stringUTF8ToUnicode(this->mTexPathTemp);
+								wstring str = stringToWstring(this->mTexPathTemp);
 								it2->mTextures.at(2)->mPath = str;
 
 								// 入力したパスによってテクスチャをリロード
@@ -331,7 +331,7 @@ void MeshRender::drawImGui(void)
 			for (auto it : this->mModel->mAnimationes)
 			{
 				ImGui::PushID(ID);
-				string name = wstringUnicodeToUTF8((wstring const)it->mName);
+				string name = wstringToString((wstring const)it->mName);
 				if (ImGui::TreeNode("animation", u8"<Animation> : %s", name.c_str()))
 				{
 					ImGui::Text(u8"時間(Max : %f)", it->mDuration / it->mTicksPerSecond);
@@ -341,7 +341,7 @@ void MeshRender::drawImGui(void)
 					for (auto it2 : it->mAnimationChannels)
 					{
 						ImGui::PushID(ID2);
-						string name = wstringUnicodeToUTF8((wstring const)it2->mNodeName);
+						string name = wstringToString((wstring const)it2->mNodeName);
 						if (ImGui::TreeNode(u8"<KeyFrame> : %s", name.c_str()))
 						{
 							ImGui::Text(u8"Pos %d", it2->mPosKeys.size());

@@ -41,7 +41,7 @@ HRESULT Model::loadModel(wstring const& wPath)
 	// パスを保存
 	this->mPath = wPath;
 	// Assimpで読み込むためにwstring -> string
-	string path = wStringToString(wPath);
+	string path = wstringToString(wPath);
 
 	// Assimpのインポートを作る
 	Assimp::Importer import;

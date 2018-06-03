@@ -296,7 +296,7 @@ HRESULT InitializeMouse(HINSTANCE hInst, HWND hWindow)
 	prop.diph.dwHeaderSize = sizeof(prop.diph);
 	prop.diph.dwObj = 0;
 	prop.diph.dwHow = DIPH_DEVICE;
-	prop.dwData = DIPROPAXISMODE_REL;		// マウスの移動値　相対値
+	prop.dwData = DIPROPAXISMODE_REL;		// 相対値モードで設定
 
 	result = gDeviceMouse->SetProperty(DIPROP_AXISMODE,&prop.diph);
 	if(FAILED(result))
@@ -467,14 +467,16 @@ HRESULT InitializeGamePad(HWND hWnd)
 
 	// ゲームパッド数を設定
 	gGamePadCount = 0;
+
 	// ジョイパッドを探す
 	gD3DInput->EnumDevices(DI8DEVCLASS_GAMECTRL, (LPDIENUMDEVICESCALLBACK)SearchGamePadCallback, NULL, DIEDFL_ATTACHEDONLY);
-	// セットしたコールバック関数が、パッドを発見した数だけ呼ばれる。
 
+	// セットしたコールバック関数が、パッドを発見した数だけ呼ばれる。
 	for (unsigned int count = 0; count < gGamePadCount; count++)
 	{
 		// ジョイスティック用のデータ・フォーマットを設定
 		result = gDeviceGamePad[count]->SetDataFormat(&c_dfDIJoystick);
+
 		// データフォーマットの設定に失敗
 		if (FAILED(result))
 		{

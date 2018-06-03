@@ -327,7 +327,7 @@ void GUI::sceneGUI(void)
 		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
 		{
 			ImGui::PushID(IDs);
-			string name1 = wstringUnicodeToUTF8(it.first);
+			string name1 = wstringToString(it.first);
 			if (ImGui::TreeNode("gameObject", u8"%s", name1.c_str(), ImGuiTreeNodeFlags_OpenOnArrow))
 			{
 				// GameObjectの各コンポーネントを出す
@@ -380,7 +380,7 @@ void GUI::createNewGameObjectGUI(void)
 		{
 			// 新しいGameObjectを作る
 			GameObject* gameObject = new GameObject();
-			wstring newGameObjectName = stringToWString(this->mNewGameObjectName);
+			wstring newGameObjectName = stringToWstring(this->mNewGameObjectName);
 			getSceneManager()->mCurrentScene->addGameObject(newGameObjectName, gameObject);
 
 			// mNewGameObjectName初期化
@@ -412,10 +412,10 @@ void GUI::addModelImGui(void)
 	ImGui::TextUnformatted(u8"GameObject名前");
 	ImGui::InputText("name", this->mNewGameObjectName, IM_ARRAYSIZE(this->mNewGameObjectName));
 	ImGui::TextUnformatted(u8"モデルファイルパス");
-	string path = wstringUnicodeToUTF8(this->mAddingFilePath);
+	string path = wstringToString(this->mAddingFilePath);
 	ImGui::Text(u8"%s", path.c_str());
 
-	wstring newGameObjectName = stringUTF8ToUnicode(this->mNewGameObjectName);
+	wstring newGameObjectName = stringToWstring(this->mNewGameObjectName);
 
 	// エラータイプ 0 -- default、1 -- Error1、2 -- Error2
 	static int errorType = 0;

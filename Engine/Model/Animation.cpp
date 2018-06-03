@@ -24,7 +24,7 @@ Animation::Animation(wstring const& wPath)
 //*****************************************************************************
 Animation::Animation(aiAnimation* animation)
 {
-	this->mName = stringToWString(animation->mName.C_Str());
+	this->mName = stringToWstring(animation->mName.C_Str());
 	this->mDuration = animation->mDuration;
 	this->mTicksPerSecond = animation->mTicksPerSecond;
 
@@ -34,7 +34,7 @@ Animation::Animation(aiAnimation* animation)
 		// まずはチャンネルを取得
 		aiNodeAnim* channel = animation->mChannels[count];
 		AnimationChannel* animationChannel = new AnimationChannel();
-		animationChannel->mNodeName = stringToWString(channel->mNodeName.C_Str());
+		animationChannel->mNodeName = stringToWstring(channel->mNodeName.C_Str());
 
 		// 頂点座標
 		for (unsigned int i = 0; i < animation->mChannels[count]->mNumPositionKeys; i++)
@@ -105,7 +105,7 @@ Animation::~Animation(void)
 //*****************************************************************************
 HRESULT Animation::loadAnimation(wstring const& wPath)
 {
-	string path = wStringToString(wPath);
+	string path = wstringToString(wPath);
 
 	// Assimpのインポートを作る
 	Assimp::Importer import;

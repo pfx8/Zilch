@@ -17,7 +17,7 @@ Mesh::Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring mod
 	// 所属モデルポインタを取得
 	this->mParentModel = model;
 
-	this->mName = stringUTF8ToUnicode(mesh->mName.C_Str());
+	this->mName = stringToWstring(mesh->mName.C_Str());
 	this->mMeshInfo.numVertices = mesh->mNumVertices;
 	this->mMeshInfo.numFaces = mesh->mNumFaces;
 	this->mVertexBuffer = nullptr;
@@ -169,7 +169,7 @@ void Mesh::createMesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene *scene)
 		// 名前で判断する、新しいマテリアルだけ読み込み
 		aiString name;
 		aiMat->Get(AI_MATKEY_NAME, name);
-		wstring wname = stringUTF8ToUnicode(name.C_Str());
+		wstring wname = stringToWstring(name.C_Str());
 		for (auto it : this->mParentModel->mMaterials)
 		{
 			if (it->mName == wname)

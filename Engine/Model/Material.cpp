@@ -33,7 +33,7 @@ void Material::loadingMaterial(aiMaterial* mat)
 	// マテリアルの名前を取得
 	aiString name;
 	mat->Get(AI_MATKEY_NAME, name);
-	this->mName = stringUTF8ToUnicode(name.C_Str());
+	this->mName = stringToWstring(name.C_Str());
 
 	// マテリアルがあれば、マテリアル属性を取得
 	if (name.C_Str() != "DefaultMaterial")
@@ -101,7 +101,7 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 		mat->getTexture(type, count, &path);
 
 		// aiStringの文字コードはstringのutf-8
-		wstring wPath = stringUTF8ToUnicode(path.C_Str());
+		wstring wPath = stringToWstring(path.C_Str());
 		wPath = searchTexturePath(wPath);
 
 		// 名前で判断する、新しいテクスチャだけを読み込み
