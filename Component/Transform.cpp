@@ -47,7 +47,7 @@ void Transform::update(void)
 	this->mNormalMatrix *= mtxScl;
 
 	// ‰ñ“]‚ð”½‰f
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, mRot.y, mRot.x, mRot.z);
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, D3DXToRadian(mRot.y), D3DXToRadian(mRot.x), D3DXToRadian(mRot.z));
 	this->mWorldMatrix *= mtxRot;
 	this->mNormalMatrix *= mtxRot;
 
@@ -68,13 +68,15 @@ void Transform::drawImGui(void)
 	ImGui::InputFloat3("Scl", *v1);
 	ImGui::Separator();
 
-	ImGui::Text("‰ñ“]");
-	ImGui::SliderFloat("X", &this->mRot.x, 0.0f, D3DXToRadian(360.0f));
-	ImGui::SliderFloat("Y", &this->mRot.y, 0.0f, D3DXToRadian(360.0f));
-	ImGui::SliderFloat("Z", &this->mRot.z, 0.0f, D3DXToRadian(360.0f));
+	ImGui::Text(u8"‰ñ“]");
+
+	ImGui::PushItemWidth(200);
+	ImGui::SliderFloat("X", &this->mRot.x, 0.0f, 360.0f);
+	ImGui::SliderFloat("Y", &this->mRot.y, 0.0f, 360.0f);
+	ImGui::SliderFloat("Z", &this->mRot.z, 0.0f, 360.0f);
 	ImGui::Separator();
 
 	ImGui::Text(u8"ˆÊ’u(X,Y,Z)");
 	float* v2[3] = { &this->mPos.x, &this->mPos.y, &this->mPos.z };
-	ImGui::InputFloat3("Tran", *v2);
+	ImGui::InputFloat3("Pos", *v2);
 }

@@ -4,12 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 ## Ignore-file
-Resources/Audio
-Resources/Font
-Resources/Model
-Resources/Texture
-Zilch.exe
-screenShot.bmp
+スクリーンショット.bmp
 shadowMap.jpg
 
 # User-specific files
