@@ -131,7 +131,7 @@ void GUI::systemGUI(void)
 
 	// FPS‚Æƒ^ƒCƒ€
 	{
-		ImGui::Text("Fps:%.1f, Time:%.3fs", ImGui::GetIO().Framerate, getGameTimes()->mCurrentTime);
+		ImGui::Text("Fps:%.3f fps, Time:%.3f s/fps", ImGui::GetIO().Framerate, getGameTimes()->mDeltaTime);
 		ImGui::Separator();
 	}
 

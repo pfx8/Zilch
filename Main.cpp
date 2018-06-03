@@ -142,9 +142,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 	// フレームカウント初期
-	timeBeginPeriod(1);									// 分解能を設定
+	//timeBeginPeriod(1);									// 分解能を設定
 	dwExecLastTime = dwFPSLastTime = timeGetTime();		// ミリ秒単位で取得
 	dwCurrentTime = dwFrameCount = 0;
+
+	// ゲーム時間初期化
+	gGameTimes = new GameTimes();
 
 	// ゲーム初期化
 	if (FAILED(initGame(hInstance, hWnd)))
@@ -182,7 +185,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			if ((dwCurrentTime - dwFPSLastTime) >= 500)
 			{
 				// FPSを計測(ImGuiに任せった)
-				//FPS = dwFrameCount * 1000 / (dwCurrentTime - dwFPSLastTime);
+				//float FPS = dwFrameCount * 1000 / (dwCurrentTime - dwFPSLastTime);
 
 				// FPS計測時刻を保存
 				dwFPSLastTime = dwCurrentTime;
@@ -382,9 +385,6 @@ HRESULT initGame(HINSTANCE hInstance, HWND hWnd)
 
 	// input初期化
 	InitInput(hInstance, hWnd);
-
-	// ゲーム時間初期化
-	gGameTimes = new GameTimes();
 
 	// シンーマネジメント初期化
 	gSceneManager = new SceneManager();

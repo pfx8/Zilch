@@ -34,12 +34,7 @@ GameTimes::~GameTimes(void)
 //*****************************************************************************
 void GameTimes::update(void)
 {
-	// 今の時間を取得
-	this->mCurrentTime = ImGui::GetTime();
-
-	// 1回更新の時間差を計算
-	this->mDeltaTime = this->mCurrentTime - this->mLastTime;
-
-	// 前の時間を更新
-	this->mLastTime = this->mCurrentTime;
+	this->mCurrentTime = timeGetTime();
+	this->mDeltaTime = (this->mCurrentTime - this->mLastUpdateTime) / 1000.0f;
+	this->mLastUpdateTime = this->mCurrentTime;
 }

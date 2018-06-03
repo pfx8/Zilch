@@ -20,14 +20,14 @@ class GameTimes
 private:
 
 public:
-	float mCurrentTime = 0.0f;			// 今の時間(ミリ秒)
-	float mDeltaTime = 0.0f;			// デルタ時間(ミリ秒)
-	float mLastTime = 0.0f;				// 前の時間(ミリ秒)
+	DWORD mCurrentTime = 0.0;
+	float mDeltaTime = 0.0f;
+	DWORD mLastUpdateTime = 0.0;
 
 	GameTimes(void);
 	~GameTimes(void);
 
-	void update(void);					// 時間を更新
+	void update(void);
 };
 
 #endif // !_GAME_TIMES_H_
