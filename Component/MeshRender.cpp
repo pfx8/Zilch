@@ -176,7 +176,6 @@ void MeshRender::drawImGui(void)
 	{
 		// モデル情報
 		string path = wstringToString(this->mModel->mPath);
-		cout << "<Test ImGui> " << path << endl;
 		ImGui::Text(u8"パス : %s", path.c_str());
 		ImGui::Text(u8"メッシュ数 : %d", this->mModel->mModelInfo.numMeshes);
 		ImGui::Text(u8"骨数 : %d", this->mModel->mBones.size());

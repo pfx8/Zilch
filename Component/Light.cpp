@@ -64,7 +64,7 @@ void Light::drawImGui(void)
 
 	// コンボボックスの幅を設定
 	ImGui::PushItemWidth(160);
-	ImGui::TextUnformatted(u8"ColorType");
+	ImGui::TextUnformatted(u8"ライトタイプ");
 	ImGui::Combo(u8"Type", &this->mCurrentLightType, this->mLight, IM_ARRAYSIZE(this->mLight));
 	switch (this->mCurrentLightType)
 	{

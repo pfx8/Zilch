@@ -49,11 +49,6 @@ HRESULT Model::loadModel(wstring const& wPath)
 	// Assimpで読み込むためにwstring -> string
 	string path = wstringToString(this->mPath);
 
-	// test
-	wstring_convert<codecvt_utf8<wchar_t>, wchar_t> cv;
-	string temp = cv.to_bytes(wPath);
-	cout << "<Test Input> " << temp << endl;
-
 	// Assimpのインポートを作る
 	Assimp::Importer import;
 	// Assimpシーンを作る
