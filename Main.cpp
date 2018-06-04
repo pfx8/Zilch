@@ -33,7 +33,7 @@ WorldVector						gWorldVector;
 
 // 読み込みできるファイル拡張子集合
 // 詳しいは https://github.com/assimp/assimp
-vector<wstring> modelFileExtension = { L"x", L"fbx", L"obj", L"3ds", L"pmx" };
+vector<wstring>					gModelFileExtension = { L"x", L"fbx", L"obj", L"3ds", L"pmx" };
 
 //*****************************************************************************
 //
@@ -506,7 +506,7 @@ bool isModelFile(wstring path)
 		str = ::towlower(str);
 	}
 
-	for (auto it : modelFileExtension)
+	for (auto it : gModelFileExtension)
 	{
 		if (it == fileFormat)
 		{
@@ -583,8 +583,8 @@ void release(void)
 	RELEASE_CLASS_POINT(gGameTimes);
 	RELEASE_CLASS_POINT(gGUI);
 
-	// リリースLPDIRECT3D9
-	RELEASE_POINT(gD3D);
+	// コンテナをリリース
+	vector<wstring>().swap(gModelFileExtension);
 	
 	// 入力処理の終了処理
 	UninitInput();

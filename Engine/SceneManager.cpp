@@ -40,7 +40,7 @@ void SceneManager::start(void)
 //*****************************************************************************
 SceneManager::~SceneManager(void)
 {
-	// to do delete unordered_map
+	this->mScenes.clear();
 }
 
 //*****************************************************************************

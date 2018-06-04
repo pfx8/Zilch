@@ -94,8 +94,9 @@ Animation::Animation(aiAnimation* animation)
 //*****************************************************************************
 Animation::~Animation(void)
 {
-	// リリースaiScene
-
+	// コンテナリリース
+	vector<AnimationChannel*>().swap(this->mAnimationChannels);
+	vector<Node<aiNodeAnim>*>().swap(this->mNode);
 }
 
 //*****************************************************************************

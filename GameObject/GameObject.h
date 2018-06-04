@@ -24,15 +24,15 @@ class GameObject
 
 private:
 	// typeid(classPoint)を利用して各componentのtype_indexを取得、そしてマップに保存
-	map<type_index, Component*>		mComponentsMap;
+	map<type_index, Component*>		mComponents;
 
 	void start(void);
 	void update(void);
 
 public:
-	Scene*			mScene;							// シーンポインタ
-	bool			mDraw = false;					// 描画マーク
-	bool			mActive = true;					// 使ってるマーク
+	Scene*			mParentScene;
+	bool			mIsDraw = false;
+	bool			mIsActive = true;
 	float			mLastActiveTime = 0;			// 前回更新した時間
 
 	GameObject(void);
@@ -53,10 +53,10 @@ public:
 		// MeshRenderがあればGameObjectを描画
 		if (typeid(T) == typeid(MeshRender))
 		{
-			this->mDraw = true;
+			this->mIsDraw = true;
 		}
 
-		mComponentsMap.insert({ typeid(T), component });
+		mComponents.insert({ typeid(T), component });
 	}
 
 	//*****************************************************************************
@@ -74,9 +74,9 @@ public:
 	//*****************************************************************************
 	template<typename T> T* getComponent()
 	{
-		if (this->mComponentsMap.find(typeid(T)) != this->mComponentsMap.end())
+		if (this->mComponents.find(typeid(T)) != this->mComponents.end())
 		{
-			return dynamic_cast<T*>(this->mComponentsMap[typeid(T)]);
+			return dynamic_cast<T*>(this->mComponents[typeid(T)]);
 		}
 
 		cout << "[Error] <Component> Get " << typeid(T).name() << " failed!" << endl;

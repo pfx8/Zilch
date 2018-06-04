@@ -34,7 +34,8 @@ ShadowMap::ShadowMap(Shader* shader, D3DXVECTOR3 lightPos)
 //*****************************************************************************
 ShadowMap::~ShadowMap()
 {
-
+	RELEASE_POINT(this->mShadowMap);
+	RELEASE_POINT(this->mShadowMapDepth);
 }
 
 //*****************************************************************************

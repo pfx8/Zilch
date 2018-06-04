@@ -27,7 +27,7 @@ class Animation
 	friend class Model;
 private:
 	void processNode(aiNode* aiNode, const aiScene* scene);		// ノード処理
-	HRESULT loadAnimation(wstring const &path);								// アニメーションを読み込み
+	HRESULT loadAnimation(wstring const &path);					// アニメーションを読み込み
 
 	void calcInterpolatedScl(D3DXVECTOR3& scl, float animationTime, AnimationChannel* channel);
 	void calcInterpolatedRot(D3DXQUATERNION& rot, float animationTime, AnimationChannel* channel);
@@ -44,7 +44,7 @@ public:
 	wstring							mName;						// アニメーションの名前
 	vector<AnimationChannel*>		mAnimationChannels;			// すべてのチャンネルデータ
 	D3DXMATRIX						mGlobalInverseTransform;	// モデルの空間逆行列
-	vector<Node<aiNodeAnim>*>					mNode;						// ノードデータ
+	vector<Node<aiNodeAnim>*>		mNode;						// ノードデータ
 
 	Animation(wstring const &path);
 	Animation(aiAnimation* animation);

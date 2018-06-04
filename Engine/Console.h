@@ -20,13 +20,13 @@ class Console
 private:
 
 public:
-	BOOL mIsConsoleRun;								// コンソール実行するかどうかを判断
+	bool		mIsConsoleRun;
 
 	Console(void);
 	~Console(void);
 
-	HRESULT SetConsoleBack(HWND hwnd, int cmd);		// コンソールからゲームウインドに戻る
-	HRESULT SetConsoleFront(HWND hwnd);				// ゲームのウィンドからコンソールに変更
+	HRESULT		SetConsoleBack(HWND hwnd, int cmd);		// コンソールからゲームウインドに戻る
+	HRESULT		SetConsoleFront(HWND hwnd);				// ゲームのウィンドからコンソールに変更
 };
 
 

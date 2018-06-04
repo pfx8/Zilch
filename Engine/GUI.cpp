@@ -247,19 +247,19 @@ void GUI::systemGUI(void)
 		switch (this->mCurrentRenderingMode)
 		{
 		case 0:
-			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_TEXTURE;
+			getSceneManager()->mCurrentScene->mCurrentShader->mRenderingMode = RM_TEXTURE;
 			break;
 		case 1:
-			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_DIFFUSE;
+			getSceneManager()->mCurrentScene->mCurrentShader->mRenderingMode = RM_DIFFUSE;
 			break;
 		case 2:
-			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_SPECULAR;
+			getSceneManager()->mCurrentScene->mCurrentShader->mRenderingMode = RM_SPECULAR;
 			break;
 		case 3:
-			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_NORMAL;
+			getSceneManager()->mCurrentScene->mCurrentShader->mRenderingMode = RM_NORMAL;
 			break;
 		case 4:
-			getSceneManager()->mCurrentScene->mShader->mRenderingMode = RM_SHADING;
+			getSceneManager()->mCurrentScene->mCurrentShader->mRenderingMode = RM_SHADING;
 			break;
 		}
 		ImGui::Separator();
@@ -274,10 +274,10 @@ void GUI::systemGUI(void)
 		switch (this->mCurrentColorRampType)
 		{
 		case 0:
-			getSceneManager()->mCurrentScene->mShader->mColorRampType = CR_LINEAR;
+			getSceneManager()->mCurrentScene->mCurrentShader->mColorRampType = CR_LINEAR;
 			break;
 		case 1:
-			D3DXVECTOR3* colorRampSegment = &getSceneManager()->mCurrentScene->mShader->mColorRampSegment;
+			D3DXVECTOR3* colorRampSegment = &getSceneManager()->mCurrentScene->mCurrentShader->mColorRampSegment;
 
 			ImGui::TextUnformatted(u8"カラーセグメント");
 			ImGui::SliderFloat("Level1", &colorRampSegment->x, 0.001f, 1.0f);
@@ -286,13 +286,13 @@ void GUI::systemGUI(void)
 				colorRampSegment->y = colorRampSegment->x;
 			}
 
-			ImGui::SliderFloat("Level2", &colorRampSegment->y, 0.001f, 1.0f);
+			ImGui::SliderFloat("Level2", &colorRampSegment->y, 0.002f, 1.0f);
 			if (colorRampSegment->y > colorRampSegment->z)
 			{
 				colorRampSegment->z = colorRampSegment->y;
 			}
 
-			ImGui::SliderFloat("Level3", &colorRampSegment->z, 0.001f, 1.0f);
+			ImGui::SliderFloat("Level3", &colorRampSegment->z, 0.003f, 1.0f);
 			if (colorRampSegment->z < colorRampSegment->y)
 			{
 				colorRampSegment->y = colorRampSegment->z;
@@ -302,7 +302,7 @@ void GUI::systemGUI(void)
 				colorRampSegment->x = colorRampSegment->y;
 			}
 
-			getSceneManager()->mCurrentScene->mShader->mColorRampType = CR_CONSTANT;
+			getSceneManager()->mCurrentScene->mCurrentShader->mColorRampType = CR_CONSTANT;
 			break;
 		}
 	}
@@ -326,7 +326,7 @@ void GUI::sceneGUI(void)
 
 		// 各GameObject
 		unsigned int IDs = 0;
-		for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
+		for (auto it : getSceneManager()->mCurrentScene->mGameObjects)
 		{
 			ImGui::PushID(IDs);
 			string name1 = wstringToString(it.first);
@@ -334,7 +334,7 @@ void GUI::sceneGUI(void)
 			{
 				// GameObjectの各コンポーネントを出す
 				unsigned int ID2s = 0;
-				for (auto it2 : it.second->mComponentsMap)
+				for (auto it2 : it.second->mComponents)
 				{
 					ImGui::PushID(ID2s);
 					string name2 = it2.first.name();
@@ -514,7 +514,7 @@ void GUI::addModelImGui(void)
 //*****************************************************************************
 bool GUI::isGameObjectNameRight(wstring name)
 {
-	for (auto it : getSceneManager()->mCurrentScene->mGameObjectMap)
+	for (auto it : getSceneManager()->mCurrentScene->mGameObjects)
 	{
 		// シーンに既にこの名前のGameObjectが存在すれば
 		if (it.first == name)

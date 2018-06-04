@@ -33,25 +33,25 @@ class Scene
 private:
 
 public:
-	string									mName;					// シーンの名前
-	D3DXVECTOR4								mBGColor;				// 背景カラー
-	bool									mIsStart;				// スタートマーク
-	vector<MeshRender*>						mMeshRenders;			// メッシュレンダリング
-	map<wstring, GameObject*>				mGameObjectMap;			// 取得するために作ったGameObjectのマップ
+	string									mName;
+	D3DXVECTOR4								mBGColor;
+	bool									mIsStart;
+	vector<MeshRender*>						mMeshRenders;
+	map<wstring, GameObject*>				mGameObjects;
 
-	Camera*									mSystemCamera;			// システムカメラ
-	Camera*									mCurrentCamera;			// 使っているカメラ
-	Shader*									mShader;				// 現在レンダリング用なシェーダー
+	Camera*									mSystemCamera;
+	Camera*									mCurrentCamera;
+	Shader*									mCurrentShader;
 
 	Scene(void);
 	~Scene(void);
 
-	virtual void start(void) {};		// シーンのスタート
-	void update(void);					// シーンの更新
-	void draw(void);					// シーンの描画
+	virtual void start(void) {};
+	void update(void);
+	void draw(void);
 	
-	void addGameObject(wstring name, GameObject* gameObject);		// シーンにGameObjectを増加
-	GameObject* getGameObject(wstring name);							// シーンからGameObjectを取得
+	void addGameObject(wstring name, GameObject* gameObject);
+	GameObject* getGameObject(wstring name);
 };
 #endif // !_SCENE_H_
 

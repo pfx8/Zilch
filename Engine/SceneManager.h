@@ -22,7 +22,7 @@
 class SceneManager
 {
 private:
-	unordered_map<string, Scene*>	mScenes;				// シーンマップ
+	unordered_map<string, Scene*>	mScenes;
 
 public:
 	Scene*							mCurrentScene;			// 今のシーンポインタ

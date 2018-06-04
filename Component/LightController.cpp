@@ -38,7 +38,7 @@ void LightController::update(void)
 	Transform* trans = this->mCurrentLight->mParentGameObject->getComponent<Transform>();
 
 	// システムカメラを取得
-	Camera* sysCamera = this->mParentGameObject->mScene->mSystemCamera;
+	Camera* sysCamera = this->mParentGameObject->mParentScene->mSystemCamera;
 
 	// マウス操作
 	if (IsMouseCenterPressed())
@@ -47,26 +47,26 @@ void LightController::update(void)
 		if (GetMouseY() > this->mIsMouseMoving)
 		{
 			// プラス
-			this->mCurrentLight->mLightPos -= sysCamera->mCameraUp * this->mMoveSpeed;
+			this->mCurrentLight->mLightPos -= sysCamera->mCameraUp * this->mMouseMoveSpeed;
 		}
 		
 		if(GetMouseY() < -this->mIsMouseMoving)
 		{
 			// マイナス
-			this->mCurrentLight->mLightPos += sysCamera->mCameraUp * this->mMoveSpeed;
+			this->mCurrentLight->mLightPos += sysCamera->mCameraUp * this->mMouseMoveSpeed;
 		}
 
 		// 水平移動
 		if (GetMouseX() > this->mIsMouseMoving)
 		{
 			// プラス
-			this->mCurrentLight->mLightPos -= sysCamera->mCameraRight * this->mMoveSpeed;
+			this->mCurrentLight->mLightPos -= sysCamera->mCameraRight * this->mMouseMoveSpeed;
 		}
 
 		if (GetMouseX() < -this->mIsMouseMoving)
 		{
 			// マイナス
-			this->mCurrentLight->mLightPos += sysCamera->mCameraRight * this->mMoveSpeed;
+			this->mCurrentLight->mLightPos += sysCamera->mCameraRight * this->mMouseMoveSpeed;
 		}
 
 		// マウス操作の結果をライトに渡す

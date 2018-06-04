@@ -24,7 +24,9 @@ Resources::Resources(void)
 //*****************************************************************************
 Resources::~Resources(void)
 {
-	// delete Map(to do)
+	this->mModels.clear();
+	this->mTextures.clear();
+	this->mShaders.clear();
 }
 
 //*****************************************************************************

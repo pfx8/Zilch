@@ -24,19 +24,19 @@ class Resources
 private:
 
 public:
-	unordered_map<wstring, Model*>		mModels;		// モデル
-	unordered_map<wstring, Texture*>	mTextures;		// テクスチャ
-	unordered_map<wstring, Shader*>		mShaders;		// シェーダー
+	unordered_map<wstring, Model*>		mModels;
+	unordered_map<wstring, Texture*>	mTextures;
+	unordered_map<wstring, Shader*>		mShaders;
 
 	Resources(void);
 	~Resources(void);
 	
-	void createModel(const wstring path);					// モデルデータを作る
-	Model* getModel(wstring name);							// モデルの名前によって取得
-	void createTexture(const wstring path, TexType type);	// テクスチャデータを作る
-	Texture* getTexture(wstring name);						// テクスチャの名前によって取得
-	void createShader(const wstring path);					// シェーダーデータを作る
-	Shader* getShader(wstring techniqueName);				// シェーダーの名前によって取得
+	void createModel(const wstring path);
+	Model* getModel(wstring name);
+	void createTexture(const wstring path, TexType type);
+	Texture* getTexture(wstring name);
+	void createShader(const wstring path);
+	Shader* getShader(wstring techniqueName);
 };
 
 #endif // !_RESOURCES_H_

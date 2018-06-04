@@ -24,7 +24,7 @@ GameObject::GameObject(void)
 //*****************************************************************************
 GameObject::~GameObject(void)
 {
-
+	this->mComponents.clear();
 }
 
 //*****************************************************************************
@@ -44,7 +44,7 @@ void GameObject::start(void)
 //*****************************************************************************
 void GameObject::update(void)
 {
-	for (auto it : this->mComponentsMap)
+	for (auto it : this->mComponents)
 	{
 		if (it.second->mIsStart == true)
 		{

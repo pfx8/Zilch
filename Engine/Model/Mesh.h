@@ -86,8 +86,8 @@ public:
 	Mesh(aiMesh* mesh, vector<Bone*>& bones, const aiScene* scene, wstring modelPath, Model* model);	// メッシュの初期化
 	~Mesh(void);
 
-	void drawShadow(Shader* shader);						// メッシュのシャドウマップを描画
-	void drawModel(Shader* shader, bool isOutline);			// メッシュを描画
+	void drawShadow(Shader* shader);
+	void drawModel(Shader* shader, bool isOutline);
 };
 
 #endif // !_MESH_H_

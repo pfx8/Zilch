@@ -38,7 +38,7 @@ void PlayerController::update(void)
 	Transform* trans = this->mParentGameObject->getComponent<Transform>();
 
 	// システムカメラを取得
-	Camera* sysCamera = this->mParentGameObject->mScene->mSystemCamera;
+	Camera* sysCamera = this->mParentGameObject->mParentScene->mSystemCamera;
 
 	// マウス操作
 	if (IsMouseRightPressed())
@@ -47,26 +47,26 @@ void PlayerController::update(void)
 		if (GetMouseY() > this->mMouseIsMoving)
 		{
 			// プラス
-			trans->mPos -= sysCamera->mCameraUp * this->mMoveSpeed;
+			trans->mPos -= sysCamera->mCameraUp * this->mMouseMoveSpeed;
 		}
 
 		if (GetMouseY() < -this->mMouseIsMoving)
 		{
 			// マイナス
-			trans->mPos += sysCamera->mCameraUp * this->mMoveSpeed;
+			trans->mPos += sysCamera->mCameraUp * this->mMouseMoveSpeed;
 		}
 
 		// 水平移動
 		if (GetMouseX() > this->mMouseIsMoving)
 		{
 			// プラス
-			trans->mPos -= sysCamera->mCameraRight * this->mMoveSpeed;
+			trans->mPos -= sysCamera->mCameraRight * this->mMouseMoveSpeed;
 		}
 
 		if (GetMouseX() < -this->mMouseIsMoving)
 		{
 			// マイナス
-			trans->mPos += sysCamera->mCameraRight * this->mMoveSpeed;
+			trans->mPos += sysCamera->mCameraRight * this->mMouseMoveSpeed;
 		}
 	}
 }

@@ -26,7 +26,7 @@ class LightController : public Component
 {
 private:
 	int				mIsMouseMoving = 2;
-	float			mMoveSpeed = 0.1f;
+	float			mMouseMoveSpeed = 0.1f;
 
 public:
 	Light*			mCurrentLight;

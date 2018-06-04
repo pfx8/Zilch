@@ -52,24 +52,22 @@ private:
 public:
 	unsigned int					mCurAnimation = 0;				// 現在のアニメーション番号
 	wstring							mPath;							// モデルパス
-	vector<Animation*>				mAnimationes;					// アニメーションデータ
-	vector<Bone*>					mBones;							// 骨データ
+	vector<Animation*>				mAnimationes;
+	vector<Bone*>					mBones;
 	vector<D3DXMATRIX>				mTransforms;					// 各骨の変換行列
-	vector<Mesh*>					mMeshes;						// メッシュデータ
-	vector<Material*>				mMaterials;						// マテリアルデータ
-	vector<Texture*>				mTextures;						// テククシャデータ
+	vector<Mesh*>					mMeshes;
+	vector<Material*>				mMaterials;
+	vector<Texture*>				mTextures;
 
 	Model(wstring const& wPath);
 	~Model(void);
 
 	void checkAnimation(const aiScene* scene);						// モデルはアニメーションを含めてるかどうかをチェック
-	void addAnimation(Animation* animation);						// アニメーションデータを読み込み
-	void updateAnimation(float timeInSeconds);						// アニメーション更新
+	void addAnimation(Animation* animation);
+	void updateAnimation(float timeInSeconds);
 
-	void drawShadow(Shader* shader);								// モデルのシャドウマップを描画
-	void drawModel(Shader* shader, bool isOutline);					// モデルを描画
-
-	void checkBone(aiMesh* mesh);									// 骨あるかどうかをチェック
+	void drawShadow(Shader* shader);
+	void drawModel(Shader* shader, bool isOutline);
 };
 
 #endif // !_MODEL_H_

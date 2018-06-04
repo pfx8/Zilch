@@ -25,7 +25,11 @@ Scene::Scene(void)
 //*****************************************************************************
 Scene::~Scene(void)
 {
+	// コンテナをリリース
+	vector<MeshRender*>().swap(mMeshRenders);
+	this->mGameObjects.clear();
 
+	RELEASE_CLASS_POINT(this->mSystemCamera);
 }
 
 //*****************************************************************************
@@ -35,9 +39,9 @@ Scene::~Scene(void)
 //*****************************************************************************
 void Scene::addGameObject(wstring name, GameObject* gameObject)
 {
-	gameObject->mScene = this;
+	gameObject->mParentScene = this;
 
-	this->mGameObjectMap.insert({ name, gameObject });
+	this->mGameObjects.insert({ name, gameObject });
 }
 
 //*****************************************************************************
@@ -47,9 +51,9 @@ void Scene::addGameObject(wstring name, GameObject* gameObject)
 //*****************************************************************************
 GameObject* Scene::getGameObject(wstring name)
 {
-	if (this->mGameObjectMap.find(name) != this->mGameObjectMap.end())
+	if (this->mGameObjects.find(name) != this->mGameObjects.end())
 	{
-		return this->mGameObjectMap[name];
+		return this->mGameObjects[name];
 	}
 
 	// Debugウインドへ
@@ -66,9 +70,9 @@ GameObject* Scene::getGameObject(wstring name)
 void Scene::update(void)
 {
 	// 各GameObjectを更新
-	for (auto it : this->mGameObjectMap)
+	for (auto it : this->mGameObjects)
 	{
-		if (it.second->mActive == true)
+		if (it.second->mIsActive == true)
 		{
 			it.second->update();
 		}

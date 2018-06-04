@@ -27,8 +27,8 @@
 class GUI
 {
 private:
-	bool				mIsWireframe;							// ワイヤフレームチェック
-	char				mNewGameObjectName[20] = { NULL };		// 最大19文字
+	bool				mIsWireframe;
+	char				mNewGameObjectName[20] = { NULL };		// GameObjectの名前は最大19文字
 
 	const char*			mColorRamp[2] = { u8"リニア", u8"一定" };
 	ColorRamp			mCurrentColorRampType;
@@ -37,28 +37,25 @@ private:
 	const char*			mLanguage[2] = { u8"日本語", u8"English" };
 	int					mCurrentLanguage;
 
-	vector<string>		mJapanese;
-	vector<string>		mEnglish;
-
 public:
-	bool				mIsAddingModel;							// モデル読み込んでるをチェック
-	bool				mIsModelFile;							// ドロップされたファイルが対象外エラー
+	bool				mIsAddingModel;	
+	bool				mIsModelFile;
 	wstring				mAddingFilePath = { L" " };				// ドロップされたファイルのパスを保存
 
 	GUI(void);
 	~GUI(void);
 
-	void start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice);		// ImGui初期化
+	void start(HWND hWnd, LPDIRECT3DDEVICE9 D3DDevice);
 
-	void draw(void);											// ImGuiの描画処理
-	void systemGUI(void);										// システム操作GUI
-	void sceneGUI(void);										// シーンGUI
-	void createNewGameObjectGUI(void);							// 新しいGameObjectを作りメニュー
-	
-	bool isAnyImGuiFocused(void);								// ImGuiとアプリケーションの操作分離
-	void addModelImGui(void);									// モデル追加GUI
-	bool isGameObjectNameRight(wstring name);				// チェック追加GameObject名前
-	void dropFileErrorGUI(void);								// ドロップされたファイルが対象外エラーGUI
+	void draw(void);
+	void systemGUI(void);
+	void sceneGUI(void);
+	void createNewGameObjectGUI(void);
+	void addModelImGui(void);
+	void dropFileErrorGUI(void);
+
+	bool isAnyImGuiFocused(void);
+	bool isGameObjectNameRight(wstring name);
 };
 
 #endif // !_GUI_H_

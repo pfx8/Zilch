@@ -200,6 +200,11 @@ Mesh::~Mesh(void)
 {
 	RELEASE_POINT(mVertexBuffer);
 	RELEASE_POINT(mIndexBuffer);
+
+	// コンテナをリリース
+	vector<VertexDesign>().swap(this->mVertices);
+	vector<unsigned int>().swap(this->mIndices);
+	vector<Material*>().swap(this->mMaterials);
 }
 
 //*****************************************************************************

@@ -54,7 +54,8 @@ HRESULT Audio::start(void)
 //*****************************************************************************
 Audio::~Audio(void)
 {
-
+	this->mSystem->release();
+	this->mSounds.clear();
 }
 
 //*****************************************************************************
@@ -79,7 +80,7 @@ HRESULT Audio::createStream(const string path, FMOD_MODE mode)
 	string fileName = path.substr(path.find_last_of("//") + 1, path.find_first_of("."));
 
 	// サウンドマップに入れる
-	this->mSoundsMap.insert(make_pair(fileName, sound));
+	this->mSounds.insert(make_pair(fileName, sound));
 
 	return S_OK;
 }
@@ -95,9 +96,9 @@ HRESULT Audio::playAudio(string name)
 
 	// 名前からサウンドを取得
 	FMOD::Sound* sound;
-	if (this->mSoundsMap.find(name) != this->mSoundsMap.end())
+	if (this->mSounds.find(name) != this->mSounds.end())
 	{
-		sound = this->mSoundsMap[name];
+		sound = this->mSounds[name];
 	}
 	else
 	{

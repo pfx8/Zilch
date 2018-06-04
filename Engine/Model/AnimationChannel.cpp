@@ -24,5 +24,8 @@ AnimationChannel::AnimationChannel(void)
 //*****************************************************************************
 AnimationChannel::~AnimationChannel(void)
 {
-
+	// コンテナをリリーズ
+	vector<VertexKey>().swap(this->mPosKeys);
+	vector<QuaternionKey>().swap(this->mRotkeys);
+	vector<VertexKey>().swap(this->mSclKeys);
 }

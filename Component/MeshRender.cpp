@@ -35,13 +35,13 @@ MeshRender::~MeshRender(void)
 void MeshRender::start(void)
 {
 	// デフォルトシェーダーを取得
-	this->mCurrentShader = this->mParentGameObject->mScene->mShader;
+	this->mCurrentShader = this->mParentGameObject->mParentScene->mCurrentShader;
 
 	// シャドーマップ
 	if (this->mIsDrawShadow == true)
 	{
 		// ライト位置を取得
-		D3DXVECTOR3 pos = this->mParentGameObject->mScene->getGameObject(L"Light")->getComponent<Light>()->mLightPos;
+		D3DXVECTOR3 pos = this->mParentGameObject->mParentScene->getGameObject(L"Light")->getComponent<Light>()->mLightPos;
 		this->mShadowMap = new ShadowMap(this->mShadowMapShader, pos);
 	}
 
@@ -87,7 +87,7 @@ void MeshRender::drawShadowMap(void)
 void MeshRender::drawGameObject(void)
 {
 	// ライト情報をシェーダーに渡す
-	Light* light = this->mParentGameObject->mScene->getGameObject(L"Light")->getComponent<Light>();
+	Light* light = this->mParentGameObject->mParentScene->getGameObject(L"Light")->getComponent<Light>();
 
 	// 共有プロパティ
 	this->mCurrentShader->mEffect->SetInt("lightType", light->mLightType);
@@ -127,7 +127,7 @@ void MeshRender::drawGameObject(void)
 	this->mCurrentShader->mEffect->SetMatrix("norMatrix", &trans->mNormalMatrix);
 
 	// カメラ情報情報をシェーダーに渡す
-	Camera* camera = this->mParentGameObject->mScene->mCurrentCamera;
+	Camera* camera = this->mParentGameObject->mParentScene->mCurrentCamera;
 	this->mCurrentShader->mEffect->SetMatrix("viewMatrix", &camera->mViewMatrix);
 	this->mCurrentShader->mEffect->SetMatrix("projectionMatrix", &camera->mProjectionMatrix);
 	this->mCurrentShader->mEffect->SetValue("cameraPos", &camera->mCameraPos, sizeof(camera->mCameraPos));

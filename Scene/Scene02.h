@@ -25,7 +25,7 @@ public:
 	Scene02(void);
 	~Scene02(void);
 
-	void start(void);				// ‰Šú‰»
+	void start(void);
 };
 #endif // !_SCENE02_H_
 

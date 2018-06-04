@@ -27,7 +27,7 @@ Shader::Shader(wstring path)
 	this->mColorRampType = CR_LINEAR;
 
 	// セグメントを設定
-	this->mColorRampSegment = D3DXVECTOR3(0.001f, 0.001f, 0.001f);
+	this->mColorRampSegment = D3DXVECTOR3(0.001f, 0.002f, 0.003f);
 
 	// Debugウインドへ
 	wcout << "<Scene> loading <Shader> " << path << " ... success!" << endl;

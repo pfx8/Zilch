@@ -126,7 +126,6 @@
     <ClInclude Include="FrameWork\ImGui\stb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="FrameWork\assimp\include\assimp\color4.inl" />
     <None Include="FrameWork\assimp\include\assimp\material.inl" />
     <None Include="FrameWork\assimp\include\assimp\matrix3x3.inl" />

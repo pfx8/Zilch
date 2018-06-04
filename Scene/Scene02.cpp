@@ -46,7 +46,7 @@ void Scene02::start(void)
 	resource->createShader(L"Resources\\Shader\\shadowMap.fx");
 
 	// シーンのデフォルトシェーダーを指定
-	this->mShader = resource->getShader(L"mainShader");
+	this->mCurrentShader = resource->getShader(L"mainShader");
 
 	// ライト
 	GameObject* light = new GameObject();
@@ -119,5 +119,5 @@ Scene02::~Scene02(void)
 {
 	RELEASE_CLASS_POINT(this->mSystemCamera);
 	RELEASE_CLASS_POINT(this->mCurrentCamera);
-	RELEASE_CLASS_POINT(this->mShader);
+	RELEASE_CLASS_POINT(this->mCurrentShader);
 }

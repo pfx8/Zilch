@@ -34,7 +34,7 @@ CameraController::~CameraController(void)
 //*****************************************************************************
 void CameraController::start(void)
 {
-	this->mSceneCurrentCamera = this->mParentGameObject->mScene->mCurrentCamera;
+	this->mSceneCurrentCamera = this->mParentGameObject->mParentScene->mCurrentCamera;
 }
 
 //*****************************************************************************

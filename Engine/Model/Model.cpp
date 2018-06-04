@@ -14,11 +14,11 @@
 //*****************************************************************************
 Model::Model(wstring const& path)
 {
-	// Assimpでモデルを読み込み
-	loadModel(path);
-
-	// Debugウインドへ
-	wcout << "<Scene> loading <Model> " << path << " ... successed!" << endl;
+	if (loadModel(path) == S_OK)
+	{
+		// Debugウインドへ
+		wcout << "<Scene> loading <Model> " << path << " ... successed!" << endl;
+	}
 }
 
 //*****************************************************************************
@@ -28,7 +28,13 @@ Model::Model(wstring const& path)
 //*****************************************************************************
 Model::~Model(void)
 {
-	// delete vector
+	// コンテナをリリース
+	vector<Animation*>().swap(this->mAnimationes);
+	vector<Bone*>().swap(this->mBones);
+	vector<D3DXMATRIX>().swap(this->mTransforms);
+	vector<Mesh*>().swap(this->mMeshes);
+	vector<Material*>().swap(this->mMaterials);
+	vector<Texture*>().swap(this->mTextures);
 }
 
 //*****************************************************************************
@@ -99,16 +105,6 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	{
 		processNode(node->mChildren[count], scene);
 	}
-}
-
-//*****************************************************************************
-//
-// 骨あるかどうかをチェック
-//
-//*****************************************************************************
-void Model::checkBone(aiMesh* mesh)
-{
-
 }
 
 //*****************************************************************************
