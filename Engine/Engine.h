@@ -32,6 +32,7 @@
 #include <unordered_map>
 #include <typeindex>					// typeid()のため
 #include <locale>						// setlocal()のため
+#include <codecvt>
 
 // Assimp
 #include "..\FrameWork\assimp\include\assimp\Importer.hpp"
