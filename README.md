@@ -2,9 +2,9 @@
 Project:ZilchはC++を利用して独自で開発したモデル解析、レンダリングツールです。
 
 # 実装した技術
-＜br＞※コンポーネント指向＜/br＞
-※Assimpを利用してモデル解析(対応フォーマット: fbx, obj, pmx, blender, xなど)＜/br＞
-※HLSLにより実現したPhongShading＜/br＞
+※コンポーネント指向  
+※Assimpを利用してモデル解析(対応フォーマット: fbx, obj, pmx, blender, xなど)  
+※HLSLにより実現したPhongShading  
 ※シーンマネージャーとリソースマネージャー＜/br＞
 ※日本語ファイルパス対応(wstring, utf-8)＜/br＞
 ※3d数学関数（Vector, Matrix, Quaternion）＜/br＞
