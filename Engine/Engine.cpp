@@ -9,10 +9,10 @@
 
 //*****************************************************************************
 //
-// wstring(unicode) to string(unicode)
+// local(Shift_JIS) to utf-8
 //
 //*****************************************************************************
-string wStringToString(const wstring& ws)
+string localStrToUTF8(const wstring ws)
 {
 	std::string strLocale = setlocale(LC_ALL, "");
 	const wchar_t* wchSrc = ws.c_str();
@@ -28,25 +28,26 @@ string wStringToString(const wstring& ws)
 
 //*****************************************************************************
 //
-// wstring(unicode) to string(unicode)
+// local(Shift_JIS) to utf-8
 //
 //*****************************************************************************
-string wStringToString(const wstring& ws)
+wstring localStrToUTF8(const string s)
 {
 	std::string strLocale = setlocale(LC_ALL, "");
-	const wchar_t* wchSrc = ws.c_str();
-	size_t nDestSize = wcstombs(NULL, wchSrc, 0) + 1;
-	char *chDest = new char[nDestSize];
-	memset(chDest, 0, nDestSize);
-	wcstombs(chDest, wchSrc, nDestSize);
-	std::string strResult = chDest;
-	delete[]chDest;
+	const char* chSrc = s.c_str();
+	size_t nDestSize = mbstowcs(NULL, chSrc, 0) + 1;
+	wchar_t* wchDest = new wchar_t[nDestSize];
+	wmemset(wchDest, 0, nDestSize);
+	mbstowcs(wchDest, chSrc, nDestSize);
+	std::wstring wstrResult = wchDest;
+	delete[]wchDest;
 	setlocale(LC_ALL, strLocale.c_str());
-	return strResult;
+	return wstrResult;
 }
 
 //*****************************************************************************
 //
+// utf-8
 // string to wstring
 //
 //*****************************************************************************
@@ -75,6 +76,7 @@ wstring stringToWstring(const string s)
 
 //*****************************************************************************
 //
+// utf-8
 // wstring to string
 //
 //*****************************************************************************

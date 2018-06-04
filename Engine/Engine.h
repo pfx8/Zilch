@@ -125,6 +125,8 @@ GameTimes* getGameTimes(void);
 SceneManager* getSceneManager(void);
 
 // 文字列変換関数
+string localStrToUTF8(const wstring ws);
+wstring localStrToUTF8(const string s);
 string wstringToString(const wstring ws);
 wstring stringToWstring(const string s);
 
