@@ -4,7 +4,7 @@ Project:ZilchはC++を利用して独自で開発したモデル解析、レン�
 # 実装した技術
 ※コンポーネント指向  
 ※Assimpを利用してモデル解析(対応フォーマット: fbx, obj, pmx, blender, xなど)  
-※HLSLにより実現したPhongShading  
+※HLSLにより実現したPhongShadingとCelShading  
 ※シーンマネージャーとリソースマネージャー  
 ※日本語(パス, GameObject名前)対応  
 ※3d数学関数(Vector, Matrix, Quaternion)  
