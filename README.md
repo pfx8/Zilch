@@ -13,7 +13,7 @@ Project:ZilchはC++を利用して独自で開発したモデル解析、レン�
 Assimp: オープンソースのモデルファイル変換ライブラリhttp://www.assimp.org/  
 
 # モデル:
-社畜ちゃん(フリー)：https://syachiku-chan.com/?page_id=248  
+社畜ちゃん(フリー): https://syachiku-chan.com/?page_id=248  
 
 # 参考文献:
 LearnOpenGL: (US)https://learnopengl.com/, (CN)https://learnopengl-cn.github.io/  
