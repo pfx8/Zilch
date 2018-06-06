@@ -64,10 +64,11 @@ Model* Resources::getModel(wstring name)
 // テクスチャを読み込み
 //
 //*****************************************************************************
-void Resources::createTexture(const wstring path, TexType type)
+void Resources::createTexture(wstring modelName, const wstring path, TexType type)
 {
 	// パスからファイルの名前を取得(拡張子抜き)
-	wstring name = pathToFileName(path);
+	// 同じ名前のテクスチャを防ぐために、テクスチャ名前の前にモデルの名前を付ける
+	wstring name = modelName + pathToFileName(path);
 	mTextures.insert({ name, new Texture(path, type) });	
 }
 
@@ -76,15 +77,17 @@ void Resources::createTexture(const wstring path, TexType type)
 // テクスチャの名前によって取得
 //
 //*****************************************************************************
-Texture* Resources::getTexture(wstring name)
+Texture* Resources::getTexture(const wstring modelName, const wstring texName)
 {
-	if (mTextures.find(name) != mTextures.end())
+	wstring findName = modelName + texName;
+
+	if (mTextures.find(findName) != mTextures.end())
 	{
-		return mTextures[name];
+		return mTextures[findName];
 	}
 
 	// Debugウインドへ
-	wcout << "<Error> get " << name << " ... failed!" << endl;
+	wcout << "<Error> get " << texName << " ... failed!" << endl;
 
 	return nullptr;
 }

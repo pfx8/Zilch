@@ -33,8 +33,8 @@ public:
 	
 	void createModel(const wstring path);
 	Model* getModel(wstring name);
-	void createTexture(const wstring path, TexType type);
-	Texture* getTexture(wstring name);
+	void createTexture(const wstring modelName, const wstring texPath, TexType type);
+	Texture* getTexture(const wstring modelName, const wstring texName);
 	void createShader(const wstring path);
 	Shader* getShader(wstring techniqueName);
 };

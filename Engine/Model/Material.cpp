@@ -135,8 +135,8 @@ void Material::addTextureFromResources(aiMaterial* mat, aiTextureType type)
 			}
 
 			// リソースでテクスチャを読み込みまたモデルに保存
-			resource->createTexture(wPath, texType);
-			Texture* texture = resource->getTexture(name);
+			resource->createTexture(pathToFileName(this->mParentModel->mPath), wPath, texType);
+			Texture* texture = resource->getTexture(pathToFileName(this->mParentModel->mPath), name);
 			this->mTextures.push_back(texture);
 			this->mParentModel->mTextures.push_back(texture);
 		}
@@ -163,14 +163,16 @@ wstring Material::searchTexturePath(wstring texturePathFromAssimp)
 	// 方法1
 	// 指定パス
 	// Resources\Texture\(モデルファイル名前)フォルダを探す
-	wstring fileName = texturePathFromAssimp.substr(texturePathFromAssimp.find_last_of(L'\\') + 1, texturePathFromAssimp.find_last_of(L'.'));	// exp: c:\aaa\bbb\ccc.png -> ccc.png
-	tempPath = L"Resources\\Texture\\" + modelName + L'\\' + fileName;
-
-	// 無効なパスかどうかをチェック
-	if (PathFileExists(tempPath.c_str()))
 	{
-		filePath = tempPath;
-		skip = true;
+		wstring fileName = texturePathFromAssimp.substr(texturePathFromAssimp.find_last_of(L'\\') + 1, texturePathFromAssimp.find_last_of(L'.'));	// exp: c:\aaa\bbb\ccc.png -> ccc.png
+		tempPath = L"Resources\\Texture\\" + modelName + L'\\' + fileName;
+
+		// 無効なパスかどうかをチェック
+		if (PathFileExists(tempPath.c_str()))
+		{
+			filePath = tempPath;
+			skip = true;
+		}
 	}
 
 	// 方法2
