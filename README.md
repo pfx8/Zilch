@@ -11,7 +11,7 @@ Project:ZilchはC++を利用して独自で開発したモデル解析、レン�
 ※日本語(パス, GameObject名前)対応  
 ※3d数学関数(Vector, Matrix, Quaternion)  
 
-# FrameWork
+# フレームワーク
 Assimp: オープンソースのモデルファイル変換ライブラリhttp://www.assimp.org/  
 
 # モデル:
