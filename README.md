@@ -1,6 +1,8 @@
 # Prokect:Zilch
 Project:ZilchはC++を利用して独自で開発したモデル解析、レンダリングツールです。
 
+![alt text](https://github.com/pfx8/Zilch/blob/master/Resources/Texture/interfaceScreenShot.PNG)
+
 # 実装した技術
 ※コンポーネント指向  
 ※Assimpを利用してモデル解析(対応フォーマット: fbx, obj, pmx, blender, xなど)  
