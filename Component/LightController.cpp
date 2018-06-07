@@ -41,7 +41,7 @@ void LightController::update(void)
 	Camera* sysCamera = this->mParentGameObject->mParentScene->mSystemCamera;
 
 	// ƒ}ƒEƒX‘€ì
-	if (IsMouseCenterPressed())
+	if (IsMouseRightPressed())
 	{
 		// ã‰ºˆÚ“®
 		if (GetMouseY() > this->mIsMouseMoving)

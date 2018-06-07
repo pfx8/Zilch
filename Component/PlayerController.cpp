@@ -41,7 +41,7 @@ void PlayerController::update(void)
 	Camera* sysCamera = this->mParentGameObject->mParentScene->mSystemCamera;
 
 	// ƒ}ƒEƒX‘€ì
-	if (IsMouseRightPressed())
+	if (IsMouseLeftPressed())
 	{
 		// ã‰ºˆÚ“®
 		if (GetMouseY() > this->mMouseIsMoving)

@@ -123,20 +123,23 @@ void CameraController::update(void)
 // 位置移動
 //
 //*****************************************************************************
-void CameraController::move(float sign, bool isFront)
+void CameraController::move(float sign, char axis)
 {
 	// ターゲットとのオフセット座標とターゲットの座標を更新
-	if (isFront)
+	if (axis == 'z')
 	{
 		// 前後移動
-		this->mOffsetFromTarget += this->mSceneCurrentCamera->mCameraFront * 0.1 * sign;
 		this->mSceneCurrentCamera->mTargetPos += this->mSceneCurrentCamera->mCameraFront * 0.1 * sign;
+	}
+	else if(axis == 'x')
+	{
+		// 左右移動
+		this->mSceneCurrentCamera->mTargetPos += D3DXVECTOR3(0.3f, 0.0f, 0.0f) * sign;
 	}
 	else
 	{
-		// 左右移動
-		this->mOffsetFromTarget += D3DXVECTOR3(0.3f, 0.0f, 0.0f) * sign;
-		this->mSceneCurrentCamera->mTargetPos += D3DXVECTOR3(0.3f, 0.0f, 0.0f) * sign;
+		// 上下移動
+		this->mSceneCurrentCamera->mTargetPos += D3DXVECTOR3(0.0f, 0.3f, 0.0f) * sign;
 	}
 }
 
@@ -147,22 +150,22 @@ void CameraController::move(float sign, bool isFront)
 //*****************************************************************************
 void CameraController::inputUpdate(void)
 {
-	// カメラを左右移動
-	if ((IsMouseLeftPressed() && GetMouseX() > this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_LEFT))
+	// 画面を左右移動
+	if ((IsMouseCenterPressed() && GetMouseX() > this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_LEFT))
 	{
 		rotation(0.0f, D3DXToRadian(this->mHorizonalRotateSpeed));
 	}
-	if ((IsMouseLeftPressed() && GetMouseX() < -this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_RIGHT))
+	if ((IsMouseCenterPressed() && GetMouseX() < -this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_RIGHT))
 	{
 		rotation(0.0f, -D3DXToRadian(this->mHorizonalRotateSpeed));
 	}
 
-	// カメラを上下移動
-	if ((IsMouseLeftPressed() && GetMouseY() > this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_UP))
+	// 画面を上下移動
+	if ((IsMouseCenterPressed() && GetMouseY() > this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_UP))
 	{
 		rotation(-D3DXToRadian(this->mVerticalRotateSpeed), 0.0f);
 	}
-	if ((IsMouseLeftPressed() && GetMouseY() < -this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_DOWN))
+	if ((IsMouseCenterPressed() && GetMouseY() < -this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_DOWN))
 	{
 		rotation(D3DXToRadian(this->mVerticalRotateSpeed), 0.0f);
 	}
@@ -181,22 +184,32 @@ void CameraController::inputUpdate(void)
 	// カメラ移動(前)
 	if (GetKeyboardPress(DIK_W) || IsButtonPressed(0, LEFT_STICK_UP))
 	{
-		move(1, true);
+		move(this->mMoveSpeed * 3, 'z');
 	}
 	// カメラ移動(後)
 	if (GetKeyboardPress(DIK_S) || IsButtonPressed(0, LEFT_STICK_DOWN))
 	{
-		move(-1, true);
+		move(-this->mMoveSpeed * 3, 'z');
 	}
 	// カメラ移動(左)
 	if (GetKeyboardPress(DIK_A) || IsButtonPressed(0, LEFT_STICK_LEFT))
 	{
-		move(this->mMoveSpeed, false);
+		move(this->mMoveSpeed, 'x');
 	}
 	// カメラ移動(右)
 	if (GetKeyboardPress(DIK_D) || IsButtonPressed(0, LEFT_STICK_RIGHT))
 	{
-		move(-this->mMoveSpeed, false);
+		move(-this->mMoveSpeed, 'x');
+	}
+	// カメラ移動(上)
+	if ((IsMouseCenterPressed() && GetMouseY() > this->mMouseIsMoving) && GetKeyboardPress(DIK_LSHIFT))
+	{
+		move(this->mMoveSpeed, 'y');
+	}
+	// カメラ移動(下)
+	if ((IsMouseCenterPressed() && GetMouseY() < -this->mMouseIsMoving) && GetKeyboardPress(DIK_LSHIFT))
+	{
+		move(-this->mMoveSpeed, 'y');
 	}
 }
 

@@ -35,7 +35,7 @@ private:
 	float				mVerticalRotateSpeed  = 2.0f;
 	float				mZoomSpeed            = 0.6f;
 	float				mMoveSpeed            = 0.3f;
-	int					mMouseIsMoving        = 5;
+	int					mMouseIsMoving        = 2;
 	D3DXVECTOR3			mOffsetFromTarget;
 
 public:
@@ -51,7 +51,7 @@ public:
 	void inputUpdate(void);
 	void zoom(float distance);										// ズーム調整
 	void rotation(float verticalRadians, float horizonalRadians);	// 回転
-	void move(float sign, bool isVertical);							// 移動
+	void move(float sign, char axis);								// 移動
 
 };
 #endif // !_CAMERA_H_
