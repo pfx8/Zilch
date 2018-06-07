@@ -41,6 +41,9 @@ void Scene02::start(void)
 	// light model
 	resource->createModel(L"Resources\\Model\\light.fbx");
 
+	// billboard
+	resource->createModel(L"Resources\\Model\\billboard.fbx");
+
 	// shader
 	resource->createShader(L"Resources\\Shader\\mainShader.fx");
 	resource->createShader(L"Resources\\Shader\\shadowMap.fx");
@@ -108,6 +111,21 @@ void Scene02::start(void)
 	this->mMeshRenders.push_back(gridFieldMeshRender);					// MeshRenderをシーンに追加
 	gridField->addComponent<MeshRender>(gridFieldMeshRender);
 	this->addGameObject(L"床", gridField);
+
+	// ビルボード
+	//GameObject* billboard = new GameObject();
+	//Transform* billTrans = new Transform();
+	//billTrans->mRot.x = 90.0;											// X軸に90度を回転
+	//billTrans->mPos.y = 3;
+	//billboard->addComponent<Transform>(billTrans);
+	//MeshRender* billboardMeshRender = new MeshRender();
+	//billboardMeshRender->mModel = resource->getModel(L"billboard");
+	//this->mMeshRenders.push_back(billboardMeshRender);					// MeshRenderをシーンに追加
+	//billboard->addComponent<MeshRender>(billboardMeshRender);
+	//Billboard* billB = new Billboard();
+	//billB->mSceneCurrentCamera = this->mCurrentCamera;
+	//billboard->addComponent<Billboard>(billB);
+	//this->addGameObject(L"ビルボード", billboard);
 }
 
 //*****************************************************************************

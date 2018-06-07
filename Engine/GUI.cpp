@@ -302,6 +302,11 @@ void GUI::systemGUI(void)
 				colorRampSegment->x = colorRampSegment->y;
 			}
 
+			ImGui::Separator();
+			ImGui::TextUnformatted(u8"スペキュラーセグメント");
+			float* specularColorSegment = &getSceneManager()->mCurrentScene->mCurrentShader->mSpecularColorSegment;
+			ImGui::InputFloat("specularSegment", specularColorSegment);
+
 			getSceneManager()->mCurrentScene->mCurrentShader->mColorRampType = CR_CONSTANT;
 			break;
 		}

@@ -24,16 +24,19 @@
 class Billboard : public Component
 {
 private:
-	Transform*			mTrans;						// ビルボード位置情報
+	Transform*			mTrans;
+	D3DXMATRIX			mBillboardMatrix;
 
 public:
-	GameObject*			mSceneCurrentCamera;
+	Camera*				mSceneCurrentCamera;
 
 	Billboard(void);
 	~Billboard(void);
 
 	void start(void);
-	void update(void);
+	void drawImGui(void);
+
+	D3DXMATRIX setBillboard(void);
 };
 
 #endif // !_BILLBOARD_H_

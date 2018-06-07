@@ -44,6 +44,7 @@ public:
 	RenderingMode	mRenderingMode;				// レンダリングモード
 	ColorRamp		mColorRampType;				// カラーランプモード
 	D3DXVECTOR3		mColorRampSegment;			// カラーセグメント値、最大は３レベル
+	float			mSpecularColorSegment;		// スペキュラーセグメント値、0.0 ~ 1.0
 
 	Shader(wstring path);
 	~Shader(void);

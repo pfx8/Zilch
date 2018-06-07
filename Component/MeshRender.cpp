@@ -142,6 +142,7 @@ void MeshRender::drawGameObject(void)
 	if (this->mCurrentShader->mColorRampType == CR_CONSTANT)
 	{
 		this->mCurrentShader->mEffect->SetValue("colorRampSegment", &this->mCurrentShader->mColorRampSegment, sizeof(this->mCurrentShader->mColorRampSegment));
+		this->mCurrentShader->mEffect->SetFloat("specluarColorSegment", this->mCurrentShader->mSpecularColorSegment);
 	}
 
 	// アウトライン設定をシェーダーに渡す

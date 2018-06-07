@@ -134,12 +134,12 @@ void CameraController::move(float sign, char axis)
 	else if(axis == 'x')
 	{
 		// 左右移動
-		this->mSceneCurrentCamera->mTargetPos += D3DXVECTOR3(0.3f, 0.0f, 0.0f) * sign;
+		this->mSceneCurrentCamera->mTargetPos += this->mSceneCurrentCamera->mCameraRight * 0.1 * sign;
 	}
 	else
 	{
 		// 上下移動
-		this->mSceneCurrentCamera->mTargetPos += D3DXVECTOR3(0.0f, 0.3f, 0.0f) * sign;
+		this->mSceneCurrentCamera->mTargetPos += this->mSceneCurrentCamera->mCameraUp * 0.1 * sign;
 	}
 }
 
@@ -211,14 +211,4 @@ void CameraController::inputUpdate(void)
 	{
 		move(-this->mMoveSpeed, 'y');
 	}
-}
-
-//*****************************************************************************
-//
-// GUIパネル
-//
-//*****************************************************************************
-void CameraController::drawImGui(void)
-{
-
 }

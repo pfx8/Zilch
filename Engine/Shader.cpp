@@ -28,6 +28,7 @@ Shader::Shader(wstring path)
 
 	// セグメントを設定
 	this->mColorRampSegment = D3DXVECTOR3(0.001f, 0.002f, 0.003f);
+	this->mSpecularColorSegment = 0.5;
 
 	// Debugウインドへ
 	wcout << "<Scene> loading <Shader> " << path << " ... success!" << endl;

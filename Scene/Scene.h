@@ -8,6 +8,7 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
+#include "..\Component\Billboard.h"
 #include "..\Component\Camera.h"
 #include "..\Component\CameraController.h"
 #include "..\Component\Component.h"

@@ -61,6 +61,8 @@ class Scene;
 class GameTimes;
 class MeshRender;
 class Component;
+class Transform;
+class Billboard;
 class Texture;
 class Material;
 class Bone;

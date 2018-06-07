@@ -7,6 +7,8 @@
 //*****************************************************************************
 #include "Transform.h"
 
+#include "Billboard.h"
+
 //*****************************************************************************
 //
 // コンストラクタ
@@ -40,6 +42,12 @@ void Transform::update(void)
 	// ワールドマトリックスを初期化する
 	D3DXMatrixIdentity(&this->mWorldMatrix);
 	D3DXMatrixIdentity(&this->mNormalMatrix);
+
+	// チェックビルボード
+	//if (this->mParentGameObject->getComponent<Billboard>() != nullptr)
+	//{
+	//	this->mWorldMatrix = this->mParentGameObject->getComponent<Billboard>()->setBillboard();
+	//}
 
 	// スケールを反映
 	D3DXMatrixScaling(&mtxScl, mScl.x, mScl.y, mScl.z);

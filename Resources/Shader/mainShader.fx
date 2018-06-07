@@ -189,10 +189,13 @@ technique mainShader
     {
         // アルファブレンティング
         AlphaBlendEnable = FALSE;
+
         // マルチ・サンプリングの設定
         MultiSampleAntialias = TRUE;
+
         // Zバッファ
         ZEnable = TRUE;
+
         // 背面カリング
         CullMode = CW; // ポリゴンの裏を表示
         
@@ -205,13 +208,20 @@ technique mainShader
     {
         // アルファブレンティング
         AlphaBlendEnable = TRUE;
-        // 目透明合成
         DestBlend = InvSrcAlpha;
         SrcBlend = SrcAlpha;
+        
+        // アルファテスト
+        AlphaTestEnable = TRUE;
+        AlphaRef = 156;
+        AlphaFunc = Greater;
+
         // マルチ・サンプリングの設定
         MultiSampleAntialias = TRUE;
+
         // Zバッファ
         ZEnable = TRUE;
+
         // 背面カリング
         CullMode = CCW; // ポリゴンの表を表示
         

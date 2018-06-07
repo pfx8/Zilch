@@ -34,41 +34,55 @@ Billboard::~Billboard(void)
 //*****************************************************************************
 void Billboard::start(void)
 {
-	// ビルボードの変換行列を取得
+	// 位置情報をGameObjectから取得
 	this->mTrans = this->mParentGameObject->getComponent<Transform>();
 }
 
 //*****************************************************************************
 //
-// 更新
+// ビルボード行列を生成
 //
 //*****************************************************************************
-void Billboard::update(void)
+D3DXMATRIX Billboard::setBillboard(void)
 {
-	// カメラからビルボードまでの方向ベクトルを計算
-	D3DXVECTOR3 cameraPos = this->mSceneCurrentCamera->getComponent<Transform>()->mPos;
-	D3DXVECTOR3 cameraDir = cameraPos - this->mTrans->mPos;
-	
-	// Y軸には関係ないのでｍここでY軸の数値を捨てて、正規化して方向ベクトルができる
-	cameraDir = D3DXVECTOR3(cameraDir.x, 0.0f, cameraDir.z);
-	D3DXVec3Normalize(&cameraDir, &cameraDir);
-
-	// カメラのビューイング行列を取得
-	D3DXMATRIX viewMatrix = mSceneCurrentCamera->getComponent<Camera>()->mViewMatrix;
+	D3DXMATRIX viewMatrix = this->mSceneCurrentCamera->mViewMatrix;
 
 	// ビルボード行列を作る
-	D3DXMATRIX billboardMatrix;
-	D3DXMatrixIdentity(&billboardMatrix);
-	billboardMatrix._11 = viewMatrix._11;
-	billboardMatrix._13 = viewMatrix._13;
-	billboardMatrix._31 = viewMatrix._31;
-	billboardMatrix._33 = viewMatrix._33;
+	D3DXMatrixIdentity(&this->mBillboardMatrix);
+
+	this->mBillboardMatrix._11 = viewMatrix._11;
+	this->mBillboardMatrix._13 = viewMatrix._13;
+	this->mBillboardMatrix._31 = viewMatrix._31;
+	this->mBillboardMatrix._33 = viewMatrix._33;
 
 	// 逆行列を計算
-	D3DXMatrixInverse(&billboardMatrix, NULL, &billboardMatrix);
+	D3DXMatrixInverse(&this->mBillboardMatrix, NULL, &this->mBillboardMatrix);
 
 	// ビルボードのワールド変換行列を更新
 	D3DXMATRIX temp;
 	D3DXMatrixIdentity(&temp);
-	this->mTrans->mWorldMatrix = billboardMatrix * temp;
+	temp = this->mBillboardMatrix * temp;
+
+	return temp;
+}
+
+//*****************************************************************************
+//
+// GUIパネル
+//
+//*****************************************************************************
+void Billboard::drawImGui(void)
+{
+	ImGui::Text(u8"ワールド変換行列");
+	ImGui::Text("%.2f    %.2f    %.2f    %.2f", this->mTrans->mWorldMatrix._11, this->mTrans->mWorldMatrix._12, this->mTrans->mWorldMatrix._13, this->mTrans->mWorldMatrix._14);
+	ImGui::Text("%.2f    %.2f    %.2f    %.2f", this->mTrans->mWorldMatrix._21, this->mTrans->mWorldMatrix._22, this->mTrans->mWorldMatrix._23, this->mTrans->mWorldMatrix._24);
+	ImGui::Text("%.2f    %.2f    %.2f    %.2f", this->mTrans->mWorldMatrix._31, this->mTrans->mWorldMatrix._32, this->mTrans->mWorldMatrix._33, this->mTrans->mWorldMatrix._34);
+	ImGui::Text("%.2f    %.2f    %.2f    %.2f", this->mTrans->mWorldMatrix._41, this->mTrans->mWorldMatrix._42, this->mTrans->mWorldMatrix._43, this->mTrans->mWorldMatrix._44);
+	ImGui::Separator();
+
+	ImGui::Text("%.2f    %.2f    %.2f    %.2f", this->mBillboardMatrix._11, this->mBillboardMatrix._12, this->mBillboardMatrix._13, this->mBillboardMatrix._14);
+	ImGui::Text("%.2f    %.2f    %.2f    %.2f", this->mBillboardMatrix._21, this->mBillboardMatrix._22, this->mBillboardMatrix._23, this->mBillboardMatrix._24);
+	ImGui::Text("%.2f    %.2f    %.2f    %.2f", this->mBillboardMatrix._31, this->mBillboardMatrix._32, this->mBillboardMatrix._33, this->mBillboardMatrix._34);
+	ImGui::Text("%.2f    %.2f    %.2f    %.2f", this->mBillboardMatrix._41, this->mBillboardMatrix._42, this->mBillboardMatrix._43, this->mBillboardMatrix._44);
+
 }

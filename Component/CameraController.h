@@ -31,8 +31,8 @@ private:
 	float				mOffsetFromTargetMax  = 9.0f;								// プレーヤーとカメラの偏り(半径)の最大値
 	float				mVerticalRadiansMin   = cosf(D3DXToRadian(65.0f));			// カメラの垂直角度の最小値
 	float				mVerticalRadiansMax   = cosf(D3DXToRadian(-15.0f));			// カメラの垂直角度の最大値
-	float				mHorizonalRotateSpeed = 4.0f;
-	float				mVerticalRotateSpeed  = 2.0f;
+	float				mHorizonalRotateSpeed = 2.5f;								// 水平移動スピード
+	float				mVerticalRotateSpeed  = 2.0f;								// 垂直移動スピード
 	float				mZoomSpeed            = 0.6f;
 	float				mMoveSpeed            = 0.3f;
 	int					mMouseIsMoving        = 2;
@@ -46,7 +46,6 @@ public:
 
 	void start(void);
 	void update(void);
-	void drawImGui(void);
 
 	void inputUpdate(void);
 	void zoom(float distance);										// ズーム調整

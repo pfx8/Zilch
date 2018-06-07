@@ -39,8 +39,9 @@ float  cutOff;    // スポットベクトルとライトベクトルのコサイン値
 bool   isSmooth;  // スムースチェック
 
 // カラーランプ
-int colorRampType;        // カラーランプタイプ
-float3 colorRampSegment;  // セグメント値
+int colorRampType;              // カラーランプタイプ
+float3 colorRampSegment;        // セグメント値
+float  specluarColorSegment;    // スペキュラーセグメント値
 
 //*****************************************************************************
 //
@@ -92,6 +93,28 @@ float diffuseProcess(float4 lightDir, float3 normal)
 
 //*****************************************************************************
 //
+// 一定スペキュラー計算
+//
+//*****************************************************************************
+float constantSpecular(float spec)
+{
+    float specular;
+    float w = fwidth(spec);
+
+    if (spec < specluarColorSegment + w)
+    {
+        specular = lerp(0, 1, smoothstep(specluarColorSegment - w, specluarColorSegment + w, spec));
+    }
+    else
+    {
+        specular = 1.0;
+    }
+
+    return specular;
+}
+
+//*****************************************************************************
+//
 // スペキュラー
 //
 // max(x, y) xとy のうちの大きい方の値を選択。マイナス値を防ぐ
@@ -111,7 +134,13 @@ float3 specularProcess(float4 cameraDir, float4 lightDir, float3 normal)
     //spec = pow(max(dot(normal, halfwayDir.rgb), 0.0), shininess);
     spec = pow(saturate(dot(normal, halfwayDir.rgb)), shininess);
 
-    specular = lightSpecular * (spec * matSpecular) * lightStrength;
+    // 一定モードならば
+    if (colorRampType == 1)
+    {
+        spec = constantSpecular(spec);
+    }
+
+    specular = float3(spec, spec, spec) * matSpecular * lightSpecular * lightStrength;
 
     return specular;
 }
@@ -136,26 +165,27 @@ float attenuationProcess(float4 worldPos)
 //*****************************************************************************
 float constantDiffuse(float diff)
 {
+    float diffuse;
     float w = fwidth(diff) * 2.0;
 
     if (diff < colorRampSegment.x + w)
     {
-        diff = lerp(colorRampSegment.x, colorRampSegment.y, smoothstep(colorRampSegment.x - w, colorRampSegment.x + w, diff));
+        diffuse = lerp(colorRampSegment.x, colorRampSegment.y, smoothstep(colorRampSegment.x - w, colorRampSegment.x + w, diff));
     }
     else if (diff < colorRampSegment.y + w)
     {
-        diff = lerp(colorRampSegment.y, colorRampSegment.z, smoothstep(colorRampSegment.y - w, colorRampSegment.y + w, diff));
+        diffuse = lerp(colorRampSegment.y, colorRampSegment.z, smoothstep(colorRampSegment.y - w, colorRampSegment.y + w, diff));
     }
     else if (diff < colorRampSegment.z + w)
     {
-        diff = lerp(colorRampSegment.z, 1.0, smoothstep(colorRampSegment.z - w, colorRampSegment.z + w, diff));
+        diffuse = lerp(colorRampSegment.z, 1.0, smoothstep(colorRampSegment.z - w, colorRampSegment.z + w, diff));
     }
     else
     {
-        diff = 1.0;
+        diffuse = 1.0;
     }
 
-    return diff;
+    return diffuse;
 }
 
 //*****************************************************************************
@@ -199,7 +229,6 @@ float3 diffuseByLightType(float4 lightDir, float3 normal, float4 worldPos)
     // 一定モードならば
     if (colorRampType == 1)
     {
-        //diff = diff * 0.5 + 0.5;
         diff = constantDiffuse(diff);
     }
 
