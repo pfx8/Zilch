@@ -67,10 +67,14 @@ void CameraController::zoom(float distance)
 // 回転移動
 //
 //*****************************************************************************
-void CameraController::rotation(float verticalRadians, float horizonalRadians)
+void CameraController::rotation(float verticalAngle, float horizonalAngle)
 {
 	// ゲーム世界の3軸を取得
 	WorldVector worldVector;
+
+	// 角度 to ラジアン
+	float verticalRadians = D3DXToRadian(verticalAngle);
+	float horizonalRadians = D3DXToRadian(horizonalAngle);
 
 	// 水平移動
 	D3DXMATRIX horizonalMatrix;
@@ -85,7 +89,7 @@ void CameraController::rotation(float verticalRadians, float horizonalRadians)
 
 	D3DXVECTOR3 newOffsetNormalize = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVec3Normalize(&newOffsetNormalize, &newOffset);													// ベクトルを正規化
-	float radianToWorldUp { D3DXVec3Dot(&newOffsetNormalize, &worldVector.worldUp) };					// カメラと世界のUpベクトルの角度を外積で計算
+	float radianToWorldUp = D3DXVec3Dot(&newOffsetNormalize, &worldVector.worldUp);						// カメラと世界のUpベクトルの角度を外積で計算
 
 	if (this->mSceneCurrentCamera->mIsVerticalLimited == true)
 	{	
@@ -156,21 +160,21 @@ void CameraController::inputUpdate(void)
 	// 画面を左右移動
 	if ((IsMouseCenterPressed() && GetMouseX() > this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_LEFT))
 	{
-		rotation(0.0f, D3DXToRadian(this->mHorizonalRotateSpeed));
+		rotation(0.0f, this->mHorizonalRotateSpeed);
 	}
 	if ((IsMouseCenterPressed() && GetMouseX() < -this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_RIGHT))
 	{
-		rotation(0.0f, -D3DXToRadian(this->mHorizonalRotateSpeed));
+		rotation(0.0f, -this->mHorizonalRotateSpeed);
 	}
 
 	// 画面を上下移動
 	if ((IsMouseCenterPressed() && GetMouseY() > this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_UP))
 	{
-		rotation(-D3DXToRadian(this->mVerticalRotateSpeed), 0.0f);
+		rotation(-this->mVerticalRotateSpeed, 0.0f);
 	}
 	if ((IsMouseCenterPressed() && GetMouseY() < -this->mMouseIsMoving) || IsButtonPressed(0, RIGHT_STICK_DOWN))
 	{
-		rotation(D3DXToRadian(this->mVerticalRotateSpeed), 0.0f);
+		rotation(this->mVerticalRotateSpeed, 0.0f);
 	}
 
 	// ズーム拡大
