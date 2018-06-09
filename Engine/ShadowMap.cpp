@@ -22,7 +22,7 @@ ShadowMap::ShadowMap(Shader* shader, D3DXVECTOR3 lightPos)
 
 	HRESULT result;
 	// シャドウマップテクスチャを作る
-	result = D3DXCreateTexture(getD3DDevice(), this->mMapSize, this->mMapSize, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R16F, D3DPOOL_DEFAULT, &this->mShadowMap);
+	result = D3DXCreateTexture(getD3DDevice(), this->mMapSize, this->mMapSize, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F, D3DPOOL_DEFAULT, &this->mShadowMap);
 	//シャドウマップ深度バッファサーフェイスを作る
 	result = getD3DDevice()->CreateDepthStencilSurface(this->mMapSize, this->mMapSize, D3DFMT_D16, D3DMULTISAMPLE_NONE, 0, TRUE, &this->mShadowMapDepth, NULL);
 }
@@ -49,7 +49,7 @@ void ShadowMap::update()
 	D3DXMatrixLookAtLH(&this->mLightView, &this->mLightPos, &this->mLightAt, &this->mLightUp);
 
 	// プロジェクション変換
-	D3DXMatrixPerspectiveFovLH(&this->mLightProjection, D3DXToRadian(45), 1.0f, 3.0f, 5.5f);
+	D3DXMatrixPerspectiveFovLH(&this->mLightProjection, D3DXToRadian(45), 1.0f, 1.0f, 1024.0f);
 
 	// シャドウマップ用WVP計算
 	this->mShadowWVP = this->mTargetWVP * this->mLightView * this->mLightProjection;

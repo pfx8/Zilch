@@ -36,7 +36,7 @@ private:
 
 public:
 	Shader*					mShader;
-	unsigned int			mMapSize = 512;
+	unsigned int			mMapSize = 1024;
 	GameObject*				mShadowTarget;
 
 	D3DXVECTOR3				mLightPos;

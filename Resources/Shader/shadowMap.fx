@@ -16,8 +16,8 @@ matrix worldViewProjectionShadow;  // シャドウマップ用WVP行列
 //*****************************************************************************
 struct VSout
 {
-    float4 pos : POSITION;      // 変更した座標
-    float4 tex : TEXCOORD0;     // 変更した頂点によってシャドウマップのテクスチャで位置をケメル
+    float4 pos  : POSITION;      // 変更した座標
+    float  depth : TEXCOORD0;    // 変更した頂点によってシャドウマップのテクスチャで位置をケメル
 };
 
 //*****************************************************************************
@@ -31,8 +31,9 @@ VSout shadowMapVS(float3 pos : POSITION0)
 
     // 変更頂点を計算
     vout.pos = mul(float4(pos, 1.0f), worldViewProjectionShadow);
+
     // テクスチャの座標として、頂点座標を出す
-    vout.tex = vout.pos;
+    vout.depth = vout.pos.z;
 
     return vout;
 }
@@ -45,7 +46,7 @@ VSout shadowMapVS(float3 pos : POSITION0)
 float4 shadowMapPS(VSout vout) : COLOR0
 {
     // Z軸値によって色をつき
-    return (vout.tex.z / vout.tex.w);
+    return float4(vout.depth, vout.depth, vout.depth, 1.0);
 }
 
 //*****************************************************************************

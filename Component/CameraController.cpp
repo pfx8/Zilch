@@ -125,6 +125,9 @@ void CameraController::update(void)
 //*****************************************************************************
 void CameraController::move(float sign, char axis)
 {
+	// ゲーム世界の3軸を取得
+	WorldVector worldVector;
+
 	// ターゲットとのオフセット座標とターゲットの座標を更新
 	if (axis == 'z')
 	{
@@ -139,7 +142,7 @@ void CameraController::move(float sign, char axis)
 	else
 	{
 		// 上下移動
-		this->mSceneCurrentCamera->mTargetPos += this->mSceneCurrentCamera->mCameraUp * 0.1 * sign;
+		this->mSceneCurrentCamera->mTargetPos += worldVector.worldUp * 0.1 * sign;
 	}
 }
 
@@ -202,12 +205,12 @@ void CameraController::inputUpdate(void)
 		move(-this->mMoveSpeed, 'x');
 	}
 	// カメラ移動(上)
-	if ((IsMouseCenterPressed() && GetMouseY() > this->mMouseIsMoving) && GetKeyboardPress(DIK_LSHIFT))
+	if (GetKeyboardPress(DIK_Z))
 	{
 		move(this->mMoveSpeed, 'y');
 	}
 	// カメラ移動(下)
-	if ((IsMouseCenterPressed() && GetMouseY() < -this->mMouseIsMoving) && GetKeyboardPress(DIK_LSHIFT))
+	if (GetKeyboardPress(DIK_X))
 	{
 		move(-this->mMoveSpeed, 'y');
 	}
