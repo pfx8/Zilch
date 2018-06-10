@@ -80,7 +80,7 @@ void Scene02::start(void)
 	PlayerController* playerController = new PlayerController();
 	player->addComponent<PlayerController>(playerController);
 	LightController* lightController = new LightController();
-	lightController->mCurrentLight = singleLight;									// コントローラライトを指定
+	lightController->mCurrentLight = singleLight;							// コントローラライトを指定
 	player->addComponent<LightController>(lightController);
 	MeshRender* playerMeshRender = new MeshRender();
 	playerMeshRender->mModel = resource->getModel(L"Hixo");

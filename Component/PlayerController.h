@@ -27,12 +27,13 @@ private:
 	int					mMouseIsMoving = 2;
 	float				mMouseMoveSpeed = 0.1f;
 
-	void update(void);
-
 public:
 
 	PlayerController(void);
 	~PlayerController(void);
+
+	void update(void);
+	void drawImGui(void);
 };
 
 #endif // !_PLAYER_CONTROLLERS_H_

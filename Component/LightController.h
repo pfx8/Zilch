@@ -35,6 +35,7 @@ public:
 	~LightController(void);
 
 	void update(void);
+	void drawImGui(void);
 };
 
 #endif // !_LIGHT_CONTROLLER_H_

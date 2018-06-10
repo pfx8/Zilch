@@ -73,3 +73,13 @@ void LightController::update(void)
 		trans->mPos = this->mCurrentLight->mLightPos;
 	}
 }
+
+//*****************************************************************************
+//
+// GUIパネル
+//
+//*****************************************************************************
+void LightController::drawImGui(void)
+{
+	ImGui::TextUnformatted(u8"操作説明は左のデバッグウインドウに書いてあります");
+}

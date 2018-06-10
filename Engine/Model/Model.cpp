@@ -67,7 +67,7 @@ HRESULT Model::loadModel(wstring const& wPath)
 	this->mModelInfo.numAnimations = scene->mNumAnimations;
 	this->mModelInfo.numTextures = scene->mNumTextures;
 
-	// Ex
+	// シーンファイルを読み込みのため
 	this->mModelInfo.numLights = scene->mNumLights;
 	this->mModelInfo.numCameras = scene->mNumCameras;
 

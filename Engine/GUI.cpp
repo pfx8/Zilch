@@ -121,7 +121,7 @@ void GUI::draw(void)
 //*****************************************************************************
 void GUI::systemGUI(void)
 {
-	ImGui::Begin(u8"デバッグウインド", nullptr, /*ImGuiWindowFlags_NoResize | */ImGuiWindowFlags_NoMove);
+	ImGui::Begin(u8"デバッグウインドウ", nullptr, /*ImGuiWindowFlags_NoResize | */ImGuiWindowFlags_NoMove);
 
 	// 言語選択 -- 実装していない
 	{
@@ -146,6 +146,31 @@ void GUI::systemGUI(void)
 	// BGカラー
 	{
 		ImGui::ColorEdit4(u8"背景カラー", getSceneManager()->mCurrentScene->mBGColor, ImGuiColorEditFlags_RGB);
+		ImGui::Separator();
+	}
+
+	// 操作説明
+	{
+		if (ImGui::TreeNode(u8"操作説明"))
+		{
+			ImGui::TextUnformatted(u8"カメラ移動: ");
+			ImGui::SameLine();
+			ImGui::TextUnformatted(u8"W/S 前後, A/D 左右, Z/X 上下");
+
+			ImGui::TextUnformatted(u8"視点移動: ");
+			ImGui::SameLine();
+			ImGui::TextUnformatted(u8"マウスセンターボタン + マウス移動");
+
+			ImGui::TextUnformatted(u8"モデル移動: ");
+			ImGui::SameLine();
+			ImGui::TextUnformatted(u8"マウス左ボタン + マウス移動");
+
+			ImGui::TextUnformatted(u8"ライト移動: ");
+			ImGui::SameLine();
+			ImGui::TextUnformatted(u8"マウス右ボタン + マウス移動");
+
+			ImGui::TreePop();
+		}
 		ImGui::Separator();
 	}
 
