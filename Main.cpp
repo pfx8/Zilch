@@ -93,7 +93,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = NULL;
+	wcex.hIcon = (HICON)LoadImage( 
+		NULL,
+		L"Resources\\Texture\\Project Zilch Icon.ico",
+		IMAGE_ICON,
+		0,
+		0,
+		LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED
+	);
 	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = NULL;
@@ -111,6 +118,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// システム解像度を取得
 	RECT rect;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
+
 	// どんな解像度でもウインドを中心にする
 	int x = (rect.right - rect.left - SCREEN_WIDTH) / 2;
 	int y = (rect.bottom - rect.top - SCREEN_HEIGHT) / 2;
@@ -142,7 +150,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 	// フレームカウント初期
-	//timeBeginPeriod(1);									// 分解能を設定
+	timeBeginPeriod(1);									// 分解能を設定
 	dwExecLastTime = dwFPSLastTime = timeGetTime();		// ミリ秒単位で取得
 	dwCurrentTime = dwFrameCount = 0;
 
